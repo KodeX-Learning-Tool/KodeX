@@ -2,78 +2,34 @@ package kodex;
 
 import java.util.Set;
 
+import javafx.application.Application;
 import javafx.stage.Stage;
-import kodex.presenter.PresenterFactory;
-import kodex.presenter.PresenterManager;
 
 /**
  * 
  */
-public class MainApp {
-
-    /**
-     * Default constructor
-     */
-    public MainApp() {
-    }
-
-    /**
-     * 
-     */
-    private Stage rootStage;
-
-    /**
-     * 
-     */
-    private PresenterManager presenterManger;
-
-    /**
-     * 
-     */
-    private PresenterFactory presenterFactory;
-
-
-
-    /**
-     * 
-     */
-    public void MainApp() {
-        // TODO implement here
-    }
+public class MainApp extends Application {
 
     /**
      * @param args
      */
     public static void main(Set<String> args) {
-        // TODO implement here
+        launch();
     }
-
+    
     /**
-     * @param args
+     * 
      */
-    public static void launch(Set<String> args) {
+    @Override
+    public void init() {
         // TODO implement here
     }
 
     /**
      * @param rootStage
      */
+    @Override
     public void start(Stage rootStage) {
         // TODO implement here
     }
-
-    /**
-     * 
-     */
-    public void init() {
-        // TODO implement here
-    }
-
-    /**
-     * 
-     */
-    public void stop() {
-        // TODO implement here
-    }
-
 }
