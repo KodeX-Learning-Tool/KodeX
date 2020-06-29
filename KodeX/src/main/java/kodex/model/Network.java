@@ -1,6 +1,9 @@
 package kodex.model;
 
-import java.util.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+import javafx.stage.FileChooser;
 
 /**
  * 

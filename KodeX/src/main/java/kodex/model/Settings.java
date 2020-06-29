@@ -1,7 +1,5 @@
 package kodex.model;
 
-import java.util.*;
-
 /**
  * 
  */
@@ -16,7 +14,7 @@ public abstract class Settings {
     /**
      * 
      */
-    protected Path propertiesPath;
+    protected String propertiesPath;
 
     /**
      * @param key 

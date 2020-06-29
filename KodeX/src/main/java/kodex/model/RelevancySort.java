@@ -1,6 +1,8 @@
 package kodex.model;
 
-import java.util.*;
+import java.util.List;
+
+import kodex.plugininterface.ProcedurePlugin;
 
 /**
  * 
@@ -17,18 +19,9 @@ public class RelevancySort implements FilterStrategy {
      * @param selectedProcedures 
      * @return
      */
+    @Override
     public List<ProcedurePlugin> filterProcedures(List<ProcedurePlugin> selectedProcedures) {
         // TODO implement here
         return null;
     }
-
-    /**
-     * @param selectedProcedures 
-     * @return
-     */
-    public List<ProcedurePlugin> filterProcedures(List<ProcedurePlugin> selectedProcedures) {
-        // TODO implement here
-        return null;
-    }
-
 }

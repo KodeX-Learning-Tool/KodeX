@@ -2,6 +2,8 @@ package kodex.model;
 
 import java.util.*;
 
+import kodex.plugininterface.ProcedurePlugin;
+
 /**
  * 
  */

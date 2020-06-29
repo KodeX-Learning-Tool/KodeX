@@ -31,7 +31,7 @@ public class DefaultSettings extends Settings {
     /**
      * 
      */
-    private Path defaultPath;
+    private String defaultPath;
 
     /**
      * 
@@ -73,22 +73,22 @@ public class DefaultSettings extends Settings {
     /**
      * @return
      */
-    public Port getPort() {
+    public int getPort() {
         // TODO implement here
-        return null;
+        return 0;
     }
 
     /**
      * @param port
      */
-    public void setPort(Port port) {
+    public void setPort(int port) {
         // TODO implement here
     }
 
     /**
      * @return
      */
-    public Path getDefaultPath() {
+    public String getDefaultPath() {
         // TODO implement here
         return null;
     }
@@ -96,7 +96,7 @@ public class DefaultSettings extends Settings {
     /**
      * @param path
      */
-    public void setDefaultPath(Path path) {
+    public void setDefaultPath(String path) {
         // TODO implement here
     }
 

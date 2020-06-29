@@ -1,7 +1,8 @@
 package kodex.model;
 
-import java.util.*;
-
+import java.io.File;
+import java.util.List;
+import java.util.ResourceBundle;
 /**
  * 
  */
@@ -48,7 +49,7 @@ public class Language {
     /**
      * @return
      */
-    public List<RessourceBundle> getLanguageList() {
+    public List<ResourceBundle> getLanguageList() {
         // TODO implement here
         return null;
     }
