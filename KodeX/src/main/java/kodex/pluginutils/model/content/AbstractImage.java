@@ -1,6 +1,11 @@
 package kodex.pluginutils.model.content;
 
-import java.util.*;
+import java.io.File;
+import java.util.Map;
+
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import kodex.plugininterface.Content;
 
 /**
  * 
@@ -23,7 +28,7 @@ public abstract class AbstractImage implements Content {
      * @param y 
      * @return
      */
-    public Color getColor(Int x, Int y) {
+    public Color getColor(int x, int y) {
         // TODO implement here
         return null;
     }

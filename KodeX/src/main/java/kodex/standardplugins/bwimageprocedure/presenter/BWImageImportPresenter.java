@@ -1,6 +1,6 @@
 package StandardPlugins.BWImageProcedure.Presenter;
 
-import java.util.*;
+import kodex.plugininterface.ImportPresenter;
 
 /**
  * 

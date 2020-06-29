@@ -1,6 +1,9 @@
 package StandardPlugins.ColorImageProcedure;
 
-import java.util.*;
+import java.util.List;
+
+import kodex.plugininterface.ProcedureInformation;
+import kodex.pluginutils.model.content.AbstractImage;
 
 /**
  * 

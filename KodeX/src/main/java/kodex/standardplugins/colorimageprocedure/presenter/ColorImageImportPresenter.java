@@ -1,6 +1,6 @@
 package StandardPlugins.ColorImageProcedure.Presenter;
 
-import java.util.*;
+import kodex.plugininterface.ImportPresenter;
 
 /**
  * 

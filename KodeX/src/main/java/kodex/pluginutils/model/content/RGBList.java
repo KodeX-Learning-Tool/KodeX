@@ -1,6 +1,6 @@
 package PluginUtils.Model.Content;
 
-import java.util.*;
+import org.w3c.dom.css.RGBColor;
 
 /**
  * 

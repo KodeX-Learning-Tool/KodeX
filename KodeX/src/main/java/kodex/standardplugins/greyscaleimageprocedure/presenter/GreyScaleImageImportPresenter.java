@@ -1,6 +1,6 @@
 package StandardPlugins.GreyScaleImageProcedure.Presenter;
 
-import java.util.*;
+import kodex.plugininterface.ImportPresenter;
 
 /**
  * 

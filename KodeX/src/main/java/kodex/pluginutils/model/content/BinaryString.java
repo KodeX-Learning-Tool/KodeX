@@ -1,6 +1,4 @@
-package PluginUtils.Model.Content;
-
-import java.util.*;
+package kodex.pluginutils.model.content;
 
 /**
  * 
