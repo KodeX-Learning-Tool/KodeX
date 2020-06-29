@@ -1,6 +1,9 @@
 package kodex.presenter;
 
-import java.util.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import kodex.model.SideMenuTypes;
 
 /**
  * 

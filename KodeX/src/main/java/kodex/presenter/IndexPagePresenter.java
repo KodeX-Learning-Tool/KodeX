@@ -1,6 +1,11 @@
 package kodex.presenter;
 
-import java.util.*;
+import java.util.List;
+
+import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
+import kodex.model.Filter;
+import kodex.plugininterface.ProcedurePlugin;
 
 /**
  * 
@@ -78,5 +83,11 @@ public class IndexPagePresenter extends Presenter {
     private void addProcedureButton(Button procedure) {
         // TODO implement here
     }
+
+	@Override
+	public AnchorPane getView() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

@@ -1,6 +1,9 @@
 package kodex.presenter;
 
-import java.util.*;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SplitPane;
+import javafx.scene.layout.AnchorPane;
+import kodex.plugininterface.ProcedurePlugin;
 
 /**
  * 

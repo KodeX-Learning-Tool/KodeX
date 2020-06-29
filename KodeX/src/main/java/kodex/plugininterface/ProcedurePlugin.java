@@ -1,20 +1,15 @@
 package kodex.plugininterface;
 
-import java.util.*;
-
 /**
  * 
  */
-public abstract class ProcedurePlugin extends Pluginable {
+public abstract class ProcedurePlugin implements Pluginable {
 
     /**
      * Default constructor
      */
     public ProcedurePlugin() {
     }
-
-
-
 
     /**
      * @return

@@ -1,6 +1,8 @@
 package kodex.plugininterface;
 
-import java.util.*;
+import java.util.List;
+
+import javafx.scene.image.Image;
 
 /**
  * 

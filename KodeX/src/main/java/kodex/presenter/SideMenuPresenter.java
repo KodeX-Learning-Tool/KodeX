@@ -1,6 +1,7 @@
 package kodex.presenter;
 
-import java.util.*;
+import javafx.scene.layout.AnchorPane;
+import kodex.model.SideMenuTypes;
 
 /**
  * 
@@ -65,5 +66,14 @@ public class SideMenuPresenter extends Presenter {
     public void handleHelp() {
         // TODO implement here
     }
+
+
+
+
+	@Override
+	public AnchorPane getView() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

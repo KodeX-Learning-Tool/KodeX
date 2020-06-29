@@ -1,6 +1,9 @@
 package kodex.plugininterface;
 
-import java.util.*;
+import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import kodex.presenter.IPresenter;
 
 /**
  * 

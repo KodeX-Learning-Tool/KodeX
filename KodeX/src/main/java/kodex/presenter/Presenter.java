@@ -26,13 +26,4 @@ public abstract class Presenter implements IPresenter {
     public void Presenter(PresenterManager pm) {
         // TODO implement here
     }
-
-    /**
-     * @return
-     */
-    public AnchorPane getView() {
-        // TODO implement here
-        return null;
-    }
-
 }
