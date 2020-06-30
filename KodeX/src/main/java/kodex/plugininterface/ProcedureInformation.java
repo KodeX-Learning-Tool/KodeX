@@ -45,18 +45,18 @@ public abstract class ProcedureInformation {
 
     /**
      * Gibt eine Liste der Labels des Verfahrens zurück. An erster Stelle in der Liste
-     * muss die Klassenstufe stehen, ab welcher Klassenstufe das Verfahren geeignet ist
+     * muss die Klassenstufe stehen, ab welcher Klassenstufe das Verfahren geeignet ist.
+     * Falls keine Klassenstufe zutrifft, bitte 0 angeben.
      * @return Liste der Labels
      */
     public List<String> getLabels() {
         List<String> labels = new LinkedList<>();
-        labels.add("7"); //Standard Klassenstufe
         return labels;
     }
 
     /**
      * Gibt eine Kurzbeschreibung des Verfahrens zurück
-     * @return Beschreibung des Verfahrens
+     * @return Beschreibung des Verfahrens#
      * Hinweis: Die Beschreibung ist auf einen String begrenzt
      */
     public String getDescription() {
