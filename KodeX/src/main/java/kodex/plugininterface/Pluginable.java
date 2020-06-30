@@ -19,9 +19,9 @@ public interface Pluginable {
     public String getPluginName();
 
     /**
-     * Gibt die Kurzbeschreibung des Plugins zurück
-     * @return Beschreibung des Plugins 
-     * Hinweis: Die Beschreibung ist auf einen String begrenzt
+     * Gibt die Kategorie des Plugins zurück
+     * @return Kategorie des Plugins 
+     * Hinweis: Die Kategorie ist auf einen String begrenzt
      */
     public String getPluginDescription();
 
