@@ -1,6 +1,9 @@
-package PluginUtils.Presenter.ChainLink;
+package kodex.pluginutils.presenter.chainlink;
 
 import java.util.*;
+
+import javafx.scene.layout.AnchorPane;
+import kodex.plugininterface.ChainLinkPresenter;
 
 /**
  * 
@@ -13,13 +16,18 @@ public class BitStringChainLinkPresenter extends ChainLinkPresenter {
     public BitStringChainLinkPresenter() {
     }
 
+	@Override
+	protected void mark(int id) {
+		// TODO Auto-generated method stub
+		
+	}
 
 
-    /**
-     * 
-     */
-    public void BitStringChainLinkPresenter() {
-        // TODO implement here
-    }
+
+	@Override
+	public AnchorPane getView() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
