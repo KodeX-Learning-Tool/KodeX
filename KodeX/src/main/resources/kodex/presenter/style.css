@@ -12,6 +12,32 @@
 	-fx-border-radius: 36;
 }
 
+.default-button {
+	-fx-alignment:  center;
+	
+	-fx-font-size: 18;
+	
+	-fx-background-color: #FFFFFF;
+	
+	-fx-border-color: black;
+	-fx-border-width: 0.5;
+	-fx-border-radius: 5;
+}
+
+/*main menu window styles */
+
+.main-view {
+	-fx-padding: 75 0 0 140;
+}
+
+.main-view__header {
+	
+	-fx-font-size: 24;
+	-fx-font-weight: bold;
+	
+	-fx-alignment:  baseline-left;
+}
+
 /* Side-Menu */ 
 
 .side-menu, .side-menu--mini, .side-menu__logo, .side-menu__button {
@@ -92,4 +118,78 @@
 	-fx-background-color: -fx-base;
 	-fx-padding: 5px 30px 5px 30px;
 	-fx-font-size: 16;
+}
+
+/*Network-Menu*/
+
+.network__header {
+	-fx-spacing: 40;
+}
+
+.network__controll-list {
+	-fx-spacing: 100;
+}
+
+.network__controll {
+	-fx-pref-width: 500;
+	-fx-spacing: 50;
+}
+
+.network__controll__connect {
+	-fx-vgap: 40;
+}
+
+.network__controll__input .network__controll__input__label, .network__controll__input .network__controll__input__text-field {
+	-fx-font-size: 18;
+	
+	-fx-border-color: black;
+	-fx-border-width: 0.5;
+	
+	-fx-pref-height: 50;
+}
+
+.network__controll__input__label {
+	-fx-background-color: #FFFFFF;
+	-fx-background-radius: 5 0 0 5;
+	
+	-fx-border-style: solid none solid solid;
+	-fx-border-radius: 5 0 0 5;
+	
+	-fx-label-padding: 0 13 0 13;
+}
+
+.network__controll__input__text-field {
+	-fx-background-color: #FAFAFA;
+	-fx-background-radius: 0 5 5 0;
+	
+	-fx-border-radius: 0 5 5 0;
+}
+
+.network__controll__input__top {
+	-fx-border-width: 0.5 0.5 0.25 0.5;
+}
+
+.network__controll__input__bottom {
+	-fx-border-width: 0.25 0.5 0.5 0.5;
+}
+
+
+.network__controll__input__top.network__controll__input__label {
+	-fx-background-radius: 5 0 0 0;
+	-fx-border-radius: 5 0 0 0;
+}
+
+.network__controll__input__bottom.network__controll__input__label {
+	-fx-background-radius: 0 0 0 5;
+	-fx-border-radius: 0 0 0 5;
+}
+
+.network__controll__input__top.network__controll__input__text-field {
+	-fx-background-radius: 0 5 0 0;
+	-fx-border-radius: 0 5 0 0;
+}
+
+.network__controll__input__bottom.network__controll__input__text-field {
+	-fx-background-radius: 0 0 5 0;
+	-fx-border-radius: 0 0 5 0;
 }
