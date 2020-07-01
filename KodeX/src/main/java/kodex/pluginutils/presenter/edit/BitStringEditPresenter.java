@@ -1,4 +1,4 @@
-package PluginUtils.Presenter.Edit;
+package kodex.pluginutils.presenter.edit;
 
 import java.util.*;
 
