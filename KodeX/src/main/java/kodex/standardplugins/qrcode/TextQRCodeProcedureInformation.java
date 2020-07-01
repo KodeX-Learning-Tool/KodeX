@@ -2,8 +2,8 @@ package kodex.standardplugins.qrcode;
 
 import java.util.*;
 
+import javafx.scene.image.Image;
 import kodex.plugininterface.ProcedureInformation;
-import kodex.pluginutils.model.content.AbstractImage;
 
 /**
  * 
@@ -54,7 +54,7 @@ public class TextQRCodeProcedureInformation extends ProcedureInformation {
     /**
      * @return
      */
-    public AbstractImage getIcon() {
+    public Image getIcon() {
         // TODO implement here
         return null;
     }
@@ -74,10 +74,5 @@ public class TextQRCodeProcedureInformation extends ProcedureInformation {
         // TODO implement here
         return "";
     }
-
-    /**
-     * @return
-     */
-    public abstract String getName();
 
 }
