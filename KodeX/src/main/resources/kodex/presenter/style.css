@@ -1,0 +1,38 @@
+.side-menu, .side-menu--mini, .side-menu__logo, .side-menu__button {
+	-fx-background-color: #002531;
+	-fx-pref-width: 300;
+}
+
+.side-menu--mini {
+	-fx-pref-width: 104;
+}
+
+.side-menu__logo {
+	-fx-pref-height: 280;
+}
+
+.side-menu__logo.side-menu--mini {
+	-fx-pref-height: 280;
+}
+
+.side-menu__button {
+	-fx-background-color: rgba(255, 255, 255 , 0);
+	-fx-text-fill: rgba(255, 255, 255 , 0.88);
+	
+	-fx-font-size: 20px;
+	-fx-font-family: Robot;
+	
+	-fx-icon-color: rgba(255, 255, 255 , 0.88);
+	-fx-graphic-text-gap: 16;
+	
+	-fx-pref-height: 60;
+	-fx-alignment:  baseline-left;
+}
+
+.side-menu__button.side-menu--mini {
+	-fx-alignment:  baseline-center;
+}
+
+.side-menu__button:hover {
+	-fx-background-color: rgba(255, 255, 255 , 0.4);
+}
