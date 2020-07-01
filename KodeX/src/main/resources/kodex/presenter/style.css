@@ -80,16 +80,6 @@
 	-fx-border-insets: -2;
 }
 
-#plugin-menu__button--add {          
-    -fx-graphic: url("../img/add_box.png");
-    -fx-content-display:left;   
-}
-
-#plugin-menu__button--remove {          
-    -fx-graphic: url("../img/remove_box.png"); 
-    -fx-content-display:left; 
-}
-
 /* Help-Menu */
 
 .help-page__faq__element > .title  {
