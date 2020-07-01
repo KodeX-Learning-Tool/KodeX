@@ -2,6 +2,9 @@ package PluginUtils.Presenter.Header;
 
 import java.util.*;
 
+import javafx.scene.layout.AnchorPane;
+import kodex.plugininterface.ChainLinkHeaderPresenter;
+
 /**
  * 
  */
@@ -13,11 +16,11 @@ public class CharacterStringHeaderPresenter extends ChainLinkHeaderPresenter {
     public CharacterStringHeaderPresenter() {
     }
 
-    /**
-     * 
-     */
-    public void CharacterStringHeaderPresenter() {
-        // TODO implement here
-    }
+
+	@Override
+	public AnchorPane getView() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

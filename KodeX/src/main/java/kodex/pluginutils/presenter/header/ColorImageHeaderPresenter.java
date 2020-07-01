@@ -1,6 +1,9 @@
-package PluginUtils.Presenter.Header;
+package kodex.pluginutils.presenter.header;
 
 import java.util.*;
+
+import javafx.scene.layout.AnchorPane;
+import kodex.plugininterface.ChainLinkHeaderPresenter;
 
 /**
  * 
@@ -13,11 +16,11 @@ public class ColorImageHeaderPresenter extends ChainLinkHeaderPresenter {
     public ColorImageHeaderPresenter() {
     }
 
-    /**
-     * 
-     */
-    public void ColorImageHeaderPresenter() {
-        // TODO implement here
-    }
+
+	@Override
+	public AnchorPane getView() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
