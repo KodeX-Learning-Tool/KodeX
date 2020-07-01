@@ -1,36 +1,47 @@
-package StandardPlugins.QR-Code.Presenter;
+package kodex.standardplugins.qrcode.presenter;
 
-import java.util.*;
+import javafx.scene.layout.AnchorPane;
+import kodex.plugininterface.ImportPresenter;
+import kodex.plugininterface.ProcedurePlugin;
 
 /**
  * 
  */
 public class QRCodeImportPresenter extends ImportPresenter {
 
-    /**
-     * Default constructor
-     */
-    public QRCodeImportPresenter() {
-    }
+	public QRCodeImportPresenter(ProcedurePlugin plugin) {
+		super(plugin);
+		// TODO Auto-generated constructor stub
+	}
 
-    /**
-     * @return
-     */
-    public abstract boolean validateEncodeImport();
+	@Override
+	public boolean validateEncodeImport() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
-    /**
-     * @return
-     */
-    public abstract boolean validateDecodeImport();
+	@Override
+	public boolean validateDecodeImport() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
-    /**
-     * 
-     */
-    public abstract void handleEncodeImport();
+	@Override
+	public void handleEncodeImport() {
+		// TODO Auto-generated method stub
+		
+	}
 
-    /**
-     * 
-     */
-    public abstract void handleDecodeImport();
+	@Override
+	public void handleDecodeImport() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public AnchorPane getView() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

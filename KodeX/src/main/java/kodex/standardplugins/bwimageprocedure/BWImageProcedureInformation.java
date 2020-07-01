@@ -1,20 +1,14 @@
-package StandardPlugins.BWImageProcedure;
+package kodex.standardplugins.bwimageprocedure;
 
 import java.util.List;
 
+import javafx.scene.image.Image;
 import kodex.plugininterface.ProcedureInformation;
-import kodex.pluginutils.model.content.AbstractImage;
 
 /**
  * 
  */
 public class BWImageProcedureInformation extends ProcedureInformation {
-
-    /**
-     * Default constructor
-     */
-    public BWImageProcedureInformation() {
-    }
 
     /**
      * 
@@ -39,7 +33,7 @@ public class BWImageProcedureInformation extends ProcedureInformation {
     /**
      * 
      */
-    public void BWImageProcedureInformation() {
+    public BWImageProcedureInformation() {
         // TODO implement here
     }
 
@@ -54,7 +48,7 @@ public class BWImageProcedureInformation extends ProcedureInformation {
     /**
      * @return
      */
-    public AbstractImage getIcon() {
+    public Image getIcon() {
         // TODO implement here
         return null;
     }
@@ -74,10 +68,5 @@ public class BWImageProcedureInformation extends ProcedureInformation {
         // TODO implement here
         return "";
     }
-
-    /**
-     * @return
-     */
-    public abstract String getName();
 
 }

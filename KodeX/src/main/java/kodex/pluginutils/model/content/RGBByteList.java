@@ -1,4 +1,4 @@
-package PluginUtils.Model.Content;
+package kodex.pluginutils.model.content;
 
 import java.util.*;
 
@@ -16,19 +16,19 @@ public class RGBByteList extends List {
     /**
      * 
      */
-    private List<int> list;
+    private List list; //Generic: Integer
 
     /**
      * @param list
      */
-    public void RGBByteListe(List<int> list) {
+    public void RGBByteListe(List list) {
         // TODO implement here
     }
 
     /**
      * @return
      */
-    public List<int> getList() {
+    public List getList() {
         // TODO implement here
         return null;
     }
@@ -45,7 +45,7 @@ public class RGBByteList extends List {
      * @param list 
      * @return
      */
-    public Boolean isValid(List<int> list) {
+    public Boolean isValid(List list) {
         // TODO implement here
         return null;
     }

@@ -1,6 +1,6 @@
-package PluginUtils.Model.Content;
+package kodex.pluginutils.model.content;
 
-import java.util.*;
+import javafx.scene.paint.Color;
 
 /**
  * 
@@ -16,12 +16,12 @@ public class RGBMatrix extends Matrix {
     /**
      * 
      */
-    private Color[rows][cols] colors;
+    private Color[][] colors; //Aray der Größe [rows][cols]
 
     /**
      * @param colors
      */
-    public void RGBMatrix(Color colors) {
+    public RGBMatrix(Color colors) {
         // TODO implement here
     }
 

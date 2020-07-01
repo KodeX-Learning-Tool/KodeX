@@ -1,52 +1,68 @@
 package kodex.plugininterface;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javafx.scene.image.Image;
+import kodex.pluginutils.model.content.AbstractImage;
 
 /**
+ * Diese abstrakte Klasse gibt vor, welche Informationen über ein Verfahren bekannt sein
+ * sollten und verwaltet diese. 
+ * Jedes Plugin muss diese Klasse erweitern. Jedoch muss die Beschreibung, die Labels und
+ * das Icon nicht implementiert werden (Standard Werte).
  * 
+ * @author Patrick Spiesberger
+ * 
+ * @version 1.0
+ *
  */
 public abstract class ProcedureInformation {
 
     /**
-     * Default constructor
+     * Konstruktor der Klasse ProcedureInformatio
      */
-    public ProcedureInformation() {
-    }
+    public ProcedureInformation() {}
+    
 
-    /**
-     * 
+    /* 
+     * Standard Bild, welches einfügt wird, wenn kein anderes vorhanden
      */
     protected Image defaultIcon;
 
     /**
-     * @return
+     * Gibt den Namen des Verfahrens zurück
+     * @return Name des Verfahrens
      */
     public abstract String getName();
 
     /**
-     * @return
+     * Gibt das Icon, welches für die Startseite verwendet werden soll zurück
+     * @return Icon für die Startseite
      */
     public Image getIcon() {
-        // TODO implement here
-        return null;
+        return defaultIcon; //Standard Anzeigebild
     }
 
     /**
-     * @return
+     * Gibt eine Liste der Labels des Verfahrens zurück. An erster Stelle in der Liste
+     * muss die Klassenstufe stehen, ab welcher Klassenstufe das Verfahren geeignet ist.
+     * Falls keine Klassenstufe zutrifft, bitte 0 angeben.
+     * @return Liste der Labels
      */
     public List<String> getLabels() {
-        // TODO implement here
-        return null;
+        List<String> labels = new LinkedList<>();
+        return labels;
     }
 
     /**
-     * @return
+     * Gibt eine Kurzbeschreibung des Verfahrens zurück
+     * @return Beschreibung des Verfahrens#
+     * Hinweis: Die Beschreibung ist auf einen String begrenzt
      */
     public String getDescription() {
-        // TODO implement here
-        return "";
+        return ""; //Standard Beschreibung
+        //TODO: Language.getMessage("noDescription"); 
     }
 
 }

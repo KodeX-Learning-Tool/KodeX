@@ -1,6 +1,4 @@
-package PluginUtils.Model.Content;
-
-import java.util.*;
+package kodex.pluginutils.model.content;
 
 /**
  * 
@@ -21,7 +19,7 @@ public class CharacterString extends DataString {
     /**
      * @param charString; String
      */
-    public void CharacterString(void charString; String) {
+    public CharacterString(String charString) {
         // TODO implement here
     }
 

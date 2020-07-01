@@ -1,11 +1,16 @@
-package StandardPlugins.GreyScaleImageProcedure;
+package kodex.standardplugins.greyscaleimageprocedure;
 
-import java.util.*;
+
+import kodex.plugininterface.ChainLinkPresenter;
+import kodex.plugininterface.Content;
+import kodex.plugininterface.ImportPresenter;
+import kodex.plugininterface.ProcedureInformation;
+import kodex.plugininterface.ProcedurePlugin;
 
 /**
  * 
  */
-private class GreyScaleImageProcedurePlugin extends ProcedurePlugin {
+public class GreyScaleImageProcedurePlugin extends ProcedurePlugin {
 
     /**
      * Default constructor
@@ -16,78 +21,49 @@ private class GreyScaleImageProcedurePlugin extends ProcedurePlugin {
     /**
      * 
      */
-    private void chainLinks[2..*]; ChainLinkPresenter;
+    private ChainLinkPresenter[] chainLinks; // [2..*]
 
+	@Override
+	public String getPluginName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
+	@Override
+	public String getPluginDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    /**
-     * 
-     */
-    public void GreyScaleImageProcedurePlugin() {
-        // TODO implement here
-    }
+	@Override
+	public ChainLinkPresenter getChainHead() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    /**
-     * @return
-     */
-    public ChainLinkPresenter getChainHead() {
-        // TODO implement here
-        return null;
-    }
+	@Override
+	public void initEncodeProcedure(Content content) {
+		// TODO Auto-generated method stub
+		
+	}
 
-    /**
-     * @param content
-     */
-    public void initEncodeProcedure(Content content) {
-        // TODO implement here
-    }
+	@Override
+	public void initDecodeProcedure(Content content) {
+		// TODO Auto-generated method stub
+		
+	}
 
-    /**
-     * @param content
-     */
-    public void initDecodeProcedure(Content content) {
-        // TODO implement here
-    }
+	@Override
+	public ProcedureInformation createProcedureInformation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    /**
-     * @return
-     */
-    public GreyScaleImportPresenter createImportPresenter() {
-        // TODO implement here
-        return null;
-    }
+	@Override
+	public ImportPresenter createImportPresenter() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    /**
-     * @return
-     */
-    public GreyScaleProcedureInformation createProcedureInformation() {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @return
-     */
-    public abstract ChainLinkPresenter getChainHead();
-
-    /**
-     * @param content
-     */
-    public abstract void initEncodeProcedure(Content content);
-
-    /**
-     * @param content
-     */
-    public abstract void initDecodeProcedure(Content content);
-
-    /**
-     * @return
-     */
-    public abstract ProcedureInformation createProcedureInformation();
-
-    /**
-     * @return
-     */
-    public abstract ImportPresenter createImportPresenter();
 
 }

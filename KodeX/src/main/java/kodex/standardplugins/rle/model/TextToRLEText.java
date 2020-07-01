@@ -1,6 +1,7 @@
-package StandardPlugins.RLE.Model;
+package kodex.standardplugins.rle.model;
 
 import kodex.plugininterface.ChainStep;
+import kodex.plugininterface.Content;
 
 /**
  * 
@@ -13,16 +14,17 @@ public class TextToRLEText extends ChainStep {
     public TextToRLEText() {
     }
 
-    /**
-     * @param left 
-     * @param right
-     */
-    public abstract void encode(Content left, Content right);
+	@Override
+	public void encode(Content left, Content right) {
+		// TODO Auto-generated method stub
+		
+	}
 
-    /**
-     * @param right 
-     * @param left
-     */
-    public abstract void decode(Content right, Content left);
+	@Override
+	public void decode(Content right, Content left) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }
