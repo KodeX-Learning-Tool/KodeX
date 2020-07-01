@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="main-view" stylesheets="@style.css" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane styleClass="main-view" stylesheets="@style.css" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox layoutX="126.0" layoutY="24.0" prefHeight="400.0" prefWidth="600.0" styleClass="network__header" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
