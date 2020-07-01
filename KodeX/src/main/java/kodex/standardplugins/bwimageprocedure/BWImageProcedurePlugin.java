@@ -1,6 +1,11 @@
-package StandardPlugins.BWImageProcedure;
+package kodex.standardplugins.bwimageprocedure;
 
 import java.util.*;
+
+import kodex.plugininterface.ChainLinkPresenter;
+import kodex.plugininterface.Content;
+import kodex.plugininterface.ImportPresenter;
+import kodex.plugininterface.ProcedurePlugin;
 
 /**
  * 
@@ -8,22 +13,14 @@ import java.util.*;
 public class BWImageProcedurePlugin extends ProcedurePlugin {
 
     /**
-     * Default constructor
+     * 
      */
-    public BWImageProcedurePlugin() {
-    }
+    private ChainLinkPresenter[] chainLinks; // [2..*]
 
     /**
      * 
      */
-    private void chainLinks[2..*]; ChainLinkPresenter;
-
-
-
-    /**
-     * 
-     */
-    public void BWImageProcedurePlugin() {
+    public  BWImageProcedurePlugin() {
         // TODO implement here
     }
 
@@ -57,29 +54,22 @@ public class BWImageProcedurePlugin extends ProcedurePlugin {
         return null;
     }
 
-    /**
-     * @return
-     */
-    public abstract ChainLinkPresenter getChainHead();
+	@Override
+	public String getPluginName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    /**
-     * @param content
-     */
-    public abstract void initEncodeProcedure(Content content);
+	@Override
+	public String getPluginDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    /**
-     * @param content
-     */
-    public abstract void initDecodeProcedure(Content content);
-
-    /**
-     * @return
-     */
-    public abstract ProcedureInformation createProcedureInformation();
-
-    /**
-     * @return
-     */
-    public abstract ImportPresenter createImportPresenter();
+	@Override
+	public ImportPresenter createImportPresenter() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

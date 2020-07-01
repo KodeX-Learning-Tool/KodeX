@@ -4,17 +4,19 @@ import java.util.*;
 
 import javafx.scene.layout.AnchorPane;
 import kodex.plugininterface.ChainLinkHeaderPresenter;
+import kodex.plugininterface.Content;
 
 /**
  * 
  */
 public class BitStringHeaderPresenter extends ChainLinkHeaderPresenter {
 
-    /**
-     * Default constructor
-     */
-    public BitStringHeaderPresenter() {
-    }
+    
+
+	public BitStringHeaderPresenter(Content content) {
+		super(content);
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public AnchorPane getView() {

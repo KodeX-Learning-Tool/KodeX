@@ -1,20 +1,20 @@
 package kodex.pluginutils.presenter.edit;
 
-import java.util.*;
 
 import javafx.scene.layout.AnchorPane;
 import kodex.plugininterface.ChainLinkEditPresenter;
+import kodex.plugininterface.ChainLinkPresenter;
 
 /**
  * 
  */
 public class RGBListEditPresenter extends ChainLinkEditPresenter {
 
-    /**
-     * Default constructor
-     */
-    public RGBListEditPresenter() {
-    }
+
+	public RGBListEditPresenter(ChainLinkPresenter chainLinkPresenter) {
+		super(chainLinkPresenter);
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public void handleSubmit() {

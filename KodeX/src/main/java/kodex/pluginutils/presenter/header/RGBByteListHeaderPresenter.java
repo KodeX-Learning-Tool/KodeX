@@ -4,18 +4,17 @@ import java.util.*;
 
 import javafx.scene.layout.AnchorPane;
 import kodex.plugininterface.ChainLinkHeaderPresenter;
+import kodex.plugininterface.Content;
 
 /**
  * 
  */
 public class RGBByteListHeaderPresenter extends ChainLinkHeaderPresenter {
 
-    /**
-     * Default constructor
-     */
-    public RGBByteListHeaderPresenter() {
-    }
-
+	public RGBByteListHeaderPresenter(Content content) {
+		super(content);
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public AnchorPane getView() {

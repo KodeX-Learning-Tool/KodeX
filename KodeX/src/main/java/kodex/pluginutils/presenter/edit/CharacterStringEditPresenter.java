@@ -1,20 +1,21 @@
 package kodex.pluginutils.presenter.edit;
 
-import java.util.*;
 
 import javafx.scene.layout.AnchorPane;
 import kodex.plugininterface.ChainLinkEditPresenter;
+import kodex.plugininterface.ChainLinkPresenter;
 
 /**
  * 
  */
 public class CharacterStringEditPresenter extends ChainLinkEditPresenter {
 
-    /**
-     * Default constructor
-     */
-    public CharacterStringEditPresenter() {
-    }
+
+
+	public CharacterStringEditPresenter(ChainLinkPresenter chainLinkPresenter) {
+		super(chainLinkPresenter);
+		// TODO Auto-generated constructor stub
+	}
 
 
 	@Override

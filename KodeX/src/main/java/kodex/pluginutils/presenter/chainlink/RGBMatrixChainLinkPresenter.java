@@ -1,20 +1,21 @@
 package kodex.pluginutils.presenter.chainlink;
 
-import java.util.*;
 
 import javafx.scene.layout.AnchorPane;
 import kodex.plugininterface.ChainLinkPresenter;
+import kodex.plugininterface.ChainStep;
 
 /**
  * 
  */
 public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
 
-    /**
-     * Default constructor
-     */
-    public RGBMatrixChainLinkPresenter() {
-    }
+
+	public RGBMatrixChainLinkPresenter(ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
+		super(previous, previousStep, nextStep);
+		// TODO Auto-generated constructor stub
+	}
+
 
 
 	@Override
