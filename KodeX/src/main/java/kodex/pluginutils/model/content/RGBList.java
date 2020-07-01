@@ -1,6 +1,8 @@
-package PluginUtils.Model.Content;
+package kodex.pluginutils.model.content;
 
-import org.w3c.dom.css.RGBColor;
+import java.util.LinkedList;
+
+import javafx.scene.paint.Color;
 
 /**
  * 
@@ -16,19 +18,19 @@ public class RGBList extends List {
     /**
      * 
      */
-    private List<RGBColor> list;
+    private LinkedList<Color> list;
 
     /**
      * @param list
      */
-    public void RGBList(List<Color> list) {
+    public RGBList(LinkedList<Color> list) {
         // TODO implement here
     }
 
     /**
      * @return
      */
-    public List<Color> getList() {
+    public List getList() {
         // TODO implement here
         return null;
     }
@@ -45,9 +47,9 @@ public class RGBList extends List {
      * @param list 
      * @return
      */
-    public Boolean isValid(List<Color> list) {
+    public boolean isValid(LinkedList<Color> list) {
         // TODO implement here
-        return null;
+        return true;
     }
 
 }

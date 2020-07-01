@@ -52,14 +52,6 @@ public class BWImageProcedurePlugin extends ProcedurePlugin {
     /**
      * @return
      */
-    public BWImageImportPresenter createImportPresenter() {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @return
-     */
     public BWImageProcedureInformation createProcedureInformation() {
         // TODO implement here
         return null;

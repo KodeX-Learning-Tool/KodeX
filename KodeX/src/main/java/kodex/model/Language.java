@@ -42,8 +42,7 @@ public class Language {
      * @return
      */
     public static Language getInstance() {
-        // TODO implement here
-        return null;
+        return instance;
     }
 
     /**
@@ -51,7 +50,7 @@ public class Language {
      */
     public List<ResourceBundle> getLanguageList() {
         // TODO implement here
-        return null;
+        return languages;
     }
 
     /**

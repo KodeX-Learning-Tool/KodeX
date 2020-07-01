@@ -1,6 +1,9 @@
-package StandardPlugins.QR-Code;
+package kodex.standardplugins.qrcode;
 
 import java.util.*;
+
+import kodex.plugininterface.ProcedureInformation;
+import kodex.pluginutils.model.content.AbstractImage;
 
 /**
  * 
