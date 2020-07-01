@@ -1,43 +1,49 @@
-package StandardPlugins.BWImageProcedure.Presenter;
+package kodex.standardplugins.bwimageprocedure.presenter;
 
+import javafx.scene.layout.AnchorPane;
 import kodex.plugininterface.ImportPresenter;
+import kodex.plugininterface.ProcedurePlugin;
 
 /**
  * 
  */
 public class BWImageImportPresenter extends ImportPresenter {
 
-    /**
-     * Default constructor
-     */
-    public BWImageImportPresenter() {
-    }
 
-    /**
-     * 
-     */
-    public void BWImageImportPresenter() {
-        // TODO implement here
-    }
+	public BWImageImportPresenter(ProcedurePlugin plugin) {
+		super(plugin);
+		// TODO Auto-generated constructor stub
+	}
 
-    /**
-     * @return
-     */
-    public abstract boolean validateEncodeImport();
+	@Override
+	public boolean validateEncodeImport() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
-    /**
-     * @return
-     */
-    public abstract boolean validateDecodeImport();
+	@Override
+	public boolean validateDecodeImport() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
-    /**
-     * 
-     */
-    public abstract void handleEncodeImport();
+	@Override
+	public void handleEncodeImport() {
+		// TODO Auto-generated method stub
+		
+	}
 
-    /**
-     * 
-     */
-    public abstract void handleDecodeImport();
+	@Override
+	public void handleDecodeImport() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public AnchorPane getView() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

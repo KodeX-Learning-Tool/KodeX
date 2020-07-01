@@ -1,6 +1,8 @@
-package PluginUtils.Model.Content;
+package kodex.pluginutils.model.content;
 
 import java.util.*;
+
+import javafx.scene.image.Image;
 
 /**
  * 
@@ -16,12 +18,12 @@ public class BlackWhiteImage extends AbstractImage {
     /**
      * 
      */
-    private void image; Image;
+    private Image image;
 
     /**
      * @param image
      */
-    public void BlackWhiteImage(Image image) {
+    public BlackWhiteImage(Image image) {
         // TODO implement here
     }
 

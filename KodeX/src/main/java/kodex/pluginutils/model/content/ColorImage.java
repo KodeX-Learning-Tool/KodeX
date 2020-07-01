@@ -1,15 +1,12 @@
-package PluginUtils.Model.Content;
+package kodex.pluginutils.model.content;
+
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 /**
  * 
  */
 public class ColorImage extends AbstractImage {
-
-    /**
-     * Default constructor
-     */
-    public ColorImage() {
-    }
 
     /**
      * 
@@ -25,7 +22,7 @@ public class ColorImage extends AbstractImage {
      * @param colorDepth 
      * @param image
      */
-    public void ColorImage(int colorDepth, Image image) {
+    public ColorImage(int colorDepth, Image image) {
         // TODO implement here
     }
 
@@ -34,7 +31,7 @@ public class ColorImage extends AbstractImage {
      * @param y 
      * @return
      */
-    public void getColor(int x, int y) {
+    public Color getColor(int x, int y) {
         // TODO implement here
         return null;
     }

@@ -1,20 +1,15 @@
-package StandardPlugins.ColorImageProcedure;
+package kodex.standardplugins.colorimageprocedure;
 
 import java.util.List;
 
+import javafx.scene.image.Image;
 import kodex.plugininterface.ProcedureInformation;
-import kodex.pluginutils.model.content.AbstractImage;
 
 /**
  * 
  */
 public class ColorImageProcedureInformation extends ProcedureInformation {
 
-    /**
-     * Default constructor
-     */
-    public ColorImageProcedureInformation() {
-    }
 
     /**
      * 
@@ -54,7 +49,7 @@ public class ColorImageProcedureInformation extends ProcedureInformation {
     /**
      * @return
      */
-    public AbstractImage getIcon() {
+    public Image getIcon() {
         // TODO implement here
         return null;
     }
@@ -75,9 +70,5 @@ public class ColorImageProcedureInformation extends ProcedureInformation {
         return "";
     }
 
-    /**
-     * @return
-     */
-    public abstract String getName();
 
 }

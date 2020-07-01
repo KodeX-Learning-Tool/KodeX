@@ -1,7 +1,8 @@
-package StandardPlugins.GreyScaleImageProcedure;
+package kodex.standardplugins.greyscaleimageprocedure;
 
 import java.util.List;
 
+import javafx.scene.image.Image;
 import kodex.plugininterface.ProcedureInformation;
 import kodex.pluginutils.model.content.AbstractImage;
 
@@ -54,7 +55,7 @@ public class GreyScaleProcedureInformation extends ProcedureInformation {
     /**
      * @return
      */
-    public AbstractImage getIcon() {
+    public Image getIcon() {
         // TODO implement here
         return null;
     }
@@ -74,10 +75,5 @@ public class GreyScaleProcedureInformation extends ProcedureInformation {
         // TODO implement here
         return "";
     }
-
-    /**
-     * @return
-     */
-    public abstract String getName();
 
 }

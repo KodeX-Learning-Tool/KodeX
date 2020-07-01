@@ -1,6 +1,10 @@
-package StandardPlugins.ColorImageProcedure;
+package kodex.standardplugins.colorimageprocedure;
 
-import java.util.*;
+
+import kodex.plugininterface.ChainLinkPresenter;
+import kodex.plugininterface.Content;
+import kodex.plugininterface.ProcedurePlugin;
+import kodex.standardplugins.colorimageprocedure.presenter.ColorImageImportPresenter;
 
 /**
  * 
@@ -16,22 +20,8 @@ public class ColorImageProcedurePlugin extends ProcedurePlugin {
     /**
      * 
      */
-    private void chainLinks[2..*]; ChainLinkPresenter;
+    private ChainLinkPresenter[] chainLinks; // [2..*]
 
-
-
-
-
-
-
-
-
-    /**
-     * 
-     */
-    public void ColorImageProcedurePlugin() {
-        // TODO implement here
-    }
 
     /**
      * @return
@@ -70,5 +60,17 @@ public class ColorImageProcedurePlugin extends ProcedurePlugin {
         // TODO implement here
         return null;
     }
+
+	@Override
+	public String getPluginName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getPluginDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

@@ -1,6 +1,7 @@
-package PluginUtils.Model.Steps;
+package kodex.pluginutils.model.steps;
 
 import kodex.plugininterface.ChainStep;
+import kodex.plugininterface.Content;
 
 /**
  * 
@@ -13,16 +14,16 @@ public class RGBMatrixToRGBList extends ChainStep {
     public RGBMatrixToRGBList() {
     }
 
-    /**
-     * @param left 
-     * @param right
-     */
-    public abstract void encode(Content left, Content right);
+	@Override
+	public void encode(Content left, Content right) {
+		// TODO Auto-generated method stub
+		
+	}
 
-    /**
-     * @param right 
-     * @param left
-     */
-    public abstract void decode(Content right, Content left);
+	@Override
+	public void decode(Content right, Content left) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

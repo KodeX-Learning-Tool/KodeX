@@ -6,12 +6,6 @@ package kodex.pluginutils.model.content;
 public class BinaryString extends DataString {
 
     /**
-     * Default constructor
-     */
-    public BinaryString() {
-    }
-
-    /**
      * 
      */
     private String binaryString;
@@ -19,7 +13,7 @@ public class BinaryString extends DataString {
     /**
      * @param binaryString
      */
-    public void BinaryString(String binaryString) {
+    public BinaryString(String binaryString) {
         // TODO implement here
     }
 

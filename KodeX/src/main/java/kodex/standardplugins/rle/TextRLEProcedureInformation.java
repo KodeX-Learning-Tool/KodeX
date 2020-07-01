@@ -1,7 +1,8 @@
-package StandardPlugins.RLE;
+package kodex.standardplugins.rle;
 
 import java.util.List;
 
+import javafx.scene.image.Image;
 import kodex.plugininterface.ProcedureInformation;
 
 /**
@@ -36,13 +37,6 @@ public class TextRLEProcedureInformation extends ProcedureInformation {
     private String description;
 
     /**
-     * 
-     */
-    public void TextRLEProcedureInformation() {
-        // TODO implement here
-    }
-
-    /**
      * @return
      */
     public String getName() {
@@ -73,10 +67,5 @@ public class TextRLEProcedureInformation extends ProcedureInformation {
         // TODO implement here
         return "";
     }
-
-    /**
-     * @return
-     */
-    public abstract String getName();
 
 }

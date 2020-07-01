@@ -1,6 +1,7 @@
-package PluginUtils.Model.Content;
+package kodex.pluginutils.model.content;
 
-import java.util.*;
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 /**
  * 
@@ -16,7 +17,7 @@ public class GreyScaleImage extends AbstractImage {
     /**
      * 
      */
-    private void image; Image;
+    private Image image;
 
     /**
      * @param image
