@@ -1,9 +1,10 @@
 package kodex.standardplugins.rle;
 
-import java.util.*;
 
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.Content;
+import kodex.plugininterface.ImportPresenter;
+import kodex.plugininterface.ProcedureInformation;
 import kodex.plugininterface.ProcedurePlugin;
 
 /**
@@ -21,44 +22,6 @@ public class TextRLEProcedurePlugin extends ProcedurePlugin {
      * 
      */
     private ChainLinkPresenter[] chainLinks; //[2..*]
-    
-
-    /**
-     * @return
-     */
-    public ChainLinkPresenter getChainHead() {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @param content
-     */
-    public void initEncodeProcedure(Content content) {
-        // TODO implement here
-    }
-
-    /**
-     * @param content
-     */
-    public void initDecodeProcedure(Content content) {
-        // TODO implement here
-    }
-
-    /**
-     * @return
-     */
-    public void createImportPresenter() {
-        // TODO implement here
-    }
-
-    /**
-     * @return
-     */
-    public TextRLEProcedureInformation createProcedureInformation() {
-        // TODO implement here
-        return null;
-    }
 
 	@Override
 	public String getPluginName() {
@@ -71,5 +34,38 @@ public class TextRLEProcedurePlugin extends ProcedurePlugin {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public ChainLinkPresenter getChainHead() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void initEncodeProcedure(Content content) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void initDecodeProcedure(Content content) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public ProcedureInformation createProcedureInformation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ImportPresenter createImportPresenter() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+    
+
+
 
 }
