@@ -116,7 +116,7 @@ public abstract class ChainLinkPresenter implements IPresenter {
     public void updatePrevChainLink() {
     	previous.updateChain();
     	if (previous.getPrev() != null) {
-    		previous.getPrev();
+    		prev = previous.getPrev();
     	}
     }
 
@@ -159,7 +159,7 @@ public abstract class ChainLinkPresenter implements IPresenter {
     public void markPrev(int id) {
         previous.mark(id);
         if (previous.getPrev() != null) {
-        	previous.getPrev();
+        	previous = previous.getPrev();
         	previous.markPrev(id);
         }
     }
@@ -172,7 +172,7 @@ public abstract class ChainLinkPresenter implements IPresenter {
     public void markNext(int id) {
         next.mark(id);
         if (next.getNext() != null) {
-        	next.getNext();
+        	next = next.getNext();
         	next.markNext(id);
         }
     }
