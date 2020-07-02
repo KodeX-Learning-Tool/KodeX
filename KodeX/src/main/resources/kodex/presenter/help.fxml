@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Region?>
@@ -10,33 +11,41 @@
    <children>
       <AnchorPane styleClass="default-page" stylesheets="@style.css" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
          <children>
-            <VBox styleClass="help__content" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
-               <children>
+            <ScrollPane hbarPolicy="NEVER" layoutX="140.0" layoutY="75.0" styleClass="default-page__scroll" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
+               <content>
                   <AnchorPane>
                      <children>
-                        <Label styleClass="default-page-title" text="Hilfe" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                        </Label>
-                     </children>
-                  </AnchorPane>
-                  <Label id="help__description" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Egestas in pretium pretium convallis in egestas. Lacus, non enim commodo dis viverra fermentum nibh volutpat non. Metus, malesuada cras nunc, enim phasellus eu enim. Laoreet lectus feugiat sed rhoncus in purus placerat a, massa. Pulvinar enim ornare mauris, cras quam a. Nulla congue fames eu pellentesque." wrapText="true" />
-                  <Region styleClass="help__content__spring" />
-                  <AnchorPane>
-                     <children>
-                        <VBox fx:id="faqBox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <VBox styleClass="help__content" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane>
                                  <children>
-                                    <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <Label styleClass="default-page-title" text="Hilfe" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        </Label>
+                                 </children>
+                              </AnchorPane>
+                              <Label id="help__description" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Egestas in pretium pretium convallis in egestas. Lacus, non enim commodo dis viverra fermentum nibh volutpat non. Metus, malesuada cras nunc, enim phasellus eu enim. Laoreet lectus feugiat sed rhoncus in purus placerat a, massa. Pulvinar enim ornare mauris, cras quam a. Nulla congue fames eu pellentesque." wrapText="true" />
+                              <Region styleClass="help__content__spring" />
+                              <AnchorPane>
+                                 <children>
+                                    <VBox fx:id="faqBox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
                                           <AnchorPane>
                                              <children>
-                                                <Label styleClass="help__faq__title" text="FAQ:" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <children>
+                                                      <AnchorPane>
+                                                         <children>
+                                                            <Label styleClass="help__faq__title" text="FAQ:" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                 </Label>
-                                             </children>
-                                          </AnchorPane>
-                                          <AnchorPane>
-                                             <children>
-                                                <Separator styleClass="help__faq__seperator" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                      <AnchorPane>
+                                                         <children>
+                                                            <Separator styleClass="help__faq__seperator" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </children>
+                                                </VBox>
                                              </children>
                                           </AnchorPane>
                                        </children>
@@ -47,8 +56,8 @@
                         </VBox>
                      </children>
                   </AnchorPane>
-               </children>
-            </VBox>
+               </content>
+            </ScrollPane>
          </children>
       </AnchorPane>
    </children>

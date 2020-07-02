@@ -1,4 +1,8 @@
 /* Defaults */
+.root {
+	-fx-font-family: Roboto;
+	-fx-font-size: 18;
+}
 
 .default-page-title {
 	-fx-font-family: Roboto;
@@ -16,6 +20,11 @@
 	-fx-border-radius: 34;
 	
 	-fx-padding: 75 0 0 140;
+}
+
+.default-page__scroll {
+	-fx-background-color:transparent;
+	-fx-fit-to-width: true;
 }
 
 .default-page__content {
@@ -266,6 +275,7 @@
 }
 
 #help__description {
+	-fx-font-size: 18;
 	-fx-wrap-text: true;
 	-fx-max-width: 500;
 }
