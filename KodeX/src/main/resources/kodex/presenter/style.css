@@ -262,7 +262,7 @@
 }
 
 .plugin__button__container {
-	-fx-max-width: 800;
+	-fx-max-width: 1000;
 	-fx-alignment:  center-right;
 }
 
@@ -278,7 +278,7 @@
 	-fx-boder-color: #000000;
 	-fx-border-radius: 5;
 	
-	-fx-max-width: 800;
+	-fx-max-width: 1000;
 }
 
 .plugin__content .table-view .column-header, .plugin__content .table-view .filler {
