@@ -4,12 +4,21 @@
 	-fx-font-family: Roboto;
 	-fx-font-weight: bold;
 	-fx-font-size: 24;
+	-fx-pref-height: 40;
+
 }
 
 .default-page {	
 	-fx-base: #FFFFFF; /* Default Background Color */
 	-fx-background-color: -fx-base;
 	-fx-border-radius: 36;
+	/* -fx-pref-width: 1066;*/ 	
+}
+
+.default-page__content {
+	-fx-padding: 5px;
+    -fx-border-insets: 5px;
+    -fx-background-insets: 5px;
 }
 
 .default-button {
@@ -23,6 +32,48 @@
 	-fx-border-width: 0.5;
 	-fx-border-radius: 5;
 }
+
+.default-button--shadow {
+	-fx-background-color: -fx-base;
+	-fx-border-width: 0.09;
+	-fx-border-style: solid;
+	-fx-boder-color: #000000;
+	-fx-border-radius: 5;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 4, 0, 1, 2);
+	-fx-graphic-text-gap: 20;
+	-fx-padding: 10;
+}
+
+.default-button--shadow:hover {
+	-fx-border-radius: 5;
+	-fx-border-insets: -2;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 2, 4);
+}
+
+.default-choice-box--shadow {
+	-fx-background-color: -fx-base;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 4, 0, 1, 2);
+	-fx-border-radius: 5px;
+	-fx-border-width: 0.05px;
+	-fx-border-style: solid;
+	-fx-boder-color:  rgba(0, 0, 0, 0.47);
+	-fx-pref-width: 200px;
+}
+
+.default-choice-box--shadow .context-menu {
+	-fx-background-color: -fx-base;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 4, 0, 1, 2);
+}
+
+.default-choice-box--shadow .menu-item > .label {
+	-fx-pref-width: 150px;
+}
+
+.default-choice-box--shadow .menu-item:focused { -fx-background-color: #0078D7; }
+
+
+.default-choice-box--shadow .menu-item:focused > .label { -fx-text-fill: white; }
+
 
 /*main menu window styles */
 
@@ -42,7 +93,7 @@
 
 .side-menu, .side-menu--mini, .side-menu__logo, .side-menu__button {
 	-fx-background-color: #002531;
-	-fx-pref-width: 300;
+	-fx-pref-width: 250;
 }
 
 .side-menu--mini {
@@ -77,47 +128,6 @@
 
 .side-menu__button:hover {
 	-fx-background-color: rgba(255, 255, 255 , 0.4);
-}
-
-/* Plugin-Menu */ 
-
-.plugin-menu__table {
-	-fx-background-color: rgba(0, 0, 0, 0.05);
-	-fx-border-width: 1;
-	-fx-border-style: solid;
-	-fx-boder-color: #000000;
-	-fx-border-radius: 5;
-}
-
-.plugin-menu__button {
-	-fx-background-color: -fx-base;
-	-fx-border-width: 0.09;
-	-fx-border-style: solid;
-	-fx-boder-color: #000000;
-	-fx-border-radius: 5;
-	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 4, 0, 1, 2);
-	-fx-graphic-text-gap: 20;
-	-fx-padding: 10;
-}
-
-.plugin-menu__button:hover {
-	-fx-border-width: 1;
-	-fx-border-radius: 5;
-	-fx-border-insets: -2;
-}
-
-/* Help-Menu */
-
-.help-page__faq__element > .title  {
-	-fx-background-color: -fx-base;
-	-fx-font-size: 18;
-	-fx-font-weight: bold;
-}
-
-.help-page__faq__element > .content > TextFlow {
-	-fx-background-color: -fx-base;
-	-fx-padding: 5px 30px 5px 30px;
-	-fx-font-size: 16;
 }
 
 /*Network-Menu*/
@@ -195,4 +205,59 @@
 .network__controll__input__bottom.network__controll__input__text-field {
 	-fx-background-radius: 0 0 5 0;
 	-fx-border-radius: 0 0 5 0;
+}
+
+/* Settings-Menu */ 
+
+.settings__textfield {
+	-fx-border-color: #F3F3F3;
+	-fx-border-radius: 0px 5px 0px 0px;
+}
+
+.settings__textfield__label {
+	-fx-background-color: #FAFAFA;
+	-fx-border-width: 0.1px;
+	-fx-border-style: solid;
+	-fx-border-color: #000000;
+	-fx-border-radius: 5px 0px 0px 5px;
+}
+
+.settings__setting {
+	-fx-padding: 10px 20px 10px 20px;
+    -fx-border-insets: 10px 20px 10px 20px;
+    -fx-background-insets: 10px 20px 10px 20px;
+}
+
+.settings__restore-button {
+	-fx-padding: 30px 0px 0px 20px;
+    -fx-border-insets: 30px 0px 0px 20px;
+    -fx-background-insets: 30px 0px 0px 20px;
+    -fx-pref-width: 588px;
+    -fx-pref-height: 39px;
+}
+
+
+/* Plugin-Menu */ 
+
+.plugin-menu__table {
+	-fx-background-color: rgba(0, 0, 0, 0.05);
+	-fx-border-width: 1;
+	-fx-border-style: solid;
+	-fx-boder-color: #000000;
+	-fx-border-radius: 5;
+}
+
+
+/* Help-Menu */
+
+.help-page__faq__element > .title  {
+	-fx-background-color: -fx-base;
+	-fx-font-size: 18;
+	-fx-font-weight: bold;
+}
+
+.help-page__faq__element > .content > TextFlow {
+	-fx-background-color: -fx-base;
+	-fx-padding: 5px 30px 5px 30px;
+	-fx-font-size: 16;
 }

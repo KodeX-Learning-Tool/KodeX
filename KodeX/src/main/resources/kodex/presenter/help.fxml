@@ -10,23 +10,23 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1280.0" styleClass="default-page" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.kit.uzidy.Prototype.HelpPresenter">
+<AnchorPane styleClass="default-page" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.kit.uzidy.Prototype.HelpPresenter">
    <children>
-      <BorderPane prefHeight="800.0" prefWidth="1280.0" styleClass="plugin-menu" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
-            <Label prefHeight="40.0" prefWidth="100.0" styleClass="default-page-title" text="Hilfe">
+            <Label styleClass="default-page-title" text="Hilfe">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
                <BorderPane.margin>
-                  <Insets left="80.0" right="20.0" top="10.0" />
+                  <Insets />
                </BorderPane.margin>
             </Label>
          </top>
          <center>
-            <AnchorPane prefHeight="100.0" prefWidth="1160.0" BorderPane.alignment="CENTER">
+            <AnchorPane BorderPane.alignment="CENTER">
                <children>
-                  <TextFlow fx:id="infoBox" prefHeight="246.0" prefWidth="1160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TextFlow fx:id="infoBox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <Text fx:id="infoText" lineSpacing="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Egestas in pretium pretium convallis in egestas. Lacus, non enim commodo dis viverra fermentum nibh volutpat non. Metus, malesuada cras nunc, enim phasellus eu enim. Laoreet lectus feugiat sed rhoncus in purus placerat a, massa. Pulvinar enim ornare mauris, cras quam a. Nulla congue fames eu pellentesque." wrappingWidth="10.0">
                            <font>
@@ -37,35 +37,29 @@
                   </TextFlow>
                </children>
                <BorderPane.margin>
-                  <Insets left="80.0" right="20.0" />
+                  <Insets />
                </BorderPane.margin>
             </AnchorPane>
          </center>
          <bottom>
-            <AnchorPane prefHeight="504.0" prefWidth="1260.0" BorderPane.alignment="CENTER">
+            <AnchorPane BorderPane.alignment="CENTER">
                <children>
-                  <VBox fx:id="faqBox" prefHeight="200.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox fx:id="faqBox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <Label text="FAQ:">
                            <font>
                               <Font size="18.0" />
                            </font>
                            <VBox.margin>
-                              <Insets bottom="20.0" />
+                              <Insets />
                            </VBox.margin>
                         </Label>
-                        <Separator prefWidth="200.0" />
+                        <Separator />
                      </children>
-                     <padding>
-                        <Insets bottom="10.0" left="80.0" right="20.0" top="10.0" />
-                     </padding>
                   </VBox>
                </children>
             </AnchorPane>
          </bottom>
-         <padding>
-            <Insets left="10.0" right="10.0" />
-         </padding>
       </BorderPane>
    </children>
 </AnchorPane>
