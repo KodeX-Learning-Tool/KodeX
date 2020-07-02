@@ -11,139 +11,145 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane styleClass="main-view" stylesheets="@style.css" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+
+<AnchorPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox layoutX="126.0" layoutY="24.0" styleClass="network__header" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane styleClass="default-page" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
          <children>
-            <AnchorPane>
+            <VBox AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label layoutX="142.0" layoutY="92.0" styleClass="main-view__header" text="Netzwerk" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-               </children>
-            </AnchorPane>
-            <AnchorPane>
-               <children>
-                  <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <AnchorPane>
                      <children>
-                        <AnchorPane>
-                           <children>
-                              <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <GridPane>
-                                       <children>
-                                          <AnchorPane>
-                                             <children>
-                                                <Label styleClass="network__controll__input__label" text="IP:" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                             </children>
-                                          </AnchorPane>
-                                          <AnchorPane GridPane.rowIndex="2">
-                                             <children>
-                                                <Label styleClass="network__controll__input__label" text="Port:" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                             </children>
-                                          </AnchorPane>
-                                          <AnchorPane GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
-                                             <children>
-                                                <TextField styleClass="network__controll__input__text-field" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                             </children>
-                                          </AnchorPane>
-                                          <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                             <children>
-                                                <TextField styleClass="network__controll__input__text-field" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                             </children>
-                                          </AnchorPane>
-                                          <AnchorPane GridPane.rowIndex="1">
-                                             <children>
-                                                <Region styleClass="network__controll__connect_spring" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                             </children>
-                                          </AnchorPane>
-                                       </children>
-                                       <styleClass>
-                                          <String fx:value="network__controll__connect" />
-                                          <String fx:value="network__controll__input" />
-                                       </styleClass>
-                                       <columnConstraints>
-                                          <ColumnConstraints />
-                                          <ColumnConstraints />
-                                       </columnConstraints>
-                                       <rowConstraints>
-                                          <RowConstraints />
-                                          <RowConstraints />
-                                          <RowConstraints />
-                                       </rowConstraints>
-                                    </GridPane>
-                                    <Region styleClass="network__controll_spring" />
-                                    <Button mnemonicParsing="false" onAction="#handleSend" styleClass="default-button" text="Verbinden" />
-                                 </children>
-                              </VBox>
-                           </children>
-                        </AnchorPane>
-                        <Region styleClass="network__controll-list__spring" />
-                        <AnchorPane>
-                           <children>
-                              <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <GridPane styleClass="network__controll__input">
-                                       <children>
-                                          <AnchorPane>
-                                             <children>
-                                                <Label text="Deine IP:" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                   <styleClass>
-                                                      <String fx:value="network__controll__input__label" />
-                                                      <String fx:value="network__controll__input__top" />
-                                                   </styleClass>
-                                                </Label>
-                                             </children>
-                                          </AnchorPane>
-                                          <AnchorPane GridPane.rowIndex="1">
-                                             <children>
-                                                <Label text="Dein Port:" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                   <styleClass>
-                                                      <String fx:value="network__controll__input__label" />
-                                                      <String fx:value="network__controll__input__bottom" />
-                                                   </styleClass>
-                                                </Label>
-                                             </children>
-                                          </AnchorPane>
-                                          <AnchorPane GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
-                                             <children>
-                                                <TextField editable="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                   <styleClass>
-                                                      <String fx:value="network__controll__input__top" />
-                                                      <String fx:value="network__controll__input__text-field" />
-                                                   </styleClass>
-                                                </TextField>
-                                             </children>
-                                          </AnchorPane>
-                                          <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                             <children>
-                                                <TextField editable="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                   <styleClass>
-                                                      <String fx:value="network__controll__input__bottom" />
-                                                      <String fx:value="network__controll__input__text-field" />
-                                                   </styleClass>
-                                                </TextField>
-                                             </children>
-                                          </AnchorPane>
-                                       </children>
-                                       <columnConstraints>
-                                          <ColumnConstraints />
-                                          <ColumnConstraints />
-                                       </columnConstraints>
-                                       <rowConstraints>
-                                          <RowConstraints />
-                                          <RowConstraints />
-                                       </rowConstraints>
-                                    </GridPane>
-                                    <Region styleClass="network__controll_spring" />
-                                    <Button mnemonicParsing="false" onAction="#handleReceive" styleClass="default-button" text="Verbindung hosten" />
-                                 </children>
-                              </VBox>
-                           </children>
-                        </AnchorPane>
+                        <Label styleClass="main-view__header" text="Netzwerk" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
-                  </VBox>
+                  </AnchorPane>
+                  <Region styleClass="network__header__spring" />
+                  <AnchorPane>
+                     <children>
+                        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <AnchorPane>
+                                 <children>
+                                    <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <GridPane>
+                                             <children>
+                                                <AnchorPane>
+                                                   <children>
+                                                      <Label styleClass="network__controll__input__label" text="IP:" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                   </children>
+                                                </AnchorPane>
+                                                <AnchorPane GridPane.rowIndex="2">
+                                                   <children>
+                                                      <Label styleClass="network__controll__input__label" text="Port:" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                   </children>
+                                                </AnchorPane>
+                                                <AnchorPane GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
+                                                   <children>
+                                                      <TextField styleClass="network__controll__input__text-field" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                   </children>
+                                                </AnchorPane>
+                                                <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                                   <children>
+                                                      <TextField styleClass="network__controll__input__text-field" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                   </children>
+                                                </AnchorPane>
+                                                <AnchorPane GridPane.rowIndex="1">
+                                                   <children>
+                                                      <Region styleClass="network__controll__connect_spring" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                   </children>
+                                                </AnchorPane>
+                                             </children>
+                                             <styleClass>
+                                                <String fx:value="network__controll__connect" />
+                                                <String fx:value="network__controll__input" />
+                                             </styleClass>
+                                             <columnConstraints>
+                                                <ColumnConstraints />
+                                                <ColumnConstraints />
+                                             </columnConstraints>
+                                             <rowConstraints>
+                                                <RowConstraints />
+                                                <RowConstraints />
+                                                <RowConstraints />
+                                             </rowConstraints>
+                                          </GridPane>
+                                          <Region styleClass="network__controll_spring" />
+                                          <Button mnemonicParsing="false" onAction="#handleSend" styleClass="default-button" text="Verbinden" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                              <Region styleClass="network__controll-list__spring" />
+                              <AnchorPane>
+                                 <children>
+                                    <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <GridPane styleClass="network__controll__input">
+                                             <children>
+                                                <AnchorPane>
+                                                   <children>
+                                                      <Label text="Deine IP:" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                         <styleClass>
+                                                            <String fx:value="network__controll__input__label" />
+                                                            <String fx:value="network__controll__input__top" />
+                                                         </styleClass>
+                                                      </Label>
+                                                   </children>
+                                                </AnchorPane>
+                                                <AnchorPane GridPane.rowIndex="1">
+                                                   <children>
+                                                      <Label text="Dein Port:" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                         <styleClass>
+                                                            <String fx:value="network__controll__input__label" />
+                                                            <String fx:value="network__controll__input__bottom" />
+                                                         </styleClass>
+                                                      </Label>
+                                                   </children>
+                                                </AnchorPane>
+                                                <AnchorPane GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
+                                                   <children>
+                                                      <TextField editable="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                         <styleClass>
+                                                            <String fx:value="network__controll__input__top" />
+                                                            <String fx:value="network__controll__input__text-field" />
+                                                         </styleClass>
+                                                      </TextField>
+                                                   </children>
+                                                </AnchorPane>
+                                                <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                                   <children>
+                                                      <TextField editable="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                         <styleClass>
+                                                            <String fx:value="network__controll__input__bottom" />
+                                                            <String fx:value="network__controll__input__text-field" />
+                                                         </styleClass>
+                                                      </TextField>
+                                                   </children>
+                                                </AnchorPane>
+                                             </children>
+                                             <columnConstraints>
+                                                <ColumnConstraints />
+                                                <ColumnConstraints />
+                                             </columnConstraints>
+                                             <rowConstraints>
+                                                <RowConstraints />
+                                                <RowConstraints />
+                                             </rowConstraints>
+                                          </GridPane>
+                                          <Region styleClass="network__controll_spring" />
+                                          <Button mnemonicParsing="false" onAction="#handleReceive" styleClass="default-button" text="Verbindung hosten" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
                </children>
-            </AnchorPane>
+            </VBox>
          </children>
-      </VBox>
+      </AnchorPane>
    </children>
 </AnchorPane>
