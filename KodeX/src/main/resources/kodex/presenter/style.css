@@ -255,14 +255,35 @@
 
 /* Plugin-Menu */ 
 
-.plugin-menu__table {
+
+
+.plugin__spring {
+	-fx-pref-height: 40;
+}
+
+.plugin__button__container {
+	-fx-max-width: 800;
+	-fx-alignment:  center-right;
+}
+
+.plugin__button__spring {
+	-fx-pref-width: 30;
+}
+
+.plugin__table {
 	-fx-background-color: rgba(0, 0, 0, 0.05);
-	-fx-border-width: 1;
+	
+	-fx-border-width: 0.5;
 	-fx-border-style: solid;
 	-fx-boder-color: #000000;
 	-fx-border-radius: 5;
+	
+	-fx-max-width: 800;
 }
 
+.plugin__content .table-view .column-header, .plugin__content .table-view .filler {
+    -fx-background-color: #FBFBFB;
+}
 
 /* Help-Menu */
 
