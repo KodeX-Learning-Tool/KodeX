@@ -11,8 +11,11 @@
 .default-page {	
 	-fx-base: #FFFFFF; /* Default Background Color */
 	-fx-background-color: -fx-base;
-	-fx-border-radius: 36;
-	/* -fx-pref-width: 1066;*/ 	
+	-fx-background-radius: 34;
+	
+	-fx-border-radius: 34;
+	
+	-fx-padding: 75 0 0 140;
 }
 
 .default-page__content {
@@ -77,10 +80,6 @@
 
 /*main menu window styles */
 
-.main-view {
-	-fx-padding: 75 0 0 140;
-}
-
 .main-view__header {
 	
 	-fx-font-size: 24;
@@ -132,11 +131,13 @@
 
 /*Network-Menu*/
 
-.network__header {
-	-fx-spacing: 40;
+.network__header__spring {
+	-fx-min-height: 20;
+	-fx-max-height: 40;
 }
 
 .network__controll-list__spring {
+	-fx-min-height: 20;
 	-fx-pref-height: 100;
 }
 
@@ -250,14 +251,25 @@
 
 /* Help-Menu */
 
-.help-page__faq__element > .title  {
+.help__content {
+	-fx-max-width: 500;
+}
+
+.help__content__spring {
+	-fx-pref-height: 40;
+}
+
+#help__description {
+	-fx-wrap-text: true;
+	-fx-max-width: 500;
+}
+
+.help__faq__seperator {
+	-fx-max-width: 600;
+}
+
+.help__faq__title  {
 	-fx-background-color: -fx-base;
 	-fx-font-size: 18;
 	-fx-font-weight: bold;
-}
-
-.help-page__faq__element > .content > TextFlow {
-	-fx-background-color: -fx-base;
-	-fx-padding: 5px 30px 5px 30px;
-	-fx-font-size: 16;
 }
