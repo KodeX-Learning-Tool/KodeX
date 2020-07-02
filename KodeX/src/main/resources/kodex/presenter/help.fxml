@@ -39,11 +39,7 @@
                                                 </Label>
                                                          </children>
                                                       </AnchorPane>
-                                                      <AnchorPane>
-                                                         <children>
-                                                            <Separator styleClass="help__faq__seperator" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                                                         </children>
-                                                      </AnchorPane>
+                                                      <Separator styleClass="help__faq__seperator" />
                                                    </children>
                                                 </VBox>
                                              </children>
