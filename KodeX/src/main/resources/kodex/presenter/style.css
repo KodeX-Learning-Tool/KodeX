@@ -126,17 +126,20 @@
 	-fx-spacing: 40;
 }
 
-.network__controll-list {
-	-fx-spacing: 100;
+.network__controll-list__spring {
+	-fx-pref-height: 100;
 }
 
-.network__controll {
-	-fx-pref-width: 500;
-	-fx-spacing: 50;
+.network__controll_spring {
+	-fx-pref-height: 50;
 }
 
-.network__controll__connect {
-	-fx-vgap: 40;
+.network__controll__connect_spring {
+	-fx-pref-height: 40;
+}
+
+.network__controll__input {
+	-fx-max-width: 500;
 }
 
 .network__controll__input .network__controll__input__label, .network__controll__input .network__controll__input__text-field {
