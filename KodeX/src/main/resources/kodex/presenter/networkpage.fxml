@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
 <AnchorPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane styleClass="default-page" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
@@ -75,7 +74,7 @@
                                              </rowConstraints>
                                           </GridPane>
                                           <Region styleClass="network__controll_spring" />
-                                          <Button mnemonicParsing="false" onAction="#handleSend" styleClass="default-button" text="Verbinden" />
+                                          <Button mnemonicParsing="false" onAction="#handleSend" styleClass="default-button--shadow" text="Verbinden" />
                                        </children>
                                     </VBox>
                                  </children>
@@ -138,7 +137,7 @@
                                              </rowConstraints>
                                           </GridPane>
                                           <Region styleClass="network__controll_spring" />
-                                          <Button mnemonicParsing="false" onAction="#handleReceive" styleClass="default-button" text="Verbindung hosten" />
+                                          <Button mnemonicParsing="false" onAction="#handleReceive" styleClass="default-button--shadow" text="Verbindung hosten" />
                                        </children>
                                     </VBox>
                                  </children>
