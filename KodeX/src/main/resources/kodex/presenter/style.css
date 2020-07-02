@@ -37,19 +37,25 @@
 }
 
 .default-button--shadow {
+	
 	-fx-background-color: -fx-base;
+	
 	-fx-border-width: 0.09;
 	-fx-border-style: solid;
 	-fx-boder-color: #000000;
 	-fx-border-radius: 5;
+	
+	-fx-font-size: 18;
+	
 	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 4, 0, 1, 2);
+	
 	-fx-graphic-text-gap: 20;
+	
 	-fx-padding: 10;
 }
 
 .default-button--shadow:hover {
 	-fx-border-radius: 5;
-	-fx-border-insets: -2;
 	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 2, 4);
 }
 
