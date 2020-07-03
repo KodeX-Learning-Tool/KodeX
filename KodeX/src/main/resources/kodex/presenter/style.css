@@ -1,4 +1,10 @@
 /* Defaults */
+* {
+	-fx-base-color: #FFFFFF; /* Default Background Color */
+	-fx-root-color: #F0F3F7;
+}
+
+
 .label {
 	-fx-font-family: "Roboto";
 	-fx-font-size: 18;
@@ -131,6 +137,56 @@
 
 .side-menu__button:hover {
 	-fx-background-color: rgba(255, 255, 255 , 0.4);
+}
+
+.side-menu__button:selected {
+	-fx-background-color: rgba(255, 255, 255 , 0.4);
+}
+
+/*IndexPage-Menu*/
+
+.index-page {
+	-fx-border-radius: 36px;	
+	-fx-padding: 75px 0px 0px 140px;
+	-fx-background-color: -fx-root-color;
+}
+
+.index-page__scroll-pane {
+}
+
+.index-page__procedures-container {
+	-fx-background-color: -fx-root-color;
+	-fx-pref-columns: 3;
+	-fx-pref-tile-height: 400px;
+	-fx-alignment: center;
+	-fx-tile-alignment: center;
+	-fx-vgap: 10px;
+	-fx-hgap: 10px;
+}
+
+.index-page__procedure-tile {
+	-fx-background-color: -fx-base-color;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 2, 4);
+	-fx-background-radius: 24px;
+	-fx-padding: 5px;
+	-fx-alignment: center;
+	-fx-max-width: 280px;
+	-fx-min-width: 280px;
+}
+
+.index-page__procedure-tile--selected {
+	-fx-background-color: -fx-base-color;
+	-fx-effect: dropshadow(gaussian, rgba(163, 213, 224, 0.25), 10, 0, 4, 8);
+	-fx-background-radius: 24px;
+	-fx-padding: 5px;
+	-fx-alignment: center;
+	-fx-max-width: 280px;
+	-fx-min-width: 280px;
+}
+
+.index-page__procedure-tile--label {
+	-fx-wrap-text: true;
+	-fx-text-alignment: justify;
 }
 
 /*Network-Menu*/
