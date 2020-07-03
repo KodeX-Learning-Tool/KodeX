@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Locale;
 import java.util.Properties;
 
 
@@ -24,7 +25,7 @@ public class Language {
     private static Language instance;
 
     /* Liste mit allen verfügbaren Sprachen */
-    private List<String> languages;
+    private List<Locale> languages;
 
     /* Datei, welche aktuell gewählte Sprache beinhaltet */
     private File currentLanguageFile;
@@ -39,7 +40,7 @@ public class Language {
      * Konstruktor der Klasse Language. Da diese Klasse jedoch
      * ein Singleton ist, kann nur eine Instanz erzeugt werden
      */
-    private Language(String language) {
+    private Language(Locale language) {
     	currentLanguageFile = new File("Language_" + language + ".properties");
     	input = getClass().getClassLoader().getResourceAsStream(currentLanguageFile.toString());
     	try {
@@ -64,7 +65,7 @@ public class Language {
      * Gibt eine Liste aller vorhandenen Sprachen zurück
      * @return Liste mit allen verfügbaren Sprachen
      */
-    public List<String> getLanguageList() {
+    public List<Locale> getLanguageList() {
         return languages;
     }
 

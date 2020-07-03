@@ -1,90 +1,103 @@
 package kodex.model;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
+import java.util.Properties;
 
 /**
+ * Diese Klasse verwaltet das FAQ. Dabei ist ein fester Fragensatz lokal in 
+ * KodeX.Help_DE beziehungsweise KodeX.Help_EN gespeichert, der dann 
+ * mithilfe dieser Klasse ausgelesen werden kann.
  * 
+ * @author Patrick Spiesberger
+ * 
+ * @version 1.0
+ *
  */
 public class Help {
 
-    /**
-     * Default constructor
-     */
-    public Help() {
-    }
-
-    /**
-     * 
-     */
+	/* Liste mit allen geladenen Fragen */
     private List<String> questions;
 
-    /**
-     * 
-     */
+    /* Liste mit allen geladenen Antworten */
     private List<String> answers;
 
-    /**
-     * 
-     */
-    private List<String> info;
+    /* Lädt Informationen über das FAQ */
+    private String info;
 
-    /**
-     * 
-     */
+    /* Speichert die aktuelle Sprache */
     private Locale locale;
+    
+    /* Instanz der Property Datei */
+    private Properties prop = new Properties();
+    
+    /* Stream, zum einlesen der Datei */
+    private InputStream input = null;
 
 
     /**
-     * @param locale
+     * Setzt die Sprache, in welcher dann die Einträge für das FAQ geladen werden sollen
+     * @param locale : ausgewählte Sprache
      */
-    public void Help(Locale locale) {
-        // TODO implement here
+    public Help(Locale locale) {
+        this.locale = locale;
+    	input = getClass().getClassLoader().getResourceAsStream("Help_" + this.locale + ".properties");
+    	try {
+			prop.load(input);
+		} catch (IOException e) {
+			System.out.println("Error during reading File");
+		}
     }
 
     /**
-     * 
+     * Lädt die Fragen des FAQ zu der gegebenen Sprache
      */
     public void loadQuestions() {
-        // TODO implement here
+        for (int i = 1; i < prop.size(); i++) {
+        	questions.add(prop.getProperty("question" + i));
+        }
     }
 
     /**
-     * 
+     * Lädt die Antworten des FAQ zu der gegebenen Sprache
      */
     public void loadAnswers() {
-        // TODO implement here
+        for (int i = 1; i < prop.size(); i++) {
+        	answers.add(prop.getProperty("answer" + i));
+        }
     }
 
     /**
-     * 
+     * Lädt die Info des FAQ zu der gegebenen Sprache
      */
     public void loadInfo() {
-        // TODO implement here
+    	info = prop.getProperty(info);
     }
 
     /**
-     * @return
+     * Gibt eine Liste aller Fragen zurück
+     * @return Liste mit allen Fragen
      */
     public List<String> getQuestions() {
-        // TODO implement here
-        return null;
+        return questions;
     }
 
     /**
-     * @return
+     * Gibt eine Liste aller Antworten zurück
+     * @return Liste mit allen Antworten
      */
     public List<String> getAnswers() {
-        // TODO implement here
-        return null;
+    	return answers;
     }
 
     /**
-     * @return
+     * Gibt Informationen über das  FAQ zurück
+     * @return Text mit Informationen
      */
-    public List<String> getInfo() {
-        // TODO implement here
-        return null;
+    public String getInfo() {
+        return info;
     }
 
 }
