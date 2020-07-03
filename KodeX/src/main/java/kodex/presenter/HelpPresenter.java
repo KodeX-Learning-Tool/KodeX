@@ -7,13 +7,7 @@ import kodex.model.Help;
  * 
  */
 public class HelpPresenter extends Presenter {
-
-    /**
-     * Default constructor
-     */
-    public HelpPresenter() {
-    }
-
+	
     /**
      * 
      */
@@ -22,7 +16,7 @@ public class HelpPresenter extends Presenter {
     /**
      * @param pm
      */
-    public void HelpPresenter(PresenterManager pm) {
+    public HelpPresenter(PresenterManager pm) {
         // TODO implement here
     }
 
