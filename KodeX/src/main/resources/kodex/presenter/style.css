@@ -1,14 +1,14 @@
 /* Defaults */
-.root {
-	-fx-font-family: Roboto;
+.label {
+	-fx-font-family: "Roboto";
 	-fx-font-size: 18;
 }
 
 .default-page-title {
-	-fx-font-family: Roboto;
+	-fx-font-family: "Roboto";
 	-fx-font-weight: bold;
 	-fx-font-size: 24;
-	-fx-pref-height: 40;
+	-fx-alignment:  baseline-left;
 
 }
 
@@ -91,17 +91,6 @@
 
 
 .default-choice-box--shadow .menu-item:focused > .label { -fx-text-fill: white; }
-
-
-/*main menu window styles */
-
-.main-view__header {
-	
-	-fx-font-size: 24;
-	-fx-font-weight: bold;
-	
-	-fx-alignment:  baseline-left;
-}
 
 /* Side-Menu */ 
 
@@ -225,31 +214,42 @@
 
 /* Settings-Menu */ 
 
-.settings__textfield {
-	-fx-border-color: #F3F3F3;
-	-fx-border-radius: 0px 5px 0px 0px;
+.settings__spring {
+	-fx-pref-height: 50;
 }
 
-.settings__textfield__label {
+.settings__setting__spring {
+	-fx-pref-height: 30;
+}
+
+.settings__setting__input__spring {
+	-fx-pref-width: 10;
+}
+
+.settings__setting__input .label, .settings__setting__input .text-field {
+	-fx-font-size: 18;
+	
+	-fx-border-color: black;
+	-fx-border-width: 0.5;
+	
+	-fx-pref-height: 50;
+}
+
+.settings__setting__input .label {
+	-fx-background-color: #FFFFFF;
+	-fx-background-radius: 5 0 0 5;
+	
+	-fx-border-style: solid none solid solid;
+	-fx-border-radius: 5 0 0 5;
+	
+	-fx-label-padding: 0 13 0 13;
+}
+
+.settings__setting__input .text-field {
 	-fx-background-color: #FAFAFA;
-	-fx-border-width: 0.1px;
-	-fx-border-style: solid;
-	-fx-border-color: #000000;
-	-fx-border-radius: 5px 0px 0px 5px;
-}
-
-.settings__setting {
-	-fx-padding: 10px 20px 10px 20px;
-    -fx-border-insets: 10px 20px 10px 20px;
-    -fx-background-insets: 10px 20px 10px 20px;
-}
-
-.settings__restore-button {
-	-fx-padding: 30px 0px 0px 20px;
-    -fx-border-insets: 30px 0px 0px 20px;
-    -fx-background-insets: 30px 0px 0px 20px;
-    -fx-pref-width: 588px;
-    -fx-pref-height: 39px;
+	-fx-background-radius: 0 5 5 0;
+	
+	-fx-border-radius: 0 5 5 0;
 }
 
 
@@ -279,6 +279,10 @@
 	-fx-border-radius: 5;
 	
 	-fx-max-width: 1000;
+}
+
+.plugin__table .label {
+	-fx-font-size: 12;
 }
 
 .plugin__content .table-view .column-header, .plugin__content .table-view .filler {

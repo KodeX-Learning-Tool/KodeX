@@ -1,170 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.ToggleSwitch?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane styleClass="default-page" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.kit.uzidy.Prototype.SettingsPresenter">
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane styleClass="default-page" stylesheets="@style.css" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
          <children>
-            <Label text="Einstellungen">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-               <font>
-                  <Font name="System Bold" size="24.0" />
-               </font>
-            </Label>
-            <BorderPane styleClass="settings__setting">
-               <top>
-                  <Label text="Sprache:" BorderPane.alignment="BOTTOM_LEFT">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
+            <VBox AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label styleClass="default-page-title" text="Einstellungen">
                   </Label>
-               </top>
-               <center>
-                  <ChoiceBox fx:id="languageComboBox" styleClass="default-choice-box--shadow" BorderPane.alignment="CENTER_LEFT" />
-               </center>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </BorderPane>
-            <BorderPane styleClass="settings__setting">
-               <top>
-                  <Label text="Darkmode:" BorderPane.alignment="CENTER_LEFT">
-                     <BorderPane.margin>
-                        <Insets />
-                     </BorderPane.margin>
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-               </top>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-               <center>
-                  <HBox BorderPane.alignment="CENTER">
+                  <Region styleClass="settings__spring" />
+                  <VBox>
                      <children>
-                        <ToggleSwitch prefHeight="27.0" prefWidth="63.0" styleClass="toggle-switch" text="Aus ">
-                           <HBox.margin>
-                              <Insets bottom="10.0" top="10.0" />
-                           </HBox.margin>
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </ToggleSwitch>
-                     </children>
-                  </HBox>
-               </center>
-            </BorderPane>
-            <BorderPane prefHeight="60.0" styleClass="settings__setting">
-               <top>
-                  <Label text="Standard Port konfigurieren:" BorderPane.alignment="CENTER_LEFT">
-                     <BorderPane.margin>
-                        <Insets />
-                     </BorderPane.margin>
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-               </top>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-               <left>
-                  <HBox BorderPane.alignment="CENTER">
-                     <children>
-                        <Label styleClass="settings__textfield__label" text="Port:">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                           <padding>
-                              <Insets bottom="1.0" left="10.0" right="10.0" top="1.0" />
-                           </padding>
+                        <Label text="Sprache:">
                         </Label>
-                        <TextField onAction="#handlePort" styleClass="settings__textfield">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets right="10.0" />
-                           </HBox.margin>
-                        </TextField>
-                        <Button mnemonicParsing="false" onAction="#handleSubmit" text="Bestätigen" />
+                        <Region styleClass="settings__setting__spring" />
+                        <ChoiceBox fx:id="languageComboBox" styleClass="default-choice-box--shadow" />
                      </children>
-                     <BorderPane.margin>
-                        <Insets bottom="10.0" top="10.0" />
-                     </BorderPane.margin>
-                  </HBox>
-               </left>
-            </BorderPane>
-            <BorderPane styleClass="settings__setting">
-               <top>
-                  <Label text="Standard Speicherpfad:" BorderPane.alignment="CENTER_LEFT">
-                     <BorderPane.margin>
-                        <Insets />
-                     </BorderPane.margin>
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-               </top>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-               <left>
-                  <HBox prefHeight="32.0" BorderPane.alignment="CENTER">
+                  </VBox>
+                  <Region styleClass="settings__spring" />
+                  <VBox>
                      <children>
-                        <Label styleClass="settings__textfield__label" text="Pfad:">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                           <padding>
-                              <Insets bottom="1.0" left="10.0" right="10.0" top="1.0" />
-                           </padding>
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
+                        <Label text="Darkmode:">
                         </Label>
-                        <TextField onAction="#handlePath" styleClass="settings__textfield">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets right="10.0" />
-                           </HBox.margin>
-                        </TextField>
-                        <Button mnemonicParsing="false" onAction="#handleBrowse" text="Durchsuchen..." />
+                        <Region styleClass="settings__setting__spring" />
+                        <HBox>
+                           <children>
+                              <ToggleSwitch styleClass="toggle-switch" text="Aus ">
+                              </ToggleSwitch>
+                           </children>
+                        </HBox>
                      </children>
-                     <BorderPane.margin>
-                        <Insets bottom="10.0" top="10.0" />
-                     </BorderPane.margin>
-                  </HBox>
-               </left>
-            </BorderPane>
-            <Button mnemonicParsing="false" onAction="#handleRestore" styleClass="default-button--shadow" text="Einstellungen zurücksetzen">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
+                  </VBox>
+                  <Region styleClass="settings__spring" />
+                  <VBox>
+                     <children>
+                        <Label text="Standard Port konfigurieren:">
+                        </Label>
+                        <Region styleClass="settings__setting__spring" />
+                        <HBox styleClass="settings__setting__input">
+                           <children>
+                              <Label styleClass="settings__textfield__label" text="Port:">
+                              </Label>
+                              <TextField onAction="#handlePort" styleClass="settings__textfield">
+                              </TextField>
+                              <Region styleClass="settings__setting__input__spring" />
+                              <Button mnemonicParsing="false" onAction="#handleSubmit" styleClass="default-button--shadow">
+                                 <graphic>
+                                    <FontIcon iconLiteral="mdi-check" iconSize="20" />
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <Region styleClass="settings__spring" />
+                  <VBox>
+                     <children>
+                        <Label text="Standard Speicherpfad:">
+                        </Label>
+                        <Region styleClass="settings__setting__spring" />
+                        <HBox styleClass="settings__setting__input">
+                           <children>
+                              <Label styleClass="settings__textfield__label" text="Pfad:">
+                              </Label>
+                              <TextField onAction="#handlePath" styleClass="settings__textfield">
+                              </TextField>
+                              <Region styleClass="settings__setting__input__spring" />
+                              <Button mnemonicParsing="false" onAction="#handleBrowse" styleClass="default-button--shadow">
+                                 <graphic>
+                                    <FontIcon iconLiteral="mdi-folder-outline" iconSize="20" />
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <Region styleClass="settings__spring" />
+                  <Button mnemonicParsing="false" onAction="#handleRestore" styleClass="default-button--shadow" text="Einstellungen zurücksetzen">
+                  </Button>
+               </children>
+            </VBox>
          </children>
-      </VBox>
+      </AnchorPane>
    </children>
 </AnchorPane>
