@@ -19,7 +19,7 @@
 	
 	-fx-border-radius: 34;
 	
-	-fx-padding: 75 0 0 140;
+	-fx-padding: 72 0 0 144;
 }
 
 .default-page__scroll {
@@ -56,16 +56,16 @@
 	
 	-fx-font-size: 18;
 	
-	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 4, 0, 1, 2);
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 4, 0, 1, 2);
 	
-	-fx-graphic-text-gap: 20;
+	-fx-graphic-text-gap: 24;
 	
-	-fx-padding: 10;
+	-fx-padding: 8;
 }
 
 .default-button--shadow:hover {
 	-fx-border-radius: 5;
-	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 2, 4);
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 8, 0, 2, 4);
 }
 
 .default-choice-box--shadow {
@@ -84,7 +84,7 @@
 }
 
 .default-choice-box--shadow .menu-item > .label {
-	-fx-pref-width: 150px;
+	-fx-pref-width: 152px;
 }
 
 .default-choice-box--shadow .menu-item:focused { -fx-background-color: #0078D7; }
@@ -96,7 +96,7 @@
 
 .side-menu, .side-menu--mini, .side-menu__logo, .side-menu__button {
 	-fx-background-color: #002531;
-	-fx-pref-width: 250;
+	-fx-pref-width: 248;
 }
 
 .side-menu--mini {
@@ -136,17 +136,17 @@
 /*Network-Menu*/
 
 .network__header__spring {
-	-fx-min-height: 20;
+	-fx-min-height: 24;
 	-fx-max-height: 40;
 }
 
 .network__controll-list__spring {
-	-fx-min-height: 20;
+	-fx-min-height: 24;
 	-fx-pref-height: 100;
 }
 
 .network__controll_spring {
-	-fx-pref-height: 50;
+	-fx-pref-height: 48;
 }
 
 .network__controll__connect_spring {
@@ -154,7 +154,7 @@
 }
 
 .network__controll__input {
-	-fx-max-width: 500;
+	-fx-max-width: 640;
 }
 
 .network__controll__input .network__controll__input__label, .network__controll__input .network__controll__input__text-field {
@@ -163,7 +163,7 @@
 	-fx-border-color: black;
 	-fx-border-width: 0.5;
 	
-	-fx-pref-height: 50;
+	-fx-pref-height: 48;
 }
 
 .network__controll__input__label {
@@ -173,7 +173,7 @@
 	-fx-border-style: solid none solid solid;
 	-fx-border-radius: 5 0 0 5;
 	
-	-fx-label-padding: 0 13 0 13;
+	-fx-label-padding: 0 16 0 16;
 }
 
 .network__controll__input__text-field {
@@ -215,15 +215,15 @@
 /* Settings-Menu */ 
 
 .settings__spring {
-	-fx-pref-height: 50;
+	-fx-pref-height: 48;
 }
 
 .settings__setting__spring {
-	-fx-pref-height: 30;
+	-fx-pref-height: 32;
 }
 
 .settings__setting__input__spring {
-	-fx-pref-width: 10;
+	-fx-pref-width: 8;
 }
 
 .settings__setting__input .label, .settings__setting__input .text-field {
@@ -232,7 +232,7 @@
 	-fx-border-color: black;
 	-fx-border-width: 0.5;
 	
-	-fx-pref-height: 50;
+	-fx-pref-height: 48;
 }
 
 .settings__setting__input .label {
@@ -242,7 +242,7 @@
 	-fx-border-style: solid none solid solid;
 	-fx-border-radius: 5 0 0 5;
 	
-	-fx-label-padding: 0 13 0 13;
+	-fx-label-padding: 0 16 0 16;
 }
 
 .settings__setting__input .text-field {
@@ -267,7 +267,7 @@
 }
 
 .plugin__button__spring {
-	-fx-pref-width: 30;
+	-fx-pref-width: 32;
 }
 
 .plugin__table {
@@ -292,7 +292,7 @@
 /* Help-Menu */
 
 .help__content {
-	-fx-max-width: 500;
+	-fx-max-width: 640;
 }
 
 .help__content__spring {
@@ -302,11 +302,11 @@
 #help__description {
 	-fx-font-size: 18;
 	-fx-wrap-text: true;
-	-fx-max-width: 500;
+	-fx-max-width: 640;
 }
 
 .help__faq__seperator {
-	-fx-max-width: 600;
+	-fx-max-width: 680;
 }
 
 .help__faq__title  {
