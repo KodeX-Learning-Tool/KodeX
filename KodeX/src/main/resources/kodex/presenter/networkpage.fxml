@@ -19,7 +19,7 @@
                <children>
                   <AnchorPane>
                      <children>
-                        <Label styleClass="main-view__header" text="Netzwerk" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <Label styleClass="default-page-title" text="Netzwerk" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
                   <Region styleClass="network__header__spring" />
