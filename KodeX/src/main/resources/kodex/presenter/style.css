@@ -18,6 +18,11 @@
 
 }
 
+.default-root {
+	-fx-root-color: -fx-base;
+	-fx-padding: 16 16 16 16;
+}
+
 .default-page {	
 	-fx-base: #FFFFFF; /* Default Background Color */
 	-fx-background-color: -fx-base;
@@ -25,7 +30,7 @@
 	
 	-fx-border-radius: 34;
 	
-	-fx-padding: 72 0 0 144;
+	-fx-padding: 72 20 20 144;
 }
 
 .default-page__scroll {
@@ -146,9 +151,8 @@
 /*IndexPage-Menu*/
 
 .index-page {
-	-fx-border-radius: 36px;	
-	-fx-padding: 75px 0px 0px 140px;
 	-fx-background-color: -fx-root-color;
+	-fx-padding: 88 36 36 160;
 }
 
 .index-page__scroll-pane {

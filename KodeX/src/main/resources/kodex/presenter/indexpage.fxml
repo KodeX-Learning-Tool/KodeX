@@ -10,15 +10,15 @@
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane styleClass="index-page" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox styleClass="main-view__header" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <AnchorPane>
                <children>
                   <HBox>
                      <children>
-                        <Label text="Kodierungsverfahren" />
+                        <Label styleClass="default-page-title" text="Kodierungsverfahren" />
                         <Region />
                         <TextField fx:id="searchTextField" onKeyTyped="#handleSearch" promptText="Suchen..." styleClass="network__controll__input__text-field" />
                         <Region />
