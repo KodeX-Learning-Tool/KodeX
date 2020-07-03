@@ -10,6 +10,10 @@
 	-fx-font-size: 18;
 }
 
+.scroll-pane {
+	-fx-background-color:transparent;
+}
+
 .default-page-title {
 	-fx-font-family: "Roboto";
 	-fx-font-weight: bold;
@@ -34,7 +38,6 @@
 }
 
 .default-page__scroll {
-	-fx-background-color:transparent;
 	-fx-fit-to-width: true;
 }
 
@@ -81,7 +84,7 @@
 
 .default-choice-box--shadow {
 	-fx-background-color: -fx-base;
-	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 4, 0, 1, 2);
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 4, 0, 1, 2);
 	-fx-border-radius: 5px;
 	-fx-border-width: 0.05px;
 	-fx-border-style: solid;
@@ -155,7 +158,43 @@
 	-fx-padding: 88 36 36 160;
 }
 
+.index-page__header { }
+
+.index-page__header__spring {
+	-fx-min-width: 40;
+}
+
+.index-page__header__control__spring {
+	-fx-pref-width: 24;
+}
+
 .index-page__scroll-pane {
+	-fx-fit-to-width: true;
+}
+
+.index-page .combo-box {
+	-fx-font-size: 18;
+}
+
+.index-page__header .text-field {
+	-fx-font-size: 18;
+
+	-fx-border-width: 0.5;
+	-fx-border-radius: 0 5 5 0;
+	
+	-fx-background-color: #FAFAFA;
+	-fx-background-radius: 5 0 0 5;
+	
+	-fx-pref-height: 48;
+	
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 4, 0, 1, 2);
+}
+
+.index-page__header__search-label {
+	-fx-background-color: #FAFAFA;
+	-fx-background-radius: 0 5 5 0;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 4, 0, 1, 2);
+	-fx-padding: 0 12 0 12;
 }
 
 .index-page__procedures-container {
