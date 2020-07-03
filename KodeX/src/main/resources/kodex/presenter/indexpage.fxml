@@ -20,7 +20,7 @@
                      <children>
                         <Label text="Kodierungsverfahren" />
                         <Region />
-                        <TextField fx:id="searchTextField" onAction="#handleSearch" promptText="Suchen..." styleClass="network__controll__input__text-field" />
+                        <TextField fx:id="searchTextField" onKeyTyped="#handleSearch" promptText="Suchen..." styleClass="network__controll__input__text-field" />
                         <Region />
                         <ComboBox fx:id="filterComboBox" onAction="#handleFilterSelected" promptText="Filter" styleClass="default-choice-box--shadow" />
                      </children>
