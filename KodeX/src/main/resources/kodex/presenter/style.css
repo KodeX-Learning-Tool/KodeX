@@ -397,3 +397,9 @@
 .import--input {
 	
 }
+
+/* Overview */
+
+.overview__item {
+	-fx-content-display: center;
+}
