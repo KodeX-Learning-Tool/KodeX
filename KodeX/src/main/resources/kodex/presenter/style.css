@@ -464,6 +464,12 @@
 	-fx-icon-size: 80;
 }
 
+/* Input-Area */
+
+.input-area .text-area {
+	-fx-wrap-text: true;
+}
+
 /* Overview */
 
 .overview__item {
