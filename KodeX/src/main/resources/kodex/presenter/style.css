@@ -470,6 +470,10 @@
 	-fx-wrap-text: true;
 }
 
+.input-area__controls {
+	-fx-alignment: center-right;
+}
+
 /* Overview */
 
 .overview__item {
