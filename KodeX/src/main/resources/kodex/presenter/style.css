@@ -2,6 +2,11 @@
 * {
 	-fx-base-color: #FFFFFF; /* Default Background Color */
 	-fx-root-color: #F0F3F7;
+	-fx-base-icon-color: #757575;
+}
+
+.ikonli-font-icon {
+	-fx-icon-color: -fx-base-icon-color;
 }
 
 
@@ -23,13 +28,12 @@
 }
 
 .default-root {
-	-fx-root-color: -fx-base;
+	-fx-root-color: -fx-base-color;
 	-fx-padding: 16 16 16 16;
 }
 
 .default-page {	
-	-fx-base: #FFFFFF; /* Default Background Color */
-	-fx-background-color: -fx-base;
+	-fx-background-color: -fx-base-color;
 	-fx-background-radius: 34;
 	
 	-fx-border-radius: 34;
@@ -57,16 +61,20 @@
 	-fx-border-color: black;
 	-fx-border-width: 0.5;
 	-fx-border-radius: 5;
+	
+	-fx-background-radius: 5;
 }
 
 .default-button--shadow {
 	
-	-fx-background-color: -fx-base;
+	-fx-background-color: -fx-base-color;
 	
-	-fx-border-width: 0.09;
+	-fx-border-width: 0.1;
 	-fx-border-style: solid;
 	-fx-boder-color: #000000;
 	-fx-border-radius: 5;
+	
+	-fx-background-radius: 5;
 	
 	-fx-font-size: 18;
 	
@@ -83,17 +91,22 @@
 }
 
 .default-choice-box--shadow {
-	-fx-background-color: -fx-base;
+	-fx-background-color: -fx-base-color;
+	
 	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 4, 0, 1, 2);
+	
 	-fx-border-radius: 5px;
 	-fx-border-width: 0.05px;
 	-fx-border-style: solid;
 	-fx-boder-color:  rgba(0, 0, 0, 0.47);
+	
+	-fx-background-radius: 5;
+	
 	-fx-pref-width: 200px;
 }
 
 .default-choice-box--shadow .context-menu {
-	-fx-background-color: -fx-base;
+	-fx-background-color: -fx-base-color;
 	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 4, 0, 1, 2);
 }
 
@@ -409,7 +422,7 @@
 }
 
 .help__faq__title  {
-	-fx-background-color: -fx-base;
+	-fx-background-color: -fx-base-color;
 	-fx-font-size: 18;
 	-fx-font-weight: bold;
 }
@@ -433,8 +446,22 @@
 	-fx-alignment: center;
 }
 
-.import--input {
+.import__container__spring {
+	-fx-pref-width: 40;
+}
+
+.import__container .default-button--shadow {
+	-fx-content-display: top;
 	
+	
+	-fx-max-width: 400;
+	-fx-max-height: 400;
+	
+	-fx-padding: 16;
+}
+
+.import__icon {
+	-fx-icon-size: 80;
 }
 
 /* Overview */
