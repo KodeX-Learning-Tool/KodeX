@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TextFlow prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Text fx:id="headerText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+         </children></TextFlow>
+   </children>
+</AnchorPane>
