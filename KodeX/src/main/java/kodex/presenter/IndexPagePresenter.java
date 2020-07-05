@@ -62,13 +62,61 @@ public class IndexPagePresenter extends Presenter {
     }
     
     /**
-     * Die Methode wird ausgeführt, wenn der Benutzer auf ein Kodierungsverfahren klickt. 
-     * Wechselt den Presenter zum ProcedureLayoutPresenter, übergibt diesem das gewählte ProcedurePlugin
-     * und benachrichtigt den PresenterManger.
      */
-    public void handleProcedureSelected() {
-        // TODO implement here
-    }
+    
+	/**
+	 * This class represents a single procedure button. It loads a template via fxml
+	 * file and fills it with the information it has gotten from an instance of the 
+	 * ProcedureInformation class.
+	 * 
+	 * @author Raimon Gramlich
+	 * 
+	 * @version 1.0
+	 */
+	private class ProcedureButton extends VBox {
+			
+			@FXML
+			private Label procedureLabel;
+			
+			@FXML
+			private ImageView procedureIcon;
+			
+			
+			private ProcedurePlugin procedure;
+			private ProcedureInformation procedureInformation;
+			
+			ProcedureButton(ProcedurePlugin procedurePlugin) throws IOException {
+				
+				this.procedure = procedurePlugin;
+				
+				this.procedureInformation = procedurePlugin.createProcedureInformation();
+				
+				try {
+		            FXMLLoader loader = new FXMLLoader(getClass().getResource("procedurebutton.fxml"));
+		            loader.setController(this);
+		            loader.setRoot(this);
+		            loader.load();
+		        } catch (IOException exc) {
+		            throw new IOException(exc);
+		        }
+				
+				
+				procedureIcon.managedProperty().bind(procedureIcon.visibleProperty());
+				
+				procedureLabel.setText(procedureInformation.getName());		
+				procedureIcon.setImage(procedureInformation.getIcon());
+			}
+			
+		    /**
+		     * Die Methode wird ausgeführt, wenn der Benutzer auf ein Kodierungsverfahren klickt. 
+		     * Wechselt den Presenter zum ProcedureLayoutPresenter, übergibt diesem das gewählte ProcedurePlugin
+		     * und benachrichtigt den PresenterManger.
+		     */
+			@FXML
+			private void handleProcedureSelected() {
+				presenterManager.updatePresenter(presenterFactory.createProcedureLayoutPresenter(procedure));
+			}
+	 }
 
     /**
      * Die Methode wird ausgeführt, wenn der Benutzer die Suche nach Kodierungsverfahren bestätigt. 
