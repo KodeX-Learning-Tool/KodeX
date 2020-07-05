@@ -24,13 +24,8 @@ public class HelpPresenter extends Presenter {
      * @param pm : Der PresenterManager
      */
     public HelpPresenter(PresenterManager pm) {
-        // TODO implement here
+    	super(pm, "helppage");
     }
-
-	@Override
-	public AnchorPane getView() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
