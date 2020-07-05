@@ -38,7 +38,8 @@ public class SideMenuPresenter extends Presenter {
      * @param type The type of side menu that should be loaded.
      */
     public void changeSideMenuType(SideMenuTypes type) {
-        // TODO implement here
+        
+        super.loadFXML(type.toString()); //TODO us toString or if clause?
     }
 
     /**
