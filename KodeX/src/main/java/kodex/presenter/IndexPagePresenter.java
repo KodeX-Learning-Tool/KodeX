@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import kodex.model.Filter;
+import kodex.model.IndexPage;
 import kodex.model.PluginLoader;
 import kodex.plugininterface.ProcedureInformation;
 import kodex.plugininterface.ProcedurePlugin;
@@ -43,6 +44,9 @@ public class IndexPagePresenter extends Presenter {
 	
 	/** Allows the creation of other presenter to which the IndexPagePresenter can switch with. */
 	private PresenterFactory presenterFactory;
+	
+	/** Represents the model which stores the data for this presenter. */
+	private IndexPage indexPage;
 
     /**
      * Creates a new IndexPagePresenter with references to a PresenterManger 
