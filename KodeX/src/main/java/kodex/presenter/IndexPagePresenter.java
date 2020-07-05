@@ -1,10 +1,20 @@
 package kodex.presenter;
 
-import java.util.LinkedList;
-
+import java.io.IOException;
+import java.util.List;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
 import kodex.model.Filter;
+import kodex.model.PluginLoader;
+import kodex.plugininterface.ProcedureInformation;
 import kodex.plugininterface.ProcedurePlugin;
 
 /**
@@ -12,29 +22,45 @@ import kodex.plugininterface.ProcedurePlugin;
  * die verfügbaren Kodierungsverfahren an, wobei diese Auswahl durch Filter und Sucheingabe 
  * angepasst werden kann. Wird ein Verfahren ausgewählt so wird zum ProcedureLayoutPresenter gewechselt.
  * 
- * @author Yannick Neubert
+ * @author Yannick Neubert, Raimon Gramlich
  * 
  * @version 1.0
  */
 public class IndexPagePresenter extends Presenter {
 
+    /** The List of procedures which will be displayed on the index page.*/
+    private List<ProcedurePlugin> shownProcedures;
+    
+    /** A TextField which allows the user to input search terms. */
+	@FXML
+	private TextField searchTextField;
+	
+	/** A ComboBox for choosing categories for sorting or filtering the diplayed procedures. */
+	@FXML
+	private ComboBox<String> filterComboBox;
+	
+	/** ProcedureButtons, to be shown on the index page, will be dynamically added to this TilePane. */
+	@FXML
+	private TilePane procedureButtonPane;
+	
+	/** Allows the creation of other presenter to which the IndexPagePresenter can switch to. */
+	private PresenterFactory presenterFactory;
+
     /**
-     * Die Liste der anzuzeigenden Kodierungsverfahren.
+     * Creates a new IndexPagePresenter with references to a PresenterManger 
+     * and a PresenterFactory.
+     * @param pm : The reference to the PresenterManger.
+     * @param pf : The reference to the PresenterFactory.
      */
-    private LinkedList<ProcedurePlugin> shownProcedures;
-
-
-
-    /**
-     * Erstellt einen neuen IndexPagePresenter mit Referenzen zu einem PresenterManger 
-     * und einer PresenterFactory.
-     * @param pm : Die Referenz zum PresenterManger, um zu anderen Fenstern wechseln zu können.
-     * @param pf : Die Referenz zur PresenterFactory mit welcher der Presenter andere Presenter erstellen kann.
-     */
-    public void IndexPagePresenter(PresenterManager pm, PresenterFactory pf) {
-        // TODO implement here
+    public IndexPagePresenter(PresenterManager pm, PresenterFactory pf) {
+    	this.presenterManager = pm;
+    	this.presenterFactory = pf;
+    	
+    	PluginLoader pluginLoader = PluginLoader.getInstance();
+    	
+    	shownProcedures = pluginLoader.getEnabledProcedurePlugins();
     }
-
+    
     /**
      * Die Methode wird ausgeführt, wenn der Benutzer auf ein Kodierungsverfahren klickt. 
      * Wechselt den Presenter zum ProcedureLayoutPresenter, übergibt diesem das gewählte ProcedurePlugin
