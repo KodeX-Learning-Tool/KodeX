@@ -1,36 +1,67 @@
 package kodex.presenter;
 
+import java.io.IOException;
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+
 /**
- * Diese abstrakte Klasse ist die Überklasse für alle Haupt-Presenter.
- * Haupt-Presenter sind genau die Presenter, die den gesamten Fensterinhalt einnehmen 
- * zusätzlich des Seitenmenüs. Es ist zeigt gleichzeitig immer nur ein Haupt-Presenter 
- * zusammen mit dem Seitenmenü seine View an.
+ * This abstract class is a superclass for all main and side menu presenter.
+ * Main presenter are all presenter that extend this class.
  * 
+ * @author Leonhard Kraft
  * @author Yannick Neubert
  * 
  * @version 1.0
  */
 public abstract class Presenter implements IPresenter {
-	
+
     /**
-     * Die Referenz zum PresenterManger, um zu anderen Fenstern wechseln zu
-	 * können.
+     * The reference to the PresenterManager, needed to transition between main
+     * presenter classes.
      */
     protected PresenterManager presenterManager;
+    
+    /*
+     * Contains the view of a presenter. This view is automatically set in the constructor.
+     */
+    protected Parent view;
 
-    
-    
     /**
-     * Default constructor
+     * Creates a new main presenter with a reference to the PresenterManager.
+     * 
+     * @param presenterManager The reference to the PresenterManger, needed for
+     *                         switching the main presenter.
+     * @param fileName         The name of the FXML file that should be loaded for
+     *                         the subclass of this presenter.
      */
-    public Presenter() {
+    public Presenter(PresenterManager presenterManager, String fileName) {
+        this.presenterManager = presenterManager;
+
+        loadFXML(fileName);
     }
-    
-    /**
-     * Erstellt einen neuen Haupt-Presenter mit einer Referenz zu dem PresenterManager.
-     * @param pm : Die Referenz zum PresenterManger, um zu anderen Fenstern wechseln zu können.
+
+    /*
+     * Loads the FXML from the given FXML file name
      */
-    public Presenter(PresenterManager pm) {
-        // TODO implement here
+    private void loadFXML(String fileName) {
+
+        FXMLLoader loader = new FXMLLoader(Presenter.class.getResource(fileName + ".fxml"));
+
+        // set the controller for the FXMl object to make handling of GUI interactions
+        // possible
+        loader.setController(this);
+
+        try {
+            this.view = loader.load();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public Parent getView() {
+        return this.view;
     }
 }
