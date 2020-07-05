@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox styleClass="side-menu" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox styleClass="side-menu__logo" />
+            <Button mnemonicParsing="false" onAction="#handleIndexPage" styleClass="side-menu__button" text="Start">
+               <graphic>
+                  <FontIcon iconLiteral="mdi-home-outline" styleClass="side-menu__button" />
+               </graphic>
+			</Button>
+            <Button mnemonicParsing="false" onAction="#handleNetwork" styleClass="side-menu__button" text="Netzwerk">
+               <graphic>
+                  <FontIcon iconLiteral="mdi-share-variant" styleClass="side-menu__button" />
+               </graphic></Button>
+            <Button mnemonicParsing="false" onAction="#handleSettings" styleClass="side-menu__button" text="Einstellungen">
+               <graphic>
+                  <FontIcon iconLiteral="mdi-settings" styleClass="side-menu__button" />
+               </graphic></Button>
+            <Button mnemonicParsing="false" onAction="#handlePlugins" styleClass="side-menu__button" text="Plugins">
+               <graphic>
+                  <FontIcon iconLiteral="mdi-code-tags" styleClass="side-menu__button" />
+               </graphic></Button>
+            <Button mnemonicParsing="false" onAction="#handleHelp" styleClass="side-menu__button" text="Hilfe">
+               <graphic>
+                  <FontIcon iconLiteral="mdi-help-circle-outline" styleClass="side-menu__button" />
+               </graphic></Button>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
