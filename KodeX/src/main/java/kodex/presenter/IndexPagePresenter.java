@@ -29,7 +29,7 @@ import kodex.plugininterface.ProcedurePlugin;
 public class IndexPagePresenter extends Presenter {
 
     /** The List of procedures which will be displayed on the index page.*/
-    private List<ProcedurePlugin> shownProcedures;
+    private List<ProcedurePlugin> selectedProcedures;
     
     /** A TextField which allows the user to input search terms. */
 	@FXML
@@ -37,7 +37,7 @@ public class IndexPagePresenter extends Presenter {
 	
 	/** A ComboBox for choosing categories for sorting or filtering the diplayed procedures. */
 	@FXML
-	private ComboBox<String> filterComboBox;
+	private ComboBox<Filter> filterComboBox;
 	
 	/** ProcedureButtons, to be shown on the index page, will be dynamically added to this TilePane. */
 	@FXML
@@ -58,7 +58,7 @@ public class IndexPagePresenter extends Presenter {
     	
     	PluginLoader pluginLoader = PluginLoader.getInstance();
     	
-    	shownProcedures = pluginLoader.getEnabledProcedurePlugins();
+    	selectedProcedures = pluginLoader.getEnabledProcedurePlugins();
     }
     
     /**
@@ -70,7 +70,7 @@ public class IndexPagePresenter extends Presenter {
 	private void initialize() throws IOException {
 		
 		// adds the ProcedureButtons for each enabled procedure plugin
-		for (ProcedurePlugin procedure: shownProcedures) {
+		for (ProcedurePlugin procedure: selectedProcedures) {
 			procedureButtonPane.getChildren().add(new ProcedureButton(procedure));
 		}	
 	}
