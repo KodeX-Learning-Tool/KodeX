@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -120,9 +119,6 @@ public class IndexPagePresenter extends Presenter {
 		            throw new IOException(exc);
 		        }
 				
-				
-				procedureIcon.managedProperty().bind(procedureIcon.visibleProperty());
-				
 				procedureLabel.setText(procedureInformation.getName());		
 				procedureIcon.setImage(procedureInformation.getIcon());
 			}
@@ -169,21 +165,6 @@ public class IndexPagePresenter extends Presenter {
      * @param filter : The selected filter.
      */
     private void filterProcedures(Filter filter) {
-        // TODO implement here
-    }
-
-    /**
-     * Erstellt die Schaltflächen für die Kodierungsverfahren
-     */
-    private void createProcedureButtons() {
-        // TODO implement here
-    }
-
-    /**
-     * Fügt die Schaltflächen für die Kodierungsverfahren in die View ein
-     * @param procedure : Eine konkrete Schaltfläche
-     */
-    private void addProcedureButton(Button procedure) {
         // TODO implement here
     }
 
