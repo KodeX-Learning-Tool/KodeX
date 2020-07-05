@@ -3,6 +3,6 @@ module kodex.KodeX {
     requires javafx.fxml;
 	requires javafx.graphics;
 
-    opens kodex to javafx.fxml;
+    opens kodex.presenter to javafx.fxml;
     exports kodex;
 }
