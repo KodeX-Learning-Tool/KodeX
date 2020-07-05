@@ -13,45 +13,51 @@ import kodex.model.PluginLoader;
 import kodex.plugininterface.Pluginable;
 
 /**
- * Dieser Presenter ist für die Pluginmenüseite zuständig. Auf dieser Seite werden die Plugins 
- * in einer Tabelle mit weiteren Information aufgelistet, wo man sie (de-)aktivieren 
- * oder auch neue Plugins hinzufügen bzw. geladene Plugins entfernen kann.
+ * This presenter is responsible for the plugins menu. In this menu the plugins are displayed
+ * in a table, where you can activate or deactivate the plugins as well as add new plugins or remove
+ * already loaded plugins from the program entirely.
  * 
  * @author Yannick Neubert
+ * @author Raimon Gramlich
  * 
  * @version 1.0
  */
 public class PluginMenuPresenter extends Presenter {
 	
+	/** The Table which displays information about the plugins.*/
 	@FXML
 	TableView<Pluginable> pluginTable;
 	
+	/** The Column with check boxes allows the user to enable or disable selected plugins.*/
 	@FXML
 	TableColumn<Pluginable, Boolean> checkBoxColumn;
 	
+	/** The Column which displays the names of the plugin.*/
 	@FXML 
 	TableColumn<Pluginable, String> nameColumn;
 	
+	/** The Column which displays the descriptions of the plugins.*/
 	@FXML 
 	TableColumn<Pluginable, String> descriptionColumn;
 	
-    /**
-     * Die Instanz des PluginLoaders mit seiner liste an Plugins
-     */
+    /** The instance of the PluginLoader class which you can use to work with the loaded plugins. */
     private PluginLoader pluginLoader;
 
-
-
     /**
-     * Erstellt einen neuen PluginPresenter mit einer Referenz zu einem PresenterManger.
-     * @param pm : Der PresenterManager
+     * Creates a new PluginPresenter with a reference to a PresenterManger.
+     * @param pm : The reference to the PresenterManager
      */
     public PluginMenuPresenter(PresenterManager pm) {
         super(pm, "pluginpage");
         
+        // get a PluginLoader instance
         pluginLoader = PluginLoader.getInstance();
     }
     
+    /**
+     * Initializes the view-object created by the FXMLLoader.
+     * It fills the table with data gathered from the PluginLoader.
+     */
 	@FXML
 	private void initialize() {		
 		/*
@@ -75,8 +81,8 @@ public class PluginMenuPresenter extends Presenter {
 	}
 
     /**
-     * Die Methode wird ausgeführt, wenn der Benutzer auf die Schaltfläche zum Hinzufügen 
-     * eines Plugins klickt. Öffnet den System-Explorer zum Auswählen des Plugins und lädt diesen falls möglich.
+     * Gets called when the user clicks on the button for adding new plugins.
+     * Opens the system-explorer to let the user choose the plugin and loads it if possible.
      */
 	@FXML
 	private void handleAddPlugin() throws IOException {
@@ -92,8 +98,8 @@ public class PluginMenuPresenter extends Presenter {
 	}
 
     /**
-     * Die Methode wird ausgeführt, wenn der Benutzer auf die Schaltfläche zum Entfernen 
-     * eines Plugins klickt. Löscht das Plugin aus dem Plugins-Ordner.
+     * Gets called when the user clicks on the button for removing plugins.
+     * Deletes the selected plugin if possible.
      */
 	@FXML
 	private void handleRemovePlugin() throws IOException {
@@ -106,8 +112,8 @@ public class PluginMenuPresenter extends Presenter {
 	}
 
     /**
-     * Die Methode wird ausgeführt, wenn der Benutzer auf die Schaltfläche zum Aktualisieren 
-     * eines Plugins klickt. Lädt alle Plugins im Plugin-Ordner.
+     * Gets called when the user clicks on the button for refreshing the plugin list. 
+     * Reloads the whole plugin folder.
      */
 	@FXML
     public void handleRefreshPlugins() {
