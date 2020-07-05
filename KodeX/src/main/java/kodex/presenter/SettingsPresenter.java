@@ -65,11 +65,4 @@ public class SettingsPresenter extends Presenter {
     private void showRestartDialog() {
         // TODO implement here
     }
-
-	@Override
-	public AnchorPane getView() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
