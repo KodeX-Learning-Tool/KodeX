@@ -80,7 +80,7 @@ public class HelpPresenter extends Presenter {
 			String question = qIt.next();
 			String answer = aIt.next();
 			
-			faq.add(createFAQElement(question, answer));
+			faq.add(createFAQItems(question, answer));
 		}
 		
 		// get the information about the program and display it
@@ -90,9 +90,9 @@ public class HelpPresenter extends Presenter {
 		
 		infoText.setText(text);
 		
-		for (TitledPane element: faq) {
-			faqBox.getChildren().add(element);
 		// add all FAQ items to the view
+		for (TitledPane item: faq) {
+			faqBox.getChildren().add(item);
 			faqBox.getChildren().add(new Separator());
 		}
 	}
@@ -109,11 +109,11 @@ public class HelpPresenter extends Presenter {
 		TextFlow answerBlock = new TextFlow(new Text(answer));
 		answerBlock.getStyleClass().add("help-page__faq__element__content");
 		answerBlock.setPadding(new Insets(0,0,0,50));
-		TitledPane element = new TitledPane("Q: " + question, answerBlock);
-		element.getStyleClass().add("help-page__faq__element");
-		element.setExpanded(false);
-		return element;
 		
 		// create the FAQ item and set the question as the title and the answer as the content
+		TitledPane item = new TitledPane("Q: " + question, answerBlock);
+		item.getStyleClass().add("help-page__faq__element");
+		item.setExpanded(false);
+		return item;
 	}
 }
