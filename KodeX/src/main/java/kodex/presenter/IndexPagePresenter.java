@@ -8,7 +8,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import kodex.model.Filter;
@@ -42,7 +41,7 @@ public class IndexPagePresenter extends Presenter {
 	@FXML
 	private TilePane procedureButtonPane;
 	
-	/** Allows the creation of other presenter to which the IndexPagePresenter can switch to. */
+	/** Allows the creation of other presenter to which the IndexPagePresenter can switch with. */
 	private PresenterFactory presenterFactory;
 
     /**
@@ -55,8 +54,8 @@ public class IndexPagePresenter extends Presenter {
     	this.presenterManager = pm;
     	this.presenterFactory = pf;
     	
+    	// get the enabled procedure plugins
     	PluginLoader pluginLoader = PluginLoader.getInstance();
-    	
     	selectedProcedures = pluginLoader.getEnabledProcedurePlugins();
     }
     
