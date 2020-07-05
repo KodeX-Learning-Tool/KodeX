@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
 <AnchorPane styleClass="default-root" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
@@ -21,11 +20,7 @@
                            <children>
                               <Label styleClass="default-page-title" text="Hilfe">
                         </Label>
-                              <TextFlow id="help__description" fx:id="infoBox">
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Egestas in pretium pretium convallis in egestas. Lacus, non enim commodo dis viverra fermentum nibh volutpat non. Metus, malesuada cras nunc, enim phasellus eu enim. Laoreet lectus feugiat sed rhoncus in purus placerat a, massa. Pulvinar enim ornare mauris, cras quam a. Nulla congue fames eu pellentesque." />
-                                 </children>
-                              </TextFlow>
+                              <TextFlow id="help__description" fx:id="infoBox" />
                               <Region styleClass="help__content__spring" />
                               <VBox fx:id="faqBox">
                                  <children>
