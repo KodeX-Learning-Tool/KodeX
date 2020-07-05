@@ -108,7 +108,6 @@ public class IndexPagePresenter extends Presenter {
 			ProcedureButton(ProcedurePlugin procedurePlugin) throws IOException {
 				
 				this.procedure = procedurePlugin;
-				
 				this.procedureInformation = procedurePlugin.createProcedureInformation();
 				
 				// loads the template
@@ -141,15 +140,17 @@ public class IndexPagePresenter extends Presenter {
     /**
      * Gets called when the user writes something in the search text field. 
      */
-    public void handleSearch() {
-        // TODO implement here
+	@FXML
+	private void handleSearch() {
+        searchProcedures(searchTextField.getText());
     }
 
     /**
      * Gets called when the user selects an item in the combo box. 
      */
-    public void handleFilter() {
-        // TODO implement here
+	@FXML
+	private void handleFilterSelected() {
+        filterProcedures(filterComboBox.getSelectionModel().getSelectedItem());
     }
 
     /**
