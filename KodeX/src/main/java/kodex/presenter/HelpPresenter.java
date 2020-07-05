@@ -25,7 +25,8 @@ public class HelpPresenter extends Presenter {
      */
     public HelpPresenter(PresenterManager pm) {
     	super(pm, "helppage");
+    	
+    	help = new Help();
     }
 	}
-
 }
