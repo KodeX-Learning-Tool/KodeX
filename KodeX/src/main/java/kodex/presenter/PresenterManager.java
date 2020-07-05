@@ -1,15 +1,16 @@
 package kodex.presenter;
 
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import kodex.model.SideMenuTypes;
 
 /**
- * Diese Klasse verwaltet die Haupt-Presenter und hat die Referenz zu dem Fenster, 
- * das angezeigt werden soll. Sie baut aus den einzelnen View-Objekten, die sie anfordert, 
- * eine zusammenhängende View für das Programm und zeigt sie im Fenster an.
  * 
+ * This class manages the main presenters and keeps a reference to the root stage.
+ * It gets the views for the root stage from its current presenter and side menu presenter.
+ * 
+ * @author Leonhard Kraft
  * @author Yannick Neubert
  * 
  * @version 1.0
@@ -17,75 +18,91 @@ import kodex.model.SideMenuTypes;
 public class PresenterManager {
 
     /**
-     * Die root Stage des Programms
+     * The root stage of the application.
      */
     private Stage rootStage;
 
     /**
-     * Der momentan aktive Haupt-Presenter
+     * The current, active main presenter.
      */
     private Presenter currentPresenter;
 
     /**
-     * Der Seitenmenü Presenter
+     * The side menu presenter.
      */
     private SideMenuPresenter sideMenuPresenter;
 
     /**
-     * Die Hauptsicht ohne das Seitenmenü
-     */
-    private AnchorPane mainView;
-
-    /**
-     * Die Sicht des Seitenmenüs
-     */
-    private AnchorPane sideMenuView;
-
-    /**
-     * Das Layout für den Presenter Manager
+     * The layout for the scene contained in the root stage.
      */
     private BorderPane rootLayout;
-
-
     
     /**
-     * Erstellt einen neuen PresenterManager mit einer Referenz zu der Stage;
-     * das Fenster, in dem alles angezeigt wird
-     * @param rootStage : Die root Stage des Programms
+     * Creates a new PresenterManaegr with a reference to the root stage.
+     * 
+     * @param rootStage The root stage of the application.
      */
     public PresenterManager(Stage rootStage) {
-        // TODO implement here
+        
+        this.rootStage = rootStage;
+        
+        //BorderPane is used, because it allowes to set the center (main page) and left (side menu)
+        this.rootLayout = new BorderPane();
+        
+        //create Scene with a BorderPane Layout for the root stage
+        Scene rootScene = new Scene(rootLayout);
+        rootStage.setScene(rootScene);
     }
 
     /**
-     * Die Methode holt sich das aktuelle View-Objekt vom momentan aktiven Presenter.
+     * This method initiates the updating of the main view by setting the center of the BorderPane layout
+     * with the view of the current presenter.
      */
-    public void updateMainView() {
-        // TODO implement here
+    private void updateMainView() {
+        
+        this.rootLayout.setCenter(this.currentPresenter.getView());
+    }
+    
+    /**
+     * This method initiates the updating of the side menu view by setting the left side of the BorderPane layout
+     * with the view of the SideMenuPresenter.
+     */
+    private void updateSideMenuView() {
+        
+        this.rootLayout.setLeft(this.sideMenuPresenter.getView());
     }
 
     /**
-     * Die Methode setzt den benötigten Seitenmenütyp im SideMenuPresenter
-     * und holt sich das aktuelle View-Objekt vom SideMenuPresenter.
-     * @param type : Der Typ des Seitenmenüs
+     * This method sets the desired side menu type in the SideMenuPresenter and 
+     * refreshes the displayed view.
+     * 
+     * @param type The desired side menu type.
      */
     public void updateSideMenuView(SideMenuTypes type) {
-        // TODO implement here
+        
+        this.sideMenuPresenter.changeSideMenuType(type);
+        updateSideMenuView();
     }
 
     /**
-     * Die Methode setzt den Presenter der als nächstes anzeigen darf.
-     * @param newPresenter : Der nächste Haupt-Presenter, der seine View anzeigen soll.
+     * This method sets the presenter that is currently active and displays its view.
+     * 
+     * @param newPresenter The main presenter that should display its view next.
      */
     public void updatePresenter(Presenter newPresenter) {
-        // TODO implement here
+        
+        this.currentPresenter = newPresenter;
+        updateMainView();
     }
 
     /**
-     * Die Methode setzt den SideMenuPresenter.
-     * @param smp : Der Presenter für das Seitenmenü.
+     * This method sets the SideMenuPresenter and displays its view.
+     * 
+     * @param sideMenuPresenter The SideMenuPresenter for the displayed side menu.
      */
-    public void setSideMenuPresenter(SideMenuPresenter smp) {
-        // TODO implement here
+    public void setSideMenuPresenter(SideMenuPresenter sideMenuPresenter) {
+        
+        this.sideMenuPresenter = sideMenuPresenter;
+        updateSideMenuView();
     }
 }
