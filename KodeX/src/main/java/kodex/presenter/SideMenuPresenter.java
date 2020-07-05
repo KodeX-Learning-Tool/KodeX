@@ -32,51 +32,51 @@ public class SideMenuPresenter extends Presenter {
 
     /**
      * This method changes the type of the side menu. It can be switched between a
-     * standard and a minimized side menu.
-     * The type decides what FXML file should be loaded.
+     * standard and a minimized side menu. The type decides what FXML file should be
+     * loaded.
      * 
      * @param type The type of side menu that should be loaded.
      */
     public void changeSideMenuType(SideMenuTypes type) {
-        
-        super.loadFXML(type.toString()); //TODO us toString or if clause?
+
+        super.loadFXML(type.toString()); // TODO us toString or if clause?
     }
 
     /**
-     * This method is executed when the user clicks on the index page button.
-     * It initiates the change to a IndexPagePresenter.
+     * This method is executed when the user clicks on the index page button. It
+     * initiates the change to a IndexPagePresenter.
      */
     public void handleIndexPage() {
         this.presenterManager.updatePresenter(this.presenterFactroy.createIndexPagePresenter());
     }
 
     /**
-     * This method is executed when the user clicks on the network button.
-     * It initiates the change to a NetworkPresenter.
+     * This method is executed when the user clicks on the network button. It
+     * initiates the change to a NetworkPresenter.
      */
     public void handleNetwork() {
         this.presenterManager.updatePresenter(this.presenterFactroy.createNetworkPresenter());
     }
 
     /**
-     * This method is executed when the user clicks on the settings button.
-     * It initiates the change to a SettingsPresenter.
+     * This method is executed when the user clicks on the settings button. It
+     * initiates the change to a SettingsPresenter.
      */
     public void handleSettings() {
         this.presenterManager.updatePresenter(this.presenterFactroy.createSettingsPresenter());
     }
 
     /**
-     * This method is executed when the user clicks on the plugins button.
-     * It initiates the change to a PluginPresenter.
+     * This method is executed when the user clicks on the plugins button. It
+     * initiates the change to a PluginPresenter.
      */
     public void handlePlugins() {
         this.presenterManager.updatePresenter(this.presenterFactroy.createPluginMenuPresenter());
     }
 
     /**
-     * This method is executed when the user clicks on the help button.
-     * It initiates the change to a HelpPresenter.
+     * This method is executed when the user clicks on the help button. It initiates
+     * the change to a HelpPresenter.
      */
     public void handleHelp() {
         this.presenterManager.updatePresenter(this.presenterFactroy.createHelpPresenter());
