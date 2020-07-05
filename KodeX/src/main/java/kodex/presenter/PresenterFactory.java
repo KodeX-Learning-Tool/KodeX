@@ -3,8 +3,9 @@ package kodex.presenter;
 import kodex.plugininterface.ProcedurePlugin;
 
 /**
- * Diese Klasse erstellt und gibt Instanzen von Haupt-Presentern zurück.
+ * This class is a factory to create and return instances of main presenters.
  * 
+ * @author Leonhard Kraft
  * @author Yannick Neubert
  * 
  * @version 1.0
@@ -12,83 +13,83 @@ import kodex.plugininterface.ProcedurePlugin;
 public class PresenterFactory {
 
     /**
-     * Der PresenterManager, der die Haupt-Presenter verwaltet
+     * The PresenterManager, that manages the current presenter and the root stage.
      */
     private PresenterManager presenterManager;
 
-    
-    
     /**
-     * Erstellt eine neue PresenterFactory mit einer Referenz zu dem PresenterManager.
-     * @param pm : Die Referenz zum PresenterManger, um sie den erstellten Presentern übergeben zu können.
+     * Creates a new PresenterFactory with a reference to the PresenterManager.
+     * 
+     * @param presenterManager The reference to the PresenterManger, to hand it over
+     *                         to the created Presenters.
      */
-    public void PresenterFactory(PresenterManager pm) {
-        // TODO implement here
+    public PresenterFactory(PresenterManager presenterManager) {
+        this.presenterManager = presenterManager;
     }
 
     /**
-     * Die Methode erstellt und gibt eine Instanz vom SideMenuPresenter zurück.
-     * @return Eine neue Instanz vom SideMenuPresenter.
+     * This Method creates and returns an Instance of a SideMenuPresenter.
+     * 
+     * @return A new Instance of a SideMenuPresenter.
      */
     public SideMenuPresenter createSideMenuPresenter() {
-        // TODO implement here
-        return null;
+        return new SideMenuPresenter(this.presenterManager, this);
     }
 
     /**
-     * Die Methode erstellt und gibt eine Instanz vom IndexPagePresenter zurück.
-     * @return Eine neue Instanz vom IndexPagePresenter.
+     * This Method creates and returns an Instance of a IndexPagePresenter.
+     * 
+     * @return A new Instance of a IndexPagePresenter.
      */
     public IndexPagePresenter createIndexPagePresenter() {
-        // TODO implement here
-        return null;
+        return new IndexPagePresenter(this.presenterManager, this);
     }
 
     /**
-     * Die Methode erstellt und gibt eine Instanz vom NetworkPresenter zurück.
-     * @return Eine neue Instanz vom NetworkPresenter.
+     * This Method creates and returns an Instance of a NetworkPresenter.
+     * 
+     * @return A new Instance of a NetworkPresenter.
      */
     public NetworkPresenter createNetworkPresenter() {
-        // TODO implement here
-        return null;
+        return new NetworkPresenter(this.presenterManager);
     }
 
     /**
-     * Die Methode erstellt und gibt eine Instanz vom SettingsPresenter zurück.
-     * @return Eine neue Instanz vom SettingsPresenter.
+     * This Method creates and returns an Instance of a SettingsPresenter.
+     * 
+     * @return A new Instance of a SettingsPresenter.
      */
     public SettingsPresenter createSettingsPresenter() {
-        // TODO implement here
-        return null;
+        return new SettingsPresenter(this.presenterManager);
     }
 
     /**
-     * Die Methode erstellt und gibt eine Instanz vom PluginsMenuPresenter zurück.
-     * @return Eine neue Instanz vom PluginMenuPresenter.
+     * This Method creates and returns an Instance of a PluginsMenuPresenter.
+     * 
+     * @return A new Instance of a PluginMenuPresenter.
      */
     public PluginMenuPresenter createPluginMenuPresenter() {
-        // TODO implement here
-        return null;
+        return new PluginMenuPresenter(this.presenterManager);
     }
 
     /**
-     * Die Methode erstellt und gibt eine Instanz vom HelpPresenter zurück.
-     * @return Eine neue Instanz vom HelpPresenter.
+     * This Method creates and returns an Instance of a HelpPresenter.
+     * 
+     * @return A new Instance of a HelpPresenter.
      */
     public HelpPresenter createHelpPresenter() {
-        // TODO implement here
-        return null;
+        return new HelpPresenter(this.presenterManager);
     }
 
     /**
-     * Die Methode erstellt und gibt eine Instanz vom ProcedureLayoutPresenter zurück.
-     * Dieser Instanz muss auch das anzuzeigende ProcedurePlugin übergeben werden.
-     * @param pp : Das aktive Kodierungsverfahren, welches ausgewählt wurde.
-     * @return Eine neue Instanz vom ProcedureLayoutPresenter.
+     * This Method creates and returns an Instance of a ProcedureLayoutPresenter. To
+     * create the instance the ProcedurePlugin that should be displayed is needed.
+     * 
+     * @param procedurePluginThe active procedure, that has been chosen.
+     * @return A new Instance of a ProcedureLayoutPresenter.
      */
-    public ProcedureLayoutPresenter createProcedureLayoutPresenter(ProcedurePlugin pp) {
-        // TODO implement here
-        return null;
+    public ProcedureLayoutPresenter createProcedureLayoutPresenter(ProcedurePlugin procedurePlugin) {
+        return new ProcedureLayoutPresenter(this.presenterManager, procedurePlugin);
     }
 
 }
