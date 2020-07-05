@@ -62,7 +62,18 @@ public class IndexPagePresenter extends Presenter {
     }
     
     /**
+     * Initializes the view-object created by the FXMLLoader.
+     * 
+     * @throws IOException is thrown when the fxml file couldn't get loaded properly.
      */
+	@FXML
+	private void initialize() throws IOException {
+		
+		// adds the ProcedureButtons for each enabled procedure plugin
+		for (ProcedurePlugin procedure: shownProcedures) {
+			procedureButtonPane.getChildren().add(new ProcedureButton(procedure));
+		}	
+	}
     
 	/**
 	 * This class represents a single procedure button. It loads a template via fxml
