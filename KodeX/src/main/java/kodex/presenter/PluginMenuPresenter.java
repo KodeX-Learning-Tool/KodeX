@@ -25,7 +25,7 @@ public class PluginMenuPresenter extends Presenter {
      * Erstellt einen neuen PluginPresenter mit einer Referenz zu einem PresenterManger.
      * @param pm : Der PresenterManager
      */
-    public void PluginPresenter(PresenterManager pm) {
+    public PluginMenuPresenter(PresenterManager pm) {
         // TODO implement here
     }
 
