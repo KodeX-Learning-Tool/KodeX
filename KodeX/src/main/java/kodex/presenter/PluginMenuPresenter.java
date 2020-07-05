@@ -17,7 +17,7 @@ public class PluginMenuPresenter extends Presenter {
     /**
      * Die Instanz des PluginLoaders mit seiner liste an Plugins
      */
-    private PluginLoader plugins;
+    private PluginLoader pluginLoader;
 
 
 
@@ -27,6 +27,8 @@ public class PluginMenuPresenter extends Presenter {
      */
     public PluginMenuPresenter(PresenterManager pm) {
         super(pm, "pluginpage");
+        
+        pluginLoader = PluginLoader.getInstance();
     }
 
     /**
