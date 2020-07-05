@@ -51,7 +51,7 @@ public class IndexPagePresenter extends Presenter {
      * @param pf : The reference to the PresenterFactory.
      */
     public IndexPagePresenter(PresenterManager pm, PresenterFactory pf) {
-    	this.presenterManager = pm;
+    	super(pm, "indexpage");
     	this.presenterFactory = pf;
     	
     	// get the enabled procedure plugins
@@ -166,11 +166,4 @@ public class IndexPagePresenter extends Presenter {
     private void filterProcedures(Filter filter) {
         // TODO implement here
     }
-
-	@Override
-	public AnchorPane getView() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
