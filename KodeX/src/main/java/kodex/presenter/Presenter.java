@@ -44,7 +44,7 @@ public abstract class Presenter implements IPresenter {
     /*
      * Loads the FXML from the given FXML file name
      */
-    private void loadFXML(String fileName) {
+    protected void loadFXML(String fileName) {
 
         FXMLLoader loader = new FXMLLoader(Presenter.class.getResource(fileName + ".fxml"));
 
