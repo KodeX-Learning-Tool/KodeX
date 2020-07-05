@@ -3,7 +3,7 @@ package kodex.presenter;
 import java.io.IOException;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+import javafx.scene.layout.Pane;
 
 /**
  * This abstract class is a superclass for all main and side menu presenter.
@@ -21,11 +21,12 @@ public abstract class Presenter implements IPresenter {
      * presenter classes.
      */
     protected PresenterManager presenterManager;
-    
+
     /*
-     * Contains the view of a presenter. This view is automatically set in the constructor.
+     * Contains the view of a presenter. This view is automatically set in the
+     * constructor.
      */
-    protected Parent view;
+    protected Pane view;
 
     /**
      * Creates a new main presenter with a reference to the PresenterManager.
@@ -42,7 +43,7 @@ public abstract class Presenter implements IPresenter {
     }
 
     /*
-     * Loads the FXML from the given FXML file name
+     * Loads the FXML from the given FXML file name.
      */
     protected void loadFXML(String fileName) {
 
@@ -61,7 +62,7 @@ public abstract class Presenter implements IPresenter {
     }
 
     @Override
-    public Parent getView() {
+    public Pane getView() {
         return this.view;
     }
 }
