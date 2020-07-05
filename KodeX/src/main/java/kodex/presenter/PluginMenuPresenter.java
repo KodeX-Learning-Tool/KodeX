@@ -112,6 +112,6 @@ public class PluginMenuPresenter extends Presenter {
      */
 	@FXML
     public void handleRefreshPlugins() {
-        // TODO implement here
+        pluginLoader.load();
     }
 }
