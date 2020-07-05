@@ -1,6 +1,6 @@
 package kodex.presenter;
 
-import javafx.scene.Parent;
+import javafx.scene.Node;
 
 /**
  * This is the interface, which has to be implemented by all presenters.
@@ -19,6 +19,6 @@ public interface IPresenter {
      * 
      * @return Parent The view object to be displayed.
      */
-    public Parent getView();
+    public Node getView();
 
 }
