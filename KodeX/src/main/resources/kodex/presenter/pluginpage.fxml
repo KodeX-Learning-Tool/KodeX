@@ -36,13 +36,13 @@
                   <Region styleClass="plugin__spring" />
                   <HBox styleClass="plugin__button__container">
                      <children>
-                        <Button id="plugin-menu__button--add" mnemonicParsing="false" onAction="#handleAdd" styleClass="default-button--shadow" text="Hinzufügen">
+                        <Button id="plugin-menu__button--add" mnemonicParsing="false" onAction="#handleAddPlugin" styleClass="default-button--shadow" text="Hinzufügen">
                            <graphic>
                               <FontIcon iconLiteral="mdi-playlist-plus" iconSize="20" />
                            </graphic>
                         </Button>
                         <Region styleClass="plugin__button__spring" />
-                        <Button id="plugin-menu__button--remove" mnemonicParsing="false" onAction="#handleRemove" styleClass="default-button--shadow" text="Entfernen">
+                        <Button id="plugin-menu__button--remove" mnemonicParsing="false" onAction="#handleRemovePlugin" styleClass="default-button--shadow" text="Entfernen">
                            <graphic>
                               <FontIcon iconLiteral="mdi-playlist-minus" iconSize="20" text="" />
                            </graphic>
