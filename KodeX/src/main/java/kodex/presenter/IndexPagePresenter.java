@@ -18,9 +18,9 @@ import kodex.plugininterface.ProcedureInformation;
 import kodex.plugininterface.ProcedurePlugin;
 
 /**
- * Dieser Presenter ist für die Startseite zuständig. Die View der Startseite zeigt 
- * die verfügbaren Kodierungsverfahren an, wobei diese Auswahl durch Filter und Sucheingabe 
- * angepasst werden kann. Wird ein Verfahren ausgewählt so wird zum ProcedureLayoutPresenter gewechselt.
+ * This presenter is responsible for the index page. The view displays the all available coding procedures,
+ * which can be adjusted by the search or filter/sort function. If a procedure is selected,
+ * the ProcedureLayoutPresenter will display its view next.
  * 
  * @author Yannick Neubert, Raimon Gramlich
  * 
@@ -86,22 +86,32 @@ public class IndexPagePresenter extends Presenter {
 	 */
 	private class ProcedureButton extends VBox {
 			
+			/** The Label for displaying the procedure name.*/
 			@FXML
 			private Label procedureLabel;
 			
+			/** The ImageView for displaying the procedure icon.*/
 			@FXML
 			private ImageView procedureIcon;
 			
-			
+			/** The procedure which this button represents.*/
 			private ProcedurePlugin procedure;
+			
+			/** The information regarding the procedure.*/
 			private ProcedureInformation procedureInformation;
 			
+		    /**
+		     * Creates a new ProcedureButton with a reference to a ProcedurePlugin.
+		     * 
+		     * @param procedurePlugin : The reference to the ProcedurePlugin.
+		     */
 			ProcedureButton(ProcedurePlugin procedurePlugin) throws IOException {
 				
 				this.procedure = procedurePlugin;
 				
 				this.procedureInformation = procedurePlugin.createProcedureInformation();
 				
+				// loads the template
 				try {
 		            FXMLLoader loader = new FXMLLoader(getClass().getResource("procedurebutton.fxml"));
 		            loader.setController(this);
@@ -119,9 +129,8 @@ public class IndexPagePresenter extends Presenter {
 			}
 			
 		    /**
-		     * Die Methode wird ausgeführt, wenn der Benutzer auf ein Kodierungsverfahren klickt. 
-		     * Wechselt den Presenter zum ProcedureLayoutPresenter, übergibt diesem das gewählte ProcedurePlugin
-		     * und benachrichtigt den PresenterManger.
+		     * Gets called when the user clicks on a ProcedureButton. Switches the active presenter and 
+		     * gives the reference of the procedure it represents to the PresenterManager. 
 		     */
 			@FXML
 			private void handleProcedureSelected() {
@@ -130,32 +139,33 @@ public class IndexPagePresenter extends Presenter {
 	 }
 
     /**
-     * Die Methode wird ausgeführt, wenn der Benutzer die Suche nach Kodierungsverfahren bestätigt. 
-     * Sie sorgt dafür das die zutreffenden Kodierungsverfahren ausgewählt werden.
+     * Gets called when the user writes something in the search text field. 
      */
     public void handleSearch() {
         // TODO implement here
     }
 
     /**
-     * Die Methode wird ausgeführt, wenn der Benutzer die Kodierungsverfahren filtert. 
-     * Sie sorgt dafür das die zutreffenden Kodierungsverfahren ausgewählt werden.
+     * Gets called when the user selects an item in the combo box. 
      */
     public void handleFilter() {
         // TODO implement here
     }
 
     /**
-     * Durchsucht die Liste der Kodierungsverfahren
-     * @param searchTerm : Das Suchwort
+     * Searches in the list of enabled procedure plugins for a procedure name
+     * which matches the given term.
+     * 
+     * @param searchTerm : The search term
      */
     private void searchProcedures(String searchTerm) {
         // TODO implement here
     }
 
     /**
-     * Filtert die Liste der kodierungsverfahren
-     * @param filter : Der ausgewählte Filter
+     * Filters or sorts the list of enabled procedure plugins
+     * according to the selected filter.
+     * @param filter : The selected filter.
      */
     private void filterProcedures(Filter filter) {
         // TODO implement here
