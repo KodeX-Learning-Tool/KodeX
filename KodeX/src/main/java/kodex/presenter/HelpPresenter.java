@@ -32,10 +32,6 @@ public class HelpPresenter extends Presenter {
 	@FXML
 	private TextFlow infoBox;
 	
-	/** The Text which displays a part of the information about this program .*/
-	@FXML
-	private Text infoText;
-	
 	/** The List of FAQ items in form of a TitledPane.*/
 	private ArrayList<TitledPane> faq = new ArrayList<>();
 	
@@ -84,11 +80,9 @@ public class HelpPresenter extends Presenter {
 		}
 		
 		// get the information about the program and display it
-		for (String info : help.getInfo()) {
-			text = text.concat(info + "\n");
+		for (String info : help.getInfo()) { 
+			infoBox.getChildren().add(new Text(info));
 		}
-		
-		infoText.setText(text);
 		
 		// add all FAQ items to the view
 		for (TitledPane item: faq) {
