@@ -60,7 +60,7 @@ public class PluginMenuPresenter extends Presenter {
      */
 	@FXML
 	private void initialize() {		
-		/*
+		/* // defines the check box column
 		 * checkBoxColumn.setCellValueFactory(c -> {
 		 * c.getValue().activatedProperty().addListener((observer, oldValue, newValue)
 		 * -> { if (newValue.booleanValue()) {
@@ -70,11 +70,13 @@ public class PluginMenuPresenter extends Presenter {
 		 * checkBoxColumn.setCellFactory(CheckBoxTableCell.forTableColumn(checkBoxColumn
 		 * ));
 		 * 
+		 * // defines the name and description column
 		 * nameColumn.setCellValueFactory(cellData ->
 		 * cellData.getValue().nameProperty());
 		 * descriptionColumn.setCellValueFactory(cellData ->
 		 * cellData.getValue().shortDescriptionProperty());
 		 * 
+		 * // fills in the with the plugin information
 		 * pluginTable.setItems(pluginLoader.getEnabledPlugins());
 		 * pluginTable.setEditable(true);
 		 */
@@ -86,9 +88,12 @@ public class PluginMenuPresenter extends Presenter {
      */
 	@FXML
 	private void handleAddPlugin() throws IOException {
+		// create new FileChooser
 		FileChooser chooser = new FileChooser();
 		chooser.setTitle("Plugin zum importieren auswählen.");
 		chooser.getExtensionFilters().add(new ExtensionFilter("JAR-Datei", "*.jar"));
+		
+		// add the plugin located at the given path
 		File file = chooser.showOpenDialog(null);
 		if (file != null) {
 			pluginLoader.addPlugin(file);	
@@ -103,6 +108,7 @@ public class PluginMenuPresenter extends Presenter {
      */
 	@FXML
 	private void handleRemovePlugin() throws IOException {
+		// get selected table row
 		Pluginable plugin = pluginTable.getSelectionModel().getSelectedItem();
 		if (plugin != null) {
 			pluginLoader.removePlugin(plugin);	
