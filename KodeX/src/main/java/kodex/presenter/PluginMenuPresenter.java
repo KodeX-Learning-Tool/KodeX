@@ -45,12 +45,13 @@ public class PluginMenuPresenter extends Presenter {
 
     /**
      * Creates a new PluginPresenter with a reference to a PresenterManger.
+     * 
      * @param pm : The reference to the PresenterManager
      */
     public PluginMenuPresenter(PresenterManager pm) {
         super(pm, "pluginpage");
         
-        // get a PluginLoader instance
+        // get a PluginLoader instance this way since PluginLoader uses the singleton pattern
         pluginLoader = PluginLoader.getInstance();
     }
     

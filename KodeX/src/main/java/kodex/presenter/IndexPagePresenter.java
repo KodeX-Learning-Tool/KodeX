@@ -52,6 +52,7 @@ public class IndexPagePresenter extends Presenter {
     /**
      * Creates a new IndexPagePresenter with references to a PresenterManger 
      * and a PresenterFactory.
+     * 
      * @param pm : The reference to the PresenterManger.
      * @param pf : The reference to the PresenterFactory.
      */
