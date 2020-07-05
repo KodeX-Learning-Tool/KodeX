@@ -159,7 +159,7 @@ public class IndexPagePresenter extends Presenter {
      * @param searchTerm : The search term
      */
     private void searchProcedures(String searchTerm) {
-        // TODO implement here
+        indexPage.findProcedures(searchTerm);
     }
 
     /**
@@ -168,6 +168,6 @@ public class IndexPagePresenter extends Presenter {
      * @param filter : The selected filter.
      */
     private void filterProcedures(Filter filter) {
-        // TODO implement here
+        indexPage.filterProcedures(filter);
     }
 }
