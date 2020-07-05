@@ -1,12 +1,10 @@
 package kodex.presenter;
 
-import javafx.scene.layout.AnchorPane;
-import kodex.model.DefaultSettings;
-
 /**
- * Dieser Presenter ist für die Einstellungsseite zuständig. Hier kann der Benutzer 
- * Änderungen in den Einstellungen vornehmen.
+ * This Presenter is responsible for the settings page. In the settings page the
+ * user can alter the settings.
  * 
+ * @author Leonhard Kraft
  * @author Yannick Neubert
  * 
  * @version 1.0
@@ -14,62 +12,55 @@ import kodex.model.DefaultSettings;
 public class SettingsPresenter extends Presenter {
 
     /**
-     * Die gewählten Einstellungen
+     * Creates a new SettingsPresenter with a reference to the PresenterManager
+     * 
+     * @param presenterManager The PresenterManager for the superclass constructor.
      */
-    private DefaultSettings defaultSettings;
-
-
-
-    /**
-     * Erstellt einen neuen SettingsPresenter mit Referenzen zu einem PresenterManger.
-     * @param pm : Der PresenterManager
-     */
-    public void SettingsPresenter(PresenterManager pm) {
-        // TODO implement here
+    public SettingsPresenter(PresenterManager presenterManager) {
+        super(presenterManager, "settingspage");
     }
 
     /**
-     * Die Methode wird ausgeführt, wenn eine andere Sprache ausgewählt wurde. 
-     * Ändert die Sprache und versucht das Programm neu zu starten.
+     * This Method is called when a new Language is selected. Changes the language.
      */
     public void handleChangeLanguage() {
         // TODO implement here
     }
 
     /**
-     * Die Methode wird ausgeführt, wenn der Dark-Mode (de-)aktiviert wurde. 
-     * Ändert das Aussehen des Programms.
+     * This Method is called when the Dark-Mode has been de-/activated. Changes the
+     * appearance of the application by changing the loaded css file.
      */
     public void handleChangeSkin() {
         // TODO implement here
     }
 
     /**
-     * Die Methode wird ausgeführt, wenn der Benutzer auf die Schaltfläche zum Ändern des 
-     * Standardpfads klickt. Öffnet ein Dialog zum Ändern des Pfads und speichert diesen ab.
+     * This Method is called when the user clicks on the item to change the default
+     * path for saving files. Opens a dialog to change the path and saves it.
      */
     public void handleChooseDefaultPath() {
         // TODO implement here
     }
 
     /**
-     * Die Methode wird ausgeführt, wenn der Benutzer auf die Schaltfläche zum Bestätigen 
-     * des Standardports klickt. Speichert diesen ab.
+     * This Method is called when the user clicks on the item to confirm the entered
+     * default port. Saves the entered port.
      */
     public void handleSubmitPort() {
         // TODO implement here
     }
 
     /**
-     * Die Methode wird ausgeführt, wenn der Benutzer auf die Schaltfläche zum Wiederherstellen 
-     * der Standardeinstellungen klickt. Setzt die Einstellungen zurück.
+     * This Method is called when the user clicks on the item to restore the default
+     * settings. Resets the settings.
      */
     public void handleRestoreDefaultSettings() {
         // TODO implement here
     }
 
     /**
-     * Fordert den Benutzer zum Neustarten des Programms auf
+     * Requests a restart of the application.
      */
     private void showRestartDialog() {
         // TODO implement here
