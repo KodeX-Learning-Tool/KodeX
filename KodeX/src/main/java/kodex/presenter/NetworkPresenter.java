@@ -1,12 +1,12 @@
 package kodex.presenter;
 
-import javafx.scene.layout.AnchorPane;
 import kodex.model.Network;
 
 /**
- * Dieser Presenter ist für die Netzwerkseite zuständig. Von der Netzwerkseite aus lassen sich 
- * Dateien über das lokale Netzwerk verschicken und Empfangen.
+ * This Presenter is responsible for the network page. From the network page it
+ * is possible to send and receive files over the local network.
  * 
+ * @author Leonhard Kraft
  * @author Yannick Neubert
  * 
  * @version 1.0
@@ -16,39 +16,34 @@ public class NetworkPresenter extends Presenter {
     /**
      * 
      */
-    private Network network;
-
-
+    private Network network; // TODO do we need a reference to the a network object?
 
     /**
-     * Erstellt einen neuen NetworkPresenter mit einer Referenz zu dem PresenterManger.
-     * @param pm : Der PresenterManager
+     * Creates a new NetworkPresenter with a reference to the PresenterManger for
+     * its superclass.
+     * 
+     * @param presenterManager The PresenterManager.
      */
-    public void NetworkPresenter(PresenterManager pm) {
-        // TODO implement here
+    public NetworkPresenter(PresenterManager presenterManager) {
+        super(presenterManager, "networkpage");
     }
 
     /**
-     * Die Methode wird ausgeführt, wenn der Benutzer auf die Senden Schalt- fläche klickt. 
-     * Die Verbindug wird mit den angegebenen Informationen aufgebaut und die Datei versendet.
+     * This Method is called when the user clicks on the item to send a file. The
+     * Connection is constructed with the given information and the chosen file will
+     * be send.
+     * 
      */
     public void handleSend() {
         // TODO implement here
     }
 
     /**
-     * Die Methode wird ausgeführt, wenn der Benutzer auf die Senden Schaltfläche klickt. 
-     * Das Programm wartet auf dem angegebenen Port auf eine eingehende Verbindung 
-     * und eine Datei, die es empfangen kann.
+     * This Method is called when the user clicks on the item to host a connection.
+     * The application creates a new thread and waits on the given port for a
+     * connection an a file to receive and save.
      */
     public void handleReceive() {
         // TODO implement here
     }
-
-	@Override
-	public AnchorPane getView() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
