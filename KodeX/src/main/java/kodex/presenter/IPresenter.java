@@ -1,12 +1,13 @@
 package kodex.presenter;
 
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.Parent;
 
 /**
- * Dies ist das Interface, welches alle Presenter implentieren müssen.
- * Ein Presenter erstellt die View-Objekte, die in der GUI angezeigt werden
- * und ist zudem für die Interaktion mit dem Benutzer zuständig.
+ * This is the interface, which has to be implemented by all presenters.
+ * A presenter creates a view object that can be displayed in the GUI.
+ * This object is also responsible for all interactions with the user and has to convey them to its presenter.
  * 
+ * @author Leonhard Kraft
  * @author Yannick Neubert
  * 
  * @version 1.0
@@ -14,9 +15,10 @@ import javafx.scene.layout.AnchorPane;
 public interface IPresenter {
 
     /**
-     * Die Methode gibt ein View-Objekt zurück, dass in den Gesamt-View eingebaut wird.
-     * @return AnchorPane : Das View-Objekt zum Einbauen
+     * This method returns a view object, that should be used for displaying in the application window.
+     * 
+     * @return Parent The view object to be displayed.
      */
-    public AnchorPane getView();
+    public Parent getView();
 
 }
