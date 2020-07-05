@@ -21,7 +21,8 @@ import kodex.plugininterface.ProcedurePlugin;
  * which can be adjusted by the search or filter/sort function. If a procedure is selected,
  * the ProcedureLayoutPresenter will display its view next.
  * 
- * @author Yannick Neubert, Raimon Gramlich
+ * @author Yannick Neubert
+ * @author Raimon Gramlich
  * 
  * @version 1.0
  */
