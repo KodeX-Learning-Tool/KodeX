@@ -26,7 +26,7 @@ public class PluginMenuPresenter extends Presenter {
      * @param pm : Der PresenterManager
      */
     public PluginMenuPresenter(PresenterManager pm) {
-        // TODO implement here
+        super(pm, "pluginpage");
     }
 
     /**
@@ -52,11 +52,4 @@ public class PluginMenuPresenter extends Presenter {
     public void handleRefreshPlugins() {
         // TODO implement here
     }
-
-	@Override
-	public AnchorPane getView() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
