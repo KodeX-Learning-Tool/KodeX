@@ -1,5 +1,6 @@
 package kodex.presenter;
 
+import java.io.File;
 import java.io.IOException;
 
 import javafx.beans.value.ChangeListener;
@@ -8,6 +9,8 @@ import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import kodex.model.DefaultSettings;
 
 /**
@@ -29,6 +32,9 @@ public class SettingsPresenter extends Presenter {
 
     @FXML
     private TextField portTextField;
+    
+    @FXML
+    private TextField pathTextField;
 
     /*
      * Indicates whether the content of the port TextField is valid.
@@ -64,6 +70,11 @@ public class SettingsPresenter extends Presenter {
         portTextField.setText(portString);
 
         validPortTextField = true;
+        
+        /*
+         * Initialize the path setting.
+         */
+        updateDefaultPath();
     }
 
     /**
@@ -90,6 +101,28 @@ public class SettingsPresenter extends Presenter {
     @FXML
     public void handleBrowsePath() {
         // TODO implement with FileChooser
+        DirectoryChooser dirChooser = new DirectoryChooser();
+        
+        //TODO: change from null to stage to disable stage interactions while dialog is open
+        File selectedDirectory = dirChooser.showDialog(null);
+        
+        if (selectedDirectory == null) {
+            //no directory has been chosen
+            return;
+        }
+        
+        defaultSettings.setDefaultPath(selectedDirectory.getAbsolutePath());
+        updateDefaultPath();
+    }
+    
+    /*
+     * Sets the text of the default path text field to the path saved in the properties
+     */
+    private void updateDefaultPath() {
+        
+        String pathtext = defaultSettings.getDefaultPath();
+        
+        pathTextField.setText(pathtext);
     }
 
     private ChangeListener<String> createPortChangeListener() {

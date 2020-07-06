@@ -74,7 +74,7 @@
                            <children>
                               <Label styleClass="settings__textfield__label" text="Pfad:">
                               </Label>
-                              <TextField styleClass="settings__textfield">
+                              <TextField fx:id="pathTextField" styleClass="settings__textfield">
                               </TextField>
                               <Region styleClass="settings__setting__input__spring" />
                               <Button mnemonicParsing="false" onAction="#handleBrowsePath" styleClass="default-button--shadow">
