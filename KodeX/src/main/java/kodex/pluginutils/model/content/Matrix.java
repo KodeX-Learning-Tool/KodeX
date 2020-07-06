@@ -1,6 +1,9 @@
-package PluginUtils.Model.Content;
+package kodex.pluginutils.model.content;
 
+import java.io.File;
 import java.util.Map;
+
+import kodex.plugininterface.Content;
 
 /**
  * 
@@ -76,7 +79,7 @@ public abstract class Matrix implements Content {
      */
     public Boolean isValid(Object input) {
         // TODO implement here
-        return null;
+        return true;
     }
 
 }

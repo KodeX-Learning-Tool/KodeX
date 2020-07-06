@@ -1,6 +1,9 @@
-package PluginUtils.Model.Content;
+package kodex.pluginutils.model.content;
 
+import java.io.File;
 import java.util.Map;
+
+import kodex.plugininterface.Content;
 
 /**
  * 
@@ -16,7 +19,7 @@ public abstract class List implements Content {
     /**
      * @return
      */
-    public List<T> getList() {
+    public List getList() {
         // TODO implement here
         return null;
     }

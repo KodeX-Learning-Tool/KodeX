@@ -1,6 +1,11 @@
-package StandardPlugins.RLE;
+package kodex.standardplugins.rle;
 
-import java.util.*;
+
+import kodex.plugininterface.ChainLinkPresenter;
+import kodex.plugininterface.Content;
+import kodex.plugininterface.ImportPresenter;
+import kodex.plugininterface.ProcedureInformation;
+import kodex.plugininterface.ProcedurePlugin;
 
 /**
  * 
@@ -16,78 +21,51 @@ public class TextRLEProcedurePlugin extends ProcedurePlugin {
     /**
      * 
      */
-    private void chainLinks[2..*]; ChainLinkPresenter;
+    private ChainLinkPresenter[] chainLinks; //[2..*]
+
+	@Override
+	public String getPluginName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getPluginDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ChainLinkPresenter getChainHead() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void initEncodeProcedure(Content content) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void initDecodeProcedure(Content content) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public ProcedureInformation createProcedureInformation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ImportPresenter createImportPresenter() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+    
 
 
-
-    /**
-     * 
-     */
-    public void TextRLEProcedurePlugin() {
-        // TODO implement here
-    }
-
-    /**
-     * @return
-     */
-    public ChainLinkPresenter getChainHead() {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @param content
-     */
-    public void initEncodeProcedure(Content content) {
-        // TODO implement here
-    }
-
-    /**
-     * @param content
-     */
-    public void initDecodeProcedure(Content content) {
-        // TODO implement here
-    }
-
-    /**
-     * @return
-     */
-    public void createImportPresenter() {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @return
-     */
-    public TextRLEProcedureInformation createProcedureInformation() {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @return
-     */
-    public abstract ChainLinkPresenter getChainHead();
-
-    /**
-     * @param content
-     */
-    public abstract void initEncodeProcedure(Content content);
-
-    /**
-     * @param content
-     */
-    public abstract void initDecodeProcedure(Content content);
-
-    /**
-     * @return
-     */
-    public abstract ProcedureInformation createProcedureInformation();
-
-    /**
-     * @return
-     */
-    public abstract ImportPresenter createImportPresenter();
 
 }

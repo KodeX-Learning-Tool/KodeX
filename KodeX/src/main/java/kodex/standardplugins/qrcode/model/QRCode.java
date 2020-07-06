@@ -1,6 +1,10 @@
-package StandardPlugins.QR-Code.Model;
+package kodex.standardplugins.qrcode.model;
 
 import java.util.*;
+
+import kodex.pluginutils.model.content.BlackWhiteImage;
+
+
 
 /**
  * 

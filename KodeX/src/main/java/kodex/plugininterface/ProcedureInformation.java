@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javafx.scene.image.Image;
+import kodex.pluginutils.model.content.AbstractImage;
 
 /**
  * This abstract class specifies which information about a procedure should

@@ -1,28 +1,34 @@
-package PluginUtils.Presenter.Edit;
+package kodex.pluginutils.presenter.edit;
 
-import java.util.*;
+
+import javafx.scene.layout.AnchorPane;
+import kodex.plugininterface.ChainLinkEditPresenter;
+import kodex.plugininterface.ChainLinkPresenter;
 
 /**
  * 
  */
 public class ColorImageEditPresenter extends ChainLinkEditPresenter {
 
-    /**
-     * Default constructor
-     */
-    public ColorImageEditPresenter() {
-    }
 
-    /**
-     * 
-     */
-    public void ColorImageEditPresenter() {
-        // TODO implement here
-    }
 
-    /**
-     * 
-     */
-    public abstract void handleSubmit();
+	public ColorImageEditPresenter(ChainLinkPresenter chainLinkPresenter) {
+		super(chainLinkPresenter);
+		// TODO Auto-generated constructor stub
+	}
+
+
+	@Override
+	public AnchorPane getView() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void handleSubmit() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
