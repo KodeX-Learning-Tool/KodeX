@@ -36,10 +36,26 @@ public class SettingsPresenter extends Presenter {
     }
 
     /**
+     * This Method is called when the user enters text into the default
+     * path text field.
+     */
+    public void handlePathText() {
+        // TODO implement here
+    }
+    
+    /**
      * This Method is called when the user clicks on the item to change the default
      * path for saving files. Opens a dialog to change the path and saves it.
      */
-    public void handleChooseDefaultPath() {
+    public void handleBrowsePath() {
+        // TODO implement here
+    }
+    
+    /**
+     * This Method is called when the user enters text into the text field for the
+     * default port.
+     */
+    public void handlePortText() {
         // TODO implement here
     }
 

@@ -52,10 +52,10 @@
                            <children>
                               <Label styleClass="settings__textfield__label" text="Port:">
                               </Label>
-                              <TextField onAction="#handlePort" styleClass="settings__textfield">
+                              <TextField onAction="#handlePortText" styleClass="settings__textfield">
                               </TextField>
                               <Region styleClass="settings__setting__input__spring" />
-                              <Button mnemonicParsing="false" onAction="#handleSubmit" styleClass="default-button--shadow">
+                              <Button mnemonicParsing="false" onAction="#handleSubmitPort" styleClass="default-button--shadow">
                                  <graphic>
                                     <FontIcon iconLiteral="mdi-check" iconSize="20" />
                                  </graphic>
@@ -74,10 +74,10 @@
                            <children>
                               <Label styleClass="settings__textfield__label" text="Pfad:">
                               </Label>
-                              <TextField onAction="#handlePath" styleClass="settings__textfield">
+                              <TextField onAction="#handlePathText" styleClass="settings__textfield">
                               </TextField>
                               <Region styleClass="settings__setting__input__spring" />
-                              <Button mnemonicParsing="false" onAction="#handleBrowse" styleClass="default-button--shadow">
+                              <Button mnemonicParsing="false" onAction="#handleBrowsePath" styleClass="default-button--shadow">
                                  <graphic>
                                     <FontIcon iconLiteral="mdi-folder-outline" iconSize="20" />
                                  </graphic>
@@ -87,7 +87,7 @@
                      </children>
                   </VBox>
                   <Region styleClass="settings__spring" />
-                  <Button mnemonicParsing="false" onAction="#handleRestore" styleClass="default-button--shadow" text="Einstellungen zurücksetzen">
+                  <Button mnemonicParsing="false" onAction="#handleRestoreDefaultSettings" styleClass="default-button--shadow" text="Einstellungen zurücksetzen">
                   </Button>
                </children>
             </VBox>
