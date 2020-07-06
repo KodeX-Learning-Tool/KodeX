@@ -76,11 +76,4 @@ public class SettingsPresenter extends Presenter {
     public void handleRestoreDefaultSettings() {
         // TODO implement here
     }
-
-    /**
-     * Requests a restart of the application.
-     */
-    private void showRestartDialog() {
-        // TODO implement here
-    }
 }
