@@ -140,6 +140,9 @@ public class SettingsPresenter extends Presenter {
         };
     }
     
+    /*
+     * Sets or removes the error pseudoclass for the given control depending on the given state.
+     */
     private void setErrorPseudoClass(Control control, boolean state) {
         
         final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
