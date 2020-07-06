@@ -52,7 +52,7 @@
                            <children>
                               <Label styleClass="settings__textfield__label" text="Port:">
                               </Label>
-                              <TextField onAction="#handlePortText" styleClass="settings__textfield">
+                              <TextField fx:id="portTextField" styleClass="settings__textfield">
                               </TextField>
                               <Region styleClass="settings__setting__input__spring" />
                               <Button mnemonicParsing="false" onAction="#handleSubmitPort" styleClass="default-button--shadow">
@@ -74,7 +74,7 @@
                            <children>
                               <Label styleClass="settings__textfield__label" text="Pfad:">
                               </Label>
-                              <TextField onAction="#handlePathText" styleClass="settings__textfield">
+                              <TextField styleClass="settings__textfield">
                               </TextField>
                               <Region styleClass="settings__setting__input__spring" />
                               <Button mnemonicParsing="false" onAction="#handleBrowsePath" styleClass="default-button--shadow">
