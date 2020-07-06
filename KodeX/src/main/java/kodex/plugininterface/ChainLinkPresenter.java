@@ -6,10 +6,9 @@ import javafx.scene.layout.Pane;
 import kodex.presenter.IPresenter;
 
 /**
- * Diese Klasse stellt eine abstrakte Stufe dar. Über eine Stufe kann der Content
- * exportiert und in der View markiert werden, sowie der View ihres Contents,
- * als auch der, in ihr gespeicherten, Presenter angefordert werden.
- * Eine Stufe eines Verfahrens muss diese Klasse erweitern.
+ * This class represents an abstract link. A link can export a content, mark
+ * an item in this content, and request the presenter for the view of a content.
+ * Every link must expand this class.
  * 
  * @author Patrick Spiesberger
  * 
@@ -19,24 +18,24 @@ import kodex.presenter.IPresenter;
 public abstract class ChainLinkPresenter implements IPresenter {
 
 	
-	/* Die Stufe, welche nach dieser Stufe in der Verfahrenskette kommt */
+	/* The link that comes after this link in the process chain */
     protected ChainLinkPresenter next;
 
-    /* Die Stufe, welche vor dieser Stufe in der Verfahrenskette kommt */
+    /* The level that comes before this level in the process chain */
     protected ChainLinkPresenter previous;
 
-    /* Die Daten, welche diese Stufe beinhaltet */
+    /* The content of this link */
     protected Content content;
 
     /* 
-     * Der Schritt in der Verfahrenskette, mit welchem man den Inhalt dieser 
-     * Stufe in den Inhalt für die vorherige Stufe umrechnen kann 
+ 	 * The step in the process chain with which you can convert the content
+	 * of this link into the content for the previous link
      */
     protected ChainStep previousStep;
 
     /* 
-     * Der Schritt in der Verfahrenskette, mit welchem man den Inhalt dieser 
-     * Stufe in den Inhalt für die nächste Stufe umrechnen kann 
+ 	 * The step in the process chain with which you can convert the content
+	 * of this link into the content for the next link
      */
     protected ChainStep nextStep;
 
@@ -58,42 +57,42 @@ public abstract class ChainLinkPresenter implements IPresenter {
 
     
     /**
-     * Gibt den ChainLinkEditPresenter für diese Stufe zurück
-     * @return ChainLinkEditPresenter für diese Stufe
+     * Returns the ChainLinkEditPresenter of this link
+     * @return ChainLinkEditPresenter of this link
      */
     public ChainLinkEditPresenter getChainLinkEditPresenter() {
         return null;
     }
 
     /**
-     * Gibt die View des Headers für diese Stufe zurück, ruft nur getView() auf
-     * dem ChainLinkHeaderPresenter dieser Stufe auf und gibt das Ergebnis zurück.
-     * @return View des ChainLinkHeaderPresenter dieser Stufe
+     * Returns the view of the header for this level, only calls getView () 
+     * on the ChainLinkHeaderPresenter of this level and returns the result.
+     * @return View of the ChainLinkHeaderPresenter
      */
     public Pane getChainLinkHeaderView() {
         return null;
     }
 
     /**
-     * Setzt den Content für diese Stufe
-     * @param content : zu setzender Content
+     * Sets the content for this link
+     * @param content : content to be set
      */
     public void setContent(Content content) {
         this.content = content;
     }
 
     /**
-     * Gibt den Content dieser Stufe zurück
-     * @return Content dieser Stufe
+     * Returns the content of this link
+     * @return content of this link
      */
     public Content getContent() {
         return this.content;
     }
 
     /**
-     * Updatet rekursiv den Content aller Stufen der Verfahrenskette von dieser
-     * Stufe aus. Muss immer aufgerufen werden wenn der Content der Stufe
-     * bearbeitet wurde
+     * Recursively updates the content of all links of the process
+     * chain from this link. Must always be called when the
+     * content of the link has been edited
      */
     public void updateChain() {
     	updateNextChainLink();
@@ -101,7 +100,7 @@ public abstract class ChainLinkPresenter implements IPresenter {
     }
 
     /**
-     * Aktualisiert die nächste Stufe
+     * Updates the next link
      */
     public void updateNextChainLink() {
     	next.updateChain();
@@ -111,27 +110,26 @@ public abstract class ChainLinkPresenter implements IPresenter {
     }
 
     /**
-     * Aktualisiert die vorherige Stufe
+     * Updates the previous link
      */
     public void updatePrevChainLink() {
     	previous.updateChain();
     	if (previous.getPrev() != null) {
-    		prev = previous.getPrev();
+    		previous = previous.getPrev();
     	}
     }
 
     /**
-     * Markiert mit Hilfe der übergebenen ID das entsprechende Element
-     * im View dieser Stufe
-     * @param id : Die ID um das zu markierende Element zu identifizieren
+     * Marks the corresponding element in the view of this link
+     * with the help of the transferred ID
+     * @param id : The ID to identify the element to be marked
      */
     protected abstract void mark(int id);
 
     /**
-     * Wird aufgerufen, wenn etwas im View dieser Stufe angeklickt und somit 
-     * markiert wird. Markiert das zur id gehörende Element im View und 
-     * sorgt dafür, dass rekursiv in allen anderen Stufen des Verfahrens das
-     * entsprechende Element markiert wird.
+     * Called when something is clicked in the view of this link and thus marked.
+     * Marks the element belonging to the id in the view and ensures that the
+     * corresponding element is recursively marked in all other links of the procedure.
      */
     public void handleMark() {
         int id = calculateID();
@@ -144,17 +142,17 @@ public abstract class ChainLinkPresenter implements IPresenter {
     
     
     /**
-     * Berechnet die ID, welche auf dem Content angeklickt wurde
-     * @return : ID, welche das zu markierende Element, repräsentiert
+     * Calculates the ID that was clicked on the content
+     * @return : ID representing the element to be marked
      */
     protected int calculateID() {
 		return -1;
     }
 
     /**
-     * Markiert das, der ID entsprechende, Element in der vorherigen Stufe und 
-     * somit rekursiv in allen vorherigen Stufen
-     * @param id : repräsentierende ID
+     * Marks the element corresponding to the ID in the previous link 
+     * and therefore recursively in all previous links
+     * @param id : representative ID
      */
     public void markPrev(int id) {
         previous.mark(id);
@@ -165,9 +163,9 @@ public abstract class ChainLinkPresenter implements IPresenter {
     }
 
     /**
-     * Markiert das, der id entsprechende, Element in der nächsten Stufe und 
-     * somit rekursiv in allen weiteren Stufen
-     * @param id : repräsentierende ID
+     * Marks the element corresponding to the ID in the next link 
+     * and therefore recursively in all next links
+     * @param id : representative ID
      */
     public void markNext(int id) {
         next.mark(id);
@@ -178,41 +176,40 @@ public abstract class ChainLinkPresenter implements IPresenter {
     }
 
     /**
-     * Setzt die nächste Stufe auf die gewünschte nächste Stufe der Kette
-     * @param next : nächste Stufe
+     * Sets the next link to the desired next link in the chain
+     * @param next : next link
      */
     public void setNext(ChainLinkPresenter next) {
         this.next = next;
     }
 
     /**
-     * Gibt die nächste Stufe zurück
-     * @return nächste Stufe
+     * Returns the next link
+     * @return next link
      */
     public ChainLinkPresenter getNext() {
         return this.next;
     }
 
     /**
-     * Setzt die vorherige Stufe auf die gewünschte vorherige Stufe der Kette
-     * @param prev : vorherige Stufe
+     * Sets the previous link to the desired previous link in the chain
+     * @param prev : previous link
      */
     public void setPrev(ChainLinkPresenter prev) {
         this.previous = prev;
     }
 
     /**
-     * Gibt die vorherige Stufe zurück
-     * @return vorherige Stufe
+     * Returns the previous link
+     * @return previous link
      */
     public ChainLinkPresenter getPrev() {
         return this.previous;
     }
 
     /**
-     * Gibt das Symbol zurück, welches in der Übersicht zur Repräsentation
-     * dieser Stufe verwendet wird.
-     * @return Symbol, welches diese Stufe repäsentiert
+     * Returns the symbol that is used in the overview to represent this link.
+     * @return Symbol representing this link
      */
     public Image getSymbol() {
         // TODO return Standard Bild
@@ -220,9 +217,9 @@ public abstract class ChainLinkPresenter implements IPresenter {
     }
 
     /**
-     * Wird aufgerufen, wenn der Benutzer eine Stufe exportieren möchte.
-     * Öffnet einen FileChooser, mit welchem die Datei zum speichern angegeben
-     * wird, um diese dann an den Content zum exportieren weiter zu geben.
+     * Called when the user wants to export a level.
+     * Opens a FileChooser with which the file is specified for
+     * saving and then passed on to the content for export.
      */
     public void handleExport() {
         // TODO Fehlerfenster anzeigen oder Export ausblenden
@@ -232,8 +229,8 @@ public abstract class ChainLinkPresenter implements IPresenter {
     }
 
     /**
-     * Gibt die View des Contents zurück
-     * @return View in Form eines AnchorPane, in dem der Inhalt angezeigt wird
+     * Returns the view of a content
+     * @return View in the form of an AnchorPane in which the content is displayed
      */
     public abstract AnchorPane getView();
 

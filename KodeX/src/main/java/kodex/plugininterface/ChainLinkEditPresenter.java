@@ -4,9 +4,9 @@ import javafx.scene.layout.AnchorPane;
 import kodex.presenter.IPresenter;
 
 /**
- * Diese Klasse stellt einen abstrakten EditPresenter für eine konkrete Stufe dar.
- * Sie verwaltet den Edit View und ist zuständig für sämtliche, vom Benutzer 
- * durchgeführten unddurchführbaren Änderungen im Content.
+ * This class represents an abstract EditPresenter for a specific link.
+ * It manages the edit view and is responsible for all of the users
+ * implemented and feasible changes in content.
  * 
  * @author Patrick Spiesberger
  * 
@@ -16,45 +16,43 @@ import kodex.presenter.IPresenter;
 public abstract class ChainLinkEditPresenter implements IPresenter {
 
 	/* 
-	 * Die Stufe, zu welcher dieser Edit gehört und dessen Content 
-	 * von diesem Edit bearbeitet und verwendet wird
+	 * The link to which this edit belongs
 	 */
     protected ChainLinkPresenter chainLinkPresenter;
 
     /*
-     * Die ID des Elementes, welches momentan markiert bzw. ausgewählt ist 
+     * The ID of the element that is currently selected
      */
     protected int markID;
 
 
     /**
-     * Der Konstruktor dieses ChainLinkEditPresenters, welcher die¸ zu diesem
-     * Edit gehörende, Stufe entgegennimmt und diese setzt
-     * @param chainLinkPresenter : die zu diesem Edit gehörende Stufe
+     * The constructor of class ChainLinkEditPresenter
+     * @param chainLinkPresenter : the link associated with this edit
      */
     public ChainLinkEditPresenter(ChainLinkPresenter chainLinkPresenter) {
       this.chainLinkPresenter = chainLinkPresenter;
     }
 
     /**
-     * Diese Methode wird aufgerufen, wenn der Benutzer eine Änderung des
-     * Contents einer Stufe in Auftrag gibt und behandelt diese Änderung
+     * This method is called when the user changes the
+     * Contents of a link and handles this change
      */
     public abstract void handleSubmit();
     
 
     /**
-     * Setzt die markID dieses Edits. Dies sollte immer geschehen, wenn etwas
-     * neues in der Stufe markiert wurde, um den Edit immer aktuell zu halten
-     * @param id : die zu setzende ID
+     * Sets the markID of this edit. This should always happen when something
+     * new in the level was marked to keep the edit always up to date
+     * @param id : the representative ID
      */
     public void setMarkID(int id) {
         this.markID = id;
     }
 
     /**
-     * Gibt die View zum Bearbeiten des Contents zurück
-     * @return View in Form eines AnchorPane, in dem der Inhalt bearbeitet werden kann
+     * Returns the view for editing the content
+     * @return View in the form of an AnchorPane in which the content can be edited
      */
     public abstract AnchorPane getView();
 
