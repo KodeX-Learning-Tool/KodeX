@@ -54,12 +54,12 @@ public class SettingsPresenter extends Presenter {
 
     /**
      * Initializes the view-object created by the FXMLLoader.
-     * 
-     * @throws IOException is thrown when the fxml file couldn't get loaded
-     *                     properly.
      */
     @FXML
-    private void initialize() throws IOException {
+    private void initialize() {
+        
+        //TODO: validate loaded settings or trust them?
+        //TODO: reset pseudo classes for reset
 
         /*
          * Initialize the port setting.
@@ -100,7 +100,7 @@ public class SettingsPresenter extends Presenter {
      */
     @FXML
     public void handleBrowsePath() {
-        // TODO implement with FileChooser
+        
         DirectoryChooser dirChooser = new DirectoryChooser();
         
         //TODO: change from null to stage to disable stage interactions while dialog is open
@@ -216,6 +216,11 @@ public class SettingsPresenter extends Presenter {
      */
     @FXML
     public void handleRestoreDefaultSettings() {
-        // TODO implement here
+        
+        defaultSettings.reset();
+        
+        //TODO: reset all pseudo classes
+        //initialize all settings again to display the reset
+        this.initialize();
     }
 }
