@@ -7,10 +7,10 @@ import javafx.scene.image.Image;
 import kodex.pluginutils.model.content.AbstractImage;
 
 /**
- * Diese abstrakte Klasse gibt vor, welche Informationen über ein Verfahren bekannt sein
- * sollten und verwaltet diese. 
- * Jedes Plugin muss diese Klasse erweitern. Jedoch muss die Beschreibung, die Labels und
- * das Icon nicht implementiert werden (Standard Werte).
+ * This abstract class specifies which information about a procedure should
+ * be known and manages it.
+ * Every plugin must extend this class. However, the description, the labels
+ * and the icon do not have to be implemented (standard values).
  * 
  * @author Patrick Spiesberger
  * 
@@ -20,35 +20,41 @@ import kodex.pluginutils.model.content.AbstractImage;
 public abstract class ProcedureInformation {
 
     /**
-     * Konstruktor der Klasse ProcedureInformatio
+     * ProcedureInformation class constructor
      */
     public ProcedureInformation() {}
     
 
     /* 
-     * Standard Bild, welches einfügt wird, wenn kein anderes vorhanden
+     * Image that is displayed for the procedure
      */
     protected Image defaultIcon;
 
     /**
-     * Gibt den Namen des Verfahrens zurück
-     * @return Name des Verfahrens
+     * Returns name of procedure
+     * @return name of procedure
      */
     public abstract String getName();
 
     /**
-     * Gibt das Icon, welches für die Startseite verwendet werden soll zurück
-     * @return Icon für die Startseite
+     * Returns the icon that should be used for the indexpage
+     * @return icon for indexpage
      */
     public Image getIcon() {
-        return defaultIcon; //Standard Anzeigebild
+    	if (defaultIcon != null) {
+    		return defaultIcon; 
+    	}
+    	else {
+    		return null; 
+    		//TODO: Stanard-Bild zurück geben
+    	}
     }
 
     /**
-     * Gibt eine Liste der Labels des Verfahrens zurück. An erster Stelle in der Liste
-     * muss die Klassenstufe stehen, ab welcher Klassenstufe das Verfahren geeignet ist.
-     * Falls keine Klassenstufe zutrifft, bitte 0 angeben.
-     * @return Liste der Labels
+     * Returns a list of the process labels. At the top of the list
+     * must be the class level, from which class level the procedure is suitable.
+	 * If no class level applies, please enter 0.
+     * @return List of labels
      */
     public List<String> getLabels() {
         List<String> labels = new LinkedList<>();
@@ -56,9 +62,9 @@ public abstract class ProcedureInformation {
     }
 
     /**
-     * Gibt eine Kurzbeschreibung des Verfahrens zurück
-     * @return Beschreibung des Verfahrens#
-     * Hinweis: Die Beschreibung ist auf einen String begrenzt
+     * Returns a brief description of the procedure
+     * @return description of procedure
+     * Note: The description is limited to a string
      */
     public String getDescription() {
         return ""; //Standard Beschreibung

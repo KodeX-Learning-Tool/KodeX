@@ -1,10 +1,10 @@
 package kodex.plugininterface;
 
 /**
- * Diese Klasse bildet die Kommunikationsschnittstelle zwischen einem Plugin und dem
- * Framework. Alle Klassen, die diese Klasse erweitern, werden vom PluginLoader mit Hilfe
- * des ServiceLoaders geladen und als Verfahrensplugin angesehen. Somit kommuniziert das
- * Framework initial mit einer generalisierung dieser Klasse.
+ * This class forms the communication interface between a plugin and the framework.
+ * All classes that extend this class are loaded by the PluginLoader using the 
+ * ServiceLoader and viewed as a process plugin. The framework thus initially
+ * communicates with a generalization of this class.
  * 
  * @author Patrick Spiesberger
  * 
@@ -14,43 +14,40 @@ package kodex.plugininterface;
 public abstract class ProcedurePlugin implements Pluginable {
 
     /**
-     * Konstruktor der Klasse ProcedurePlugin
+     * Constructor of the ProcedurePlugin class
      */
     public ProcedurePlugin() {}
 
     /**
-     * Liefert die Startstufe des Verfahrens zurück, wobei die Stufen 
-     * als doppelt verkettete Liste intern gespeichert werden und 
-     * dementsprechend miteinander verbunden sind
-     * @return Presenter für die erste Stufe der Verfahrens
+     * Returns the start link of the procedure, whereby the stages
+     * are saved internally as a double-linked list and are linked accordingly
+     * @return presenter for first link of procedure
      */
     public abstract ChainLinkPresenter getChainHead();
 
     /**
-     * Setzt beim kodieren den Content für die erste Stufe des Verfahrens.
-     * Zudem erstellt die Methode alle Stufen des Verfahrens und
-     * initialisiert diese somit
-     * @param content : Content für die erste Stufe des Verfahrens
+     * Sets the content for the first link of the process when encoding.
+     * In addition, the method creates all linkes of the process and thus initializes them
+     * @param content : Content for the first step of the procedure
      */
     public abstract void initEncodeProcedure(Content content);
 
     /**
-     * Setzt beim dekodieren den Content für die erste Stufe des Verfahrens.
-     * Zudem erstellt die Methode alle Stufen des Verfahrens und
-     * initialisiert diese somit
-     * @param content : Content für die erste Stufe des Verfahrens
+     * Sets the content for the first link of the process when decoding.
+     * In addition, the method creates all linkes of the process and thus initializes them
+     * @param content : Content for the first step of the procedure
      */
     public abstract void initDecodeProcedure(Content content);
 
     /**
-     * Erzeugt eine neue ProcedureInformation Instanz und gibt diese zurück
-     * @return Erzeugte Instanz von ProcedureInformation
+     * Creates and returns a new ProcedureInformation instance
+     * @return created instance of ProcedureInformation
      */
     public abstract ProcedureInformation createProcedureInformation();
 
     /**
-     * Erzeugt eine neue ImportPresenter Instanz und gibt diese zurück
-     * @return Erzeugte Instanz von ImportPresenter
+     * Creates and returns a new ImportPresenter instance
+     * @return created instance of ImportPresenter
      */
     public abstract ImportPresenter createImportPresenter();
 
