@@ -40,14 +40,14 @@ public abstract class ProcedurePlugin implements Pluginable {
     public abstract void initDecodeProcedure(Content content);
 
     /**
-     * Erzeugt eine neue ProcedureInformation Instanz und gibt diese zurück
-     * @return Erzeugte Instanz von ProcedureInformation
+     * Creates and returns a new ProcedureInformation instance
+     * @return created instance of ProcedureInformation
      */
     public abstract ProcedureInformation createProcedureInformation();
 
     /**
-     * Erzeugt eine neue ImportPresenter Instanz und gibt diese zurück
-     * @return Erzeugte Instanz von ImportPresenter
+     * Creates and returns a new ImportPresenter instance
+     * @return created instance of ImportPresenter
      */
     public abstract ImportPresenter createImportPresenter();
 

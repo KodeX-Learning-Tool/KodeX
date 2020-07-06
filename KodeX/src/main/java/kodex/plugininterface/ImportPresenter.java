@@ -5,15 +5,15 @@ import kodex.presenter.IPresenter;
 import kodex.presenter.ProcedureLayoutPresenter;
 
 /**
- * Diese Klasse ist für die Eingabe eines Verfahrens zuständig. Sie verwaltet die 
- * entsprechende View mit welchem die Eingabe für das Verfahren erfolgt und mit 
- * welchem zwischen kodieren und dekodieren unterschieden wird. 
- * Zudem enthält sie die Funktionalität, mit welcher die Eingabe erfolgt 
- * (z.B. Datei importieren oder Text eingeben). Des Weitern ist sie dafür
- * zuständig die Eingabe zu verifizieren, aus ihr den Content für die
- * Verfahrenseingabe zu erstellen und diesen an das Verfahren zu übergebenü
- * und es somit zu initialisieren. Ein Importer für ein Verfahren muss 
- * diese Klasse erweitern.
+ * This class is responsible for entering a procedure.
+ * It manages the corresponding view with which the method is entered and with
+ * which a distinction is made between coding and decoding.
+ * It also contains the functionality with which the entry is made
+ * (e.g. import file or enter text). 
+ * Furthermore, the class is responsible for verifying the input, 
+ * creating the content for the procedure input from it and transferring it to the
+ * procedure and thus initializing it.
+ * A process importer must expand this class.
  * 
  * @author Patrick Spiesberger
  * 
@@ -22,14 +22,13 @@ import kodex.presenter.ProcedureLayoutPresenter;
  */
 public abstract class ImportPresenter implements IPresenter {
 	
-	/* Konkretes Plugin, für welches der Import Presenter erstellt wird */
+	/* Specific plugin the import presenter is created for */
 	protected ProcedurePlugin plugin;
 
     /**
-     * Konstruktor, in welchem das ProcedurePlugin übergeben wird ,um in
-     * diesem das Verfahren initialisieren zu können wenn eine erfolgreiche
-     * Eingabe passiert ist.
-     * @param plugin : Plugin, welches diesen Importer benutzt
+	 * Constructor in which the ProcedurePlugin is passed in order to be 
+	 * able to initialize the procedure if input is valid
+     * @param plugin : Plugin that uses this importer
      */
     public ImportPresenter(ProcedurePlugin plugin) {
         this.plugin = plugin;
@@ -37,40 +36,39 @@ public abstract class ImportPresenter implements IPresenter {
 
     
     /**
-     * Validiert die Eingabe eines Verfahrens welche kodiert werden soll
-     * @return true, falls Eingagbe valide zum kodieren ist, ansonsten false
+     * Validates the entry of a method that is to be encoded
+     * @return true, if input valid, otherwise false
      */
     public abstract boolean validateEncodeImport();
 
     /**
-     * Validiert die Eingabe eines Verfahrens welche dekodiert werden soll
-     * @return true, falls Eingagbe valide zum dekodieren ist, ansonsten false
+     * Validates the entry of a method that is to be decoded
+     * @return true, if input valid, otherwise false
      */
     public abstract boolean validateDecodeImport();
 
     /**
-     * Wird aufgerufen, falls Eingabe zum kodieren geladen wird und behandelt diese
+     * Called if input for encoding is loaded and handles it
      */
     public abstract void handleEncodeImport();
 
     /**
-     * Wird aufgerufen, falls Eingabe zum dekodieren geladen wird und behandelt diese
+     * Called if input for decoding is loaded and handles it
      */
     public abstract void handleDecodeImport();
 
     /**
-     * Setzt den LayoutPresenter für diesen Import, um auf diesem einen 
-     * Wechsel zum ChainPresenter einzuleiten, wenn die Eingabe erfolgreich war
-     * @param plp : zu setzender LayoutPresenter
+     * Sets the LayoutPresenter for this import in order to initiate
+     * a switch to the ChainPresenter if the entry was successful
+     * @param plp : LayoutPresenter to be set
      */
     public void setLayoutPresenter(ProcedureLayoutPresenter plp) {
         // TODO implement here
     }
 
     /**
-     * Gibt die View zum Importieren des Contents zurück
-     * @return View in Form eines AnchorPane, in dem der Content importiert
-     * 		   werden kann
+     * Returns the view for importing the content
+     * @return View in the form of an AnchorPane in which the content can be imported
      */
     public abstract AnchorPane getView();
 
