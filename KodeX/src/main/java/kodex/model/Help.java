@@ -2,14 +2,14 @@ package kodex.model;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
 /**
- * Diese Klasse verwaltet das FAQ. Dabei ist ein fester Fragensatz lokal in 
- * KodeX.Help_DE beziehungsweise KodeX.Help_EN gespeichert, der dann 
- * mithilfe dieser Klasse ausgelesen werden kann.
+ * This class manages the FAQ. A fixed set of questions is stored locally 
+ * in KodeX.Help_DE or KodeX.Help_EN, which can then be read using this class.
  * 
  * @author Patrick Spiesberger
  * 
@@ -18,28 +18,28 @@ import java.util.Properties;
  */
 public class Help {
 
-	/* Liste mit allen geladenen Fragen */
-    private List<String> questions;
+	/* List of all questions */
+    private List<String> questions = new LinkedList<String>();
 
-    /* Liste mit allen geladenen Antworten */
-    private List<String> answers;
+    /* List of all answers*/
+    private List<String> answers = new LinkedList<String>();
 
-    /* Lädt Informationen über das FAQ */
+    /* Information about FAQ */
     private String info;
 
-    /* Speichert die aktuelle Sprache */
+    /* current language */
     private Locale locale;
     
-    /* Instanz der Property Datei */
+    /* instance of property file */
     private Properties prop = new Properties();
     
-    /* Stream, zum einlesen der Datei */
+    /* nessesary to read the property file */
     private InputStream input = null;
 
 
     /**
-     * Setzt die Sprache, in welcher dann die Einträge für das FAQ geladen werden sollen
-     * @param locale : ausgewählte Sprache
+     * Sets the language in which the entries for the FAQ should be loaded
+     * @param locale : selected Language
      */
     public Help(Locale locale) {
         this.locale = locale;
@@ -52,7 +52,7 @@ public class Help {
     }
 
     /**
-     * Lädt die Fragen des FAQ zu der gegebenen Sprache
+     * loads questions from selected property file
      */
     public void loadQuestions() {
         for (int i = 1; i < prop.size(); i++) {
@@ -61,7 +61,7 @@ public class Help {
     }
 
     /**
-     * Lädt die Antworten des FAQ zu der gegebenen Sprache
+     * loads answers from selected property file
      */
     public void loadAnswers() {
         for (int i = 1; i < prop.size(); i++) {
@@ -70,31 +70,31 @@ public class Help {
     }
 
     /**
-     * Lädt die Info des FAQ zu der gegebenen Sprache
+     * loads informations about selected property file
      */
     public void loadInfo() {
     	info = prop.getProperty(info);
     }
 
     /**
-     * Gibt eine Liste aller Fragen zurück
-     * @return Liste mit allen Fragen
+     * returns list of all questions
+     * @return list with Strings (questions)
      */
     public List<String> getQuestions() {
         return questions;
     }
 
     /**
-     * Gibt eine Liste aller Antworten zurück
-     * @return Liste mit allen Antworten
+     * returns list of all answers
+     * @return list with Strings (answers)
      */
     public List<String> getAnswers() {
     	return answers;
     }
 
     /**
-     * Gibt Informationen über das  FAQ zurück
-     * @return Text mit Informationen
+     * returns information about FAQ
+     * @return information about FAQ
      */
     public String getInfo() {
         return info;

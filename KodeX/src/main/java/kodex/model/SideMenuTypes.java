@@ -1,15 +1,15 @@
 package kodex.model;
 
 /**
- * Die Klasse ist eine Enumeration der Namen für verschiedenen
- * Ansichten des Seitenmenüs
+ * The class is an enumeration of names for 
+ * different views of the side menu
  * 
- * @author Automatisch erzeugt durch StarUML
+ * @author StarUML
  * 
  * @version 1.0
  *
  */
 public enum SideMenuTypes {
-    MiniMenu, //minimiertes Seitenmenü
-    ExtendedMenu //Standard Seitenmenü
+    MiniMenu, //minimized side menu
+    ExtendedMenu //standard side menu
 }

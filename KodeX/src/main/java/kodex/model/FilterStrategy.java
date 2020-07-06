@@ -5,11 +5,11 @@ import java.util.List;
 import kodex.plugininterface.ProcedurePlugin;
 
 /**
- * Dies ist das Interface, dass ein gegebener Filter für die Liste der Kodierungsverfahren 
- * implementieren muss. Ein Filter hat die Aufgabe, die übergebene Liste der 
- * Kodierungsverfahren zu sortieren oder/und diese nach bestimmten Eigenschaften zu filtern.
+ * This is the interface that a given filter must implement for the list of procedures.
+ * A filter has the task of sorting the transferred list of procedures 
+ * and / or filtering them according to certain properties.
  * 
- * @author Automatisch erzeugt durch StarUML
+ * @author StarUML
  * 
  * @version 1.0
  *
@@ -17,10 +17,10 @@ import kodex.plugininterface.ProcedurePlugin;
 public interface FilterStrategy {
 
     /**
-     * Die konkrete Filter Strategie
+     * The concrete filter strategy
      * 
-     * @param selectedProcedures : zu filternde Liste der Plugins
-     * @return gefilterte Liste der Plugins
+     * @param selectedProcedures : List of procedures to filter
+     * @return filtered list of plugins
      */
     public List<ProcedurePlugin> filterProcedures(List<ProcedurePlugin> selectedProcedures);
 

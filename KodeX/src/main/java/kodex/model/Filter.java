@@ -1,17 +1,16 @@
 package kodex.model;
 
 /**
- * Die Klasse ist eine Enumeration verschiedenen
- * Möglichkeiten zum Sotieren / Filtern von
- * Vaerfahren.
+ * The class is an enumeration of different ways of
+ * sorting / filtering procedures.
  * 
- * @author Automatisch erzeugt durch StarUML
+ * @author StarUML
  * 
  * @version 1.0
  *
  */
 public enum Filter {
-    Alphabetic, //alphabetische Sortierung
-    Relevance, //Sortierung, wie oft ein Verfahren genutzt wurde
-    Grade //Filter nach angegebener Klassenstufe
+    Alphabetic, //alphabetical order
+    Relevance, //Sorting how often a procedure was used
+    Grade //Filter by specified class level
 }
