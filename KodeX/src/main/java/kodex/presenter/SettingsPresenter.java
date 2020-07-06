@@ -4,7 +4,9 @@ import java.io.IOException;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
+import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
 import kodex.model.DefaultSettings;
 
@@ -104,6 +106,12 @@ public class SettingsPresenter extends Presenter {
             }
         };
     }
+    
+    private void setErrorPseudoClass(Control control, boolean state) {
+        
+        final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
+        control.pseudoClassStateChanged(errorClass, state);
+    }
 
     /**
      * This Method is called when the user enters text into the text field for the
@@ -133,8 +141,7 @@ public class SettingsPresenter extends Presenter {
         }
 
         if (newValue.isEmpty()) {
-            // TextField is empty
-            // TODO what to show here?
+            setErrorPseudoClass(portTextField, false);
             return;
         }
 
@@ -143,12 +150,13 @@ public class SettingsPresenter extends Presenter {
         if ((portNumber < 0) || (65535 < portNumber)) {
             // not in the given port range
 
-            // TODO indicate wrong port visually
+            setErrorPseudoClass(portTextField, true);
             validPortTextField = false;
             return;
         }
 
         // all checks have passed so the new content of the text field is valid
+        setErrorPseudoClass(portTextField, false);
         validPortTextField = true;
     }
 

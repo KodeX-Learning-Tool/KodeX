@@ -23,12 +23,15 @@
    -fx-background-color: transparent;
 }
 
+.text-field:error {
+  -fx-text-inner-color: red ;
+}
+
 .default-page-title {
 	-fx-font-family: "Roboto";
 	-fx-font-weight: bold;
 	-fx-font-size: 24;
 	-fx-alignment:  baseline-left;
-
 }
 
 .default-root {
