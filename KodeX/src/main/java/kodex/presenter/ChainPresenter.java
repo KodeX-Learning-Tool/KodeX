@@ -6,8 +6,9 @@ import javafx.scene.layout.AnchorPane;
 import kodex.plugininterface.ProcedurePlugin;
 
 /**
- * Dieser Presenter ist für die Kodierungskette zuständig. Er baut aus den einzelnen View-Objekten 
- * der Kodierungsstufen eine zusammenhängende View für die Kodierungskette zusammen.
+ * This Presenter is responsible for the Coding Chain. This Page shows the Coding Chain in its entirety
+ * and is responsible for interactions regarding the display of said Coding Chain. These are creating
+ * the view for a given Procedure-Plugin, hiding a Chain Link, and jumping to a Chain Link.
  * 
  * @author Yannick Neubert
  * 
@@ -16,65 +17,65 @@ import kodex.plugininterface.ProcedurePlugin;
 public class ChainPresenter implements IPresenter {
 
     /**
-     * Die Position der Scroll-Leiste
+     * The position of the Scrollbar.
      */
     private double horizontalScrollPosition;
 
     /**
-     * Das scrollbare Fenster
+     * The scrollable Pane in which the split pane is nested.
      */
     private ScrollPane scrollPane;
 
     /**
-     * Das geteilte Fenster mit den Kodierungsstufen
+     * The split pane in which the Chain Links are displayed.
      */
     private SplitPane splitPane;
 
     
 
     /**
-     * Erstellt einen neuen ChainPresenter.
+     * Creates a new ChainPresenter.
      */
     public ChainPresenter() {
         // TODO implement here
     }
 
     /**
-     * Die Methode wird ausgeführt, wenn der Benutzer auf die Schaltfläche zum Verstecken der 
-     * Kodierungsstufe klickt. Minimiert den sichtbaren Ausschnitt der Kodierungsstufe.
+     * This method is executed when the users clicks on the button to hide a Chain Link. It minimizes 
+     * the Chain Link in the Split-Pane.
      */
     public void handleHideChainLink() {
         // TODO implement here
     }
 
     /**
-     * Die Methode baut sich die Kodierungskette aus den einzelnen Kodierungsstufen zusammen.
-     * @param activeProcedure das aktive Kodierungsverfahren
+     * This method creates the view for a given Procedure-Plugin.
+     * @param activeProcedure the active Procedure-Plugin.
      */
     public void createChainView(ProcedurePlugin activeProcedure) {
         // TODO implement here
     }
 
     /**
-     * Die Methode springt in der Kette zur Kodierungstufe mit der angegebenen ID.
-     * @param id : Die ID der Kodierungsstufe.
+     * This method jumps to the Chain Link with the given ID.
+     * @param id : The ID of the Chain Link.
      */
     public void jumpToChainLink(int id) {
         // TODO implement here
     }
 
     /**
-     * Die Methode setzt die Position der Teiler zwischen den Kodierungsstufen.
-     * @param id : Die ID des Teilers
-     * @param pos : Die Position, an die der Teiler verschoben werden soll.
+     * This method sets the position of the vertical dividers between the Chain Links.
+     * @param id : The ID of the divider.
+     * @param pos : The position to which the divider has to be moved.
      */
     public void setStageDivider(int id, double pos) {
         // TODO implement here
     }
 
     /**
-     * Scrollt zu einer Kodierungsstufe
-     * @param hValue Setzt den Scroll-Wert
+     * Sets the scrollbar position in order to jump to a Chain Link.
+     * @param hValue the value the Scrollbar is to be set to.
      */
     private void setHorizontalScrollPosition(double hValue) {
         // TODO implement here

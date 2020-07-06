@@ -5,7 +5,8 @@ import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ProcedurePlugin;
 
 /**
- * Diese Klasse verwaltet eine Reihe an Presenter, die für das Kodierungsverfahren als Ganzes notwendig sind.
+ * This Presenter is responsible for the Procedure Plugin page.
+ * It manages a number of Presenters, each responsible for a unique part in creating a Coding Procedure.
  * 
  * @author Yannick Neubert
  * 
@@ -14,62 +15,63 @@ import kodex.plugininterface.ProcedurePlugin;
 public class ProcedureLayoutPresenter extends Presenter {
 	
     /**
-     * Das aktive Kodierungsverfahren
+     * The active Coding Procedure. It contains the data for the Coding Chain and 
+     * the Presenters for editing the data as well as an Import Presenter.
      */
     private ProcedurePlugin activeProcedure;
 
     /**
-     * Der Presenter für die Übersicht zu dem Verfahren
+     * The Overview Presenter to the Procedure Plugin.
      */
     private OverviewPresenter overviewPresenter;
 
     /**
-     * 
+     * The active Presenter. Is either an Import Presenter or a ChainPresenter.
      */
     private IPresenter activePresenter;
 
     /**
-     * Der aktive EditPresenter zu dem Verfahren
+     * The active Edit Presenter.
      */
     private ChainLinkEditPresenter editPresenter;
 
 
 
     /**
-     * Erstellt einen neuen ProcedureLayoutPresenter mit Referenzen zu dem PresenterManager 
-     * und einem ProcedurePlugin.
-     * @param pm : Referenz zum PresenterManger, um zu anderen Fenstern wechseln zu können.
-     * @param activePlugin : Das aktive Verfahren, welches ausgewählt wurde.
+     * Creates a new Procedure-Layout-Presenter with a reference to a Presenter-Manager
+     * and a Procedure Plugin.
+     * @param pm : The reference to the Presenter-Manager.
+     * @param activePlugin : The active Procedure-Plugin.
      */
     public ProcedureLayoutPresenter(PresenterManager pm, ProcedurePlugin activePlugin) {
         // TODO implement here
     }
 
     /**
-     * Die Methode wird ausgeführt, wenn der Benutzer auf die Schaltfläche zum Schließen des Bearbeitungsfenster klickt. 
-     * Schließt das Bearbeitungs-fenster.
+     * This method is executed if the user clicks on the button to close the Edit-Window.
+     * It closes the Edit-Window.
      */
     public void handleCloseEditWindow() {
         // TODO implement here
     }
 
     /**
-     * Die Methode erstellt einen neuen ChainPresenter und setzt diesen als aktiven Presenter.
+     * This method creates a new Chain-Presenter and sets it as the active Presenter.
      */
     public void switchToChainPresenter() {
         // TODO implement here
     }
 
     /**
-     * Die Methode setzt den EditPresenter zum Anzeigen des Bearbeitungs-fensters.
-     * @param editPresenter : Der Presenter für das Bearbeitungsfenster.
+     * This method sets the Edit-Presenter in order to show an Edit-Window.
+     * @param editPresenter : The Edit-Presenter.
      */
     public void setEditPresenter(ChainLinkEditPresenter editPresenter) {
         // TODO implement here
     }
 
     /**
-     * Die Methode gibt die View für das Bearbeitungsfenster frei, sodass es nicht mehr angezeigt wird.
+     * This method gets rid of the Edit-Window.
      */
     public void clearEditView() {
         // TODO implement here

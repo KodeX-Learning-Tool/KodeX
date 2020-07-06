@@ -6,8 +6,8 @@ import javafx.scene.layout.HBox;
 import kodex.plugininterface.ChainLinkPresenter;
 
 /**
- * Dieser Presenter ist für die View der Übersichtsleiste zuständig. Durch klicken auf die 
- * Elemente der Leiste, kann man in der Kodierungskette an die jeweilige Stelle springen.
+ * This presenter is responsible for the overview over the Coding Chain.
+ * Clicking an element in the overview will cause the ChainPresenter to jump to the corresponding Chain Link. 
  * 
  * @author Yannick Neubert
  * 
@@ -16,59 +16,60 @@ import kodex.plugininterface.ChainLinkPresenter;
 public class OverviewPresenter implements IPresenter {
 	
     /**
-     * Der ChainPresenter für die Sicht der Kette.
+     * The Chain-Presenter containig the view of the Coding Chain.
      */
     private ChainPresenter chainPresenter;
 
     /**
-     * Die HBox, die die Sicht der Übersicht beinhaltet.
+     * The HBox containing the view of the Overview.
      */
     private HBox overview;
 
 
 
     /**
-     * Erstellt einen neuen ChainPresenter
+     * Creates a new Overview-Presenter.
      */
     public OverviewPresenter() {
         // TODO implement here
     }
 
     /**
-     * Die Methode wird ausgeführt, wenn der Benutzer auf eine Schaltfläche in der Übersichtsleiste klickt. 
-     * Springt in der Kodierungskette zu der ausgewählten Stufe.
+     * This method is executed if the user clicks on an element in the Overview. 
+     * It Jumps to the corresponding Chain Link.
      */
     public void handleJumpTo() {
         // TODO implement here
     }
 
     /**
-     * Die Methode setzt den ChainPresenter.
-     * @param chainPresenter : Der Presenter für die Kodierungskette.
+     * This method sets the Chain-Presenter containing the view for this Coding Chain.
+     * @param chainPresenter : The Chain-Presenter for this Coding Chain.
      */
     public void setChainPresenter(ChainPresenter chainPresenter) {
         // TODO implement here
     }
 
     /**
-     * Die Methode baut die Schaltflächen für die Übersicht aus den Kodierungsstufen zusammenn
-     * @param firstChainLink : Der Presenter für die erste Stufe des Verfahrens.
+     * This method creates the Overview Items. Starting by the first Chain Link of the Coding Chain,
+     * this method iterates over the Chain Links and creates the Overview Items.
+     * @param firstChainLink : The Presenter to the first Chain Link.
      */
     public void createOverviewItems(ChainLinkPresenter firstChainLink) {
         // TODO implement here
     }
 
     /**
-     * Fügt eine neue Schaltfläche in die Übersicht ein.
-     * @param chainLink : Die konkrete Schaltfläche.
+     * This method adds an Overview Item to the Overview.
+     * @param chainLink : The item that is to be added.
      */
     private void addOverviewItem(Button chainLink) {
         // TODO implement here
     }
 
     /**
-     * Markiert eine Schaltfläche der Übersicht.
-     * @param id : Die ID der Schaltfläche.
+     * This method highlights an item in the Overview.
+     * @param id : The ID of the item.
      */
     private void emphasizeButton(int id) {
         // TODO implement here
