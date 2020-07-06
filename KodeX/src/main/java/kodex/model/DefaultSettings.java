@@ -3,15 +3,17 @@ package kodex.model;
 import java.util.*;
 
 /**
+ * Diese Klasse speichert die Einstellungen des Nutzers. Diese werden lokal in einer Datei
+ * gespeichert, damit sie das Programm persistieren. Als Singleton ist es dem Nutzer möglich,
+ * von überall im Programm auf die Einstellungen zuzugreifen.
+
+ * @author Patrick Spiesberger
  * 
+ * @version 1.0
+ *
  */
 public class DefaultSettings extends Settings {
-
-    /**
-     * Default constructor
-     */
-    public DefaultSettings() {
-    }
+	
 
     /**
      * 
