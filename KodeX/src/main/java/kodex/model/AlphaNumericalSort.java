@@ -5,8 +5,8 @@ import java.util.*;
 import kodex.plugininterface.ProcedurePlugin;
 
 /**
- * Dies ist eine Filter Strategie für die Liste der Kodierungsverfahren. Diese Strategie gibt die
- * Liste der Verfahrens-Plugins zurück, welche in alphanumerischer Reihenfolge sortiert ist.
+ * This is a filter strategy for the list of procedures.
+ * This strategy returns the list of procedures, which are sorted in alphanumeric order.
  * 
  * @author Patrick Spiesberger
  * 
@@ -16,16 +16,15 @@ import kodex.plugininterface.ProcedurePlugin;
 public class AlphaNumericalSort implements FilterStrategy {
 
     /**
-     * Konstrukor der Klasse AlphaNumericalSort
+     * Constructor of the AlphaNumeric Sort class
      */
     public AlphaNumericalSort() {}
 
     /**
-     * Dies ist eine Filter Strategie für die Liste der Kodierungsverfahren.
-     * Diese Strategie gibt die Liste der Verfahrens-Plugins zurück, welche in
-     * alphanumerischer Reihenfolge sortiert ist.
-     * @param selectedProcedures : zu sortierende Liste der Plugins
-     * @return sortierte Liste der Plugins
+     * This is a filter strategy for the list of procedures.
+     * This strategy returns the list of procedures, which are sorted in alphanumeric order.
+     * @param selectedProcedures : List of plugins to be sorted
+     * @return sorted list of plugins
      */
     @Override
     public List<ProcedurePlugin> filterProcedures(List<ProcedurePlugin> selectedProcedures) {

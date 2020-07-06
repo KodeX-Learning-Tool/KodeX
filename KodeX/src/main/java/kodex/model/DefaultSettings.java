@@ -3,10 +3,10 @@ package kodex.model;
 import java.util.*;
 
 /**
- * Diese Klasse speichert die Einstellungen des Nutzers. Diese werden lokal in einer Datei
- * gespeichert, damit sie das Programm persistieren. Als Singleton ist es dem Nutzer möglich,
- * von überall im Programm auf die Einstellungen zuzugreifen.
-
+ * This class saves the user's settings. These are saved locally 
+ * in a file so that they persist the program. As a singleton, 
+ * the user is able to access the settings from anywhere in the program.
+ * 
  * @author Patrick Spiesberger
  * 
  * @version 1.0
