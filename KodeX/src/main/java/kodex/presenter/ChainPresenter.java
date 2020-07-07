@@ -1,5 +1,7 @@
 package kodex.presenter;
 
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.AnchorPane;
@@ -36,16 +38,30 @@ public class ChainPresenter implements IPresenter {
     /**
      * Creates a new ChainPresenter.
      */
-    public ChainPresenter() {
-        // TODO implement here
-    }
-
+	private AnchorPane chainRootPane;
+	
+	private ChainLinkPresenter firstChainLinkPresenter;
+	
+	private ProcedureLayoutPresenter procedureLayoutPresenter;
+	
     /**
      * This method is executed when the users clicks on the button to hide a Chain Link. It minimizes 
      * the Chain Link in the Split-Pane.
      */
     public void handleHideChainLink() {
         // TODO implement here
+    public ChainPresenter(ChainLinkPresenter chainLinkPresenter, ProcedureLayoutPresenter procedureLayoutPresenter) {
+    	this.firstChainLinkPresenter = chainLinkPresenter;
+		this.procedureLayoutPresenter = procedureLayoutPresenter;
+		
+		// loads the template file
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("chainlayout.fxml"));
+		fxmlLoader.setController(this);
+		try {
+			chainRootPane = fxmlLoader.load();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
     /**
@@ -83,8 +99,7 @@ public class ChainPresenter implements IPresenter {
 
     @Override
     public AnchorPane getView() {
-        // TODO implement here
-        return null;
+        return chainRootPane;
     }
 
 }
