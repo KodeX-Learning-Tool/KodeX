@@ -25,13 +25,13 @@ public class Language {
     private static Language instance;
 
     /* list with all avaliable languages */
-    private List<Locale> languages;
+    private static List<Locale> languages;
 
     /* File with current language*/
     private File currentLanguageFile;
     
     /* instance of property file */
-    private Properties prop = new Properties();
+    private static Properties prop = new Properties();
     
     /* nessesary to read the property file */
     private InputStream input = null;
@@ -45,7 +45,6 @@ public class Language {
     	input = getClass().getClassLoader().getResourceAsStream(currentLanguageFile.toString());
     	try {
 			prop.load(input);
-			instance = this;
 		} catch (IOException e) {
 			System.out.println("Language can not be selected");
 		}
@@ -58,14 +57,27 @@ public class Language {
      * @return instance of this class
      */
     public static Language getInstance() {
+    	if (instance == null) {
+    		instance = new Language(new Locale("DE"));
+    	}
         return instance;
     }
+    
+    /**
+     * Sets the singleton instance of this class.
+     * 
+     * @param locale : corresponding language
+     */
+    public static void setInstance(Locale locale) {
+        instance = new Language(locale);
+    }
+    
 
     /**
      * returns a list of al available languages
      * @return list of type Locale
      */
-    public List<Locale> getLanguageList() {
+    public static List<Locale> getLanguageList() {
         return languages;
     }
 
@@ -75,22 +87,22 @@ public class Language {
      * @param message : Message that is required in the corresponding language
      * @return message in the current language
      */
-    public String getMessage(String message) {
+    public static String getMessage(String message) {
         return prop.getProperty(message);
     }
 
     /**
      * Returns information about current language
-     * @return : name and domain of current language (e.g. Deutsch : DE)
+     * @return : domain of current language (e.g. Deutsch = DE)
      */
-    public String getLanguageInfo() {
-        return prop.getProperty("Language") + " : " + prop.getProperty("Domain");
+    public static String getLanguageInfo() {
+        return prop.getProperty("Domain");
     }
 
     /**
      * refreshes the list of current language
      */
-    public void refreshList() {
+    public static void refreshList() {
         // TODO implement here
     }
 
