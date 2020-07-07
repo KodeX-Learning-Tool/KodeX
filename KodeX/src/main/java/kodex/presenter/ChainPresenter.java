@@ -38,6 +38,7 @@ public class ChainPresenter implements IPresenter {
      * Creates a new ChainPresenter.
      */
 	
+	@FXML
 	private ScrollPane viewScrollPane;
 	
 	@FXML
