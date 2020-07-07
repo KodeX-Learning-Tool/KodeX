@@ -45,6 +45,7 @@ public class ProcedureLayoutPresenter extends Presenter {
      */
     public ProcedureLayoutPresenter(PresenterManager pm, ProcedurePlugin activePlugin) {
         // TODO implement here
+        super(pm, "procedurelayout");
     }
 
     /**
@@ -76,11 +77,4 @@ public class ProcedureLayoutPresenter extends Presenter {
     public void clearEditView() {
         // TODO implement here
     }
-
-	@Override
-	public AnchorPane getView() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
