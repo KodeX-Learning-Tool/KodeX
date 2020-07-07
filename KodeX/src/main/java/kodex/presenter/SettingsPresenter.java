@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import kodex.model.DefaultSettings;
+import kodex.model.validator.PortNumValidator;
 import kodex.presenter.textformatter.PortNumFormatter;
 
 /**
@@ -37,11 +38,6 @@ public class SettingsPresenter extends Presenter {
     @FXML
     private TextField pathTextField;
 
-    /*
-     * Indicates whether the content of the port TextField is valid.
-     */
-    private boolean validPortTextField;
-
     /**
      * Creates a new SettingsPresenter with a reference to the PresenterManager
      * 
@@ -59,7 +55,6 @@ public class SettingsPresenter extends Presenter {
     @FXML
     private void initialize() {
         
-        //TODO: validate loaded settings or trust them?
         //TODO: reset pseudo classes for reset
 
         /*
@@ -139,13 +134,16 @@ public class SettingsPresenter extends Presenter {
      */
     @FXML
     public void handleSubmitPort() {
+        
+        String portText = portTextField.getText();
 
-        if (!validPortTextField) {
-            // TODO visually highlight, that the textfield is not valid yet
+        if (!PortNumValidator.getInstance().isValid(portText)) {
+            
+            setErrorPseudoClass(portTextField, true);
             return;
         }
 
-        int portNumber = Integer.parseInt(portTextField.getText());
+        int portNumber = Integer.parseInt(portText);
 
         defaultSettings.setPort(portNumber);
     }
