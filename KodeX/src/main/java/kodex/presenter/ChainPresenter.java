@@ -19,25 +19,22 @@ import kodex.plugininterface.ProcedurePlugin;
 public class ChainPresenter implements IPresenter {
 
     /**
-     * The position of the Scrollbar.
-     */
-    private double horizontalScrollPosition;
-
-    /**
      * The scrollable Pane in which the split pane is nested.
      */
-    private ScrollPane scrollPane;
-
     /**
      * The split pane in which the Chain Links are displayed.
      */
-    private SplitPane splitPane;
-
     
 
     /**
      * Creates a new ChainPresenter.
      */
+	
+	private ScrollPane viewScrollPane;
+	
+	@FXML
+	private SplitPane chainSplitPane;
+	
 	private AnchorPane chainRootPane;
 	
 	private ChainLinkPresenter firstChainLinkPresenter;
