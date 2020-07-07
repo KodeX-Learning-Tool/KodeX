@@ -25,7 +25,7 @@
                         <Label text="Sprache:">
                         </Label>
                         <Region styleClass="settings__setting__spring" />
-                        <ChoiceBox fx:id="languageComboBox" styleClass="default-choice-box--shadow" />
+                        <ChoiceBox fx:id="languageChoiceBox" onAction="#handleChangeLanguage" styleClass="default-choice-box--shadow" />
                      </children>
                   </VBox>
                   <Region styleClass="settings__spring" />
@@ -36,7 +36,7 @@
                         <Region styleClass="settings__setting__spring" />
                         <HBox>
                            <children>
-                              <ToggleSwitch styleClass="toggle-switch" text="Aus ">
+                              <ToggleSwitch fx:id="darkModeSwitch" onMouseClicked="#handleDarkModeToggle" styleClass="toggle-switch" text="Aus ">
                               </ToggleSwitch>
                            </children>
                         </HBox>
