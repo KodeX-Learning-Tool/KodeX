@@ -2,6 +2,7 @@ package kodex.presenter.textformatter;
 
 import java.util.function.UnaryOperator;
 
+import javafx.css.PseudoClass;
 import javafx.scene.control.TextFormatter;
 
 public class IPAddrFormatter {
@@ -13,11 +14,22 @@ public class IPAddrFormatter {
     private static UnaryOperator<TextFormatter.Change> filter = new UnaryOperator<TextFormatter.Change>() {
         @Override
         public TextFormatter.Change apply(TextFormatter.Change change) {
+            
+            if (!change.isContentChange()) {
+                /*
+                 * we are only interested in changes related to the content
+                 */
+                return change;
+            }
 
             if (!change.getControlNewText().matches("[\\d\\.]{0,15}")) {
                 // change is too long or uses invalid characters
                 return null;
             }
+            
+            final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
+            change.getControl().pseudoClassStateChanged(errorClass, false);
+            
             return change;
         }
     };
