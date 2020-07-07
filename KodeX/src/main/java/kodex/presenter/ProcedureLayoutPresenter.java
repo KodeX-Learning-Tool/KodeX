@@ -1,10 +1,18 @@
 package kodex.presenter;
 
+import java.io.IOException;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import kodex.plugininterface.ChainLinkEditPresenter;
+import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
 
@@ -31,11 +39,6 @@ public class ProcedureLayoutPresenter extends Presenter {
     private ProcedurePlugin activeProcedure;
 
     /**
-     * The Overview Presenter to the Procedure Plugin.
-     */
-    private OverviewPresenter overviewPresenter;
-
-    /**
      * The active Presenter. Is either an Import Presenter or a ChainPresenter.
      */
     private IPresenter activePresenter;
@@ -60,6 +63,58 @@ public class ProcedureLayoutPresenter extends Presenter {
         ((ImportPresenter) activePresenter).setLayoutPresenter(this);
 	    procedurePane.setCenter(activePresenter.getView());	
     }
+	private class OverviewItem extends Button {
+		
+		@FXML
+		private ImageView overviewThumbNail;
+		
+		private Image thumbNail;
+		
+		private String chainLinkNameAbbreviation;
+		
+		private int id;
+		
+		OverviewItem(ChainLinkPresenter chainLinkPresenter, int id) {
+			this.id = id;
+			
+			thumbNail = chainLinkPresenter.getSymbol();
+			
+			// procedureNameInitial = chainLinkPresenter.getName().substring(0, 1);
+			
+			try {
+	            FXMLLoader loader = new FXMLLoader(getClass().getResource("overviewbutton.fxml"));
+	            loader.setController(this);
+	            loader.setRoot(this);
+	            loader.load();
+	        } catch (IOException exc) {
+	        	System.err.println("The file overviewbutton.fxml was not found!");
+	        }
+			
+			this.getStyleClass().add("overview__item");
+		}
+		
+		@FXML
+		private void initialize() {
+			if (thumbNail != null) {
+				overviewThumbNail.setImage(thumbNail);
+				this.setText("");
+			} else {
+				this.setText(chainLinkNameAbbreviation);
+			}	
+		}
+		
+		@FXML
+		private void handleJumpTo() {
+			((ChainPresenter) activePresenter).jumpToChainLink(id);
+		}
+	}
+	
+    public void switchToChainPresenter() {
+		activePresenter = new ChainPresenter(activeProcedure.getChainHead(), this);
+		addOverviewItems();
+		((ChainPresenter) activePresenter).createChainView(activeProcedure);
+		procedurePane.setCenter(activePresenter.getView());
+    }	
 
     /**
      * This method is executed if the user clicks on the button to close the Edit-Window.
@@ -68,13 +123,21 @@ public class ProcedureLayoutPresenter extends Presenter {
     public void handleCloseEditWindow() {
         // TODO implement here
     }
+	private void addOverviewItems() {
+		ChainLinkPresenter chainLinkPresenter = activeProcedure.getChainHead();
+		
+		int i = 0;
+		
+		while (chainLinkPresenter != null) {
+			overviewBox.getChildren().add(new OverviewItem(chainLinkPresenter, i));
+			Region region = new Region();
+			region.setPrefWidth(100);
+			overviewBox.getChildren().add(region);
+			chainLinkPresenter = chainLinkPresenter.getNext();
+			i++;
+		}
+	}
 
-    /**
-     * This method creates a new Chain-Presenter and sets it as the active Presenter.
-     */
-    public void switchToChainPresenter() {
-        // TODO implement here
-    }
 
     /**
      * This method sets the Edit-Presenter in order to show an Edit-Window.
