@@ -1,17 +1,20 @@
 package kodex.presenter;
 
 import java.io.File;
-import java.io.IOException;
+import java.util.Locale;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import org.controlsfx.control.ToggleSwitch;
+
+import javafx.collections.FXCollections;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
+import javafx.util.StringConverter;
 import kodex.model.DefaultSettings;
+import kodex.model.Language;
 import kodex.model.validator.PortNumValidator;
 import kodex.presenter.textformatter.PortNumFormatter;
 
@@ -31,6 +34,12 @@ public class SettingsPresenter extends Presenter {
      * time they are needed
      */
     private DefaultSettings defaultSettings;
+    
+    @FXML
+    private ChoiceBox<Locale> languageChoiceBox;
+    
+    @FXML
+    private ToggleSwitch darkModeSwitch;
 
     @FXML
     private TextField portTextField;
@@ -55,13 +64,35 @@ public class SettingsPresenter extends Presenter {
     @FXML
     private void initialize() {
         
-        //TODO: reset pseudo classes for reset
+        //reset pseudo classes for reset
+        
+        setErrorPseudoClass(portTextField, false);
+        
+        /*
+         * Initialize the language ChoiceBox setting.
+         */
+        
+        languageChoiceBox.setConverter(createLanguageConverter());
+        languageChoiceBox.setItems(FXCollections.observableArrayList(Language.getInstance().getLanguageList()));
+        
+        /*
+         * TODO: remove
+         * Code for testing purposes:
+         * ObservableList<Locale> list = FXCollections.observableArrayList(new Locale("de"), new Locale("en"), new Locale("fr"));
+         * languageChoiceBox.setItems(list);
+         */
+        
+        /*
+         * Initialize the DarkMode switch setting.
+         */
 
+        darkModeSwitch.setSelected(defaultSettings.isDarkMode());
+        
         /*
          * Initialize the port setting.
          */
         portTextField.setTextFormatter(PortNumFormatter.createTextFormatter());
-
+        
         String portString = Integer.toString(defaultSettings.getPort());
         portTextField.setText(portString);
 
@@ -70,13 +101,50 @@ public class SettingsPresenter extends Presenter {
          */
         updateDefaultPath();
     }
+    
+    /*
+     * Creates a language converter to show Locales with their local language
+     */
+    private StringConverter<Locale> createLanguageConverter() {
+        return new StringConverter<Locale>() {
+
+            @Override
+            public String toString(Locale locale) {
+                return locale.getDisplayLanguage(locale);
+            }
+
+            @Override
+            public Locale fromString(String string) {
+                return null;
+            }
+        };
+    }
+    
+    /*
+     * Sets or removes the error pseudoclass for the given control depending on the given state.
+     */
+    private void setErrorPseudoClass(Control control, boolean state) {
+        
+        final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
+        control.pseudoClassStateChanged(errorClass, state);
+    }
+    
+    /*
+     * Sets the text of the default path text field to the path saved in the properties
+     */
+    private void updateDefaultPath() {
+        
+        String pathtext = defaultSettings.getDefaultPath();
+        
+        pathTextField.setText(pathtext);
+    }
 
     /**
      * This Method is called when a new Language is selected. Changes the language.
      */
     @FXML
     public void handleChangeLanguage() {
-        // TODO implement here
+        defaultSettings.setLanguauge(languageChoiceBox.getValue());
     }
 
     /**
@@ -84,8 +152,10 @@ public class SettingsPresenter extends Presenter {
      * appearance of the application by changing the loaded css file.
      */
     @FXML
-    public void handleChangeSkin() {
-        // TODO implement here
+    public void handleDarkModeToggle() {
+        
+        //TODO switch label of switch
+        defaultSettings.setDarkMode(darkModeSwitch.isSelected());
     }
 
     /**
@@ -109,25 +179,6 @@ public class SettingsPresenter extends Presenter {
         updateDefaultPath();
     }
     
-    /*
-     * Sets the text of the default path text field to the path saved in the properties
-     */
-    private void updateDefaultPath() {
-        
-        String pathtext = defaultSettings.getDefaultPath();
-        
-        pathTextField.setText(pathtext);
-    }
-    
-    /*
-     * Sets or removes the error pseudoclass for the given control depending on the given state.
-     */
-    private void setErrorPseudoClass(Control control, boolean state) {
-        
-        final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
-        control.pseudoClassStateChanged(errorClass, state);
-    }
-
     /**
      * This Method is called when the user clicks on the item to confirm the entered
      * default port. Saves the entered port.
@@ -138,6 +189,7 @@ public class SettingsPresenter extends Presenter {
         String portText = portTextField.getText();
 
         if (!PortNumValidator.getInstance().isValid(portText)) {
+            //port number is invalid
             
             setErrorPseudoClass(portTextField, true);
             return;
@@ -157,7 +209,6 @@ public class SettingsPresenter extends Presenter {
         
         defaultSettings.reset();
         
-        //TODO: reset all pseudo classes
         //initialize all settings again to display the reset
         this.initialize();
     }
