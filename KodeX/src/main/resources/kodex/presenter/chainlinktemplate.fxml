@@ -15,7 +15,7 @@
    <children>
       <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#handleHide">
+            <Button mnemonicParsing="false" onAction="#handleHideChainLink">
                <graphic>
                   <FontIcon fx:id="hideButtonIcon" iconLiteral="mdi-chevron-right" />
                </graphic>
