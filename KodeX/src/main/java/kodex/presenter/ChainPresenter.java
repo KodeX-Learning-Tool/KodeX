@@ -1,10 +1,18 @@
 package kodex.presenter;
 
+import java.io.File;
+import java.io.IOException;
+import org.kordamp.ikonli.javafx.FontIcon;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ProcedurePlugin;
 
 /**
@@ -45,8 +53,6 @@ public class ChainPresenter implements IPresenter {
      * This method is executed when the users clicks on the button to hide a Chain Link. It minimizes 
      * the Chain Link in the Split-Pane.
      */
-    public void handleHideChainLink() {
-        // TODO implement here
     public ChainPresenter(ChainLinkPresenter chainLinkPresenter, ProcedureLayoutPresenter procedureLayoutPresenter) {
     	this.firstChainLinkPresenter = chainLinkPresenter;
 		this.procedureLayoutPresenter = procedureLayoutPresenter;
@@ -60,7 +66,81 @@ public class ChainPresenter implements IPresenter {
 			e.printStackTrace();
 		}
     }
-
+	
+    private class ChainItem extends AnchorPane {
+		
+		@FXML
+		private Label titleLabel;
+		
+		@FXML
+		private BorderPane chainLinkPane;
+		
+		@FXML
+		private VBox informationBox;
+		
+		@FXML
+		private FontIcon hideButtonIcon;
+		
+		private Boolean isHidden;
+		
+		private String hiddenIcon = "mdi-chevron-down";
+		
+		private String shownIcon = "mdi-chevron-right";
+		
+		private ChainLinkPresenter chainLinkPresenter;
+		
+		ChainItem(ChainLinkPresenter chainLinkPresenter) {
+			this.chainLinkPresenter = chainLinkPresenter;
+			
+			isHidden = false; 
+			
+			try {
+	            FXMLLoader loader = new FXMLLoader(getClass().getResource("chianlinktemplate.fxml"));
+	            loader.setController(this);
+	            loader.setRoot(this);
+	            loader.load();
+	        } catch (IOException exc) {
+	        	System.err.println("The file chianlinktemplate.fxml was not found!");
+	        }
+			
+		}
+		
+		@FXML
+		private void initialize() {
+			// titleLabel.setText("Kodierungsstufe: " + chainLinkPresenter.getName());
+			informationBox.getChildren().set(0, chainLinkPresenter.getChainLinkHeaderView());
+		}
+		
+		@FXML
+		private void handleEdit() {
+			procedureLayoutPresenter.setEditPresenter(chainLinkPresenter.getChainLinkEditPresenter());
+		}
+		
+		@FXML
+		private void handleExport() {
+			FileChooser chooser = new FileChooser();
+			chooser.setTitle("Choose export location");
+			File exportLocation = chooser.showSaveDialog(null);
+			
+			chainLinkPresenter.export(exportLocation);
+		}
+		
+		@FXML
+		private void handleHideChainLink() {
+			toggleHide();
+		}
+		
+		private void toggleHide() {
+			if (isHidden) {
+				hideButtonIcon.setIconLiteral(shownIcon);
+				isHidden = false;
+			} else {
+				hideButtonIcon.setIconLiteral(hiddenIcon);
+				isHidden = true;
+			}
+		}
+	}
+    
     /**
      * This method creates the view for a given Procedure-Plugin.
      * @param activeProcedure the active Procedure-Plugin.
