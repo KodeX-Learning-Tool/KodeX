@@ -1,6 +1,7 @@
 package kodex.presenter;
 
 import java.io.IOException;
+import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -11,6 +12,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ImportPresenter;
@@ -42,13 +45,6 @@ public class ProcedureLayoutPresenter extends Presenter {
      * The active Presenter. Is either an Import Presenter or a ChainPresenter.
      */
     private IPresenter activePresenter;
-
-    /**
-     * The active Edit Presenter.
-     */
-    private ChainLinkEditPresenter editPresenter;
-
-
 
     /**
      * Creates a new Procedure-Layout-Presenter with a reference to a Presenter-Manager
@@ -116,13 +112,6 @@ public class ProcedureLayoutPresenter extends Presenter {
 		procedurePane.setCenter(activePresenter.getView());
     }	
 
-    /**
-     * This method is executed if the user clicks on the button to close the Edit-Window.
-     * It closes the Edit-Window.
-     */
-    public void handleCloseEditWindow() {
-        // TODO implement here
-    }
 	private void addOverviewItems() {
 		ChainLinkPresenter chainLinkPresenter = activeProcedure.getChainHead();
 		
@@ -138,19 +127,64 @@ public class ProcedureLayoutPresenter extends Presenter {
 		}
 	}
 
+    private class Editor extends AnchorPane {
+		
+		@FXML
+		private VBox editItemsBox;
+		
+		private ChainLinkEditPresenter editPresenter;
+		
+		private TranslateTransition editorTranslation;
+		
+		Editor(ChainLinkEditPresenter editPresenter) {
+			this.editPresenter = editPresenter;
+			
+			try {
+	            FXMLLoader loader = new FXMLLoader(getClass().getResource("editor.fxml"));
+	            loader.setController(this);
+	            loader.setRoot(this);
+	            loader.load();
+	        } catch (IOException exc) {
+	        	System.err.println("The file editor.fxml was not found!");
+	        }
+		}
+		
+		@FXML
+		private void initialize() {
+		    this.setPrefWidth(200);
+		    this.setPrefHeight(overlayPane.getHeight());
+		    this.setTranslateX(overlayPane.getWidth());
+		    
+		    editorTranslation = new TranslateTransition(Duration.millis(500), this);
+		    editorTranslation.setFromX(overlayPane.getWidth() + 150);
+		    editorTranslation.setToX(overlayPane.getWidth() - 150);
+		    
+		    editItemsBox.getChildren().set(3, editPresenter.getView());
+		}
+		
+		@FXML
+		private void handleCloseEditor() {
+			hideEditor();
+		}
+		
+		public void showEditor() {
+		    editorTranslation.setRate(1);
+		    editorTranslation.play();
+		}
+		
+		public void hideEditor() {
+			editorTranslation.setRate(-1);
+			editorTranslation.play();
+		}
+	}
 
     /**
      * This method sets the Edit-Presenter in order to show an Edit-Window.
      * @param editPresenter : The Edit-Presenter.
      */
-    public void setEditPresenter(ChainLinkEditPresenter editPresenter) {
-        // TODO implement here
-    }
-
-    /**
-     * This method gets rid of the Edit-Window.
-     */
-    public void clearEditView() {
-        // TODO implement here
+    private void setEditPresenter(ChainLinkEditPresenter editPresenter) {
+		Editor editor = new Editor(editPresenter);
+		overlayPane.getChildren().add(editor);
+		editor.showEditor();
     }
 }
