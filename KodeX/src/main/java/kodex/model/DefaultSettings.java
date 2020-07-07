@@ -48,8 +48,7 @@ public class DefaultSettings extends Settings {
 			port = Integer.parseInt(prop.getProperty("port"));
 			defaultPath = prop.getProperty("defaultPath");
 			
-			int darkmode = Integer.parseInt(prop.getProperty("isDarkModeEnabled"));
-			if (darkmode == 0) isDarkModeEnabled = false;
+			if (prop.getProperty("isDarkModeEnabled") == "false") isDarkModeEnabled = false;
 			else isDarkModeEnabled = true;
 			
 		} catch (IOException e) {
