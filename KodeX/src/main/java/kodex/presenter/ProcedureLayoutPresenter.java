@@ -1,6 +1,9 @@
 package kodex.presenter;
 
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ProcedurePlugin;
 
@@ -14,6 +17,12 @@ import kodex.plugininterface.ProcedurePlugin;
  */
 public class ProcedureLayoutPresenter extends Presenter {
 	
+	@FXML
+	private HBox overviewBox;
+	@FXML
+	private BorderPane procedurePane;
+	@FXML
+	private Pane overlayPane;
     /**
      * The active Coding Procedure. It contains the data for the Coding Chain and 
      * the Presenters for editing the data as well as an Import Presenter.
