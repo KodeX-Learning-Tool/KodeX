@@ -145,8 +145,16 @@ public class ChainPresenter implements IPresenter {
      * This method creates the view for a given Procedure-Plugin.
      * @param activeProcedure the active Procedure-Plugin.
      */
-    public void createChainView(ProcedurePlugin activeProcedure) {
-        // TODO implement here
+    public void createChainView(ProcedurePlugin activeProcedure) {		
+    	ChainLinkPresenter chainLinkPresenter = firstChainLinkPresenter;
+	
+    	// add a newly created chain item for each ChainLinkPresenter
+		int i = 0;
+		while (chainLinkPresenter != null) {
+			chainSplitPane.getItems().set(i, new ChainItem(chainLinkPresenter));
+			chainLinkPresenter = chainLinkPresenter.getNext();
+			i++;
+		}	
     }
 
     /**
