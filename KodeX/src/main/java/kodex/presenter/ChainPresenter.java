@@ -114,6 +114,7 @@ public class ChainPresenter implements IPresenter {
 			
 			isHidden = false; 
 			
+			// loads template file
 			try {
 	            FXMLLoader loader = new FXMLLoader(getClass().getResource("chianlinktemplate.fxml"));
 	            loader.setController(this);
@@ -150,10 +151,12 @@ public class ChainPresenter implements IPresenter {
 	     */
 		@FXML
 		private void handleExport() {
+			// opens save dialog to choose where you want to save the file
 			FileChooser chooser = new FileChooser();
 			chooser.setTitle("Choose export location");
 			File exportLocation = chooser.showSaveDialog(null);
 			
+			// initiates exporting the chain link content
 			chainLinkPresenter.export(exportLocation);
 		}
 		
