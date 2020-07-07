@@ -45,12 +45,12 @@
                                                 </AnchorPane>
                                                 <AnchorPane GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
                                                    <children>
-                                                      <TextField styleClass="network__controll__input__text-field" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                      <TextField fx:id="ipConnectTextField" styleClass="network__controll__input__text-field" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                    </children>
                                                 </AnchorPane>
                                                 <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="2">
                                                    <children>
-                                                      <TextField styleClass="network__controll__input__text-field" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                      <TextField fx:id="portConnectTextField" styleClass="network__controll__input__text-field" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                    </children>
                                                 </AnchorPane>
                                                 <AnchorPane GridPane.rowIndex="1">
