@@ -6,6 +6,7 @@ import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
 import kodex.model.Network;
 import kodex.model.validator.IPAddrValidator;
+import kodex.model.validator.PortNumValidator;
 import kodex.presenter.textformatter.IPAddrFormatter;
 import kodex.presenter.textformatter.PortNumFormatter;
 
@@ -73,7 +74,8 @@ public class NetworkPresenter extends Presenter {
         // default for the text field is an empty string
         validPortConnectTextField = false;
     }
-
+    
+    //TODO create util for this?
     /*
      * Sets or removes the error pseudoclass for the given control depending on the
      * given state.
@@ -92,9 +94,22 @@ public class NetworkPresenter extends Presenter {
      */
     public void handleSend() {
         
+        boolean invalid = false;
+        
         if (!IPAddrValidator.getInstance().isValid(ipConnectTextField.getText())) {
             
             setErrorPseudoClass(ipConnectTextField, true);
+            invalid = true;
+        }
+        
+        if (!PortNumValidator.getInstance().isValid(portConnectTextField.getText())) {
+            
+            setErrorPseudoClass(portConnectTextField, true);
+            invalid = true;
+        }
+        
+        if (invalid) {
+            return;
         }
         
         // TODO implement here
