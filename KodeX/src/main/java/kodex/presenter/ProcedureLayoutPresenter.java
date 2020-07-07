@@ -5,6 +5,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import kodex.plugininterface.ChainLinkEditPresenter;
+import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
 
 /**
@@ -53,8 +54,11 @@ public class ProcedureLayoutPresenter extends Presenter {
      * @param activePlugin : The active Procedure-Plugin.
      */
     public ProcedureLayoutPresenter(PresenterManager pm, ProcedurePlugin activePlugin) {
-        // TODO implement here
         super(pm, "procedurelayout");
+        this.activeProcedure = activePlugin;
+        this.activePresenter = activeProcedure.createImportPresenter();
+        ((ImportPresenter) activePresenter).setLayoutPresenter(this);
+	    procedurePane.setCenter(activePresenter.getView());	
     }
 
     /**
