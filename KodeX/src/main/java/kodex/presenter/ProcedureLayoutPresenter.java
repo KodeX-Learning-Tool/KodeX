@@ -61,6 +61,8 @@ public class ProcedureLayoutPresenter extends Presenter {
     public ProcedureLayoutPresenter(PresenterManager pm, ProcedurePlugin activePlugin) {
         super(pm, "procedurelayout");
         this.activeProcedure = activePlugin;
+        
+        // creates and displays a new import presenter based on the selected procedure
         this.activePresenter = activeProcedure.createImportPresenter();
         ((ImportPresenter) activePresenter).setLayoutPresenter(this);
 	    procedurePane.setCenter(activePresenter.getView());	
@@ -100,10 +102,12 @@ public class ProcedureLayoutPresenter extends Presenter {
 		OverviewItem(ChainLinkPresenter chainLinkPresenter, int id) {
 			this.id = id;
 			
+			// gets the symbol and string representing the chain link
 			thumbNail = chainLinkPresenter.getSymbol();
-			
 			// procedureNameInitial = chainLinkPresenter.getName().substring(0, 1);
 			
+			
+			// loads the template file
 			try {
 	            FXMLLoader loader = new FXMLLoader(getClass().getResource("overviewbutton.fxml"));
 	            loader.setController(this);
@@ -123,9 +127,11 @@ public class ProcedureLayoutPresenter extends Presenter {
 		@FXML
 		private void initialize() {
 			if (thumbNail != null) {
+				// displays the icon / thumb nail
 				overviewThumbNail.setImage(thumbNail);
 				this.setText("");
 			} else {
+				// displays a text instead
 				this.setText(chainLinkNameAbbreviation);
 			}	
 		}
@@ -142,8 +148,13 @@ public class ProcedureLayoutPresenter extends Presenter {
 	
     /** This method displays the chain view with the fitting items in the overview bar. */
     public void switchToChainPresenter() {
+    	// switches the import presenter with a new chain presenter 
 		activePresenter = new ChainPresenter(activeProcedure.getChainHead(), this);
+		
+		// fills the overview bar with items
 		addOverviewItems();
+		
+		// fills the chain view with chain links, then display it
 		((ChainPresenter) activePresenter).createChainView(activeProcedure);
 		procedurePane.setCenter(activePresenter.getView());
     }	
@@ -152,13 +163,16 @@ public class ProcedureLayoutPresenter extends Presenter {
 	private void addOverviewItems() {
 		ChainLinkPresenter chainLinkPresenter = activeProcedure.getChainHead();
 		
+		// loops over the chain link presenter and keeps adding newly created overview items
 		int i = 0;
-		
 		while (chainLinkPresenter != null) {
 			overviewBox.getChildren().add(new OverviewItem(chainLinkPresenter, i));
+			
+			// adds a buffer used for a responsive page design
 			Region region = new Region();
 			region.setPrefWidth(100);
 			overviewBox.getChildren().add(region);
+			
 			chainLinkPresenter = chainLinkPresenter.getNext();
 			i++;
 		}
@@ -193,6 +207,7 @@ public class ProcedureLayoutPresenter extends Presenter {
 		Editor(ChainLinkEditPresenter editPresenter) {
 			this.editPresenter = editPresenter;
 			
+			// loads the template file
 			try {
 	            FXMLLoader loader = new FXMLLoader(getClass().getResource("editor.fxml"));
 	            loader.setController(this);
@@ -210,10 +225,12 @@ public class ProcedureLayoutPresenter extends Presenter {
 		    this.setPrefHeight(overlayPane.getHeight());
 		    this.setTranslateX(overlayPane.getWidth());
 		    
+		    // creates a new TranslateTransition to move the window on the x-axis
 		    editorTranslation = new TranslateTransition(Duration.millis(500), this);
 		    editorTranslation.setFromX(overlayPane.getWidth() + 150);
 		    editorTranslation.setToX(overlayPane.getWidth() - 150);
 		    
+		    // gets and adds the concrete editor items for the chain link
 		    editItemsBox.getChildren().set(3, editPresenter.getView());
 		}
 		
