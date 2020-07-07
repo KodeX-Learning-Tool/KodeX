@@ -74,24 +74,16 @@ public class ChainPresenter implements IPresenter {
      * @param id : The ID of the Chain Link.
      */
     public void jumpToChainLink(int id) {
-        // TODO implement here
-    }
-
-    /**
-     * This method sets the position of the vertical dividers between the Chain Links.
-     * @param id : The ID of the divider.
-     * @param pos : The position to which the divider has to be moved.
-     */
-    public void setStageDivider(int id, double pos) {
-        // TODO implement here
-    }
-
-    /**
-     * Sets the scrollbar position in order to jump to a Chain Link.
-     * @param hValue the value the Scrollbar is to be set to.
-     */
-    private void setHorizontalScrollPosition(double hValue) {
-        // TODO implement here
+    	double hValue;
+    	double position;
+    	
+    	// TODO: calculate jump position
+    	
+    	// This sets the horizontal scroll position.
+    	// viewScrollPane.setHvalue(hValue);
+    	
+    	// This sets the position of the vertical dividers between the Chain Links.
+    	// chainSplitPane.setDividerPosition(id, position);
     }
 
     @Override
