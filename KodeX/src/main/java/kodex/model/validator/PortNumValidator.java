@@ -65,6 +65,6 @@ public class PortNumValidator implements Validatable {
         int portNumber = Integer.parseInt(input);
 
         // checks if text as integer is in the accepted port range [0, 65535]
-        return !(portNumber < MIN_PORT_VALUE) || (MAX_PORT_VALUE < portNumber);
+        return !((portNumber < MIN_PORT_VALUE) || (MAX_PORT_VALUE < portNumber));
     }
 }
