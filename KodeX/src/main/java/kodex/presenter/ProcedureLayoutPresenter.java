@@ -24,31 +24,37 @@ import kodex.plugininterface.ProcedurePlugin;
  * It manages a number of Presenters, each responsible for a unique part in creating a Coding Procedure.
  * 
  * @author Yannick Neubert
+ * @author RaimoN Gramlich
  * 
  * @version 1.0
  */
 public class ProcedureLayoutPresenter extends Presenter {
 	
+	/** The HBox displaying the overview items. */
 	@FXML
 	private HBox overviewBox;
+	
+	/** The BorderPane which displays the overview bar at the top and the view of the active presenter in the center. */
 	@FXML
 	private BorderPane procedurePane;
+	
+	/** The Pane which makes sliding in the Editor possible. */
 	@FXML
 	private Pane overlayPane;
+		
     /**
      * The active Coding Procedure. It contains the data for the Coding Chain and 
      * the Presenters for editing the data as well as an Import Presenter.
      */
     private ProcedurePlugin activeProcedure;
 
-    /**
-     * The active Presenter. Is either an Import Presenter or a ChainPresenter.
-     */
+    /** The active Presenter. Is either an Import Presenter or a ChainPresenter. */
     private IPresenter activePresenter;
 
     /**
      * Creates a new Procedure-Layout-Presenter with a reference to a Presenter-Manager
      * and a Procedure Plugin.
+     * 
      * @param pm : The reference to the Presenter-Manager.
      * @param activePlugin : The active Procedure-Plugin.
      */
@@ -59,17 +65,38 @@ public class ProcedureLayoutPresenter extends Presenter {
         ((ImportPresenter) activePresenter).setLayoutPresenter(this);
 	    procedurePane.setCenter(activePresenter.getView());	
     }
+	
+	/**
+	 * This class represents a single overview item. It loads a template via fxml
+	 * file and fills it with the information it has gotten from an instance of the 
+	 * ChainLinkPresenter class.
+	 * 
+	 * @author Raimon Gramlich
+	 * 
+	 * @version 1.0
+	 */
 	private class OverviewItem extends Button {
 		
+		/** The ImageView which displays the symbol. */
 		@FXML
 		private ImageView overviewThumbNail;
 		
+		/** An icon or a thumb nail representing a chain link. */
 		private Image thumbNail;
 		
+		/** The abbreviation of the chain link name. It is displayed if there is no symbol. */
 		private String chainLinkNameAbbreviation;
 		
+		/** The id of the chain link it represents in the chain. */
 		private int id;
 		
+	    /**
+	     * Creates a new Procedure-Layout-Presenter with a reference to a Presenter-Manager
+	     * and a Procedure Plugin.
+	     * 
+	     * @param chainLinkPresenter : The reference to the ChainLinkPresenter.
+	     * @param id : The id of the ChainLink the item is representing.
+	     */
 		OverviewItem(ChainLinkPresenter chainLinkPresenter, int id) {
 			this.id = id;
 			
@@ -89,6 +116,10 @@ public class ProcedureLayoutPresenter extends Presenter {
 			this.getStyleClass().add("overview__item");
 		}
 		
+	    /**
+	     * Initializes the view-object created by the FXMLLoader. If there is no image to display,
+	     * it sets a String as the text of the overview item instead.
+	     */
 		@FXML
 		private void initialize() {
 			if (thumbNail != null) {
@@ -99,12 +130,17 @@ public class ProcedureLayoutPresenter extends Presenter {
 			}	
 		}
 		
+	    /**
+	     * This method is executed if the user clicks on a overview item.
+	     * It jumps to the chosen chain link in the chain view.
+	     */
 		@FXML
 		private void handleJumpTo() {
 			((ChainPresenter) activePresenter).jumpToChainLink(id);
 		}
 	}
 	
+    /** This method displays the chain view with the fitting items in the overview bar. */
     public void switchToChainPresenter() {
 		activePresenter = new ChainPresenter(activeProcedure.getChainHead(), this);
 		addOverviewItems();
@@ -112,6 +148,7 @@ public class ProcedureLayoutPresenter extends Presenter {
 		procedurePane.setCenter(activePresenter.getView());
     }	
 
+    /** This creates and adds the items to the overview bar. */
 	private void addOverviewItems() {
 		ChainLinkPresenter chainLinkPresenter = activeProcedure.getChainHead();
 		
@@ -127,15 +164,32 @@ public class ProcedureLayoutPresenter extends Presenter {
 		}
 	}
 
+	/**
+	 * This class represents the editor-window which slides in when the respective button is clicked.
+	 * It loads a template via fxml file and fills it with the view-object it has gotten from an
+	 * instance of the ChainLinkEditPresenter class.
+	 * 
+	 * @author Raimon Gramlich
+	 * 
+	 * @version 1.0
+	 */
     private class Editor extends AnchorPane {
 		
+    	/** The VBox which displays the concrete view for a chain link.. */
 		@FXML
 		private VBox editItemsBox;
 		
+		/** The ChainLinkEditPresenter from which the editor gets the concrete view for a chain link. */
 		private ChainLinkEditPresenter editPresenter;
 		
+		/** The TranslateTransition for sliding the editor window in and out. */
 		private TranslateTransition editorTranslation;
 		
+	    /**
+	     * Creates a new Editor with a reference to a ChainLinkEditPresenter.
+	     * 
+	     * @param editPresenter : The reference to the ChainLinkEditPresenter.
+	     */
 		Editor(ChainLinkEditPresenter editPresenter) {
 			this.editPresenter = editPresenter;
 			
@@ -149,6 +203,7 @@ public class ProcedureLayoutPresenter extends Presenter {
 	        }
 		}
 		
+	    /** Initializes the view-object created by the FXMLLoader. Sets up a TranslateTransition.  */
 		@FXML
 		private void initialize() {
 		    this.setPrefWidth(200);
@@ -162,16 +217,22 @@ public class ProcedureLayoutPresenter extends Presenter {
 		    editItemsBox.getChildren().set(3, editPresenter.getView());
 		}
 		
+	    /**
+	     * This method is executed if the user clicks on the button to close the Edit-Window.
+	     * It closes the Edit-Window.
+	     */
 		@FXML
 		private void handleCloseEditor() {
 			hideEditor();
 		}
 		
+		/** Plays the slide in animation at normal rate. */
 		public void showEditor() {
 		    editorTranslation.setRate(1);
 		    editorTranslation.play();
 		}
 		
+		/** Plays the slide in animation at a normal rate in reverse. */
 		public void hideEditor() {
 			editorTranslation.setRate(-1);
 			editorTranslation.play();
@@ -180,6 +241,7 @@ public class ProcedureLayoutPresenter extends Presenter {
 
     /**
      * This method sets the Edit-Presenter in order to show an Edit-Window.
+     * 
      * @param editPresenter : The Edit-Presenter.
      */
     private void setEditPresenter(ChainLinkEditPresenter editPresenter) {
