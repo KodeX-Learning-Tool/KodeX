@@ -32,16 +32,6 @@ public class NetworkPresenter extends Presenter {
     @FXML
     private TextField portConnectTextField;
 
-    /*
-     * Indicates whether entered IP address syntax is valid.
-     */
-    private boolean validIPConnectTextField;
-
-    /*
-     * Indicates whether entered Port address syntax is valid.
-     */
-    private boolean validPortConnectTextField;
-
     /**
      * Creates a new NetworkPresenter with a reference to the PresenterManger for
      * its superclass.
@@ -63,16 +53,10 @@ public class NetworkPresenter extends Presenter {
          */
         ipConnectTextField.setTextFormatter(IPAddrFormatter.createTextFormatter());
 
-        // default for the text field is an empty string
-        validIPConnectTextField = false;
-
         /*
          * Initialize the port connect textfield.
          */
         portConnectTextField.setTextFormatter(PortNumFormatter.createTextFormatter());
-
-        // default for the text field is an empty string
-        validPortConnectTextField = false;
     }
     
     //TODO create util for this?
