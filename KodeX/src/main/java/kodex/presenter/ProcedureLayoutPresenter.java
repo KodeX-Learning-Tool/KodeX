@@ -261,7 +261,7 @@ public class ProcedureLayoutPresenter extends Presenter {
      * 
      * @param editPresenter : The Edit-Presenter.
      */
-    private void setEditPresenter(ChainLinkEditPresenter editPresenter) {
+    public void setEditPresenter(ChainLinkEditPresenter editPresenter) {
 		Editor editor = new Editor(editPresenter);
 		overlayPane.getChildren().add(editor);
 		editor.showEditor();
