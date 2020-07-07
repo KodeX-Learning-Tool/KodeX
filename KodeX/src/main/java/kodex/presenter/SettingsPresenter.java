@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import kodex.model.DefaultSettings;
+import kodex.presenter.textformatter.PortNumFormatter;
 
 /**
  * This Presenter is responsible for the settings page. In the settings page the
@@ -64,13 +65,11 @@ public class SettingsPresenter extends Presenter {
         /*
          * Initialize the port setting.
          */
-        portTextField.textProperty().addListener(createPortChangeListener());
+        portTextField.setTextFormatter(PortNumFormatter.createTextFormatter());
 
         String portString = Integer.toString(defaultSettings.getPort());
         portTextField.setText(portString);
 
-        validPortTextField = true;
-        
         /*
          * Initialize the path setting.
          */
@@ -124,21 +123,6 @@ public class SettingsPresenter extends Presenter {
         
         pathTextField.setText(pathtext);
     }
-
-    private ChangeListener<String> createPortChangeListener() {
-
-        /*
-         * Use listener to replace invalid text with the old value. This is not possible
-         * if you use a normal handle method because the old value is not known.
-         */
-        return new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-
-                validatePort(oldValue, newValue);
-            }
-        };
-    }
     
     /*
      * Sets or removes the error pseudoclass for the given control depending on the given state.
@@ -147,53 +131,6 @@ public class SettingsPresenter extends Presenter {
         
         final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
         control.pseudoClassStateChanged(errorClass, state);
-    }
-
-    /**
-     * This Method is called when the user enters text into the text field for the
-     * default port and the text has to be validated.
-     */
-    private void validatePort(String oldValue, String newValue) {
-        /*
-         * Only ports in range [0, 65535] are allowed for the ServerSocket. A port
-         * number of 0 means that the port number is automatically allocated. Source:
-         * https://docs.oracle.com/javase/7/docs/api/java/net/ServerSocket.html
-         */
-
-        /*
-         * Validate Textfield content: 
-         * -text consists only of numerical digits 
-         * -text length is in the range [0, 5] 
-         * -text as integer is in the accepted port range [0, 65535]
-         */
-
-        /*
-         * Only 5 digits are allowed and since the port is an integer only numerical
-         * digits are accepted
-         */
-        if (!newValue.matches("\\d{0,5}")) {
-            portTextField.setText(oldValue);
-            return;
-        }
-
-        if (newValue.isEmpty()) {
-            setErrorPseudoClass(portTextField, false);
-            return;
-        }
-
-        int portNumber = Integer.parseInt(newValue);
-
-        if ((portNumber < 0) || (65535 < portNumber)) {
-            // not in the given port range
-
-            setErrorPseudoClass(portTextField, true);
-            validPortTextField = false;
-            return;
-        }
-
-        // all checks have passed so the new content of the text field is valid
-        setErrorPseudoClass(portTextField, false);
-        validPortTextField = true;
     }
 
     /**
