@@ -74,6 +74,8 @@ public class SettingsPresenter extends Presenter {
         
         languageChoiceBox.setConverter(createLanguageConverter());
         languageChoiceBox.setItems(FXCollections.observableArrayList(Language.getInstance().getLanguageList()));
+        //set initial language, works fine because select uses equals to compare
+        languageChoiceBox.getSelectionModel().select(defaultSettings.getLanguage());
         
         /*
          * TODO: remove
