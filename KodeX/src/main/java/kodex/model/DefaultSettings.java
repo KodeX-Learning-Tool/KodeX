@@ -2,6 +2,8 @@ package kodex.model;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 
 /**
@@ -42,7 +44,8 @@ public class DefaultSettings extends Settings {
      * However, since this class is a singleton, only one instance can be created
      */
     private DefaultSettings() {
-    	input = getClass().getClassLoader().getResourceAsStream("User_Settings.properties");
+    	String url = "src/main/resources/Settings/User_Settings.properties";
+    	input = getClass().getClassLoader().getResourceAsStream(url);
     	try {
 			prop.load(input);
 			port = Integer.parseInt(prop.getProperty("port"));
@@ -153,7 +156,8 @@ public class DefaultSettings extends Settings {
      * Resets all settings
      */
     public void reset() {
-    	input = getClass().getClassLoader().getResourceAsStream("Default_Settings.properties");
+    	String url = "src/main/resources/Settings/Default_Settings.properties";
+    	input = getClass().getClassLoader().getResourceAsStream(url);
     	try {
 			prop.load(input);
 			port = Integer.parseInt(prop.getProperty("port"));

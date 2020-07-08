@@ -1,11 +1,12 @@
 package kodex.model;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.List;
 import java.util.Locale;
-import java.util.Properties;
+import java.util.ResourceBundle;
 
 
 /**
@@ -26,31 +27,36 @@ public class Language {
 
     /* list with all avaliable languages */
     private static List<Locale> languages;
+    
+    /* locale of current language */
+    private static Locale language;
 
     /* File with current language*/
     private File currentLanguageFile;
     
-    /* instance of property file */
-    private static Properties prop = new Properties();
-    
-    /* nessesary to read the property file */
-    private InputStream input = null;
+    /* bundle of files with current language */
+    private static ResourceBundle rb;
 
     /**
      * Constructor of the Language class. 
      * However, since this class is a singleton, only one instance can be created
      */
     private Language(Locale language) {
-    	currentLanguageFile = new File("Language_" + language + ".properties");
-    	input = getClass().getClassLoader().getResourceAsStream(currentLanguageFile.toString());
-    	try {
-			prop.load(input);
-		} catch (IOException e) {
-			System.out.println("Language can not be selected");
-		}
+    		ClassLoader loader = null;
+			try {
+				loader = new URLClassLoader(new URL[] { new File("./src/main/resources/").toURI().toURL() });
+			} catch (MalformedURLException e) {
+				System.out.println("Path can not be loaded");
+			}
+			if (loader != null) {
+				rb = ResourceBundle.getBundle("Language", language, loader);
+			} else {
+				rb = ResourceBundle.getBundle("Language", Locale.GERMAN);
+			}
+			Language.language = language;
     }
 
-    /**
+	/**
      * Provides the singleton instance of this class.
      * The presenter can request the desired message directly from this
      * 
@@ -88,15 +94,21 @@ public class Language {
      * @return message in the current language
      */
     public static String getMessage(String message) {
-        return prop.getProperty(message);
+    	if (instance == null) {
+    		instance = new Language(new Locale("DE"));
+    	}
+    	return rb.getString(message);
     }
 
     /**
      * Returns information about current language
-     * @return : domain of current language (e.g. Deutsch = DE)
+     * @return : locale of current language (e.g. Deutsch = DE)
      */
-    public static String getLanguageInfo() {
-        return prop.getProperty("Domain");
+    public static Locale getLanguageInfo() {
+        if (language == null) {
+        	instance = new Language(new Locale("DE"));
+        }
+        return language;
     }
 
     /**
