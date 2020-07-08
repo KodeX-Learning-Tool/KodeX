@@ -1,111 +1,173 @@
 package kodex.model;
 
 import java.io.File;
+import java.io.FileFilter;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.ServiceLoader;
 
 import kodex.plugininterface.Pluginable;
 import kodex.plugininterface.ProcedurePlugin;
 
 /**
+ * This class is the central class of the plugin mechanism.
+ * It allows the user to add new plugins, remove old ones 
+ * and to activate or deactivate plugins. 
+ * As a singleton, this class allows the user to access it 
+ * from anywhere and return the list of activated plugins on request.
+ * 
+ * @author Patrick Spiesberger
+ *
+ * @version 1.0
  * 
  */
 public class PluginLoader {
 
-    /**
-     * Default constructor
-     */
-    public PluginLoader() {
-    }
-
-    /**
-     * 
-     */
+	/* current instance of PluginLoader  */
     private static PluginLoader instance;
 
+    /* List of all plugins */
+    private List<Pluginable> allPlugins = new LinkedList<Pluginable>();
+
+    /* List of all enabled plugins */
+    private List<Pluginable> enabledPlugins = new LinkedList<Pluginable>();
+    
+    /* List of all enabled procedure plugins */
+    private List<ProcedurePlugin> procedurePlugins = new LinkedList<ProcedurePlugin>();
+    
+    private ServiceLoader<Pluginable> pluginLoader;
+    
+    private ServiceLoader<ProcedurePlugin> procedureLoader;
+
+
+
     /**
-     * 
+     * Constructor of PluginLoader class
      */
-    private List<Pluginable> allPlugins;
+    private PluginLoader() {}
 
     /**
-     * 
-     */
-    private List<Pluginable> enabledPlugins;
-
-
-
-    /**
-     * 
-     */
-    private void PluginLoader() {
-        // TODO implement here
-    }
-
-    /**
+     * Retruns current instance of PluginLoader
      * @return
      */
     public static PluginLoader getInstance() {
-        // TODO implement here
-        return null;
+        return instance;
     }
 
     /**
-     * 
+     * loads only internal plugins
      */
     public void load() {
-        // TODO implement here
+    	pluginLoader = ServiceLoader.load(Pluginable.class);
+    	procedureLoader = ServiceLoader.load(ProcedurePlugin.class);
     }
 
     /**
-     * @param file
+     * loads external plugins
+     * 
+     * @param file : location of plugins
      */
-    public void addPlugin(File file) {
-        // TODO implement here
+    public void loadExternalPlugin(File file) {
+    	URL[] urls = null;
+    	
+        if (file.isDirectory()) { //file is a folder
+        	String[] files = file.list();
+        	
+        	if (files.length > 0) {
+        		File[] flist = file.listFiles(new FileFilter() {
+                    public boolean accept(File file) {return file.getPath().toLowerCase().endsWith(".jar");}
+                }); //only load .jar files
+                
+        		urls = new URL[flist.length];
+                
+                for (int i = 0; i < flist.length; i++) {
+                	try {
+                		urls[i] = flist[i].toURI().toURL();
+                	} catch (MalformedURLException e) {
+                		throw new Error("Malformed URL");
+                	}
+                }
+        	} else {
+            	System.out.println("No external Plugins to be loaded!");
+            }
+        	
+        } else {
+        	// if file is no directory
+        	urls = new URL[1];
+        	try {
+				urls[0] = file.toURI().toURL();
+			} catch (MalformedURLException e) {
+				throw new Error("Malformed URL");
+			}
+        }
+        
+        URLClassLoader urlLoader = new URLClassLoader(urls);
+        
+    	pluginLoader = ServiceLoader.load(Pluginable.class, urlLoader);
+    	procedureLoader = ServiceLoader.load(ProcedurePlugin.class, urlLoader);
     }
-
+    
     /**
-     * @param plugin
+     * Removes plugin from list of all plugin
+     * 
+     * @param plugin : plugin which should be removed
+     * 
+     * Note: is added again when the program starts
+     * If you want to delete it, you have to remove it from the plugin folder
      */
     public void removePlugin(Pluginable plugin) {
-        // TODO implement here
+        deactivatePlugin(plugin);
+        allPlugins.remove(plugin);
     }
 
     /**
-     * @param plugin
+     * Adds a plugin to the list of activated plugins
+     * 
+     * @param plugin : plugin which should be added
      */
     public void activatePlugin(Pluginable plugin) {
-        // TODO implement here
+        if (!enabledPlugins.contains(plugin)) {
+        	enabledPlugins.add(plugin);
+        }
     }
 
     /**
-     * @param plugin
+     * Removes plugin from list of enabled plugins
+     * 
+     * @param plugin : plugin which should be removed
      */
     public void deactivatePlugin(Pluginable plugin) {
-        // TODO implement here
+        enabledPlugins.remove(plugin);
     }
 
     /**
-     * @return
+     * Returns list of all plugins
+     * 
+     * @return list of all plugins
      */
     public List<Pluginable> getPlugins() {
-        // TODO implement here
-        return null;
+        return allPlugins;
     }
 
     /**
-     * @return
+     * Returns list of all enabled plugins
+     * 
+     * @return list of all enabled plugins
      */
     public List<Pluginable> getEnabledPlugins() {
-        // TODO implement here
-        return null;
+        return enabledPlugins;
     }
 
     /**
-     * @return
+     * Returns list of all enabled procedure plugins
+     * 
+     * @return list of all enabled procedure plugins
      */
     public List<ProcedurePlugin> getEnabledProcedurePlugins() {
-        // TODO implement here
-        return null;
+        return procedurePlugins;
     }
 
 }
