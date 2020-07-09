@@ -18,12 +18,12 @@ public class IndexPage {
     /**
      * 
      */
-    private List<ProcedurePlugin> availableProcedures;
+    private List<ProcedurePlugin> availableProcedures = new LinkedList<ProcedurePlugin>();
 
     /**
      * 
      */
-    private List<ProcedurePlugin> selectedProcedures;
+    private List<ProcedurePlugin> selectedProcedures = new LinkedList<ProcedurePlugin>();
 
     /**
      * 
