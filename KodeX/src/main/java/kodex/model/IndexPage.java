@@ -75,6 +75,9 @@ public class IndexPage {
         else if (filter.equals(Filter.Relevance)) {
         	strategy = new RelevancySort();
         }
+        else if (filter.equals(Filter.NoFilter)) {
+        	return availableProcedures;
+        }
         else {
         	System.out.println("no suitable filter found");
         	return availableProcedures;

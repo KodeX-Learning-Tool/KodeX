@@ -23,6 +23,7 @@ public class AlphaNumericalSort implements FilterStrategy {
     /**
      * This is a filter strategy for the list of procedures.
      * This strategy returns the list of procedures, which are sorted in alphanumeric order.
+     * 
      * @param selectedProcedures : List of plugins to be sorted
      * @return sorted list of plugins
      */
