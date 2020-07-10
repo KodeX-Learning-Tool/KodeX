@@ -38,9 +38,9 @@ public class PluginLoader {
     /* List of all enabled procedure plugins */
     private static  List<ProcedurePlugin> procedurePlugins = new LinkedList<ProcedurePlugin>();
     
-    private ServiceLoader<Pluginable> pluginLoader;
+    private static ServiceLoader<Pluginable> pluginLoader;
     
-    private ServiceLoader<ProcedurePlugin> procedureLoader;
+    private static ServiceLoader<ProcedurePlugin> procedureLoader;
 
 
 
@@ -60,9 +60,17 @@ public class PluginLoader {
     /**
      * loads only internal plugins
      */
-    public void load() {
+    public static void load() {
     	pluginLoader = ServiceLoader.load(Pluginable.class);
     	procedureLoader = ServiceLoader.load(ProcedurePlugin.class);
+    	
+    	for (Pluginable plugin : pluginLoader) {
+    		allPlugins.add(plugin);
+    	}
+    	
+    	for (ProcedurePlugin plugin : procedureLoader) {
+    		procedurePlugins.add(plugin);
+    	}
     }
 
     /**
@@ -70,7 +78,7 @@ public class PluginLoader {
      * 
      * @param file : location of plugins
      */
-    public void loadExternalPlugin(File file) {
+    public static void loadExternalPlugin(File file) {
     	URL[] urls = null;
     	
         if (file.isDirectory()) { //file is a folder
@@ -108,6 +116,14 @@ public class PluginLoader {
         
     	pluginLoader = ServiceLoader.load(Pluginable.class, urlLoader);
     	procedureLoader = ServiceLoader.load(ProcedurePlugin.class, urlLoader);
+    	
+    	for (Pluginable plugin : pluginLoader) {
+    		allPlugins.add(plugin);
+    	}
+    	
+    	for (ProcedurePlugin plugin : procedureLoader) {
+    		procedurePlugins.add(plugin);
+    	}	
     }
     
     /**
@@ -167,6 +183,11 @@ public class PluginLoader {
      * @return list of all enabled procedure plugins
      */
     public static List<ProcedurePlugin> getEnabledProcedurePlugins() {
+    	for (ProcedurePlugin plugin : procedureLoader) {
+    		if (!enabledPlugins.contains(plugin)) {
+    			procedurePlugins.remove(plugin);
+    		}
+    	}
         return procedurePlugins;
     }
 
