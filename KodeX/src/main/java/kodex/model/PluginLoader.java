@@ -30,13 +30,13 @@ public class PluginLoader {
     private static PluginLoader instance;
 
     /* List of all plugins */
-    private List<Pluginable> allPlugins = new LinkedList<Pluginable>();
+    private static List<Pluginable> allPlugins = new LinkedList<Pluginable>();
 
     /* List of all enabled plugins */
-    private List<Pluginable> enabledPlugins = new LinkedList<Pluginable>();
+    private static List<Pluginable> enabledPlugins = new LinkedList<Pluginable>();
     
     /* List of all enabled procedure plugins */
-    private List<ProcedurePlugin> procedurePlugins = new LinkedList<ProcedurePlugin>();
+    private static  List<ProcedurePlugin> procedurePlugins = new LinkedList<ProcedurePlugin>();
     
     private ServiceLoader<Pluginable> pluginLoader;
     
@@ -118,7 +118,7 @@ public class PluginLoader {
      * Note: is added again when the program starts
      * If you want to delete it, you have to remove it from the plugin folder
      */
-    public void removePlugin(Pluginable plugin) {
+    public static void removePlugin(Pluginable plugin) {
         deactivatePlugin(plugin);
         allPlugins.remove(plugin);
     }
@@ -128,7 +128,7 @@ public class PluginLoader {
      * 
      * @param plugin : plugin which should be added
      */
-    public void activatePlugin(Pluginable plugin) {
+    public static void activatePlugin(Pluginable plugin) {
         if (!enabledPlugins.contains(plugin)) {
         	enabledPlugins.add(plugin);
         }
@@ -139,7 +139,7 @@ public class PluginLoader {
      * 
      * @param plugin : plugin which should be removed
      */
-    public void deactivatePlugin(Pluginable plugin) {
+    public static void deactivatePlugin(Pluginable plugin) {
         enabledPlugins.remove(plugin);
     }
 
@@ -148,7 +148,7 @@ public class PluginLoader {
      * 
      * @return list of all plugins
      */
-    public List<Pluginable> getPlugins() {
+    public static List<Pluginable> getPlugins() {
         return allPlugins;
     }
 
@@ -157,7 +157,7 @@ public class PluginLoader {
      * 
      * @return list of all enabled plugins
      */
-    public List<Pluginable> getEnabledPlugins() {
+    public static List<Pluginable> getEnabledPlugins() {
         return enabledPlugins;
     }
 
@@ -166,7 +166,7 @@ public class PluginLoader {
      * 
      * @return list of all enabled procedure plugins
      */
-    public List<ProcedurePlugin> getEnabledProcedurePlugins() {
+    public static List<ProcedurePlugin> getEnabledProcedurePlugins() {
         return procedurePlugins;
     }
 
