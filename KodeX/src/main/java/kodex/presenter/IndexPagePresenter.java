@@ -59,8 +59,6 @@ public class IndexPagePresenter extends Presenter {
     public IndexPagePresenter(PresenterManager pm, PresenterFactory pf) {
     	super(pm, "indexpage");
     	this.presenterFactory = pf;
-    	
-    	selectedProcedures = indexPage.filterProcedures(Filter.NO_FILTER);
     }
     
     /**
@@ -70,7 +68,8 @@ public class IndexPagePresenter extends Presenter {
      */
 	@FXML
 	private void initialize() throws IOException {
-		
+	    selectedProcedures = indexPage.filterProcedures(Filter.NO_FILTER);
+	    
 		// adds the ProcedureButtons for each enabled procedure plugin
 		for (ProcedurePlugin procedure: selectedProcedures) {
 			procedureButtonPane.getChildren().add(new ProcedureButton(procedure));
