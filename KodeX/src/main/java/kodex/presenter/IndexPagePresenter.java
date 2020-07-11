@@ -132,7 +132,7 @@ public class IndexPagePresenter extends Presenter {
 		     */
 			@FXML
 			private void handleProcedureSelected() {
-				presenterManager.updateSideMenuView(SideMenuTypes.MiniMenu);
+				presenterManager.updateSideMenuView(SideMenuTypes.MINI_MENU);
 				presenterManager.updatePresenter(presenterFactory.createProcedureLayoutPresenter(procedure));
 			}
 	 }

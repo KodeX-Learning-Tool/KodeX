@@ -117,7 +117,7 @@ public class DefaultSettings extends Settings {
 	 * 
      * @return default path
      */
-    public static String getDefaultPath() {
+    public String getDefaultPath() {
     	if (defaultPath == null) {
     		defaultPath = System.getProperty("user.home");
     	}

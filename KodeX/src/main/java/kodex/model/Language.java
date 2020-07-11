@@ -32,7 +32,7 @@ public class Language {
 	private static List<Locale> languages;
 
 	/* locale of current language */
-	private static Locale language;
+	private Locale language;
 
 	/* File with current language */
 	private File currentLanguageFile;
@@ -56,7 +56,7 @@ public class Language {
 		} else {
 			rb = ResourceBundle.getBundle("Language", Locale.GERMAN);
 		}
-		Language.language = language;
+		this.language = language;
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class Language {
 	 * 
 	 * @return list of type Locale
 	 */
-	public static List<Locale> getLanguageList() {
+	public List<Locale> getLanguageList() {
 		return languages;
 	}
 
@@ -97,7 +97,7 @@ public class Language {
 	 * @param message : Message that is required in the corresponding language
 	 * @return message in the current language
 	 */
-	public static String getMessage(String message) {
+	public String getMessage(String message) {
 		if (instance == null) {
 			instance = new Language(new Locale("DE"));
 		}
@@ -109,7 +109,7 @@ public class Language {
 	 * 
 	 * @return : locale of current language (e.g. Deutsch = DE)
 	 */
-	public static Locale getLanguageInfo() {
+	public Locale getLanguageInfo() {
 		if (language == null) {
 			instance = new Language(new Locale("DE"));
 		}
@@ -119,7 +119,7 @@ public class Language {
 	/**
 	 * refreshes the list of current language
 	 */
-	public static void refreshList() {
+	public void refreshList() {
 		File file = new File("src/main/resources/Languages");
 		URL[] urls = null;
 

@@ -24,8 +24,8 @@ public class Help {
     /* List of all answers*/
     private List<String> answers = new LinkedList<String>();
 
-    /* Information about FAQ */
-    private String info;
+    /* Informations about FAQ */
+    private List<String> info = new LinkedList<String>();
 
     /* current language */
     private Locale locale;
@@ -74,7 +74,7 @@ public class Help {
      * loads informations about selected property file
      */
     public void loadInfo() {
-    	info = prop.getProperty(info);
+    	info.add(prop.getProperty("info"));
     }
 
     /**
@@ -94,10 +94,10 @@ public class Help {
     }
 
     /**
-     * returns information about FAQ
-     * @return information about FAQ
+     * returns list of all information about FAQ
+     * @return informations about FAQ
      */
-    public String getInfo() {
+    public List<String> getInfo() {
         return info;
     }
 

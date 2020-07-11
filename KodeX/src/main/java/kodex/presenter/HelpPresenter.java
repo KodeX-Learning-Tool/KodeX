@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import kodex.model.Help;
+import kodex.model.Language;
 
 /**
  * This presenter is responsible for the Help page. On the Help page the program
@@ -55,7 +56,7 @@ public class HelpPresenter extends Presenter {
     public HelpPresenter(PresenterManager pm) {
     	super(pm, "helppage");
     	
-    	help = new Help();
+    	help = new Help(Language.getInstance().getLanguageInfo());
     }
     
     /**
