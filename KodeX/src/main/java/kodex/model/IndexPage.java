@@ -66,16 +66,16 @@ public class IndexPage {
      */
     public List<ProcedurePlugin> filterProcedures(Filter filter) {
     	FilterStrategy strategy = null;
-        if (filter.equals(Filter.Alphabetic)) {
+        if (filter.equals(Filter.ALPHABETIC)) {
         	strategy = new AlphaNumericalSort();
         }
-        else if (filter.equals(Filter.Grade)) {
+        else if (filter.equals(Filter.GRADE)) {
         	strategy = new LabelSort();
         }
-        else if (filter.equals(Filter.Relevance)) {
+        else if (filter.equals(Filter.RELEVANCE)) {
         	strategy = new RelevancySort();
         }
-        else if (filter.equals(Filter.NoFilter)) {
+        else if (filter.equals(Filter.NO_FILTER)) {
         	return availableProcedures;
         }
         else {

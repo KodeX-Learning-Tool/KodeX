@@ -10,6 +10,6 @@ package kodex.model;
  *
  */
 public enum SideMenuTypes {
-    MiniMenu, //minimized side menu
-    ExtendedMenu //standard side menu
+    MINI_MENU, //minimized side menu
+    EXTENDED_MENU //standard side menu
 }

@@ -10,8 +10,8 @@ package kodex.model;
  *
  */
 public enum Filter {
-    Alphabetic, //alphabetical order
-    Relevance, //Sorting how often a procedure was used
-    Grade, //Filter by specified class level
-    NoFilter //no active Filter
+    ALPHABETIC, //alphabetical order
+    RELEVANCE, //Sorting how often a procedure was used
+    GRADE, //Filter by specified class level
+    NO_FILTER //no active Filter
 }
