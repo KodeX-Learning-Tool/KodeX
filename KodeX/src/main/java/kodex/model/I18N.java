@@ -20,6 +20,8 @@ import javafx.beans.property.SimpleObjectProperty;
  * https://www.sothawo.com/2016/09/how-to-implement-a-javafx-ui-where-the-language-can-be-changed-dynamically/
  * 
  * @author Leonhard Kraft
+ * 
+ * @version 1.0
  */
 public class I18N {
     
