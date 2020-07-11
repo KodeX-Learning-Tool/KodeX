@@ -2,8 +2,9 @@ package kodex;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import kodex.model.DefaultSettings;
+import kodex.model.I18N;
 import kodex.model.PluginLoader;
-import kodex.model.Settings;
 import kodex.presenter.PresenterFactory;
 import kodex.presenter.PresenterManager;
 
@@ -35,8 +36,7 @@ public class MainApp extends Application {
         // creates a unused instance of the PluginLoader to initiate the loading of the
         // plugins.
         PluginLoader.getInstance();
-        
-        //TODO load Settings and Language
+        DefaultSettings.getInstance();
     }
 
     /**
