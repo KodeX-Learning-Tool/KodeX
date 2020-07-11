@@ -61,6 +61,8 @@ public class Language {
 		this.language = language;
 		
 		languages.add(language);
+		
+		refreshList();
 	}
 
 	/**
@@ -124,7 +126,7 @@ public class Language {
 	 * refreshes the list of current language
 	 */
 	public void refreshList() {
-		File file = new File("src/main/resources/Languages");
+		File file = new File(getClass().getResource("languages").getPath());
 		URL[] urls = null;
 
 		String[] files = file.list();
@@ -132,31 +134,40 @@ public class Language {
 		if (files.length > 0) {
 			File[] flist = file.listFiles(new FileFilter() {
 				public boolean accept(File file) {
-					return file.getPath().toLowerCase().endsWith(".jar");
+					return file.getPath().toLowerCase().endsWith(".properties");
 				}
-			}); // only load .jar files
-
+			}); // only load .properties files
+			
 			urls = new URL[flist.length];
 
 			for (int i = 0; i < flist.length; i++) {
 				try {
 					urls[i] = flist[i].toURI().toURL();
 				} catch (MalformedURLException e) {
-					throw new Error("Malformed URL");
+					e.printStackTrace();
 				}
 			}
+			
 			String fileName = "";
 			String[] parts;
 			for (URL url : urls) {
 				try {
-					fileName = Paths.get(new URI(url.toString()).getPath()).getFileName().toString();
+					fileName = Paths.get(url.toURI()).getFileName().toString();
 				} catch (URISyntaxException e) {
 					System.out.println("Error during reading files");
 					return;
 				}
+				int pos = fileName.lastIndexOf(".");
+				if (pos > 0) {
+					fileName = fileName.substring(0, pos);
+				}
+				
 				parts = fileName.split("_");
+								
 				if (parts.length == 2) {
-					languages.add(new Locale("parts[1]"));
+					if (!languages.contains(new Locale(parts[1]))) {
+						languages.add(new Locale(parts[1]));
+					}
 				} else {
 					System.out.print("Please check name of File");
 				}
