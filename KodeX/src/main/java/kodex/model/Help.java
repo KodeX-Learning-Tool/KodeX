@@ -1,90 +1,104 @@
 package kodex.model;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Properties;
 
 /**
+ * This class manages the FAQ. A fixed set of questions is stored locally 
+ * in KodeX.Help_DE or KodeX.Help_EN, which can then be read using this class.
  * 
+ * @author Patrick Spiesberger
+ * 
+ * @version 1.0
+ *
  */
 public class Help {
 
-    /**
-     * Default constructor
-     */
-    public Help() {
-    }
+	/* List of all questions */
+    private List<String> questions = new LinkedList<String>();
 
-    /**
-     * 
-     */
-    private List<String> questions;
+    /* List of all answers*/
+    private List<String> answers = new LinkedList<String>();
 
-    /**
-     * 
-     */
-    private List<String> answers;
+    /* Information about FAQ */
+    private String info;
 
-    /**
-     * 
-     */
-    private List<String> info;
-
-    /**
-     * 
-     */
+    /* current language */
     private Locale locale;
+    
+    /* instance of property file */
+    private Properties prop = new Properties();
+    
+    /* nessesary to read the property file */
+    private InputStream input = null;
 
 
     /**
-     * @param locale
+     * Sets the language in which the entries for the FAQ should be loaded
+     * @param locale : selected Language
      */
-    public void Help(Locale locale) {
-        // TODO implement here
+    public Help(Locale locale) {
+        this.locale = locale;
+        String url = "src/main/resources/Help/Help/Help_";
+    	input = getClass().getClassLoader().getResourceAsStream(url + this.locale + ".properties");
+    	try {
+			prop.load(input);
+		} catch (IOException e) {
+			System.out.println("Error during reading File");
+		}
     }
 
     /**
-     * 
+     * loads questions from selected property file
      */
     public void loadQuestions() {
-        // TODO implement here
+        for (int i = 1; i < prop.size(); i++) {
+        	questions.add(prop.getProperty("question" + i));
+        }
     }
 
     /**
-     * 
+     * loads answers from selected property file
      */
     public void loadAnswers() {
-        // TODO implement here
+        for (int i = 1; i < prop.size(); i++) {
+        	answers.add(prop.getProperty("answer" + i));
+        }
     }
 
     /**
-     * 
+     * loads informations about selected property file
      */
     public void loadInfo() {
-        // TODO implement here
+    	info = prop.getProperty(info);
     }
 
     /**
-     * @return
+     * returns list of all questions
+     * @return list with Strings (questions)
      */
     public List<String> getQuestions() {
-        // TODO implement here
-        return null;
+        return questions;
     }
 
     /**
-     * @return
+     * returns list of all answers
+     * @return list with Strings (answers)
      */
     public List<String> getAnswers() {
-        // TODO implement here
-        return null;
+    	return answers;
     }
 
     /**
-     * @return
+     * returns information about FAQ
+     * @return information about FAQ
      */
-    public List<String> getInfo() {
-        // TODO implement here
-        return null;
+    public String getInfo() {
+        return info;
     }
 
 }

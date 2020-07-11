@@ -11,7 +11,7 @@ package kodex.plugininterface;
  * @version 1.0
  *
  */
-public abstract class ProcedurePlugin implements Pluginable {
+public abstract class ProcedurePlugin implements Pluginable, Comparable<ProcedurePlugin> {
 
     /**
      * Constructor of the ProcedurePlugin class
@@ -50,5 +50,13 @@ public abstract class ProcedurePlugin implements Pluginable {
      * @return created instance of ImportPresenter
      */
     public abstract ImportPresenter createImportPresenter();
+    
+    /**
+     * alphabetische Sortierfunktion
+     */
+    @Override
+    public int compareTo(ProcedurePlugin plugin) {
+    return this.createProcedureInformation().getName().compareTo(getPluginName());
+    }
 
 }

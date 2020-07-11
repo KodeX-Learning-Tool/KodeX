@@ -1,125 +1,175 @@
 package kodex.model;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 
 /**
+ * This class saves the user's settings. These are saved locally 
+ * in a file so that they persist the program. As a singleton, 
+ * the user is able to access the settings from anywhere in the program.
  * 
+ * @author Patrick Spiesberger
+ * 
+ * @version 1.0
+ *
  */
 public class DefaultSettings extends Settings {
+	
 
-    /**
-     * Default constructor
-     */
-    public DefaultSettings() {
-    }
-
-    /**
-     * 
-     */
+    /* current instance of DefaultSettings */
     private static DefaultSettings instance;
 
-    /**
-     * 
-     */
-    private Locale locale;
+    /* current network port */
+    private static int port;
 
-    /**
-     * 
-     */
-    private int port;
+    /* current Path where files are stored */
+    private static String defaultPath;
 
-    /**
-     * 
-     */
-    private String defaultPath;
-
-    /**
-     * 
-     */
-    private boolean isDarkModeEnabled;
+    /* current state of darkmode */
+    private static boolean isDarkModeEnabled;
+    
+    /* instance of property file */
+    private static Properties prop = new Properties();
+    
+    /* nessesary to read the property file */
+    private InputStream input = null;
 
 
 
     /**
-     * 
+     * Constructor of the DefaultSettings class. 
+     * However, since this class is a singleton, only one instance can be created
      */
-    private void DefaultSettings() {
-        // TODO implement here
+    private DefaultSettings() {
+    	String url = "src/main/resources/Settings/User_Settings.properties";
+    	input = getClass().getClassLoader().getResourceAsStream(url);
+    	try {
+			prop.load(input);
+			port = Integer.parseInt(prop.getProperty("port"));
+			defaultPath = prop.getProperty("defaultPath");
+			
+			if (prop.getProperty("isDarkModeEnabled") == "false") isDarkModeEnabled = false;
+			else isDarkModeEnabled = true;
+			
+		} catch (IOException e) {
+			System.out.println("Settings can not be loaded");
+		}
     }
 
     /**
-     * @return
+     * Provides the singleton instance of this class.
+     * The presenter can request the settings directly from this
+     * 
+     * @return instance of this class
      */
     public static DefaultSettings getInstance() {
-        // TODO implement here
-        return null;
+    	if (instance == null) {
+    		instance = new DefaultSettings();
+    	}
+        return instance;
     }
 
     /**
-     * @return
+     * Returns current selected language
+     * 
+     * @return current selected language
      */
-    public Locale getLanguage() {
-        // TODO implement here
-        return null;
+    public Language getLanguage() {
+        if (Language.getInstance() == null) {
+        	setLanguauge(new Locale("DE"));
+        }
+        return Language.getInstance();
     }
 
     /**
-     * @param locale
+	 * Sets the desired language
+	 * 
+     * @param locale : locale of desired language
      */
     public void setLanguauge(Locale locale) {
-        // TODO implement here
+        Language.setInstance(locale);  
     }
 
     /**
-     * @return
+     * Returns port of local network
+     * 
+     * @return port of local
      */
-    public int getPort() {
-        // TODO implement here
-        return 0;
+    public static int getPort() {
+        return port;
     }
 
     /**
-     * @param port
+     * Sets port of local network
+     * 
+     * @param port : port of local network
      */
     public void setPort(int port) {
-        // TODO implement here
+        DefaultSettings.port = port;
     }
 
     /**
-     * @return
+     * Returns the default path for loading and saving files,
+	 * which the user can create via the program
+	 * 
+     * @return default path
      */
-    public String getDefaultPath() {
-        // TODO implement here
-        return null;
+    public static String getDefaultPath() {
+    	if (defaultPath == null) {
+    		defaultPath = System.getProperty("user.home");
+    	}
+        return defaultPath;
     }
 
     /**
-     * @param path
+     * Sets the default path for loading and saving files,
+	 * which the user can create via the program
+	 * 
+     * @param path : desired default path
      */
     public void setDefaultPath(String path) {
-        // TODO implement here
+        DefaultSettings.defaultPath = path;
     }
 
     /**
-     * @param enable
+     * Sets state of dark mode
+     * 
+     * @param enable : is darkmode enabled?
      */
     public void setDarkMode(boolean enable) {
-        // TODO implement here
+        isDarkModeEnabled = enable;
     }
 
     /**
-     * @return
+     * Returns state of dark mode
+     * 
+     * @return state of dark mode
      */
     public boolean isDarkMode() {
-        // TODO implement here
-        return false;
+        return isDarkModeEnabled;
     }
 
     /**
-     * 
+     * Resets all settings
      */
     public void reset() {
-        // TODO implement here
+    	String url = "src/main/resources/Settings/Default_Settings.properties";
+    	input = getClass().getClassLoader().getResourceAsStream(url);
+    	try {
+			prop.load(input);
+			port = Integer.parseInt(prop.getProperty("port"));
+			defaultPath = prop.getProperty("defaultPath");
+			
+			int darkmode = Integer.parseInt(prop.getProperty("isDarkModeEnabled"));
+			if (darkmode == 0) isDarkModeEnabled = false;
+			else isDarkModeEnabled = true;
+			
+		} catch (IOException e) {
+			System.out.println("Settings can not be loaded");
+		}
     }
 
 }
