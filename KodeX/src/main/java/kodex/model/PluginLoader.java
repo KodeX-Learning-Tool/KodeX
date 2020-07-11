@@ -21,7 +21,7 @@ import kodex.plugininterface.ProcedurePlugin;
  * 
  * @author Patrick Spiesberger
  *
- * @version 1.0
+ * @version 1.0properties
  * 
  */
 public class PluginLoader {
@@ -47,7 +47,9 @@ public class PluginLoader {
     /**
      * Constructor of PluginLoader class
      */
-    private PluginLoader() {}
+    private PluginLoader() {
+    	load();
+    }
 
     /**
      * Retruns current instance of PluginLoader

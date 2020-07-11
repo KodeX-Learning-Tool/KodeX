@@ -1,10 +1,14 @@
 package kodex.model;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
+
+import kodex.model.validator.PortNumValidator;
 
 /**
  * This class saves the user's settings. These are saved locally 
@@ -51,8 +55,7 @@ public class DefaultSettings extends Settings {
 			port = Integer.parseInt(prop.getProperty("port"));
 			defaultPath = prop.getProperty("defaultPath");
 			
-			if (prop.getProperty("isDarkModeEnabled") == "false") isDarkModeEnabled = false;
-			else isDarkModeEnabled = true;
+			isDarkModeEnabled = !prop.getProperty("isDarkModeEnabled").equals("false");
 			
 		} catch (IOException e) {
 			System.out.println("Settings can not be loaded");
@@ -108,7 +111,19 @@ public class DefaultSettings extends Settings {
      * @param port : port of local network
      */
     public void setPort(int port) {
-        DefaultSettings.port = port;
+    	if (PortNumValidator.getInstance().isValid(input.toString())) {
+    		DefaultSettings.port = port;
+    	} else {
+    		System.out.println("invalid port");
+    	}
+    	prop.setProperty("port", String.valueOf(getPort()));
+    	try {
+			prop.store(new FileOutputStream("src/main/resources/Settings/Default_Settings.properties"), null);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
     /**
@@ -141,6 +156,14 @@ public class DefaultSettings extends Settings {
      */
     public void setDarkMode(boolean enable) {
         isDarkModeEnabled = enable;
+    	prop.setProperty("port", Boolean.toString(enable));
+    	try {
+			prop.store(new FileOutputStream("src/main/resources/Settings/Default_Settings.properties"), null);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
     /**
