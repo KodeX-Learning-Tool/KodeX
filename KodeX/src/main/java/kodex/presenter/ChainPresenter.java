@@ -3,11 +3,15 @@ package kodex.presenter;
 import java.io.File;
 import java.io.IOException;
 import org.kordamp.ikonli.javafx.FontIcon;
+
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.SplitPane.Divider;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -44,6 +48,12 @@ public class ChainPresenter implements IPresenter {
 	/** The reference to the ProcedureLayoutPresenter. */
 	private ProcedureLayoutPresenter procedureLayoutPresenter;
 	
+	/** The dividers of the SplitPane chainSplitPane. */
+	private ObservableList<Divider> dividers;
+	
+	/** This Boolean stores whether the dividers are programmatically moved at the moment. */
+	private boolean isMoving = false;
+	
     /**
      * Creates a new ChainPresenter with a reference to the first ChainLinkPresenter
      * and a ProcedureLayoutPresenter.
@@ -64,6 +74,26 @@ public class ChainPresenter implements IPresenter {
 			e.printStackTrace();
 		}
     }
+    
+    /**
+     * Initializes the view-object created by the FXMLLoader.
+     */
+    @FXML
+    private void initialize() {
+    	
+    	// add change listener to the dividers of the SplitPane
+    	dividers = chainSplitPane.getDividers();
+    	
+    	for (Divider divider: dividers) {
+    		divider.positionProperty().addListener((obs, oldValue, newValue) -> {
+    			if (isMoving == false) {
+        			double delta = newValue.doubleValue() - oldValue.doubleValue();
+        			moveDividers(divider, delta);
+    			}
+    		});
+    	} 
+    }
+    
 	
 	/**
 	 * This class represents a single chain link. It loads a template via fxml
@@ -84,25 +114,31 @@ public class ChainPresenter implements IPresenter {
 		@FXML
 		private BorderPane chainLinkPane;
 		
-		/** The reference to the ProcedureLayoutPresenter. */
+		/** The VBox containing information like the header and the export button. */
 		@FXML
 		private VBox informationBox;
 		
-		/** The reference to the ProcedureLayoutPresenter. */
+		/** The Icon displaying whether or not the chain item is expanded. */
 		@FXML
 		private FontIcon hideButtonIcon;
 		
-		/** The reference to the ProcedureLayoutPresenter. */
+		/** This Boolean represents the state of the chain item. */
 		private Boolean isHidden;
 		
-		/** The reference to the ProcedureLayoutPresenter. */
+		/** The IconLiteral of the hidden-icon. */
 		private String hiddenIcon = "mdi-chevron-down";
 		
-		/** The reference to the ProcedureLayoutPresenter. */
+		/** The IconLiteral of the expanded-icon. */
 		private String shownIcon = "mdi-chevron-right";
 		
-		/** The reference to the ProcedureLayoutPresenter. */
+		/** The reference to the ChainLinkPresenter. */
 		private ChainLinkPresenter chainLinkPresenter;
+		
+		/** The actual content of the chain item. */
+		private VBox chainItemContent;
+		
+		/** The Label which is displayed when the content is hidden. */
+		private Label hiddenLabel;
 		
 	    /**
 	     * Creates a new ChainItem with a reference to its ChainLinkPresenter.
@@ -134,6 +170,7 @@ public class ChainPresenter implements IPresenter {
 		private void initialize() {
 			// titleLabel.setText("Kodierungsstufe: " + chainLinkPresenter.getName());
 			informationBox.getChildren().set(0, chainLinkPresenter.getChainLinkHeaderView());
+			chainLinkPane.setCenter(chainLinkPresenter.getView());
 		}
 		
 	    /**
@@ -203,17 +240,44 @@ public class ChainPresenter implements IPresenter {
      * 
      * @param id : The ID of the Chain Link.
      */
-    public void jumpToChainLink(int id) {
-    	double hValue;
-    	double position;
-    	
-    	// TODO: calculate jump position
-    	
-    	// This sets the horizontal scroll position.
-    	// viewScrollPane.setHvalue(hValue);
-    	
+    public void jumpToChainLink(int id) {    	
     	// This sets the position of the vertical dividers between the Chain Links.
-    	// chainSplitPane.setDividerPosition(id, position);
+    	// TODO: expand the chain item
+    	
+    	Node chainItem = chainSplitPane.getChildrenUnmodifiable().get(id);
+    	
+    	// calculate the hValue for the view port of the scroll pane
+        double scrollPanewidth = viewScrollPane.getContent().getBoundsInLocal().getWidth();
+        double x = (chainItem.getParent().getParent().getBoundsInParent().getMaxX() + chainItem.getParent().getParent().getBoundsInParent().getMinX()) / 2.0;
+        double viewPortWdith = viewScrollPane.getViewportBounds().getWidth();
+        viewScrollPane.setHvalue(viewScrollPane.getHmax() * ((x - 0.5 * viewPortWdith) / (scrollPanewidth - viewPortWdith)));
+    }
+    
+    /**
+     * This method moves the other dividers, if possible, by the same amount as the given divider.
+     * 
+     * @param divider : The divider which was moved.
+     * @param delta : The signed amount which the divider was moved.
+     */
+    private void moveDividers(Divider divider, double delta) {
+    	isMoving = true;
+    	int id = dividers.indexOf(divider);
+    	
+    	// move left or right hand dividers depending on the direction of movement
+    	if (delta > 0) {
+        	for (int i = id + 1; i < dividers.size(); i++) {
+        		double newPosition = dividers.get(i).getPosition() + delta/100;
+
+        		dividers.get(i).setPosition(newPosition);
+        	}	
+    	} else if (delta < 0) {
+        	for (int i = id - 1; i >= 0; i--) {
+        		double newPosition = dividers.get(i).getPosition() + delta/100;
+				
+        		dividers.get(i).setPosition(newPosition);
+        	}
+    	} 
+    	isMoving = false;
     }
 
     @Override
