@@ -21,11 +21,6 @@ import kodex.presenter.textformatter.PortNumFormatter;
  */
 public class NetworkPresenter extends Presenter {
 
-    /**
-     * 
-     */
-    private Network network; // TODO do we need a reference to the a network object?
-
     @FXML
     private TextField ipConnectTextField;
 
