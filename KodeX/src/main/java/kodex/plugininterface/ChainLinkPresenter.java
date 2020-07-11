@@ -1,5 +1,7 @@
 package kodex.plugininterface;
 
+import java.io.File;
+
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -215,17 +217,14 @@ public abstract class ChainLinkPresenter implements IPresenter {
         // TODO return Standard Bild
         return null;
     }
-
+    
     /**
-     * Called when the user wants to export a level.
-     * Opens a FileChooser with which the file is specified for
-     * saving and then passed on to the content for export.
+     * Passes on the export location to the content for exporting.
+     * 
+     * @param exportLocation : The location which the content is exported to
      */
-    public void handleExport() {
-        // TODO Fehlerfenster anzeigen oder Export ausblenden
-    	System.out.println("Es wurde kein Export definiert.");
-    	System.out.println("Falls du denkst, dass dies ein Fehler ist,");
-    	System.out.println("wende dich bitte an den Ersteller des Plugins.");
+    public void export(File exportLocation) {
+    	content.export(exportLocation);
     }
 
     /**
