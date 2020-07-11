@@ -34,7 +34,7 @@
                                                 </Label>
                                                    </children>
                                                 </AnchorPane>
-                                                <Separator styleClass="help__faq__seperator" />
+                                                <Separator />
                                              </children>
                                           </VBox>
                                        </children>
