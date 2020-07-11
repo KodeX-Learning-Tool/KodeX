@@ -10,6 +10,17 @@ package kodex.model;
  *
  */
 public enum SideMenuTypes {
-    MINI_MENU, //minimized side menu
-    EXTENDED_MENU //standard side menu
+    MINI_MENU("minisidemenu"), //minimized side menu
+    EXTENDED_MENU("sidemenu"); //standard side menu
+    
+    public final String fxmlName;
+     
+    private SideMenuTypes(String fxmlName) {
+        this.fxmlName = fxmlName;
+    }
+    
+    @Override
+    public String toString() {
+        return fxmlName;
+    }
 }
