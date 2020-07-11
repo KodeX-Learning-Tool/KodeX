@@ -68,6 +68,7 @@ public class IndexPagePresenter extends Presenter {
      */
 	@FXML
 	private void initialize() throws IOException {
+	    this.indexPage = new IndexPage();
 	    selectedProcedures = indexPage.filterProcedures(Filter.NO_FILTER);
 	    
 		// adds the ProcedureButtons for each enabled procedure plugin
