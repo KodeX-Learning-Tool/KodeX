@@ -51,6 +51,10 @@ public class Help {
 		} catch (IOException e) {
 			System.out.println("Error during reading File");
 		}
+    	
+    	loadQuestions();
+    	loadAnswers();
+    	loadInfo();
     }
 
     /**
@@ -58,7 +62,9 @@ public class Help {
      */
     public void loadQuestions() {
         for (int i = 1; i < prop.size(); i++) {
-        	questions.add(prop.getProperty("question" + i));
+        	if (prop.getProperty("answer" + i) != null) {
+            	questions.add(prop.getProperty("question" + i));
+        	}
         }
     }
 
@@ -67,7 +73,9 @@ public class Help {
      */
     public void loadAnswers() {
         for (int i = 1; i < prop.size(); i++) {
-        	answers.add(prop.getProperty("answer" + i));
+        	if (prop.getProperty("answer" + i) != null) {
+            	answers.add(prop.getProperty("answer" + i));
+        	}
         }
     }
 
