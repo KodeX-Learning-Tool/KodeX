@@ -54,8 +54,6 @@ public class SettingsPresenter extends Presenter {
      */
     public SettingsPresenter(PresenterManager presenterManager) {
         super(presenterManager, "settingspage");
-
-        defaultSettings = DefaultSettings.getInstance();
     }
 
     /**
@@ -63,6 +61,8 @@ public class SettingsPresenter extends Presenter {
      */
     @FXML
     private void initialize() {
+
+        defaultSettings = DefaultSettings.getInstance();
 
         // reset pseudo classes for reset
 

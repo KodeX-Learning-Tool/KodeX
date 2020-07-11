@@ -55,8 +55,6 @@ public class HelpPresenter extends Presenter {
      */
     public HelpPresenter(PresenterManager pm) {
     	super(pm, "helppage");
-    	
-    	help = new Help(Language.getInstance().getLanguageInfo());
     }
     
     /**
@@ -65,6 +63,10 @@ public class HelpPresenter extends Presenter {
      */
 	@FXML
 	private void initialize() {	
+
+    	
+    	help = new Help(Language.getInstance().getLanguageInfo());
+		
 		// get the lists of questions and answers
 		questions = help.getQuestions();
 		answers = help.getAnswers();
