@@ -29,7 +29,7 @@ public class IndexPage {
      * of all activated procededures from PluginLoader.
      */
     public IndexPage() {
-    	availableProcedures = PluginLoader.getEnabledProcedurePlugins();
+    	availableProcedures = PluginLoader.getInstance().getEnabledProcedurePlugins();
     }
 
 
