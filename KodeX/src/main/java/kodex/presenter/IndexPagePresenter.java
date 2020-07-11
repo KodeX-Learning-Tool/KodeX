@@ -12,7 +12,7 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import kodex.model.Filter;
 import kodex.model.IndexPage;
-import kodex.model.PluginLoader;
+import kodex.model.SideMenuTypes;
 import kodex.plugininterface.ProcedureInformation;
 import kodex.plugininterface.ProcedurePlugin;
 
@@ -60,9 +60,7 @@ public class IndexPagePresenter extends Presenter {
     	super(pm, "indexpage");
     	this.presenterFactory = pf;
     	
-    	// get the enabled procedure plugins
-    	PluginLoader pluginLoader = PluginLoader.getInstance();
-    	selectedProcedures = pluginLoader.getEnabledProcedurePlugins();
+    	selectedProcedures = indexPage.filterProcedures(Filter.NO_FILTER);
     }
     
     /**
@@ -134,6 +132,7 @@ public class IndexPagePresenter extends Presenter {
 		     */
 			@FXML
 			private void handleProcedureSelected() {
+				presenterManager.updateSideMenuView(SideMenuTypes.MiniMenu);
 				presenterManager.updatePresenter(presenterFactory.createProcedureLayoutPresenter(procedure));
 			}
 	 }
