@@ -29,6 +29,7 @@ public class SideMenuPresenter extends Presenter {
      */
     public SideMenuPresenter(PresenterManager presenterManager, PresenterFactory presenterFactroy) {
         super(presenterManager, "sidemenu");
+        this.currentType = SideMenuTypes.EXTENDED_MENU;
         this.presenterFactroy = presenterFactroy;
     }
 
