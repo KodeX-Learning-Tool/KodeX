@@ -3,83 +3,93 @@ package kodex.presenter;
 import kodex.plugininterface.ProcedurePlugin;
 
 /**
+ * This class is a factory to create and return instances of main presenters.
  * 
+ * @author Leonhard Kraft
+ * @author Yannick Neubert
+ * 
+ * @version 1.0
  */
 public class PresenterFactory {
 
     /**
-     * Default constructor
-     */
-    public PresenterFactory() {
-    }
-
-    /**
-     * 
+     * The PresenterManager, that manages the current presenter and the root stage.
      */
     private PresenterManager presenterManager;
 
     /**
-     * @param pm
+     * Creates a new PresenterFactory with a reference to the PresenterManager.
+     * 
+     * @param presenterManager The reference to the PresenterManger, to hand it over
+     *                         to the created Presenters.
      */
-    public void PresenterFactory(PresenterManager pm) {
-        // TODO implement here
+    public PresenterFactory(PresenterManager presenterManager) {
+        this.presenterManager = presenterManager;
     }
 
     /**
-     * @return
+     * This Method creates and returns an Instance of a SideMenuPresenter.
+     * 
+     * @return A new Instance of a SideMenuPresenter.
      */
     public SideMenuPresenter createSideMenuPresenter() {
-        // TODO implement here
-        return null;
+        return new SideMenuPresenter(this.presenterManager, this);
     }
 
     /**
-     * @return
+     * This Method creates and returns an Instance of a IndexPagePresenter.
+     * 
+     * @return A new Instance of a IndexPagePresenter.
      */
     public IndexPagePresenter createIndexPagePresenter() {
-        // TODO implement here
-        return null;
+        return new IndexPagePresenter(this.presenterManager, this);
     }
 
     /**
-     * @return
+     * This Method creates and returns an Instance of a NetworkPresenter.
+     * 
+     * @return A new Instance of a NetworkPresenter.
      */
     public NetworkPresenter createNetworkPresenter() {
-        // TODO implement here
-        return null;
+        return new NetworkPresenter(this.presenterManager);
     }
 
     /**
-     * @return
+     * This Method creates and returns an Instance of a SettingsPresenter.
+     * 
+     * @return A new Instance of a SettingsPresenter.
      */
     public SettingsPresenter createSettingsPresenter() {
-        // TODO implement here
-        return null;
+        return new SettingsPresenter(this.presenterManager);
     }
 
     /**
-     * @return
+     * This Method creates and returns an Instance of a PluginsMenuPresenter.
+     * 
+     * @return A new Instance of a PluginMenuPresenter.
      */
     public PluginMenuPresenter createPluginMenuPresenter() {
-        // TODO implement here
-        return null;
+        return new PluginMenuPresenter(this.presenterManager);
     }
 
     /**
-     * @return
+     * This Method creates and returns an Instance of a HelpPresenter.
+     * 
+     * @return A new Instance of a HelpPresenter.
      */
     public HelpPresenter createHelpPresenter() {
-        // TODO implement here
-        return null;
+        return new HelpPresenter(this.presenterManager);
     }
 
     /**
-     * @param pp 
-     * @return
+     * This Method creates and returns an Instance of a ProcedureLayoutPresenter. To
+     * create the instance the ProcedurePlugin that should be displayed is needed.
+     * 
+     * @param procedurePluginThe active procedure, that has been chosen.
+     * @return A new Instance of a ProcedureLayoutPresenter.
      */
-    public ProcedureLayoutPresenter createProcedureLayoutPresenter(ProcedurePlugin pp) {
-        // TODO implement here
-        return null;
+    public ProcedureLayoutPresenter createProcedureLayoutPresenter(ProcedurePlugin procedurePlugin) {
+        return new ProcedureLayoutPresenter(this.presenterManager, procedurePlugin);
     }
 
 }
