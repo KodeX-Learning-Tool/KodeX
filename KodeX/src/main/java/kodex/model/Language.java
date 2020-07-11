@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -29,7 +30,7 @@ public class Language {
 	private static Language instance;
 
 	/* list with all avaliable languages */
-	private static List<Locale> languages;
+	private static List<Locale> languages = new ArrayList<>();
 
 	/* locale of current language */
 	private Locale language;
@@ -46,17 +47,20 @@ public class Language {
 	 */
 	private Language(Locale language) {
 		ClassLoader loader = null;
+		
 		try {
-			loader = new URLClassLoader(new URL[] { new File("./src/main/resources/").toURI().toURL() });
+			loader = new URLClassLoader(new URL[] { new File(getClass().getResource("languages").getPath()).toURI().toURL() });
 		} catch (MalformedURLException e) {
 			System.out.println("Path can not be loaded");
 		}
 		if (loader != null) {
-			rb = ResourceBundle.getBundle("Language", language, loader);
+			rb = ResourceBundle.getBundle("Languages", language, loader);
 		} else {
-			rb = ResourceBundle.getBundle("Language", Locale.GERMAN);
+			rb = ResourceBundle.getBundle("Languages", Locale.GERMAN);
 		}
 		this.language = language;
+		
+		languages.add(language);
 	}
 
 	/**

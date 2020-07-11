@@ -43,8 +43,9 @@ public class Help {
      */
     public Help(Locale locale) {
         this.locale = locale;
-        String url = "src/main/resources/Help/Help/Help_";
-    	input = getClass().getClassLoader().getResourceAsStream(url + this.locale + ".properties");
+
+        String url = "help/Help_";
+    	input = getClass().getResourceAsStream(url + this.locale + ".properties");
     	try {
 			prop.load(input);
 		} catch (IOException e) {

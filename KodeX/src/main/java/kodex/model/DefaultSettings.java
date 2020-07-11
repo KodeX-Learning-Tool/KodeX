@@ -48,8 +48,10 @@ public class DefaultSettings extends Settings {
      * However, since this class is a singleton, only one instance can be created
      */
     private DefaultSettings() {
-    	String url = "src/main/resources/Settings/User_Settings.properties";
-    	input = getClass().getClassLoader().getResourceAsStream(url);
+    	String url = "settings/User_Settings.properties";
+    	input = getClass().getResourceAsStream(url);
+    	
+    	System.out.println(getClass().getResourceAsStream(url));
     	try {
 			prop.load(input);
 			port = Integer.parseInt(prop.getProperty("port"));
