@@ -34,7 +34,7 @@ public class HelpPresenter extends Presenter {
 	private TextFlow infoBox;
 	
 	/** The List of FAQ items in form of a TitledPane.*/
-	private ArrayList<TitledPane> faq = new ArrayList<>();
+	private ArrayList<TitledPane> faq;
 	
 	/** The List of answers.*/
 	private List<String> questions = new ArrayList<>();
@@ -63,7 +63,7 @@ public class HelpPresenter extends Presenter {
      */
 	@FXML
 	private void initialize() {	
-
+		faq = new ArrayList<>();
     	
     	help = new Help(Language.getInstance().getLanguageInfo());
 		
