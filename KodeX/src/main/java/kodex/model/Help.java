@@ -43,9 +43,8 @@ public class Help {
      */
     public Help(Locale locale) {
         this.locale = locale;
-
-        String url = "help/Help_";
-    	input = getClass().getResourceAsStream(url + this.locale + ".properties");
+    	String url = "help/Help_" + locale + ".properties";
+    	input = getClass().getResourceAsStream(url);
     	try {
 			prop.load(input);
 		} catch (IOException e) {
@@ -61,7 +60,7 @@ public class Help {
      * loads questions from selected property file
      */
     public void loadQuestions() {
-        for (int i = 1; i < prop.size(); i++) {
+        for (int i = 1; i < prop.size() / 2 + 1; i++) {
         	if (prop.getProperty("answer" + i) != null) {
             	questions.add(prop.getProperty("question" + i));
         	}
@@ -72,7 +71,7 @@ public class Help {
      * loads answers from selected property file
      */
     public void loadAnswers() {
-        for (int i = 1; i < prop.size(); i++) {
+        for (int i = 1; i < prop.size() / 2 + 1; i++) {
         	if (prop.getProperty("answer" + i) != null) {
             	answers.add(prop.getProperty("answer" + i));
         	}

@@ -30,7 +30,7 @@ public class DefaultSettings extends Settings {
     private static int port;
 
     /* current Path where files are stored */
-    private static String defaultPath;
+    private static String defaultPath = null;
 
     /* current state of darkmode */
     private static boolean isDarkModeEnabled;

@@ -49,6 +49,7 @@ public class MainApp extends Application {
     public void start(Stage rootStage) {
 
         rootStage.setTitle("KodeX");
+        rootStage.setResizable(true);
 
         /*
          * Min. width and height for the window. Source:
@@ -61,8 +62,8 @@ public class MainApp extends Application {
          * Startup width and height of the window. Source:
          * https://docs.microsoft.com/en-us/windows/win32/uxguide/top-violations
          */
-        rootStage.setWidth(1024);
-        rootStage.setHeight(768);
+        rootStage.setWidth(1280);
+        rootStage.setHeight(720);
 
         PresenterManager presenterManager = new PresenterManager(rootStage);
 

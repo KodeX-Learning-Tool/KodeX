@@ -169,7 +169,7 @@ public class Language {
 						languages.add(new Locale(parts[1]));
 					}
 				} else {
-					System.out.print("Please check name of File");
+					System.out.println("Please check name of File");
 				}
 			}
 		}
