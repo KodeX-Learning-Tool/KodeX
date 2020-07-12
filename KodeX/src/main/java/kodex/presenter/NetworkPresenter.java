@@ -1,10 +1,17 @@
 package kodex.presenter;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
-import kodex.model.Network;
+import javafx.stage.FileChooser;
+import kodex.model.DefaultSettings;
 import kodex.model.validator.IPAddrValidator;
 import kodex.model.validator.PortNumValidator;
 import kodex.presenter.textformatter.IPAddrFormatter;
@@ -26,6 +33,12 @@ public class NetworkPresenter extends Presenter {
 
     @FXML
     private TextField portConnectTextField;
+    
+    @FXML
+    private TextField ipHostTextField;
+
+    @FXML
+    private TextField portHostTextField;
 
     /**
      * Creates a new NetworkPresenter with a reference to the PresenterManger for
@@ -75,13 +88,16 @@ public class NetworkPresenter extends Presenter {
         
         boolean invalid = false;
         
-        if (!IPAddrValidator.getInstance().isValid(ipConnectTextField.getText())) {
+        String ipText = ipConnectTextField.getText();
+        String portText = portConnectTextField.getText();
+        
+        if (!IPAddrValidator.getInstance().isValid(ipText)) {
             
             setErrorPseudoClass(ipConnectTextField, true);
             invalid = true;
         }
         
-        if (!PortNumValidator.getInstance().isValid(portConnectTextField.getText())) {
+        if (!PortNumValidator.getInstance().isValid(portText)) {
             
             setErrorPseudoClass(portConnectTextField, true);
             invalid = true;
@@ -91,7 +107,27 @@ public class NetworkPresenter extends Presenter {
             return;
         }
         
+        Socket socket = null;
+        
         // TODO implement here
+        try {
+            socket = new Socket(ipText, Integer.parseInt(portText));
+            
+        } catch (NumberFormatException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (UnknownHostException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        FileChooser fileChooser = new FileChooser();
+        File sendFile = fileChooser.showOpenDialog(null);
+        
+        //TODO: Send File to Socket
     }
 
     /**
@@ -100,6 +136,20 @@ public class NetworkPresenter extends Presenter {
      * connection an a file to receive and save.
      */
     public void handleReceive() {
-        // TODO implement here
+        // TODO disable send
+        ServerSocket serverSocket = null;
+        
+        try {
+            serverSocket = new ServerSocket(DefaultSettings.getPort());
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            //TODO break here beacuse of null
+        }
+        
+        ipHostTextField.setText(serverSocket.getInetAddress().getHostAddress());
+        portHostTextField.setText(Integer.toString(serverSocket.getLocalPort()));
+        
+        //TODO wait for connection in new Thread
     }
 }
