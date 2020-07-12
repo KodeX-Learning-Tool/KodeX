@@ -79,16 +79,6 @@ public class SettingsPresenter extends Presenter {
         languageChoiceBox.getSelectionModel().select(defaultSettings.getLanguage().getLanguageInfo());
 
         /*
-         * TODO: remove
-         * 
-         * Code for testing purposes:
-         * 
-         * ObservableList<Locale> list = FXCollections.observableArrayList(new
-         * Locale("de"), new Locale("en"), new Locale("fr"));
-         * languageChoiceBox.setItems(list);
-         */
-
-        /*
          * Initialize the DarkMode switch setting.
          */
 
