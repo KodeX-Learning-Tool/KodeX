@@ -48,7 +48,7 @@ public class DefaultSettings extends Settings {
      * However, since this class is a singleton, only one instance can be created
      */
     private DefaultSettings() {
-    	String url = "Settings/User_Settings.properties";
+    	String url = "settings/User_Settings.properties";
     	input = getClass().getResourceAsStream(url);
     	
     	try {
