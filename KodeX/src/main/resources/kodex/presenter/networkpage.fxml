@@ -65,7 +65,7 @@
                                              </styleClass>
                                           </GridPane>
                                           <Region styleClass="network__controll_spring" />
-                                          <Button mnemonicParsing="false" onAction="#handleSend" styleClass="default-button--shadow" text="Verbinden" />
+                                          <Button fx:id="connectButton" mnemonicParsing="false" onAction="#handleSend" styleClass="default-button--shadow" text="Verbinden" />
                                        </children>
                                     </VBox>
                                  </children>
@@ -120,7 +120,7 @@
                                              </children>
                                           </GridPane>
                                           <Region styleClass="network__controll_spring" />
-                                          <Button mnemonicParsing="false" onAction="#handleReceive" styleClass="default-button--shadow" text="Verbindung hosten" />
+                                          <Button fx:id="hostButton" mnemonicParsing="false" onAction="#handleReceive" styleClass="default-button--shadow" text="Verbindung hosten" />
                                        </children>
                                     </VBox>
                                  </children>
