@@ -8,8 +8,10 @@ import org.controlsfx.control.ToggleSwitch;
 import javafx.collections.FXCollections;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Control;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.util.StringConverter;
@@ -46,6 +48,30 @@ public class SettingsPresenter extends Presenter {
 
     @FXML
     private TextField pathTextField;
+    
+    @FXML
+    private Label lblHeader;
+    
+    @FXML
+    private Label lblLanguage;
+    
+    @FXML
+    private Label lblDarkmode;
+    
+    @FXML
+    private Label lblDefaultPort;
+    
+    @FXML
+    private Label lblDefaultPortDescription;
+    
+    @FXML
+    private Label lblDefaultPath;
+    
+    @FXML
+    private Label lblDefaultPathDescription;
+    
+    @FXML
+    private Button resetButton;
 
     /**
      * Creates a new SettingsPresenter with a reference to the PresenterManager
@@ -63,7 +89,16 @@ public class SettingsPresenter extends Presenter {
     private void initialize() {
 
         defaultSettings = DefaultSettings.getInstance();
-
+        
+        lblHeader.textProperty().bind(I18N.createStringBinding("settingspage.header"));
+        lblLanguage.textProperty().bind(I18N.createStringBinding("settingspage.language.header"));
+        lblDarkmode.textProperty().bind(I18N.createStringBinding("settingspage.darkmode.header"));
+        lblDefaultPort.textProperty().bind(I18N.createStringBinding("settingspage.defaultport.header"));
+        lblDefaultPortDescription.textProperty().bind(I18N.createStringBinding("settingspage.defaultport.lbl"));
+        lblDefaultPath.textProperty().bind(I18N.createStringBinding("settingspage.defaultpath.header"));
+        lblDefaultPathDescription.textProperty().bind(I18N.createStringBinding("settingspage.defaultpath.lbl"));
+        resetButton.textProperty().bind(I18N.createStringBinding("settingspage.resetbutton"));
+        
         // reset pseudo classes for reset
 
         setErrorPseudoClass(portTextField, false);
