@@ -1,5 +1,9 @@
 package kodex.model;
 
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileNotFoundException;
+import java.nio.file.FileAlreadyExistsException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,45 +24,133 @@ import javafx.beans.property.SimpleObjectProperty;
  * https://www.sothawo.com/2016/09/how-to-implement-a-javafx-ui-where-the-language-can-be-changed-dynamically/
  * 
  * @author Leonhard Kraft
+ * @author Patrick Spiesberger
  * 
  * @version 1.0
  */
 public class I18N {
-    
+
     /** the current selected Locale. */
     private static final ObjectProperty<Locale> locale;
-    
+
+    private static final List<Locale> supportedLocales = new ArrayList<>();
+
+    private static final String LANGUAGE_FILE_NAME = "Languages";
+
+    private static final String LANGUAGE_FOLDER_NAME = "languages";
+
+    private static final String DEFAULT_LOCALE = "en";
+
+    private static final int VALID_NAME_PART_NUMBER = 2;
+
+    private static final int LANGUAGE_PREFIX = 0;
+
+    private static final int LANGUAGE_SUFIX = 1;
+
     static {
-        //set language loaded by the settings
-        locale = new SimpleObjectProperty<Locale>(DefaultSettings.getInstance().getLanguage().getLanguageInfo());
         
-        //change this locale for this instance of the JVM
+        try {
+            loadSupportedLocales();
+        } catch (FileAlreadyExistsException | FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        
+        // set language loaded by the settings
+        locale = new SimpleObjectProperty<>(DefaultSettings.getInstance().getSavedLanguage());
+
+        // change the locale for this instance of the JVM
         locale.addListener((observable, oldValue, newValue) -> Locale.setDefault(newValue));
     }
-    
+
+    private static void loadSupportedLocales() throws FileNotFoundException, FileAlreadyExistsException {
+
+        // File to the languages folder directory
+        File languageDir = new File(I18N.class.getResource(LANGUAGE_FOLDER_NAME).getPath());
+
+        /*
+         * Languages are only contained in property files.
+         */
+        FileFilter propertyFilter = file -> file.getPath().toLowerCase().endsWith(".properties");
+
+        File[] languageFiles = languageDir.listFiles(propertyFilter);
+
+        if (languageFiles.length <= 0) {
+            throw new FileNotFoundException("No language file has been found.");
+        }
+
+        String fileName;
+        String[] fileNameParts;
+        Locale fileLocale;
+        int exPos;
+
+        /*
+         * Get Locale from all available files.
+         */
+        for (File propertyFile : languageFiles) {
+
+            fileName = propertyFile.getName();
+
+            exPos = fileName.lastIndexOf(".");
+
+            // strip file name of file extension
+            fileName = fileName.substring(0, exPos);
+
+            fileNameParts = fileName.split("_");
+
+            if (fileNameParts.length != VALID_NAME_PART_NUMBER) {
+                // TODO better handeling...
+                System.err.println("Please check name of File: " + fileName);
+            }
+
+            if (!fileNameParts[LANGUAGE_PREFIX].equals(LANGUAGE_FILE_NAME)) {
+                // not a Language file
+                continue;
+            }
+
+            fileLocale = new Locale(fileNameParts[LANGUAGE_SUFIX]);
+
+            if (supportedLocales.contains(fileLocale)) {
+                
+                // there should only be one language property file of each language
+                throw new FileAlreadyExistsException(
+                        "Language property file for language " +
+                         fileLocale.getDisplayLanguage() +
+                         "is not unique.");
+            }
+
+            supportedLocales.add(fileLocale);
+        }
+
+        if (supportedLocales.isEmpty()) {
+            // property files have been found, but no language files
+            throw new FileNotFoundException("No valid language file has been found.");
+        }
+    }
+
     /**
-     * get the supported Locales.
+     * Get a list of the supported Locales.
      *
      * @return List of Locale objects.
      */
     public static List<Locale> getSupportedLocales() {
-        
-        //TODO replace Language with this class then language list has to be loaded here
-        return new ArrayList<>(Language.getInstance().getLanguageList());
+
+        // TODO replace Language with this class then language list has to be loaded
+        // here
+        return supportedLocales;
     }
-    
+
     /**
-     * Get the default locale.
-     * This is the systems default if contained in the supported Locales, english otherwise.
-     * Should be used when language property is empty.
+     * Get the default locale. This is the systems default if contained in the
+     * supported Locales, english otherwise. Should be used when language property
+     * is empty.
      *
      * @return The default Loacle.
      */
     public static Locale getDefaultLocale() {
         Locale sysDefault = Locale.getDefault();
-        return getSupportedLocales().contains(sysDefault) ? sysDefault : new Locale("en");
+        return getSupportedLocales().contains(sysDefault) ? sysDefault : new Locale(DEFAULT_LOCALE);
     }
-    
+
     /**
      * Get the current Locale.
      * 
@@ -67,7 +159,7 @@ public class I18N {
     public static Locale getLocale() {
         return locale.get();
     }
-    
+
     /**
      * Set new current Locale.
      * 
@@ -77,7 +169,7 @@ public class I18N {
         localeProperty().set(locale);
         Locale.setDefault(locale);
     }
-    
+
     /**
      * Get the property of the current Locale.
      * 
@@ -86,22 +178,24 @@ public class I18N {
     public static ObjectProperty<Locale> localeProperty() {
         return locale;
     }
-    
+
     /**
-     * Gets the string with the given key from the resource bundle for the current locale and uses it as first argument
-     * to MessageFormat.format, passing in the optional args and returning the result.
+     * Gets the string with the given key from the resource bundle for the current
+     * locale and uses it as first argument to MessageFormat.format, passing in the
+     * optional args and returning the result.
      *
-     * @param key The key used to get the string from the Property file.
+     * @param key  The key used to get the string from the Property file.
      * @param args Optional arguments for the retrieved message.
      * @return Localized and formatted string.
      */
     public static String get(final String key, final Object... args) {
-        ResourceBundle bundle = ResourceBundle.getBundle("Language", getLocale());
+        ResourceBundle bundle = ResourceBundle.getBundle(LANGUAGE_FILE_NAME, getLocale());
         return MessageFormat.format(bundle.getString(key), args);
     }
-    
+
     /**
-     * Creates a String binding to a localized String for the given resource bundle key.
+     * Creates a String binding to a localized String for the given resource bundle
+     * key.
      *
      * @param key The key used to get the string from the Property file.
      * @return String binding A String Binding to the current locale.
@@ -109,9 +203,10 @@ public class I18N {
     public static StringBinding createStringBinding(final String key, Object... args) {
         return Bindings.createStringBinding(() -> get(key, args), locale);
     }
-    
+
     /**
-     * Creates a String Binding to a localized String that is computed by calling the given func.
+     * Creates a String Binding to a localized String that is computed by calling
+     * the given func.
      *
      * @param func The function called on every change.
      * @return StringBinding A String Binding to the current locale.
@@ -119,16 +214,4 @@ public class I18N {
     public static StringBinding createStringBinding(Callable<String> func) {
         return Bindings.createStringBinding(func, locale);
     }
-
-//      TODO: remove this is not used because the presenter can set the binding localy
-//    /**
-//     * creates a bound Label whose value is computed on language change.
-//     *
-//     * @param func
-//     *         the function to compute the value
-//     * @return Label
-//     */
-//    public static void bindStringProperty(StringProperty textProperty, Callable<String> func) {
-//        textProperty.bind(createStringBinding(func));
-//    }
 }
