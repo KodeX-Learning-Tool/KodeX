@@ -14,7 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.util.StringConverter;
 import kodex.model.DefaultSettings;
-import kodex.model.Language;
+import kodex.model.I18N;
 import kodex.model.validator.PortNumValidator;
 import kodex.presenter.textformatter.PortNumFormatter;
 
@@ -73,10 +73,10 @@ public class SettingsPresenter extends Presenter {
          */
 
         languageChoiceBox.setConverter(createLanguageConverter());
-        languageChoiceBox.setItems(FXCollections.observableArrayList(Language.getInstance().getLanguageList()));
+        languageChoiceBox.setItems(FXCollections.observableArrayList(I18N.getSupportedLocales()));
         // set initial language, works fine because select uses equals to compare and
         // therefore the instances don't have to be the same
-        languageChoiceBox.getSelectionModel().select(defaultSettings.getLanguage().getLanguageInfo());
+        languageChoiceBox.getSelectionModel().select(I18N.getLocale());
 
         /*
          * Initialize the DarkMode switch setting.
@@ -89,7 +89,7 @@ public class SettingsPresenter extends Presenter {
          */
         portTextField.setTextFormatter(PortNumFormatter.createTextFormatter());
 
-        String portString = Integer.toString(defaultSettings.getPort());
+        String portString = Integer.toString(DefaultSettings.getPort());
         portTextField.setText(portString);
 
         /*
@@ -142,7 +142,7 @@ public class SettingsPresenter extends Presenter {
      */
     @FXML
     public void handleChangeLanguage() {
-        defaultSettings.setLanguauge(languageChoiceBox.getValue());
+        I18N.setLocale(languageChoiceBox.getValue());
     }
 
     /**

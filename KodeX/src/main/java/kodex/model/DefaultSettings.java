@@ -16,6 +16,7 @@ import kodex.model.validator.PortNumValidator;
  * the user is able to access the settings from anywhere in the program.
  * 
  * @author Patrick Spiesberger
+ * @author Leonhard Kraft
  * 
  * @version 1.0
  *
@@ -30,7 +31,7 @@ public class DefaultSettings extends Settings {
     private static int port;
 
     /* current Path where files are stored */
-    private static String defaultPath;
+    private static String defaultPath = null;
 
     /* current state of darkmode */
     private static boolean isDarkModeEnabled;
@@ -53,9 +54,9 @@ public class DefaultSettings extends Settings {
     	
     	try {
 			prop.load(input);
-			port = Integer.parseInt(prop.getProperty("port"));
-			defaultPath = prop.getProperty("defaultPath");
-			
+			System.out.println(prop.getProperty("port"));
+			//setPort(Integer.parseInt(prop.getProperty("port")));
+			setDefaultPath(prop.getProperty("defaultPath"));		
 			isDarkModeEnabled = !prop.getProperty("isDarkModeEnabled").equals("false");
 			
 		} catch (IOException e) {
@@ -77,15 +78,12 @@ public class DefaultSettings extends Settings {
     }
 
     /**
-     * Returns current selected language
+     * Returns language (as Locale) currently saved in the properties.
      * 
      * @return current selected language
      */
-    public Language getLanguage() {
-        if (Language.getInstance() == null) {
-        	setLanguauge(new Locale("DE"));
-        }
-        return Language.getInstance();
+    public Locale getSavedLanguage() {
+        return new Locale(prop.getProperty("local"));
     }
 
     /**
@@ -93,8 +91,8 @@ public class DefaultSettings extends Settings {
 	 * 
      * @param locale : locale of desired language
      */
-    public void setLanguauge(Locale locale) {
-        Language.setInstance(locale);  
+    public void setSavedLanguage(Locale locale) {
+    	prop.setProperty("local", locale.getLanguage()); 
     }
 
     /**
@@ -112,14 +110,15 @@ public class DefaultSettings extends Settings {
      * @param port : port of local network
      */
     public void setPort(int port) {
-    	if (PortNumValidator.getInstance().isValid(input.toString())) {
+    	if (!PortNumValidator.getInstance().isValid(input.toString())) {
     		DefaultSettings.port = port;
     	} else {
     		System.out.println("invalid port");
+    		return;
     	}
     	prop.setProperty("port", String.valueOf(getPort()));
     	try {
-			prop.store(new FileOutputStream("src/main/resources/Settings/Default_Settings.properties"), null);
+			prop.store(new FileOutputStream(getClass().getResource("settings").getPath() + "/User_Settings.properties"), null);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -159,7 +158,7 @@ public class DefaultSettings extends Settings {
         isDarkModeEnabled = enable;
     	prop.setProperty("port", Boolean.toString(enable));
     	try {
-			prop.store(new FileOutputStream("src/main/resources/Settings/Default_Settings.properties"), null);
+			prop.store(new FileOutputStream(getClass().getResource("settings").getPath() + "/User_Settings.properties"), null);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -180,20 +179,22 @@ public class DefaultSettings extends Settings {
      * Resets all settings
      */
     public void reset() {
-    	String url = "src/main/resources/Settings/Default_Settings.properties";
-    	input = getClass().getClassLoader().getResourceAsStream(url);
+    	String url = "settings/Default_Settings.properties";
+    	input = getClass().getResourceAsStream(url);
+    	
     	try {
 			prop.load(input);
-			port = Integer.parseInt(prop.getProperty("port"));
-			defaultPath = prop.getProperty("defaultPath");
 			
-			int darkmode = Integer.parseInt(prop.getProperty("isDarkModeEnabled"));
-			if (darkmode == 0) isDarkModeEnabled = false;
-			else isDarkModeEnabled = true;
+			I18N.setLocale(new Locale(prop.getProperty("local")));
+			
+			setPort(Integer.parseInt(prop.getProperty("port")));
+			
+			setDefaultPath(prop.getProperty("defaultPath"));
+			
+			setDarkMode(!prop.getProperty("isDarkModeEnabled").equals("false"));
 			
 		} catch (IOException e) {
 			System.out.println("Settings can not be loaded");
 		}
     }
-
 }

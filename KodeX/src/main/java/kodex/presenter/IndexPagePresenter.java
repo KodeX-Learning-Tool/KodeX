@@ -2,14 +2,18 @@ package kodex.presenter;
 
 import java.io.IOException;
 import java.util.List;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.util.Callback;
 import kodex.model.Filter;
 import kodex.model.IndexPage;
 import kodex.model.SideMenuTypes;
@@ -48,7 +52,7 @@ public class IndexPagePresenter extends Presenter {
 	
 	/** Represents the model which stores the data for this presenter. */
 	private IndexPage indexPage;
-
+	
     /**
      * Creates a new IndexPagePresenter with references to a PresenterManger 
      * and a PresenterFactory.
@@ -69,7 +73,35 @@ public class IndexPagePresenter extends Presenter {
 	@FXML
 	private void initialize() throws IOException {
 	    this.indexPage = new IndexPage();
+	    
+	    // get procedures unordered and unfiltered
 	    selectedProcedures = indexPage.filterProcedures(Filter.NO_FILTER);
+	    
+	    
+	    // initialize combo box items	    
+	    filterComboBox.setItems(FXCollections.observableArrayList(Filter.values()));
+	    
+	    
+	    // determines the how each item is displayed in the combo box
+	    Callback<ListView<Filter>, ListCell<Filter>> cellFactory = new Callback<ListView<Filter>, ListCell<Filter>>() {
+	        @Override
+	        public ListCell<Filter > call(ListView<Filter > p) {
+	        	return new ListCell<Filter>() {
+	                @Override
+	                protected void updateItem(Filter item, boolean empty) {
+	                    super.updateItem(item, empty);
+	                    if (empty) {
+	                        setText("");
+	                    } else {
+	                        setText(item.toString());
+	                    }
+	                }
+	            };
+	        }
+	    };
+	    
+	    filterComboBox.setCellFactory(cellFactory);
+	    filterComboBox.setButtonCell(cellFactory.call(null));
 	    
 		// adds the ProcedureButtons for each enabled procedure plugin
 		for (ProcedurePlugin procedure: selectedProcedures) {
