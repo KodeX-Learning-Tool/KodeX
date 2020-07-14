@@ -1,5 +1,8 @@
 package kodex.presenter;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import kodex.model.I18N;
 import kodex.model.SideMenuTypes;
 
 /**
@@ -13,6 +16,21 @@ import kodex.model.SideMenuTypes;
  * @version 1.0
  */
 public class SideMenuPresenter extends Presenter {
+    
+    @FXML
+    private Button indexPageButton;
+    
+    @FXML
+    private Button networkPageButton;
+    
+    @FXML
+    private Button settingsPageButton;
+    
+    @FXML
+    private Button pluginPageButton;
+    
+    @FXML
+    private Button helpPageButton;
     
     private SideMenuTypes currentType;
 
@@ -31,6 +49,18 @@ public class SideMenuPresenter extends Presenter {
         super(presenterManager, "sidemenu");
         this.currentType = SideMenuTypes.EXTENDED_MENU;
         this.presenterFactroy = presenterFactroy;
+    }
+    
+    /**
+     * Initializes the view-object created by the FXMLLoader.
+     */
+    @FXML
+    private void initialize() {
+        indexPageButton.textProperty().bind(I18N.createStringBinding("sidemenu.indexpagebutton"));
+        networkPageButton.textProperty().bind(I18N.createStringBinding("sidemenu.networkpagebutton"));
+        settingsPageButton.textProperty().bind(I18N.createStringBinding("sidemenu.settingspagebutton"));
+        pluginPageButton.textProperty().bind(I18N.createStringBinding("sidemenu.pluginpagebutton"));
+        helpPageButton.textProperty().bind(I18N.createStringBinding("sidemenu.helppagebutton"));
     }
 
     /**
