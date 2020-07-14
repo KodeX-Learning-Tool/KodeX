@@ -6,6 +6,7 @@ import java.util.List;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
@@ -20,6 +21,7 @@ import kodex.model.I18N;
  * 
  * @author Yannick Neubert
  * @author Raimon Gramlich
+ * @author Leonhard Kraft
  * 
  * @version 1.0
  */
@@ -32,6 +34,12 @@ public class HelpPresenter extends Presenter {
 	/** The TextFlow which displays the information about this program.*/
 	@FXML
 	private TextFlow infoBox;
+	
+	@FXML
+	private Label lblHeader;
+	
+	@FXML
+	private Label lblFAQ;
 	
 	/** The List of FAQ items in form of a TitledPane.*/
 	private ArrayList<TitledPane> faq;
@@ -63,6 +71,10 @@ public class HelpPresenter extends Presenter {
      */
 	@FXML
 	private void initialize() {	
+	    
+	    lblHeader.textProperty().bind(I18N.createStringBinding("helppage.header"));
+	    lblFAQ.textProperty().bind(I18N.createStringBinding("helppage.faq.header"));
+	    
 		faq = new ArrayList<>();
     	
     	help = new Help(I18N.getLocale());
