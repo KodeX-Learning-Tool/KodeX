@@ -18,8 +18,7 @@
                      <children>
                         <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Label styleClass="default-page-title" text="Hilfe">
-                        </Label>
+                              <Label fx:id="lblHeader" styleClass="default-page-title"/>
                               <TextFlow id="help__description" fx:id="infoBox" />
                               <Region styleClass="help__content__spring" />
                               <VBox fx:id="faqBox">
@@ -30,8 +29,7 @@
                                              <children>
                                                 <AnchorPane>
                                                    <children>
-                                                      <Label styleClass="help__faq__title" text="FAQ:" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                </Label>
+                                                      <Label fx:id="lblFAQ" styleClass="help__faq__title" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0"/>
                                                    </children>
                                                 </AnchorPane>
                                                 <Separator />
