@@ -15,6 +15,7 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import kodex.model.Filter;
+import kodex.model.I18N;
 import kodex.model.IndexPage;
 import kodex.model.SideMenuTypes;
 import kodex.plugininterface.ProcedureInformation;
@@ -34,6 +35,10 @@ public class IndexPagePresenter extends Presenter {
 
     /** The List of procedures which will be displayed on the index page.*/
     private List<ProcedurePlugin> selectedProcedures;
+    
+    /** A Label displaying the page title. */
+    @FXML
+    private Label lblHeader;
     
     /** A TextField which allows the user to input search terms. */
 	@FXML
@@ -73,6 +78,11 @@ public class IndexPagePresenter extends Presenter {
 	@FXML
 	private void initialize() throws IOException {
 	    this.indexPage = new IndexPage();
+	    
+	    //
+	    lblHeader.textProperty().bind(I18N.createStringBinding("indexpage.header"));
+	    searchTextField.promptTextProperty().bind(I18N.createStringBinding("indexpage.searchbar.prompt"));
+	    filterComboBox.promptTextProperty().bind(I18N.createStringBinding("indexpage.filterbox.prompt"));
 	    
 	    // get procedures unordered and unfiltered
 	    selectedProcedures = indexPage.filterProcedures(Filter.NO_FILTER);
