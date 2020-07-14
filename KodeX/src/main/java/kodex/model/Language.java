@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -29,10 +30,10 @@ public class Language {
 	private static Language instance;
 
 	/* list with all avaliable languages */
-	private static List<Locale> languages;
+	private static List<Locale> languages = new ArrayList<>();
 
 	/* locale of current language */
-	private static Locale language;
+	private Locale language;
 
 	/* File with current language */
 	private File currentLanguageFile;
@@ -46,17 +47,22 @@ public class Language {
 	 */
 	private Language(Locale language) {
 		ClassLoader loader = null;
+		
 		try {
-			loader = new URLClassLoader(new URL[] { new File("./src/main/resources/").toURI().toURL() });
+			loader = new URLClassLoader(new URL[] { new File(getClass().getResource("languages").getPath()).toURI().toURL() });
 		} catch (MalformedURLException e) {
 			System.out.println("Path can not be loaded");
 		}
 		if (loader != null) {
-			rb = ResourceBundle.getBundle("Language", language, loader);
+			rb = ResourceBundle.getBundle("Languages", language, loader);
 		} else {
-			rb = ResourceBundle.getBundle("Language", Locale.GERMAN);
+			rb = ResourceBundle.getBundle("Languages", Locale.GERMAN);
 		}
-		Language.language = language;
+		this.language = language;
+		
+		languages.add(language);
+		
+		refreshList();
 	}
 
 	/**
@@ -86,7 +92,7 @@ public class Language {
 	 * 
 	 * @return list of type Locale
 	 */
-	public static List<Locale> getLanguageList() {
+	public List<Locale> getLanguageList() {
 		return languages;
 	}
 
@@ -97,7 +103,7 @@ public class Language {
 	 * @param message : Message that is required in the corresponding language
 	 * @return message in the current language
 	 */
-	public static String getMessage(String message) {
+	public String getMessage(String message) {
 		if (instance == null) {
 			instance = new Language(new Locale("DE"));
 		}
@@ -109,7 +115,7 @@ public class Language {
 	 * 
 	 * @return : locale of current language (e.g. Deutsch = DE)
 	 */
-	public static Locale getLanguageInfo() {
+	public Locale getLanguageInfo() {
 		if (language == null) {
 			instance = new Language(new Locale("DE"));
 		}
@@ -119,8 +125,8 @@ public class Language {
 	/**
 	 * refreshes the list of current language
 	 */
-	public static void refreshList() {
-		File file = new File("src/main/resources/Languages");
+	public void refreshList() {
+		File file = new File(getClass().getResource("languages").getPath());
 		URL[] urls = null;
 
 		String[] files = file.list();
@@ -128,31 +134,40 @@ public class Language {
 		if (files.length > 0) {
 			File[] flist = file.listFiles(new FileFilter() {
 				public boolean accept(File file) {
-					return file.getPath().toLowerCase().endsWith(".jar");
+					return file.getPath().toLowerCase().endsWith(".properties");
 				}
-			}); // only load .jar files
-
+			}); // only load .properties files
+			
 			urls = new URL[flist.length];
 
 			for (int i = 0; i < flist.length; i++) {
 				try {
 					urls[i] = flist[i].toURI().toURL();
 				} catch (MalformedURLException e) {
-					throw new Error("Malformed URL");
+					e.printStackTrace();
 				}
 			}
+			
 			String fileName = "";
 			String[] parts;
 			for (URL url : urls) {
 				try {
-					fileName = Paths.get(new URI(url.toString()).getPath()).getFileName().toString();
+					fileName = Paths.get(url.toURI()).getFileName().toString();
 				} catch (URISyntaxException e) {
 					System.out.println("Error during reading files");
 					return;
 				}
+				int pos = fileName.lastIndexOf(".");
+				if (pos > 0) {
+					fileName = fileName.substring(0, pos);
+				}
+				
 				parts = fileName.split("_");
+								
 				if (parts.length == 2) {
-					languages.add(new Locale("parts[1]"));
+					if (!languages.contains(new Locale(parts[1]))) {
+						languages.add(new Locale(parts[1]));
+					}
 				} else {
 					System.out.print("Please check name of File");
 				}

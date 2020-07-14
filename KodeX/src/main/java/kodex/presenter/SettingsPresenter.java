@@ -54,8 +54,6 @@ public class SettingsPresenter extends Presenter {
      */
     public SettingsPresenter(PresenterManager presenterManager) {
         super(presenterManager, "settingspage");
-
-        defaultSettings = DefaultSettings.getInstance();
     }
 
     /**
@@ -63,6 +61,8 @@ public class SettingsPresenter extends Presenter {
      */
     @FXML
     private void initialize() {
+
+        defaultSettings = DefaultSettings.getInstance();
 
         // reset pseudo classes for reset
 
@@ -76,17 +76,7 @@ public class SettingsPresenter extends Presenter {
         languageChoiceBox.setItems(FXCollections.observableArrayList(Language.getInstance().getLanguageList()));
         // set initial language, works fine because select uses equals to compare and
         // therefore the instances don't have to be the same
-        languageChoiceBox.getSelectionModel().select(defaultSettings.getLanguage());
-
-        /*
-         * TODO: remove
-         * 
-         * Code for testing purposes:
-         * 
-         * ObservableList<Locale> list = FXCollections.observableArrayList(new
-         * Locale("de"), new Locale("en"), new Locale("fr"));
-         * languageChoiceBox.setItems(list);
-         */
+        languageChoiceBox.getSelectionModel().select(defaultSettings.getLanguage().getLanguageInfo());
 
         /*
          * Initialize the DarkMode switch setting.

@@ -63,18 +63,9 @@
                                                 <String fx:value="network__controll__connect" />
                                                 <String fx:value="network__controll__input" />
                                              </styleClass>
-                                             <columnConstraints>
-                                                <ColumnConstraints />
-                                                <ColumnConstraints />
-                                             </columnConstraints>
-                                             <rowConstraints>
-                                                <RowConstraints />
-                                                <RowConstraints />
-                                                <RowConstraints />
-                                             </rowConstraints>
                                           </GridPane>
                                           <Region styleClass="network__controll_spring" />
-                                          <Button mnemonicParsing="false" onAction="#handleSend" styleClass="default-button--shadow" text="Verbinden" />
+                                          <Button fx:id="connectButton" mnemonicParsing="false" onAction="#handleSend" styleClass="default-button--shadow" text="Verbinden" />
                                        </children>
                                     </VBox>
                                  </children>
@@ -108,7 +99,7 @@
                                                 </AnchorPane>
                                                 <AnchorPane GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
                                                    <children>
-                                                      <TextField editable="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                      <TextField fx:id="ipHostTextField" editable="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <styleClass>
                                                             <String fx:value="network__controll__input__top" />
                                                             <String fx:value="network__controll__input__text-field" />
@@ -118,7 +109,7 @@
                                                 </AnchorPane>
                                                 <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="1">
                                                    <children>
-                                                      <TextField editable="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                      <TextField fx:id="portHostTextField" editable="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <styleClass>
                                                             <String fx:value="network__controll__input__bottom" />
                                                             <String fx:value="network__controll__input__text-field" />
@@ -127,17 +118,9 @@
                                                    </children>
                                                 </AnchorPane>
                                              </children>
-                                             <columnConstraints>
-                                                <ColumnConstraints />
-                                                <ColumnConstraints />
-                                             </columnConstraints>
-                                             <rowConstraints>
-                                                <RowConstraints />
-                                                <RowConstraints />
-                                             </rowConstraints>
                                           </GridPane>
                                           <Region styleClass="network__controll_spring" />
-                                          <Button mnemonicParsing="false" onAction="#handleReceive" styleClass="default-button--shadow" text="Verbindung hosten" />
+                                          <Button fx:id="hostButton" mnemonicParsing="false" onAction="#handleReceive" styleClass="default-button--shadow" text="Verbindung hosten" />
                                        </children>
                                     </VBox>
                                  </children>

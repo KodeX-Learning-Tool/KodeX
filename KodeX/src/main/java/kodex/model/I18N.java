@@ -30,7 +30,7 @@ public class I18N {
     
     static {
         //set language loaded by the settings
-        locale = new SimpleObjectProperty<>(DefaultSettings.getInstance().getLanguage());
+        locale = new SimpleObjectProperty<Locale>(DefaultSettings.getInstance().getLanguage().getLanguageInfo());
         
         //change this locale for this instance of the JVM
         locale.addListener((observable, oldValue, newValue) -> Locale.setDefault(newValue));

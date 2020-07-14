@@ -19,17 +19,17 @@ import kodex.plugininterface.ProcedurePlugin;
 public class IndexPage {
 
 	/* List of all aviable procedures */
-    private List<ProcedurePlugin> availableProcedures = new LinkedList<ProcedurePlugin>();
+    private List<ProcedurePlugin> availableProcedures = new LinkedList<>();
 
     /* List of all procedures according to the desired restriction */
-    private List<ProcedurePlugin> selectedProcedures = new LinkedList<ProcedurePlugin>();
+    private List<ProcedurePlugin> selectedProcedures = new LinkedList<>();
     
     /**
      * Constructor of class IndexPage. Loads the current list
      * of all activated procededures from PluginLoader.
      */
     public IndexPage() {
-    	availableProcedures = PluginLoader.getEnabledProcedurePlugins();
+    	availableProcedures = PluginLoader.getInstance().getEnabledProcedurePlugins();
     }
 
 

@@ -97,7 +97,7 @@ public class PluginMenuPresenter extends Presenter {
 		// add the plugin located at the given path
 		File file = chooser.showOpenDialog(null);
 		if (file != null) {
-			pluginLoader.addPlugin(file);	
+			PluginLoader.getInstance().loadExternalPlugin(file);	
 		} else {
 			System.out.println("No plugin chosen.");
 		}

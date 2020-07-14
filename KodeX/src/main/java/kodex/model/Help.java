@@ -24,8 +24,8 @@ public class Help {
     /* List of all answers*/
     private List<String> answers = new LinkedList<String>();
 
-    /* Information about FAQ */
-    private String info;
+    /* Informations about FAQ */
+    private List<String> info = new LinkedList<String>();
 
     /* current language */
     private Locale locale;
@@ -43,13 +43,18 @@ public class Help {
      */
     public Help(Locale locale) {
         this.locale = locale;
-        String url = "src/main/resources/Help/Help/Help_";
-    	input = getClass().getClassLoader().getResourceAsStream(url + this.locale + ".properties");
+
+        String url = "help/Help_";
+    	input = getClass().getResourceAsStream(url + this.locale + ".properties");
     	try {
 			prop.load(input);
 		} catch (IOException e) {
 			System.out.println("Error during reading File");
 		}
+    	
+    	loadQuestions();
+    	loadAnswers();
+    	loadInfo();
     }
 
     /**
@@ -57,7 +62,9 @@ public class Help {
      */
     public void loadQuestions() {
         for (int i = 1; i < prop.size(); i++) {
-        	questions.add(prop.getProperty("question" + i));
+        	if (prop.getProperty("answer" + i) != null) {
+            	questions.add(prop.getProperty("question" + i));
+        	}
         }
     }
 
@@ -66,7 +73,9 @@ public class Help {
      */
     public void loadAnswers() {
         for (int i = 1; i < prop.size(); i++) {
-        	answers.add(prop.getProperty("answer" + i));
+        	if (prop.getProperty("answer" + i) != null) {
+            	answers.add(prop.getProperty("answer" + i));
+        	}
         }
     }
 
@@ -74,7 +83,7 @@ public class Help {
      * loads informations about selected property file
      */
     public void loadInfo() {
-    	info = prop.getProperty(info);
+    	info.add(prop.getProperty("info"));
     }
 
     /**
@@ -94,10 +103,10 @@ public class Help {
     }
 
     /**
-     * returns information about FAQ
-     * @return information about FAQ
+     * returns list of all information about FAQ
+     * @return informations about FAQ
      */
-    public String getInfo() {
+    public List<String> getInfo() {
         return info;
     }
 

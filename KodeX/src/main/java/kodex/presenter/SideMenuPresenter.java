@@ -13,6 +13,8 @@ import kodex.model.SideMenuTypes;
  * @version 1.0
  */
 public class SideMenuPresenter extends Presenter {
+    
+    private SideMenuTypes currentType;
 
     private PresenterFactory presenterFactroy;
 
@@ -27,6 +29,7 @@ public class SideMenuPresenter extends Presenter {
      */
     public SideMenuPresenter(PresenterManager presenterManager, PresenterFactory presenterFactroy) {
         super(presenterManager, "sidemenu");
+        this.currentType = SideMenuTypes.EXTENDED_MENU;
         this.presenterFactroy = presenterFactroy;
     }
 
@@ -38,8 +41,12 @@ public class SideMenuPresenter extends Presenter {
      * @param type The type of side menu that should be loaded.
      */
     public void changeSideMenuType(SideMenuTypes type) {
+        
+        if (type.equals(currentType)) {
+            return;
+        }
 
-        super.loadFXML(type.toString()); // TODO us toString or if clause?
+        super.loadFXML(type.toString());
     }
 
     /**
@@ -48,6 +55,7 @@ public class SideMenuPresenter extends Presenter {
      */
     public void handleIndexPage() {
         this.presenterManager.updatePresenter(this.presenterFactroy.createIndexPagePresenter());
+        changeToExtendedMenu();
     }
 
     /**
@@ -56,6 +64,7 @@ public class SideMenuPresenter extends Presenter {
      */
     public void handleNetwork() {
         this.presenterManager.updatePresenter(this.presenterFactroy.createNetworkPresenter());
+        changeToExtendedMenu();
     }
 
     /**
@@ -64,6 +73,7 @@ public class SideMenuPresenter extends Presenter {
      */
     public void handleSettings() {
         this.presenterManager.updatePresenter(this.presenterFactroy.createSettingsPresenter());
+        changeToExtendedMenu();
     }
 
     /**
@@ -72,6 +82,7 @@ public class SideMenuPresenter extends Presenter {
      */
     public void handlePlugins() {
         this.presenterManager.updatePresenter(this.presenterFactroy.createPluginMenuPresenter());
+        changeToExtendedMenu();
     }
 
     /**
@@ -80,5 +91,10 @@ public class SideMenuPresenter extends Presenter {
      */
     public void handleHelp() {
         this.presenterManager.updatePresenter(this.presenterFactroy.createHelpPresenter());
+        changeToExtendedMenu();
+    }
+    
+    private void changeToExtendedMenu() {
+        this.presenterManager.updateSideMenuView(SideMenuTypes.EXTENDED_MENU);
     }
 }

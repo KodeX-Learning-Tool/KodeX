@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import kodex.model.Help;
+import kodex.model.Language;
 
 /**
  * This presenter is responsible for the Help page. On the Help page the program
@@ -33,7 +34,7 @@ public class HelpPresenter extends Presenter {
 	private TextFlow infoBox;
 	
 	/** The List of FAQ items in form of a TitledPane.*/
-	private ArrayList<TitledPane> faq = new ArrayList<>();
+	private ArrayList<TitledPane> faq;
 	
 	/** The List of answers.*/
 	private List<String> questions = new ArrayList<>();
@@ -54,8 +55,6 @@ public class HelpPresenter extends Presenter {
      */
     public HelpPresenter(PresenterManager pm) {
     	super(pm, "helppage");
-    	
-    	help = new Help();
     }
     
     /**
@@ -64,6 +63,10 @@ public class HelpPresenter extends Presenter {
      */
 	@FXML
 	private void initialize() {	
+		faq = new ArrayList<>();
+    	
+    	help = new Help(Language.getInstance().getLanguageInfo());
+		
 		// get the lists of questions and answers
 		questions = help.getQuestions();
 		answers = help.getAnswers();

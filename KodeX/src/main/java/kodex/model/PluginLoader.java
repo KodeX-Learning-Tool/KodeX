@@ -21,33 +21,35 @@ import kodex.plugininterface.ProcedurePlugin;
  * 
  * @author Patrick Spiesberger
  *
- * @version 1.0
+ * @version 1.0properties
  * 
  */
 public class PluginLoader {
 
 	/* current instance of PluginLoader  */
-    private static PluginLoader instance;
+    private static PluginLoader instance = new PluginLoader();
 
     /* List of all plugins */
-    private static List<Pluginable> allPlugins = new LinkedList<Pluginable>();
+    private List<Pluginable> allPlugins = new LinkedList<Pluginable>();
 
     /* List of all enabled plugins */
-    private static List<Pluginable> enabledPlugins = new LinkedList<Pluginable>();
+    private List<Pluginable> enabledPlugins = new LinkedList<Pluginable>();
     
     /* List of all enabled procedure plugins */
-    private static  List<ProcedurePlugin> procedurePlugins = new LinkedList<ProcedurePlugin>();
+    private List<ProcedurePlugin> procedurePlugins = new LinkedList<ProcedurePlugin>();
     
-    private static ServiceLoader<Pluginable> pluginLoader;
+    private ServiceLoader<Pluginable> pluginLoader;
     
-    private static ServiceLoader<ProcedurePlugin> procedureLoader;
+    private ServiceLoader<ProcedurePlugin> procedureLoader;
 
 
 
     /**
      * Constructor of PluginLoader class
      */
-    private PluginLoader() {}
+    private PluginLoader() {
+    	load();
+    }
 
     /**
      * Retruns current instance of PluginLoader
@@ -60,7 +62,7 @@ public class PluginLoader {
     /**
      * loads only internal plugins
      */
-    public static void load() {
+    public void load() {
     	pluginLoader = ServiceLoader.load(Pluginable.class);
     	procedureLoader = ServiceLoader.load(ProcedurePlugin.class);
     	
@@ -78,7 +80,7 @@ public class PluginLoader {
      * 
      * @param file : location of plugins
      */
-    public static void loadExternalPlugin(File file) {
+    public void loadExternalPlugin(File file) {
     	URL[] urls = null;
     	
         if (file.isDirectory()) { //file is a folder
@@ -134,7 +136,7 @@ public class PluginLoader {
      * Note: is added again when the program starts
      * If you want to delete it, you have to remove it from the plugin folder
      */
-    public static void removePlugin(Pluginable plugin) {
+    public void removePlugin(Pluginable plugin) {
         deactivatePlugin(plugin);
         allPlugins.remove(plugin);
     }
@@ -144,7 +146,7 @@ public class PluginLoader {
      * 
      * @param plugin : plugin which should be added
      */
-    public static void activatePlugin(Pluginable plugin) {
+    public void activatePlugin(Pluginable plugin) {
         if (!enabledPlugins.contains(plugin)) {
         	enabledPlugins.add(plugin);
         }
@@ -155,7 +157,7 @@ public class PluginLoader {
      * 
      * @param plugin : plugin which should be removed
      */
-    public static void deactivatePlugin(Pluginable plugin) {
+    public void deactivatePlugin(Pluginable plugin) {
         enabledPlugins.remove(plugin);
     }
 
@@ -164,7 +166,7 @@ public class PluginLoader {
      * 
      * @return list of all plugins
      */
-    public static List<Pluginable> getPlugins() {
+    public List<Pluginable> getPlugins() {
         return allPlugins;
     }
 
@@ -173,7 +175,7 @@ public class PluginLoader {
      * 
      * @return list of all enabled plugins
      */
-    public static List<Pluginable> getEnabledPlugins() {
+    public List<Pluginable> getEnabledPlugins() {
         return enabledPlugins;
     }
 
@@ -182,7 +184,8 @@ public class PluginLoader {
      * 
      * @return list of all enabled procedure plugins
      */
-    public static List<ProcedurePlugin> getEnabledProcedurePlugins() {
+    
+    public List<ProcedurePlugin> getEnabledProcedurePlugins() {
     	for (ProcedurePlugin plugin : procedureLoader) {
     		if (!enabledPlugins.contains(plugin)) {
     			procedurePlugins.remove(plugin);
