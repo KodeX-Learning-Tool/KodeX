@@ -25,9 +25,9 @@
                   <Region styleClass="plugin__spring" />
                   <TableView fx:id="pluginTable" focusTraversable="false" styleClass="plugin__table">
                     <columns>
-                      <TableColumn id="activColumn" fx:id="checkBoxColumn" reorderable="false" text="Aktiv" />
-                      <TableColumn id="nameColumn" fx:id="nameColumn" editable="false" text="Name" />
-                        <TableColumn fx:id="descriptionColumn" editable="false" text="Beschreibung" />
+                      <TableColumn id="activColumn" fx:id="checkBoxColumn" reorderable="false" />
+                      <TableColumn id="nameColumn" fx:id="nameColumn" editable="false" />
+                        <TableColumn fx:id="descriptionColumn" editable="false" />
                     </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -36,13 +36,13 @@
                   <Region styleClass="plugin__spring" />
                   <HBox styleClass="plugin__button__container">
                      <children>
-                        <Button id="plugin-menu__button--add" mnemonicParsing="false" onAction="#handleAddPlugin" styleClass="default-button--shadow" text="Hinzufügen">
+                        <Button id="plugin-menu__button--add" fx:id="addPluginButton" mnemonicParsing="false" onAction="#handleAddPlugin" styleClass="default-button--shadow">
                            <graphic>
                               <FontIcon iconLiteral="mdi-playlist-plus" iconSize="20" />
                            </graphic>
                         </Button>
                         <Region styleClass="plugin__button__spring" />
-                        <Button id="plugin-menu__button--remove" mnemonicParsing="false" onAction="#handleRemovePlugin" styleClass="default-button--shadow" text="Entfernen">
+                        <Button id="plugin-menu__button--remove" fx:id="removePluginButton" mnemonicParsing="false" onAction="#handleRemovePlugin" styleClass="default-button--shadow">
                            <graphic>
                               <FontIcon iconLiteral="mdi-playlist-minus" iconSize="20" text="" />
                            </graphic>
