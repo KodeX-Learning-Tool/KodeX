@@ -16,6 +16,7 @@ import kodex.model.validator.PortNumValidator;
  * the user is able to access the settings from anywhere in the program.
  * 
  * @author Patrick Spiesberger
+ * @author Leonhard Kraft
  * 
  * @version 1.0
  *
@@ -53,7 +54,6 @@ public class DefaultSettings extends Settings {
     	
     	try {
 			prop.load(input);
-    		setLanguage(new Locale(prop.getProperty("local")));
 			System.out.println(prop.getProperty("port"));
 			//setPort(Integer.parseInt(prop.getProperty("port")));
 			setDefaultPath(prop.getProperty("defaultPath"));		
@@ -78,15 +78,12 @@ public class DefaultSettings extends Settings {
     }
 
     /**
-     * Returns current selected language
+     * Returns language (as Locale) currently saved in the properties.
      * 
      * @return current selected language
      */
-    public Language getLanguage() {
-        if (Language.getInstance() == null) {
-        	setLanguage(new Locale("DE"));
-        }
-        return Language.getInstance();
+    public Locale getSavedLanguage() {
+        return new Locale(prop.getProperty("local"));
     }
 
     /**
@@ -94,9 +91,8 @@ public class DefaultSettings extends Settings {
 	 * 
      * @param locale : locale of desired language
      */
-    public void setLanguage(Locale locale) {
-    	System.out.println("locale: " + locale.toString());
-        Language.setInstance(locale);  
+    public void setSavedLanguage(Locale locale) {
+    	prop.setProperty("local", locale.getLanguage()); 
     }
 
     /**
@@ -189,7 +185,7 @@ public class DefaultSettings extends Settings {
     	try {
 			prop.load(input);
 			
-			setLanguage(new Locale(prop.getProperty("local")));
+			I18N.setLocale(new Locale(prop.getProperty("local")));
 			
 			setPort(Integer.parseInt(prop.getProperty("port")));
 			
@@ -201,5 +197,4 @@ public class DefaultSettings extends Settings {
 			System.out.println("Settings can not be loaded");
 		}
     }
-
 }
