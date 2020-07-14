@@ -81,6 +81,7 @@ public class I18N {
         String fileName;
         String[] fileNameParts;
         Locale fileLocale;
+        boolean defaultFound = false;
         int exPos;
 
         /*
@@ -94,6 +95,19 @@ public class I18N {
 
             // strip file name of file extension
             fileName = fileName.substring(0, exPos);
+            
+            if (fileName.equals(LANGUAGE_FILE_NAME)) {
+                
+                if (defaultFound) {
+                    throw new FileAlreadyExistsException(
+                            "Language default property file " +
+                             fileName +
+                            "is not unique.");
+                }
+                
+                defaultFound = true;
+                continue;
+            }
 
             fileNameParts = fileName.split("_");
 
