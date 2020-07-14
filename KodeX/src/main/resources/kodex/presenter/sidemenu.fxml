@@ -12,24 +12,24 @@
       <VBox styleClass="side-menu" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox styleClass="side-menu__logo" />
-            <Button mnemonicParsing="false" onAction="#handleIndexPage" styleClass="side-menu__button" text="Start">
+            <Button fx:id="indexPageButton" mnemonicParsing="false" onAction="#handleIndexPage" styleClass="side-menu__button">
                <graphic>
                   <FontIcon iconLiteral="mdi-home-outline" styleClass="side-menu__button" />
                </graphic>
 			</Button>
-            <Button mnemonicParsing="false" onAction="#handleNetwork" styleClass="side-menu__button" text="Netzwerk">
+            <Button fx:id="networkPageButton" mnemonicParsing="false" onAction="#handleNetwork" styleClass="side-menu__button">
                <graphic>
                   <FontIcon iconLiteral="mdi-share-variant" styleClass="side-menu__button" />
                </graphic></Button>
-            <Button mnemonicParsing="false" onAction="#handleSettings" styleClass="side-menu__button" text="Einstellungen">
+            <Button fx:id="settingsPageButton" mnemonicParsing="false" onAction="#handleSettings" styleClass="side-menu__button">
                <graphic>
                   <FontIcon iconLiteral="mdi-settings" styleClass="side-menu__button" />
                </graphic></Button>
-            <Button mnemonicParsing="false" onAction="#handlePlugins" styleClass="side-menu__button" text="Plugins">
+            <Button fx:id="pluginPageButton" mnemonicParsing="false" onAction="#handlePlugins" styleClass="side-menu__button">
                <graphic>
                   <FontIcon iconLiteral="mdi-code-tags" styleClass="side-menu__button" />
                </graphic></Button>
-            <Button mnemonicParsing="false" onAction="#handleHelp" styleClass="side-menu__button" text="Hilfe">
+            <Button fx:id="helpPageButton" mnemonicParsing="false" onAction="#handleHelp" styleClass="side-menu__button">
                <graphic>
                   <FontIcon iconLiteral="mdi-help-circle-outline" styleClass="side-menu__button" />
                </graphic></Button>
