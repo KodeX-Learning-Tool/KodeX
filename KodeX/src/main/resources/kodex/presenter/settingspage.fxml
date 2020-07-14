@@ -17,13 +17,11 @@
          <children>
             <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label styleClass="default-page-title" text="Einstellungen">
-                  </Label>
+                  <Label fx:id="lblHeader" styleClass="default-page-title"/>
                   <Region styleClass="settings__spring" />
                   <VBox>
                      <children>
-                        <Label text="Sprache:">
-                        </Label>
+                        <Label fx:id="lblLanguage" />
                         <Region styleClass="settings__setting__spring" />
                         <ChoiceBox fx:id="languageChoiceBox" onAction="#handleChangeLanguage" styleClass="default-choice-box--shadow" />
                      </children>
@@ -31,13 +29,11 @@
                   <Region styleClass="settings__spring" />
                   <VBox>
                      <children>
-                        <Label text="Darkmode:">
-                        </Label>
+                        <Label fx:id="lblDarkmode"/>
                         <Region styleClass="settings__setting__spring" />
                         <HBox>
                            <children>
-                              <ToggleSwitch fx:id="darkModeSwitch" onMouseClicked="#handleDarkModeToggle" styleClass="toggle-switch" text="Aus ">
-                              </ToggleSwitch>
+                              <ToggleSwitch fx:id="darkModeSwitch" onMouseClicked="#handleDarkModeToggle" styleClass="toggle-switch" text="Aus "/>
                            </children>
                         </HBox>
                      </children>
@@ -45,15 +41,12 @@
                   <Region styleClass="settings__spring" />
                   <VBox>
                      <children>
-                        <Label text="Standard Port konfigurieren:">
-                        </Label>
+                        <Label fx:id="lblDefaultPort"/>
                         <Region styleClass="settings__setting__spring" />
                         <HBox styleClass="settings__setting__input">
                            <children>
-                              <Label styleClass="settings__textfield__label" text="Port:">
-                              </Label>
-                              <TextField fx:id="portTextField" styleClass="settings__textfield">
-                              </TextField>
+                              <Label fx:id="lblDefaultPortDescription" styleClass="settings__textfield__label" />
+                              <TextField fx:id="portTextField" styleClass="settings__textfield"/>
                               <Region styleClass="settings__setting__input__spring" />
                               <Button mnemonicParsing="false" onAction="#handleSubmitPort" styleClass="default-button--shadow">
                                  <graphic>
@@ -67,15 +60,12 @@
                   <Region styleClass="settings__spring" />
                   <VBox>
                      <children>
-                        <Label text="Standard Speicherpfad:">
-                        </Label>
+                        <Label fx:id="lblDefaultPath"/>
                         <Region styleClass="settings__setting__spring" />
                         <HBox styleClass="settings__setting__input">
                            <children>
-                              <Label styleClass="settings__textfield__label" text="Pfad:">
-                              </Label>
-                              <TextField fx:id="pathTextField" styleClass="settings__textfield">
-                              </TextField>
+                              <Label fx:id="lblDefaultPathDescription" styleClass="settings__textfield__label" />
+                              <TextField fx:id="pathTextField" styleClass="settings__textfield"/>
                               <Region styleClass="settings__setting__input__spring" />
                               <Button mnemonicParsing="false" onAction="#handleBrowsePath" styleClass="default-button--shadow">
                                  <graphic>
@@ -87,8 +77,7 @@
                      </children>
                   </VBox>
                   <Region styleClass="settings__spring" />
-                  <Button mnemonicParsing="false" onAction="#handleRestoreDefaultSettings" styleClass="default-button--shadow" text="Einstellungen zurücksetzen">
-                  </Button>
+                  <Button fx:id="resetButton" mnemonicParsing="false" onAction="#handleRestoreDefaultSettings" styleClass="default-button--shadow" />
                </children>
             </VBox>
          </children>
