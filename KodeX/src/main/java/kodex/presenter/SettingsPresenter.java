@@ -177,7 +177,14 @@ public class SettingsPresenter extends Presenter {
      */
     @FXML
     public void handleChangeLanguage() {
-        I18N.setLocale(languageChoiceBox.getValue());
+        
+        Locale chosenLanguage = languageChoiceBox.getValue();
+        
+        if (chosenLanguage == null) {
+            return;
+        }
+        
+        I18N.setLocale(chosenLanguage);
     }
 
     /**
