@@ -184,6 +184,7 @@ public class SettingsPresenter extends Presenter {
             return;
         }
         
+        defaultSettings.setSavedLanguage(chosenLanguage);
         I18N.setLocale(chosenLanguage);
     }
 
