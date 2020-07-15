@@ -1,59 +1,48 @@
 package kodex.pluginutils.model.content;
 
-import java.io.File;
-import java.util.Map;
+import java.util.LinkedList;
 
 import kodex.plugininterface.Content;
 
 /**
- * 
+ * This class holds data in list format. It adds validation and exporting capabilities
+ * to Javas LinkedList.
  */
-public abstract class AbstractList implements Content {
+public abstract class AbstractList<E> extends Content {
 
+	/**
+	 * The LinkedList containing this Contents data
+	 */
+	protected LinkedList<E> list;
+	
     /**
-     * Default constructor
+     * Returns the LinkedList containing this Contents data
+     * @return The LinkedList containing this Contents data
      */
-    public AbstractList() {
+    public LinkedList<E> getList() {
+        return list;
+    }
+    
+    /**
+     * Sets the LinkedList containing this Contents data
+     * @param list The LinkedList containing this Contents data
+     */
+    public void setList(LinkedList<E> list) {
+    	this.list = list;
     }
 
-    /**
-     * @return
-     */
-    public AbstractList getList() {
-        // TODO implement here
-        return null;
+    
+    
+    //below some shortcuts for common actions
+    public void add(E element) {
+    	list.add(element);
     }
-
-    /**
-     * @param header
-     */
-    public void setHeader(Map header) {
-        // TODO implement here
+    
+    public E get(int index) {
+    	return list.get(index);
     }
-
-    /**
-     * @param key 
-     * @return
-     */
-    public String getHeaderValue(String key) {
-        // TODO implement here
-        return "";
+    
+    public int size() {
+    	return list.size();
     }
-
-    /**
-     * @param file
-     */
-    public void export(File file) {
-        // TODO implement here
-    }
-
-    /**
-     * @param input 
-     * @return
-     */
-    public Boolean isValid(Object input) {
-        // TODO implement here
-        return null;
-    }
-
 }

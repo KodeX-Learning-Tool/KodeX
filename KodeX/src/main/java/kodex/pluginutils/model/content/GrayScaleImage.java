@@ -1,48 +1,42 @@
 package kodex.pluginutils.model.content;
 
-import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
+import java.io.File;
+
+import javafx.scene.image.WritableImage;
+import kodex.plugininterface.Content;
 
 /**
- * 
+ * This class holds data in Image format. An GrayScaleImage consists of a WritableImage 
+ * where each pixels red, green and blue value are all equal.
+ * Extending AbstractImage, it adds validation and exporting capabilities to JavaFX's WritableImage.
  */
-public class GrayScaleImage extends AbstractImage {
-
-    /**
-     * Default constructor
+public class GrayScaleImage extends AbstractImage{
+	
+	/**
+     * Creates a new GrayScaleImage
      */
     public GrayScaleImage() {
+    	super.image = new WritableImage(1, 1);
     }
 
     /**
-     * 
+     * Creates a new GrayScaleImage and sets its data to the image passed in the arguments
+     * @param image The WritableImage to be used as data
      */
-    private Image image;
-
-    /**
-     * @param image
-     */
-    public void GreyScaleImage(Image image) {
-        // TODO implement here
+    public GrayScaleImage(WritableImage image) {
+        this.image = image;
     }
 
-    /**
-     * @param row 
-     * @param col 
-     * @return
-     */
-    public Color getColor(int row, int col) {
-        // TODO implement here
-        return null;
-    }
+	@Override
+	protected File toFile() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    /**
-     * @param image 
-     * @return
-     */
-    public Boolean isValid(Image image) {
-        // TODO implement here
-        return null;
-    }
+	@Override
+	public Boolean isValid(Content input) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

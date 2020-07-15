@@ -1,77 +1,62 @@
 package kodex.pluginutils.model.content;
 
-import java.io.File;
-import java.util.Map;
-
-import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import kodex.plugininterface.Content;
 
 /**
- * 
+ * This class holds data in image format. It adds validation and exporting capabilities
+ * to JavaFX's WritableImage.
  */
-public abstract class AbstractImage implements Content {
+public abstract class AbstractImage extends Content {
 
-    /**
-     * Default constructor
-     */
-    public AbstractImage() {
+	/**
+	 * The WritableImage containing this Contents data
+	 */
+	protected WritableImage image;
+
+	/**
+	 * Sets the size of this Contents WritableImage
+	 * @param width The width of the new Image
+	 * @param height The height of the new Image
+	 * @throws IllegalArgumentException If either argument is less than or equal 0
+	 */
+    public void setSize(int width, int height) throws IllegalArgumentException {
+    	image = new WritableImage(width, height);
     }
 
+	/**
+	 * Returns the WritableImage containing this Contents data
+	 * @return The WritableImage containing this Contents data
+	 */
+    public WritableImage getImage() {
+    	return image;
+    }
+    
     /**
-     * 
+     * Sets the WritableImage containing this Contents data
+     * @param image The WritableImage containing this Contents data
      */
-    protected Image image;
-
-    /**
-     * @param x 
-     * @param y 
-     * @return
-     */
+    public void setImage(WritableImage image) {
+    	this.image = image;
+    }
+    
+    
+    
+    //below some shortcuts for common actions
+    public int getWidth() {
+    	return (int) image.getWidth();
+    }
+    
+    public int getHeight() {
+    	return (int) image.getHeight();
+    }
+    
     public Color getColor(int x, int y) {
-        // TODO implement here
-        return null;
+    	return image.getPixelReader().getColor(x, y);
     }
-
-    /**
-     * @param x 
-     * @param y 
-     * @param color
-     */
+    
     public void setColor(int x, int y, Color color) {
-        // TODO implement here
+    	image.getPixelWriter().setColor(x, y, color);
     }
-
-    /**
-     * @param header
-     */
-    public void setHeader(Map header) {
-        // TODO implement here
-    }
-
-    /**
-     * @param key 
-     * @return
-     */
-    public String getHeaderValue(String key) {
-        // TODO implement here
-        return "";
-    }
-
-    /**
-     * @param file
-     */
-    public void export(File file) {
-        // TODO implement here
-    }
-
-    /**
-     * @param input 
-     * @return
-     */
-    public Boolean isValid(Object input) {
-        // TODO implement here
-        return null;
-    }
-
 }

@@ -1,47 +1,37 @@
 package kodex.pluginutils.model.content;
 
+import java.io.File;
+
 import javafx.scene.paint.Color;
+import kodex.plugininterface.Content;
 
 /**
- * 
+ * This class holds data in Matrix format. An RGBMatrix consists of a 2D array [rows][cols]
+ * containing elements of the type Color.
  */
-public class RGBMatrix extends AbstractMatrix {
+public class RGBMatrix extends AbstractMatrix<Color> {
 
-    /**
-     * Default constructor
-     */
-    public RGBMatrix() {
+	/**
+	 * Creates a new RGBMatrix with the given dimensions
+	 * @param width The matrix's width
+	 * @param height The matrix's height
+	 * @throws IllegalArgumentException If either argument is less than or equal to 0
+	 */
+    public RGBMatrix(int width, int height) throws IllegalArgumentException {
+    	if (width <= 0 || height <= 0) throw new IllegalArgumentException();
+    	super.matrix = new Color[height][width];
     }
 
-    /**
-     * 
-     */
-    private Color[][] colors; //Aray der Größe [rows][cols]
+	@Override
+	protected File toFile() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    /**
-     * @param colors
-     */
-    public RGBMatrix(Color colors) {
-        // TODO implement here
-    }
-
-    /**
-     * @param row 
-     * @param col 
-     * @return
-     */
-    public Color getRGB(int row, int col) {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @param colors 
-     * @return
-     */
-    public Boolean isValid(Color colors) {
-        // TODO implement here
-        return null;
-    }
+	@Override
+	public Boolean isValid(Content input) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

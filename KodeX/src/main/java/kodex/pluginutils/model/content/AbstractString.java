@@ -1,59 +1,39 @@
 package kodex.pluginutils.model.content;
 
-import java.io.File;
-import java.util.Map;
-
 import kodex.plugininterface.Content;
 
 /**
- * 
+ * This class holds data in string format. It adds validation and exporting capabilities
+ * to Javas String.
  */
-public abstract class AbstractString implements Content {
+public abstract class AbstractString extends Content{
 
-    /**
-     * Default constructor
-     */
-    public AbstractString() {
-    }
+	/**
+	 * The String containing this Contents data
+	 */
+	protected String data;
 
-    /**
-     * @return
-     */
-    public String getDataString() {
-        // TODO implement here
-        return "";
-    }
+	/**
+	 * Returns the String containing this Contents data
+	 * @return The String containing this Contents data
+	 */
+	public String getString() {
+		return data;
+	}
+	
+	/**
+	 * Sets the String containing this Contents data
+	 * @param data The String containing this Contents data
+	 */
+	public void setString(String data) {
+		this.data = data;
+	}
 
-    /**
-     * @param header
-     */
-    public void setHeader(Map header) {
-        // TODO implement here
-    }
-
-    /**
-     * @param key 
-     * @return
-     */
-    public String getHeaderValue(String key) {
-        // TODO implement here
-        return "";
-    }
-
-    /**
-     * @param file
-     */
-    public void export(File file) {
-        // TODO implement here
-    }
-
-    /**
-     * @param input 
-     * @return
-     */
-    public Boolean isValid(Object input) {
-        // TODO implement here
-        return null;
-    }
-
+	
+	
+	
+	 //below some shortcuts for common actions
+	public void concat(String str) {
+		data.concat(str);
+	}
 }
