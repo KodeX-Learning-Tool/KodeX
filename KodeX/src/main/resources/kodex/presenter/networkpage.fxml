@@ -19,7 +19,7 @@
                <children>
                   <AnchorPane>
                      <children>
-                        <Label styleClass="default-page-title" text="Netzwerk" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <Label fx:id="header" styleClass="default-page-title" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
                   <Region styleClass="network__header__spring" />
@@ -35,12 +35,12 @@
                                              <children>
                                                 <AnchorPane>
                                                    <children>
-                                                      <Label styleClass="network__controll__input__label" text="IP:" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                      <Label fx:id="ipConnectLbl" styleClass="network__controll__input__label" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                    </children>
                                                 </AnchorPane>
                                                 <AnchorPane GridPane.rowIndex="2">
                                                    <children>
-                                                      <Label styleClass="network__controll__input__label" text="Port:" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                      <Label fx:id="portConnectLbl" styleClass="network__controll__input__label" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                    </children>
                                                 </AnchorPane>
                                                 <AnchorPane GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
@@ -65,7 +65,7 @@
                                              </styleClass>
                                           </GridPane>
                                           <Region styleClass="network__controll_spring" />
-                                          <Button fx:id="connectButton" mnemonicParsing="false" onAction="#handleSend" styleClass="default-button--shadow" text="Verbinden" />
+                                          <Button fx:id="connectButton" mnemonicParsing="false" onAction="#handleSend" styleClass="default-button--shadow" />
                                        </children>
                                     </VBox>
                                  </children>
@@ -79,7 +79,7 @@
                                              <children>
                                                 <AnchorPane>
                                                    <children>
-                                                      <Label text="Deine IP:" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                      <Label fx:id="ipHostLbl" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <styleClass>
                                                             <String fx:value="network__controll__input__label" />
                                                             <String fx:value="network__controll__input__top" />
@@ -89,7 +89,7 @@
                                                 </AnchorPane>
                                                 <AnchorPane GridPane.rowIndex="1">
                                                    <children>
-                                                      <Label text="Dein Port:" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                      <Label fx:id="portHostLbl"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <styleClass>
                                                             <String fx:value="network__controll__input__label" />
                                                             <String fx:value="network__controll__input__bottom" />
@@ -120,7 +120,7 @@
                                              </children>
                                           </GridPane>
                                           <Region styleClass="network__controll_spring" />
-                                          <Button fx:id="hostButton" mnemonicParsing="false" onAction="#handleReceive" styleClass="default-button--shadow" text="Verbindung hosten" />
+                                          <Button fx:id="hostButton" mnemonicParsing="false" onAction="#handleReceive" styleClass="default-button--shadow" />
                                        </children>
                                     </VBox>
                                  </children>
