@@ -15,7 +15,7 @@ public class GreyScaleImageProcedurePlugin extends ProcedurePlugin {
     /**
      * Default constructor
      */
-    private GreyScaleImageProcedurePlugin() {
+    public GreyScaleImageProcedurePlugin() {
     }
 
     /**
