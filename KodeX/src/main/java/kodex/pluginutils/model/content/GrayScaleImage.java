@@ -6,12 +6,12 @@ import javafx.scene.paint.Color;
 /**
  * 
  */
-public class GreyScaleImage extends AbstractImage {
+public class GrayScaleImage extends AbstractImage {
 
     /**
      * Default constructor
      */
-    public GreyScaleImage() {
+    public GrayScaleImage() {
     }
 
     /**

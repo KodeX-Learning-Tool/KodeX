@@ -8,18 +8,18 @@ import kodex.plugininterface.Content;
 /**
  * 
  */
-public abstract class List implements Content {
+public abstract class AbstractList implements Content {
 
     /**
      * Default constructor
      */
-    public List() {
+    public AbstractList() {
     }
 
     /**
      * @return
      */
-    public List getList() {
+    public AbstractList getList() {
         // TODO implement here
         return null;
     }

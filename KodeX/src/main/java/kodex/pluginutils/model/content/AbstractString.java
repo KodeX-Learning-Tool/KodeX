@@ -8,46 +8,20 @@ import kodex.plugininterface.Content;
 /**
  * 
  */
-public abstract class Matrix implements Content {
+public abstract class AbstractString implements Content {
 
     /**
      * Default constructor
      */
-    public Matrix() {
-    }
-
-    /**
-     * 
-     */
-    protected int rows;
-
-    /**
-     * 
-     */
-    protected int cols;
-
-    /**
-     * @return
-     */
-    public int getRows() {
-        // TODO implement here
-        return 0;
+    public AbstractString() {
     }
 
     /**
      * @return
      */
-    public int getCols() {
+    public String getDataString() {
         // TODO implement here
-        return 0;
-    }
-
-    /**
-     * @param markId 
-     * @param value
-     */
-    public void setCell(int markId, int value) {
-        // TODO implement here
+        return "";
     }
 
     /**
@@ -79,7 +53,7 @@ public abstract class Matrix implements Content {
      */
     public Boolean isValid(Object input) {
         // TODO implement here
-        return true;
+        return null;
     }
 
 }

@@ -3,7 +3,7 @@ package kodex.pluginutils.model.content;
 /**
  * 
  */
-public class CharacterString extends DataString {
+public class CharacterString extends AbstractString {
 
     /**
      * Default constructor

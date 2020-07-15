@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 /**
  * 
  */
-public class RGBMatrix extends Matrix {
+public class RGBMatrix extends AbstractMatrix {
 
     /**
      * Default constructor

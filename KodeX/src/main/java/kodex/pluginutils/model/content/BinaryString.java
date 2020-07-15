@@ -3,7 +3,7 @@ package kodex.pluginutils.model.content;
 /**
  * 
  */
-public class BinaryString extends DataString {
+public class BinaryString extends AbstractString {
 
     /**
      * 

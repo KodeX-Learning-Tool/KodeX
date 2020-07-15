@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
 /**
  * 
  */
-public class RGBList extends List {
+public class RGBList extends AbstractList {
 
     /**
      * Default constructor
@@ -30,7 +30,7 @@ public class RGBList extends List {
     /**
      * @return
      */
-    public List getList() {
+    public AbstractList getList() {
         // TODO implement here
         return null;
     }

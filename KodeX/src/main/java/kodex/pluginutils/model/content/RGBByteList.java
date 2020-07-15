@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * 
  */
-public class RGBByteList extends List {
+public class RGBByteList extends AbstractList {
 
     /**
      * Default constructor
@@ -16,19 +16,19 @@ public class RGBByteList extends List {
     /**
      * 
      */
-    private List list; //Generic: Integer
+    private AbstractList list; //Generic: Integer
 
     /**
      * @param list
      */
-    public void RGBByteListe(List list) {
+    public void RGBByteListe(AbstractList list) {
         // TODO implement here
     }
 
     /**
      * @return
      */
-    public List getList() {
+    public AbstractList getList() {
         // TODO implement here
         return null;
     }
@@ -45,7 +45,7 @@ public class RGBByteList extends List {
      * @param list 
      * @return
      */
-    public Boolean isValid(List list) {
+    public Boolean isValid(AbstractList list) {
         // TODO implement here
         return null;
     }
