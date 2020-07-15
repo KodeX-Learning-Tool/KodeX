@@ -3,6 +3,9 @@ package kodex.model;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.nio.file.FileAlreadyExistsException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -46,12 +49,23 @@ public class I18N {
     private static final int LANGUAGE_PREFIX = 0;
 
     private static final int LANGUAGE_SUFIX = 1;
-
+    
+    private static URLClassLoader loader = null;
+    
+    private I18N() {}
+    
     static {
         
         try {
             loadSupportedLocales();
         } catch (FileAlreadyExistsException | FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        
+        try {
+            loader = new URLClassLoader(new URL[] { new File(I18N.class.getResource(LANGUAGE_FOLDER_NAME).getPath()).toURI().toURL() });
+        } catch (MalformedURLException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
@@ -112,8 +126,8 @@ public class I18N {
             fileNameParts = fileName.split("_");
 
             if (fileNameParts.length != VALID_NAME_PART_NUMBER) {
-                // TODO better handeling...
                 System.err.println("Please check name of File: " + fileName);
+                continue;
             }
 
             if (!fileNameParts[LANGUAGE_PREFIX].equals(LANGUAGE_FILE_NAME)) {
@@ -148,8 +162,6 @@ public class I18N {
      */
     public static List<Locale> getSupportedLocales() {
 
-        // TODO replace Language with this class then language list has to be loaded
-        // here
         return supportedLocales;
     }
 
@@ -203,7 +215,7 @@ public class I18N {
      * @return Localized and formatted string.
      */
     public static String get(final String key, final Object... args) {
-        ResourceBundle bundle = ResourceBundle.getBundle(LANGUAGE_FILE_NAME, getLocale());
+        ResourceBundle bundle = ResourceBundle.getBundle(LANGUAGE_FILE_NAME, getLocale(), loader);
         return MessageFormat.format(bundle.getString(key), args);
     }
 

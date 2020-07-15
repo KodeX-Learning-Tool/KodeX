@@ -20,7 +20,7 @@
                <children>
                   <BorderPane styleClass="index-page__header" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <left>
-                        <Label styleClass="default-page-title" text="Kodierungsverfahren" BorderPane.alignment="CENTER" />
+                        <Label fx:id="lblHeader" styleClass="default-page-title" BorderPane.alignment="CENTER" />
                      </left>
                      <center>
                         <Region styleClass="index-page__header__spring" BorderPane.alignment="CENTER" />
@@ -32,7 +32,7 @@
                                  <children>
                                     <AnchorPane>
                                        <children>
-                                          <TextField fx:id="searchTextField" layoutX="3.0" layoutY="2.0" onKeyTyped="#handleSearch" promptText="Suchen..." styleClass="network__controll__input__text-field" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <TextField fx:id="searchTextField" layoutX="3.0" layoutY="2.0" onKeyTyped="#handleSearch" styleClass="network__controll__input__text-field" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane>
@@ -49,7 +49,7 @@
                               <Region styleClass="index-page__header__control__spring" />
                               <AnchorPane>
                                  <children>
-                                    <ComboBox fx:id="filterComboBox" layoutX="3.0" layoutY="2.0" onAction="#handleFilterSelected" promptText="Filter" styleClass="default-choice-box--shadow" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <ComboBox fx:id="filterComboBox" layoutX="3.0" layoutY="2.0" onAction="#handleFilterSelected" styleClass="default-choice-box--shadow" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                               </AnchorPane>
                            </children>

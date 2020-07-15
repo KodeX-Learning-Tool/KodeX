@@ -18,10 +18,11 @@ import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
 import kodex.model.DefaultSettings;
+import kodex.model.I18N;
 import kodex.model.validator.IPAddrValidator;
 import kodex.model.validator.PortNumValidator;
 import kodex.presenter.textformatter.IPAddrFormatter;
@@ -37,18 +38,33 @@ import kodex.presenter.textformatter.PortNumFormatter;
  * @version 1.0
  */
 public class NetworkPresenter extends Presenter {
+    
+    @FXML
+    private Label header;
 
     @FXML
     private TextField ipConnectTextField;
 
     @FXML
     private TextField portConnectTextField;
+    
+    @FXML
+    private Label ipConnectLbl;
+    
+    @FXML
+    private Label portConnectLbl;
 
     @FXML
     private TextField ipHostTextField;
 
     @FXML
     private TextField portHostTextField;
+    
+    @FXML
+    private Label ipHostLbl;
+    
+    @FXML
+    private Label portHostLbl;
 
     @FXML
     private Button connectButton;
@@ -71,7 +87,17 @@ public class NetworkPresenter extends Presenter {
      */
     @FXML
     private void initialize() {
-
+        
+        header.textProperty().bind(I18N.createStringBinding("networkpage.header"));
+        
+        ipConnectLbl.textProperty().bind(I18N.createStringBinding("networkpage.connect.ip.lbl"));
+        portConnectLbl.textProperty().bind(I18N.createStringBinding("networkpage.connect.port.lbl"));
+        connectButton.textProperty().bind(I18N.createStringBinding("networkpage.connect.button"));
+        
+        ipHostLbl.textProperty().bind(I18N.createStringBinding("networkpage.host.ip.lbl"));
+        portHostLbl.textProperty().bind(I18N.createStringBinding("networkpage.host.port.lbl"));
+        hostButton.textProperty().bind(I18N.createStringBinding("networkpage.host.button"));
+        
         /*
          * Initialize the ip connect textfield.
          */
