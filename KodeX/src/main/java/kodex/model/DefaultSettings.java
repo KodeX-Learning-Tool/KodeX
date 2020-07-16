@@ -54,8 +54,11 @@ public class DefaultSettings extends Settings {
     	
     	try {
 			prop.load(input);
-			System.out.println(prop.getProperty("port"));
-			//setPort(Integer.parseInt(prop.getProperty("port")));
+			try {
+				setPort(Integer.parseInt(prop.getProperty("port")));
+			} catch (NumberFormatException e) {
+				setPort(0);
+			}
 			setDefaultPath(prop.getProperty("defaultPath"));		
 			isDarkModeEnabled = !prop.getProperty("isDarkModeEnabled").equals("false");
 			
@@ -142,6 +145,7 @@ public class DefaultSettings extends Settings {
      */
     public void setDefaultPath(String path) {
         DefaultSettings.defaultPath = path;
+    	prop.setProperty("path", defaultPath);
         storeUserProperties();
     }
 
