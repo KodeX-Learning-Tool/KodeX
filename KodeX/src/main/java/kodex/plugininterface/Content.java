@@ -4,37 +4,55 @@ import java.io.File;
 import java.util.Map;
 
 /**
- * This class represents the interface for content. It manages the content of a level as well
- * the associated header. It also contains the functionality, to exported the content and
- * implements the identification number.
- * Every content must implement this interface.
+ * This abstract class is the superclass to every type of Content. It manages the content of a level as well
+ * the associated header. Additionally, this class contains the functionality to export the Content.
+ * Every Content must implement this interface.
  * 
  * @author Patrick Spiesberger
+ * @author Yannick Neubert
  * 
  * @version 1.0
  * 
  */
-public interface Content {
+public abstract class Content {
 
+	/**
+	 * The header for this content.
+	 */
+	protected Map<String, Object> header;
+	
+	
     /**
      * Sets the header for this content
      * @param header : Header of the content as a map
      */
-    public void setHeader(Map header);
+    public void setHeader(Map<String, Object> header) {
+    	this.header = header;
+	}
     
     
     /**
-     * Returns the value of the header of this content for a given key
-     * @param key : The key to access elements of the header
-     * @return The value that is identified using the key from the header
+     * Returns the header of this content
+     * @return This contents header
      */
-    public String getHeaderValue(String key);
+    public Map<String, Object> getHeader() {
+		return header;
+	}
 
     /**
      * Exports the content to the given location
      * @param file : The location where this content should be written
      */
-    public void export(File file);
+    public void export(File file) {
+    	//TODO exporting files
+    	File export = this.toFile();
+	}
+    
+    /**
+     * Creates and returns a file containing the data of this content
+     * @return A file containing this contents data
+     */
+    protected abstract File toFile();
 
     /**
      * Returns whether the input for this content is valid
@@ -42,6 +60,6 @@ public interface Content {
      * Note: Must be defined more precisely by classes that implement this interface
      * @return true, if content is valid, otherwise false
      */
-    public Boolean isValid(Object input);
+    public abstract Boolean isValid(Content input);
 
 }
