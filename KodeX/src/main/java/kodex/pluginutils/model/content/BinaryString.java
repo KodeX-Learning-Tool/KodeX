@@ -1,44 +1,32 @@
 package kodex.pluginutils.model.content;
 
+import java.io.File;
+
+import kodex.plugininterface.Content;
+
 /**
- * 
+ * This class holds data in string format. A BinaryString consists of only 1's and 0's.
+ * Extending AbstractString, it adds validation and exporting capabilities to Javas String.
  */
-public class BinaryString extends DataString {
+public class BinaryString extends AbstractString {
 
     /**
-     * 
+     * Creates a new BinaryString
      */
-    private String binaryString;
-
-    /**
-     * @param binaryString
-     */
-    public BinaryString(String binaryString) {
-        // TODO implement here
+    public BinaryString() {
+    	super.data = "";
     }
 
-    /**
-     * @return
-     */
-    public String getBinaryString() {
-        // TODO implement here
-        return "";
-    }
+	@Override
+	protected File toFile() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    /**
-     * @param input
-     */
-    public void setBinaryString(String input) {
-        // TODO implement here
-    }
-
-    /**
-     * @param binaryString 
-     * @return
-     */
-    public Boolean isValid(String binaryString) {
-        // TODO implement here
-        return null;
-    }
+	@Override
+	public Boolean isValid(Content input) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
