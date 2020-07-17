@@ -43,13 +43,12 @@ public abstract class ChainLinkPresenter implements IPresenter {
 
 
     /**
-     * Konstrukor der Klasse ChainLinkPresenter.
-     * Setzt die vorherige Stufe, sowie den nächsten und vorherigen Schritt.
-     * Die nächste Stufe wird nicht gesetzt, da diese beim Initialisieren einer
-     * Kette noch nicht bekannt ist.
-     * @param previous : vorherige Stufe
-     * @param previousStep : vorheriger Schritt
-     * @param nextStep : nächster Schritt
+     * Constructs a new ChainLinkPresenter. It sets the previous and next ChainSteps
+     * as well as the previous ChainLinkPresenter. The next ChainLinkPresenter
+     *  can not yet be set since it hasn't been initialized yet.
+     * @param previous : The previous ChainLinkPresenter
+     * @param previousStep : The previous ChainStep
+     * @param nextStep : The next ChainStep
      */
     public ChainLinkPresenter(ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
         this.previous = previous;
@@ -105,9 +104,9 @@ public abstract class ChainLinkPresenter implements IPresenter {
      * Updates the next link
      */
     public void updateNextChainLink() {
-    	next.updateChain();
-    	if (next.getNext() != null) {
-    		next = next.getNext();
+    	if (next != null) {
+    		nextStep.encode(getContent(), next.getContent());
+    		next.updateNextChainLink();
     	}
     }
 
@@ -115,9 +114,9 @@ public abstract class ChainLinkPresenter implements IPresenter {
      * Updates the previous link
      */
     public void updatePrevChainLink() {
-    	previous.updateChain();
-    	if (previous.getPrev() != null) {
-    		previous = previous.getPrev();
+    	if (previous != null) {
+    		previousStep.encode(getContent(), previous.getContent());
+    		previous.updatePrevChainLink();
     	}
     }
 

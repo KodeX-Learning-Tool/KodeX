@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javafx.scene.image.Image;
-import kodex.pluginutils.model.content.AbstractImage;
 
 /**
  * This abstract class specifies which information about a procedure should
@@ -19,17 +18,19 @@ import kodex.pluginutils.model.content.AbstractImage;
  */
 public abstract class ProcedureInformation {
 
-    /**
-     * ProcedureInformation class constructor
-     */
-    public ProcedureInformation() {}
-    
-
-    /* 
+	 /* 
      * Image that is displayed for the procedure
      */
     protected Image defaultIcon;
 
+	
+    /**
+     * ProcedureInformation class constructor
+     */
+    public ProcedureInformation() {
+    	defaultIcon = new Image(getClass().getResourceAsStream("images/example_default_procedure_icon.png"));
+    }
+    
     /**
      * Returns name of procedure
      * @return name of procedure
@@ -41,13 +42,7 @@ public abstract class ProcedureInformation {
      * @return icon for indexpage
      */
     public Image getIcon() {
-    	if (defaultIcon != null) {
-    		return defaultIcon; 
-    	}
-    	else {
-    		return null; 
-    		//TODO: Stanard-Bild zurück geben
-    	}
+    	return defaultIcon;
     }
 
     /**

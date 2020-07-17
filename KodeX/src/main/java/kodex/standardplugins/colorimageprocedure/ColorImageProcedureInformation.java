@@ -6,7 +6,10 @@ import javafx.scene.image.Image;
 import kodex.plugininterface.ProcedureInformation;
 
 /**
+ * This class contains information about the ColorImageProcedurePlugin
  * 
+ * @author Yannick Neubert
+ * @version 1.0
  */
 public class ColorImageProcedureInformation extends ProcedureInformation {
 
@@ -34,37 +37,29 @@ public class ColorImageProcedureInformation extends ProcedureInformation {
     /**
      * 
      */
-    public void ColorImageProcedureInformation() {
-        // TODO implement here
+    public ColorImageProcedureInformation() {
+        this.name = "ColorImage";
     }
 
-    /**
-     * @return
-     */
+    @Override
     public String getName() {
         // TODO implement here
         return "";
     }
 
-    /**
-     * @return
-     */
+    @Override
     public Image getIcon() {
         // TODO implement here
         return null;
     }
 
-    /**
-     * @return
-     */
+    @Override
     public List<String> getLabels() {
         // TODO implement here
         return null;
     }
 
-    /**
-     * @return
-     */
+    @Override
     public String getDescription() {
         // TODO implement here
         return "";

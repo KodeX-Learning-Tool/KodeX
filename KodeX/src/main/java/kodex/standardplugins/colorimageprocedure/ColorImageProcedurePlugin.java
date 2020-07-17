@@ -17,48 +17,31 @@ public class ColorImageProcedurePlugin extends ProcedurePlugin {
     public ColorImageProcedurePlugin() {
     }
 
-    /**
-     * 
-     */
-    private ChainLinkPresenter[] chainLinks; // [2..*]
-
-
-    /**
-     * @return
-     */
+   @Override
     public ChainLinkPresenter getChainHead() {
         // TODO implement here
         return null;
     }
 
-    /**
-     * @param content
-     */
+    @Override
     public void initEncodeProcedure(Content content) {
         // TODO implement here
     }
 
-    /**
-     * @param content
-     */
+    @Override
     public void initDecodeProcedure(Content content) {
         // TODO implement here
     }
 
-    /**
-     * @return
-     */
+    @Override
     public ColorImageImportPresenter createImportPresenter() {
         // TODO implement here
         return null;
     }
 
-    /**
-     * @return
-     */
+   @Override
     public ColorImageProcedureInformation createProcedureInformation() {
-        // TODO implement here
-        return null;
+        return new ColorImageProcedureInformation();
     }
 
 	@Override

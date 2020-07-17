@@ -12,12 +12,22 @@ package kodex.plugininterface;
  *
  */
 public abstract class ProcedurePlugin implements Pluginable, Comparable<ProcedurePlugin> {
+	
+	/**
+	 * Holds information about this Procedure
+	 */
+	protected ProcedureInformation procedureInformation;
+	
+    public ProcedurePlugin() {
+    	procedureInformation = createProcedureInformation();
+    }
 
-    /**
-     * Constructor of the ProcedurePlugin class
-     */
-    public ProcedurePlugin() {}
+    @Override
+	public abstract String getPluginName();
 
+	@Override
+	public abstract String getPluginDescription();
+	
     /**
      * Returns the start link of the procedure, whereby the stages
      * are saved internally as a double-linked list and are linked accordingly
@@ -56,7 +66,7 @@ public abstract class ProcedurePlugin implements Pluginable, Comparable<Procedur
      */
     @Override
     public int compareTo(ProcedurePlugin plugin) {
-    return this.createProcedureInformation().getName().compareTo(getPluginName());
+    return procedureInformation.getName().compareTo(plugin.getPluginName());
     }
 
 }
