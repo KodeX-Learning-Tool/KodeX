@@ -43,13 +43,12 @@ public abstract class ChainLinkPresenter implements IPresenter {
 
 
     /**
-     * Konstrukor der Klasse ChainLinkPresenter.
-     * Setzt die vorherige Stufe, sowie den nächsten und vorherigen Schritt.
-     * Die nächste Stufe wird nicht gesetzt, da diese beim Initialisieren einer
-     * Kette noch nicht bekannt ist.
-     * @param previous : vorherige Stufe
-     * @param previousStep : vorheriger Schritt
-     * @param nextStep : nächster Schritt
+     * ChainLinkPresenter class constructors.
+     * Sets the previous level, as well as the next and previous step.
+     * The next level is not set because it is not known when a chain is initialized.
+     * @param previous : previous level
+     * @param previousStep : vprevious step
+     * @param nextStep : next step
      */
     public ChainLinkPresenter(ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
         this.previous = previous;
