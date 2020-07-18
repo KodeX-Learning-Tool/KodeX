@@ -2,12 +2,13 @@ package kodex.plugininterface;
 
 import java.util.LinkedList;
 import java.util.List;
-
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
-import kodex.pluginutils.model.content.AbstractImage;
 
 /**
  * This abstract class specifies which information about a procedure should
@@ -24,15 +25,15 @@ public abstract class ProcedureInformation {
 	
 	protected StringProperty procedureName;
     protected StringProperty shortDescription;
-    protected StringProperty tags;
 	
     
 
     /* 
      * Image that is displayed for the procedure
      */
+    protected ListProperty<String> tags;
     protected Image icon;
-	protected String description;
+	protected StringProperty description;
     
     /**
      * ProcedureInformation class constructor
@@ -40,7 +41,7 @@ public abstract class ProcedureInformation {
     public ProcedureInformation() {
         this.procedureName = new SimpleStringProperty("Debug-Verfahren");
         this.shortDescription = new SimpleStringProperty("Das Kodierungsverfahren zum Debuggen.");
-        this.tags = new SimpleStringProperty("Klasse ?, Verfahren");
+        this.tags = new SimpleListProperty<>(FXCollections.observableArrayList("Klasse ?", "Verfahren", "encoding & decoding"));
     }
     
     /**
@@ -68,6 +69,10 @@ public abstract class ProcedureInformation {
      * Note: The description is limited to a string
      */
     public String getDescription() {
+        return description.get(); //Standard Beschreibung
+        //TODO: Language.getMessage("noDescription"); 
+    }
+    public StringProperty descriptionProperty() {
         return description; //Standard Beschreibung
         //TODO: Language.getMessage("noDescription"); 
     }
@@ -95,11 +100,11 @@ public abstract class ProcedureInformation {
     /**
      * @return
      */
-    public String getTags() {
-        return tags.get();
+    public ObservableList<String> getTags() {
+        return tags.getValue();
     }
     
-    public StringProperty tagProperty() {
+    public ListProperty<String> tagProperty() {
         return tags;
     }  
 }
