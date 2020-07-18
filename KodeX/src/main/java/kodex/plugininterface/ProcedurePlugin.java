@@ -66,7 +66,7 @@ public abstract class ProcedurePlugin implements Pluginable, Comparable<Procedur
     	return this.createProcedureInformation().getName().compareTo(getPluginName().get());
     }
     
-    
+    @Override
 	public BooleanProperty activatedProperty() {
 		return activated;
 	}
