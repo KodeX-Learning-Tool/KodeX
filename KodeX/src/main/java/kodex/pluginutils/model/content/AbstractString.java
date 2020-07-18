@@ -33,7 +33,7 @@ public abstract class AbstractString extends Content{
 	
 	
 	 //below some shortcuts for common actions
-	public void concat(String str) {
-		data.concat(str);
+	public int length() {
+		return data.length();
 	}
 }
