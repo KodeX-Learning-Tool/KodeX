@@ -37,7 +37,7 @@ public abstract class ProcedureInformation {
 	protected StringProperty description;
     
     /**
-     * ProcedureInformation class constructor.
+     * Creates an instance of the ProcedureInformation class.
      */
     public ProcedureInformation() {
         this.procedureName = new SimpleStringProperty("Debug-Procedure");
