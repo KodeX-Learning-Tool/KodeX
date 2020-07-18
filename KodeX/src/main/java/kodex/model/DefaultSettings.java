@@ -54,8 +54,11 @@ public class DefaultSettings extends Settings {
     	
     	try {
 			prop.load(input);
-			System.out.println(prop.getProperty("port"));
-			//setPort(Integer.parseInt(prop.getProperty("port")));
+			try {
+				setPort(Integer.parseInt(prop.getProperty("port")));
+			} catch (NumberFormatException e) {
+				setPort(0);
+			}
 			setDefaultPath(prop.getProperty("defaultPath"));		
 			isDarkModeEnabled = !prop.getProperty("isDarkModeEnabled").equals("false");
 			
@@ -93,6 +96,7 @@ public class DefaultSettings extends Settings {
      */
     public void setSavedLanguage(Locale locale) {
     	prop.setProperty("local", locale.getLanguage()); 
+    	storeUserProperties();
     }
 
     /**
@@ -117,13 +121,7 @@ public class DefaultSettings extends Settings {
     		return;
     	}
     	prop.setProperty("port", String.valueOf(getPort()));
-    	try {
-			prop.store(new FileOutputStream(getClass().getResource("settings").getPath() + "/User_Settings.properties"), null);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+    	storeUserProperties();
     }
 
     /**
@@ -147,6 +145,8 @@ public class DefaultSettings extends Settings {
      */
     public void setDefaultPath(String path) {
         DefaultSettings.defaultPath = path;
+    	prop.setProperty("path", defaultPath);
+        storeUserProperties();
     }
 
     /**
@@ -157,13 +157,7 @@ public class DefaultSettings extends Settings {
     public void setDarkMode(boolean enable) {
         isDarkModeEnabled = enable;
     	prop.setProperty("port", Boolean.toString(enable));
-    	try {
-			prop.store(new FileOutputStream(getClass().getResource("settings").getPath() + "/User_Settings.properties"), null);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+    	storeUserProperties();
     }
 
     /**
@@ -195,6 +189,19 @@ public class DefaultSettings extends Settings {
 			
 		} catch (IOException e) {
 			System.out.println("Settings can not be loaded");
+		}
+    }
+    
+    /*
+     * Stores all properties changed by user
+     */
+    private void storeUserProperties() {
+    	try {
+			prop.store(new FileOutputStream(getClass().getResource("settings").getPath() + "/User_Settings.properties"), null);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
     }
 }
