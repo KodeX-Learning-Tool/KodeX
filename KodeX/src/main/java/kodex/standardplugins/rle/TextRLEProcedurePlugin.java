@@ -1,6 +1,7 @@
 package kodex.standardplugins.rle;
 
 
+import javafx.beans.property.StringProperty;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.Content;
 import kodex.plugininterface.ImportPresenter;
@@ -24,13 +25,13 @@ public class TextRLEProcedurePlugin extends ProcedurePlugin {
     private ChainLinkPresenter[] chainLinks; //[2..*]
 
 	@Override
-	public String getPluginName() {
+	public StringProperty getPluginName() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String getPluginDescription() {
+	public StringProperty getPluginDescription() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1,6 +1,8 @@
 package kodex.standardplugins.greyscaleimageprocedure;
 
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.Content;
 import kodex.plugininterface.ImportPresenter;
@@ -42,13 +44,13 @@ public class GreyScaleImageProcedurePlugin extends ProcedurePlugin {
     }
     
 	@Override
-	public String getPluginName() {
-		return "Graustufen Bild";
+	public StringProperty getPluginName() {
+		return new SimpleStringProperty("Graustufen Bild");
 	}
 
 	@Override
-	public String getPluginDescription() {
-		return "Verfahren";
+	public StringProperty getPluginDescription() {
+		return new SimpleStringProperty("Verfahren");
 	}
 
 	@Override
