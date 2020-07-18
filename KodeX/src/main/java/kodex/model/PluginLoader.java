@@ -20,6 +20,7 @@ import kodex.plugininterface.ProcedurePlugin;
  * from anywhere and return the list of activated plugins on request.
  * 
  * @author Patrick Spiesberger
+ * @author Raimon Gramlich
  *
  * @version 1.0properties
  * 
@@ -35,14 +36,16 @@ public class PluginLoader {
     /* List of all enabled plugins */
     private ObservableList<Pluginable> enabledPlugins = FXCollections.observableArrayList();
     
-    /* List of all enabled procedure plugins */
-    private ObservableList<ProcedurePlugin> enabledProcedurePlugins = FXCollections.observableArrayList();
-    
     /* List of all procedure plugins */
     private ObservableList<ProcedurePlugin> allProcedurePlugins = FXCollections.observableArrayList();
     
+    /* List of all enabled procedure plugins */
+    private ObservableList<ProcedurePlugin> enabledProcedurePlugins = FXCollections.observableArrayList();
+    
+    /* ServiceLoader which loads all implementations of the Pluginable class */
     private ServiceLoader<Pluginable> pluginLoader;
     
+    /* ServiceLoader which loads all implementations of the ProcedurePlugin class */
     private ServiceLoader<ProcedurePlugin> procedureLoader;
 
     /**
@@ -67,6 +70,7 @@ public class PluginLoader {
     	pluginLoader = ServiceLoader.load(Pluginable.class);
     	procedureLoader = ServiceLoader.load(ProcedurePlugin.class);
     	
+    	// add loaded plugins to the respective lists
     	for (Pluginable plugin : pluginLoader) {
     		allPlugins.add(plugin);
     	}
@@ -152,6 +156,7 @@ public class PluginLoader {
         	enabledPlugins.add(plugin);
         }
         
+        // add the equivalent procedure plugin if it exists
         for (ProcedurePlugin p: allProcedurePlugins) {
         	if (p.getPluginName().get().equals(plugin.getPluginName().get()) && !enabledProcedurePlugins.contains(p)) {
         		enabledProcedurePlugins.add(p);
@@ -167,6 +172,7 @@ public class PluginLoader {
     public void deactivatePlugin(Pluginable plugin) {
         enabledPlugins.remove(plugin);
         
+        // removes the equivalent procedure plugin if it exists
         for (ProcedurePlugin p: allProcedurePlugins) {
         	if (p.getPluginName().get().equals(plugin.getPluginName().get())) {
         		enabledProcedurePlugins.remove(p);
@@ -177,7 +183,7 @@ public class PluginLoader {
     /**
      * Returns list of all plugins
      * 
-     * @return list of all plugins
+     * @return ObservableList of all plugins
      */
     public ObservableList<Pluginable> getPlugins() {
         return allPlugins;
@@ -186,7 +192,7 @@ public class PluginLoader {
     /**
      * Returns list of all enabled plugins
      * 
-     * @return list of all enabled plugins
+     * @return ObservableList of all enabled plugins
      */
     public ObservableList<Pluginable> getEnabledPlugins() {
         return enabledPlugins;
@@ -195,7 +201,7 @@ public class PluginLoader {
     /**
      * Returns list of all enabled procedure plugins
      * 
-     * @return list of all enabled procedure plugins
+     * @return ObservableList of all enabled procedure plugins
      */
     
     public ObservableList<ProcedurePlugin> getEnabledProcedurePlugins() {

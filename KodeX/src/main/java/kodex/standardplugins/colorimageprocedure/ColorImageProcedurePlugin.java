@@ -9,7 +9,11 @@ import kodex.plugininterface.ProcedurePlugin;
 import kodex.standardplugins.colorimageprocedure.presenter.ColorImageImportPresenter;
 
 /**
+ * This class is the entry point to the color image procedure plugin.
  * 
+ * @author Raimon Gramlich
+ * 
+ * @version 1.0
  */
 public class ColorImageProcedurePlugin extends ProcedurePlugin {	
 	
@@ -18,7 +22,7 @@ public class ColorImageProcedurePlugin extends ProcedurePlugin {
 	private final StringProperty pluginDescription;
 
     /**
-     * Default constructor
+     * Creates a new instance of the ColorImageProcedurePlugin.
      */
     public ColorImageProcedurePlugin() {
     	this.pluginName = new SimpleStringProperty("Farbbildverfahrensplugin");

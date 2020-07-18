@@ -10,20 +10,31 @@ import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
 
-
-
-
 /**
+ * This class imports an image for encoding or a binary string for decoding.
+ * Afterwards it prepares the view for the chain view.
  * 
+ * @author Raimon Gramlich
+ * 
+ * @version 1.0
  */
 public class ColorImageImportPresenter extends ImportPresenter {
 	
+	/** The image which is imported for encoding. */
 	private Image image;
 	
+	/** The binary string which is imported for decoding. */
 	private String binaryString;
 
 	private AnchorPane importview; 
 
+	
+	
+	/**
+	 * Instantiates a new color image import presenter.
+	 *
+	 * @param plugin the procedure plugin reference
+	 */
 	public ColorImageImportPresenter(ProcedurePlugin plugin) {
 		super(plugin);
 	}
@@ -76,11 +87,15 @@ public class ColorImageImportPresenter extends ImportPresenter {
 	}
 	
 	
-	private File importFile(String msg) {		
+	/**
+	 * Open a FileChooser to import a file.
+	 *
+	 * @param type the type (i.e. Decode/Encode)
+	 * @return the chosen file
+	 */
+	private File importFile(String type) {		
 		FileChooser fc = new FileChooser();
-		fc.setTitle("Datei zum " + msg + " auswählen.");
+		fc.setTitle("Datei zum " + type + " auswählen.");
 		return fc.showOpenDialog(null);
 	}
-
-
 }

@@ -18,8 +18,8 @@ public interface FilterStrategy {
     /**
      * The concrete filter strategy
      * 
-     * @param selectedProcedures : List of procedures to filter
-     * @return filtered list of plugins
+     * @param selectedProcedures : ObservableList of procedures to filter
+     * @return filtered ObservableList of plugins
      */
 	public ObservableList<ProcedurePlugin> filterProcedures(ObservableList<ProcedurePlugin> selectedProcedures);
 }

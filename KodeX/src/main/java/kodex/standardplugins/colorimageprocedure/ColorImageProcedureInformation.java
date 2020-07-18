@@ -5,11 +5,15 @@ import javafx.scene.image.Image;
 import kodex.plugininterface.ProcedureInformation;
 
 /**
+ * This class holds the information of the corresponding procedure plugin.
  * 
+ * @author Raimon Gramlich
+ * 
+ * @version 1.0
  */
 public class ColorImageProcedureInformation extends ProcedureInformation {
     /**
-     * 
+     * Creates a new instance of the ColorImageProcedureInformation class and sets the fields accordingly.
      */
     public ColorImageProcedureInformation() {
         this.name = new SimpleStringProperty("Farbbildverfahren");

@@ -8,6 +8,7 @@ import javafx.beans.property.StringProperty;
  * contains information about the plugin
  * 
  * @author Patrick Spiesberger
+ * @author Raimon Gramlich
  * 
  * @version 1.0
  *
@@ -16,17 +17,22 @@ public interface Pluginable {
 
     /**
      * Returns the name of the plugin
-     * @return name of plugin
      * Note: Make absolutely sure which symbols are allowed in a string
+     * @return name of plugin
      */
     public StringProperty getPluginName();
 
     /**
-     * Returns the category of the plugin
-     * @return category of plugin
-     * Note: The category is limited to a string and should be uniform
+     * Returns the description of the plugin
+     * Note: The description is limited to a string and should be short enough to be displayed in a table
+     * @return description of the plugin
      */
     public StringProperty getPluginDescription();
 
+    /**
+     * Returns the state of the plugin
+     * Note: Whether the plugin is activated or not
+     * @return state of the plugin
+     */
     public BooleanProperty activatedProperty();
 }

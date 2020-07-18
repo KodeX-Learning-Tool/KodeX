@@ -1,9 +1,7 @@
 package kodex.presenter;
 
 import java.io.IOException;
-import java.util.List;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -113,7 +111,8 @@ public class IndexPagePresenter extends Presenter {
 	    
 	    filterComboBox.setCellFactory(cellFactory);
 	    filterComboBox.setButtonCell(cellFactory.call(null));
-	    
+
+		// adds the ProcedureButtons for each enabled procedure plugin
 	    createProcedureButtons();
 	}
     
@@ -212,8 +211,12 @@ public class IndexPagePresenter extends Presenter {
     	selectedProcedures = indexPage.filterProcedures(filter);
     }
     
+    /**
+     * Creates and adds all ProceduresButtons to the index page view.
+     *
+     * @param filter : The selected filter.
+     */
     private void createProcedureButtons() {
-		// adds the ProcedureButtons for each enabled procedure plugin
 		for (ProcedurePlugin procedure: selectedProcedures) {
 			procedureButtonPane.getChildren().add(new ProcedureButton(procedure));
 		}	
