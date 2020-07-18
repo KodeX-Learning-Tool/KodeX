@@ -17,26 +17,30 @@ import javafx.scene.image.Image;
  * and the icon do not have to be implemented (standard values).
  * 
  * @author Patrick Spiesberger
+ * @author Raimon Gramlich
  * 
  * @version 1.0
  *
  */
 public abstract class ProcedureInformation {
 	
+	/** The StringProperty of the procedure name. */
 	protected StringProperty procedureName;
-    protected StringProperty shortDescription;
-	
     
-
-    /* 
-     * Image that is displayed for the procedure
-     */
+    /** The short description displayed in the plugin table. */
+    protected StringProperty shortDescription;
+    
+    /** The ListProperty tags stores all the tags which describe the procedure. */
     protected ListProperty<String> tags;
+	
+    /** The Image that is displayed as the icon of the procedure. */
     protected Image icon;
+    
+    /** The StringProperty that contains a description of the procedure. */
 	protected StringProperty description;
     
     /**
-     * ProcedureInformation class constructor
+     * ProcedureInformation class constructor.
      */
     public ProcedureInformation() {
         this.procedureName = new SimpleStringProperty("Debug-Verfahren");
@@ -45,7 +49,8 @@ public abstract class ProcedureInformation {
     }
     
     /**
-     * Returns the icon that should be used for the indexpage
+     * Returns the icon that should be used for the indexpage.
+     *
      * @return icon for indexpage
      */
     public Image getIcon() {
@@ -64,46 +69,77 @@ public abstract class ProcedureInformation {
     }
 
     /**
-     * Returns a brief description of the procedure
-     * @return description of procedure
+     * Returns the detailed description of the procedure.
+     *
+     * @return description of the procedure
      * Note: The description is limited to a string
      */
     public String getDescription() {
         return description.get(); //Standard Beschreibung
         //TODO: Language.getMessage("noDescription"); 
     }
+    
+    /**
+     * Returns the detailed description property.
+     *
+     * @return description property of the procedure
+     */
     public StringProperty descriptionProperty() {
         return description; //Standard Beschreibung
         //TODO: Language.getMessage("noDescription"); 
     }
     
+    /**
+     * Gets a brief description of the procedure.
+     *
+     * @return the short description of the procedure
+     */
     public String getShortDescription() {
         return shortDescription.get();
     }
     
+    /**
+     * Returns the short description property.
+     *
+     * @return the string property shortDescription
+     */
     public StringProperty shortDescriptionProperty() {
         return shortDescription;
     }
 
     /**
-     * Returns name of procedure
-     * @return name of procedure
+     * Gets the procedure name.
+     *
+     * @return the name of the procedure
      */
     public String getName() {
         return procedureName.get();
     }
     
+    /**
+     * Returns the Name property.
+     *
+     * @return the string property procedureName
+     */
     public StringProperty nameProperty() {
         return procedureName;
     }
     
+
     /**
-     * @return
+     * Gets the list with the tags.
+     *
+     * @return the ObservableList with containing the tags
      */
     public ObservableList<String> getTags() {
         return tags.getValue();
     }
     
+    /**
+     * Gets the ListProperty tags.
+     *
+     * @return the list property tags
+     */
     public ListProperty<String> tagProperty() {
         return tags;
     }  
