@@ -77,6 +77,7 @@ public class SideMenuPresenter extends Presenter {
         }
 
         super.loadFXML(type.toString());
+        this.currentType = type;
     }
 
     /**
