@@ -2,9 +2,6 @@ package kodex.standardplugins.colorimageprocedure.presenter;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Scanner;
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
@@ -13,21 +10,27 @@ import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
 
+
+
+
 /**
  * 
  */
 public class ColorImageImportPresenter extends ImportPresenter {
+	
+	private Image image;
+	
+	private String binaryString;
 
-	AnchorPane importview; 
+	private AnchorPane importview; 
 
 	public ColorImageImportPresenter(ProcedurePlugin plugin) {
 		super(plugin);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public boolean validateEncodeImport() {
-		return plugin.getChainHead().getContent().isValid(input);
+		return plugin.getChainHead().getContent().isValid(image);
 	}
 
 	@Override
@@ -38,14 +41,14 @@ public class ColorImageImportPresenter extends ImportPresenter {
 			clp = clp.getNext();
 		}	
 		
-		return clp.getContent().isValid(input);;
+		return clp.getContent().isValid(binaryString);
 	}
 
 	@Override
 	public void handleEncodeImport() {
 		File file = importFile("Kodieren");
 		
-		Image image = new Image(file.getPath());
+		image = new Image(file.getPath());
 		
 		validateEncodeImport();
 	}
@@ -53,8 +56,6 @@ public class ColorImageImportPresenter extends ImportPresenter {
 	@Override
 	public void handleDecodeImport() {
 		File file = importFile("Dekodieren");
-		
-		String binaryString = new Scanner(file).next();
 		
 		validateDecodeImport();
 	}
