@@ -83,10 +83,8 @@ public class PluginMenuPresenter extends Presenter {
 			c.getValue().activatedProperty().addListener((observer, oldValue, newValue) -> { 
 				 if (newValue.booleanValue()) {
 					pluginLoader.activatePlugin(c.getValue());
-					System.out.println(c.getValue().activatedProperty().get());
 				} else {
 					pluginLoader.deactivatePlugin(c.getValue());
-					System.out.println(c.getValue().activatedProperty().get());
 				} 
 			 }); return
 			 c.getValue().activatedProperty(); 

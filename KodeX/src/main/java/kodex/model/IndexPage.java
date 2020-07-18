@@ -78,7 +78,6 @@ public class IndexPage {
         	strategy = new RelevancySort();
         }
         else if (filter.equals(Filter.NO_FILTER)) {
-        	System.out.println("No Filter");
         	return PluginLoader.getInstance().getEnabledProcedurePlugins();
         }
         else {
