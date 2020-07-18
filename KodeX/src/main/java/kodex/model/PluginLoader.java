@@ -144,6 +144,14 @@ public class PluginLoader {
     public void removePlugin(Pluginable plugin) {
         deactivatePlugin(plugin);
         allPlugins.remove(plugin);
+        enabledPlugins.remove(plugin);
+        
+        for (ProcedurePlugin p: allProcedurePlugins) {
+        	if (p.getPluginName().get().equals(plugin.getPluginName().get()) && !enabledProcedurePlugins.contains(p)) {
+        		allProcedurePlugins.remove(p);
+        		enabledProcedurePlugins.remove(p);
+        	}
+        }
     }
 
     /**
