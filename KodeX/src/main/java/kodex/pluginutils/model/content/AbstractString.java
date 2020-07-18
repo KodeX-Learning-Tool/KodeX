@@ -28,12 +28,4 @@ public abstract class AbstractString extends Content{
 	public void setString(String data) {
 		this.data = data;
 	}
-
-	
-	
-	
-	 //below some shortcuts for common actions
-	public void concat(String str) {
-		data.concat(str);
-	}
 }

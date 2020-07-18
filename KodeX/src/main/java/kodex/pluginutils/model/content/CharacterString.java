@@ -13,8 +13,8 @@ public class CharacterString extends AbstractString {
     /**
      * Creates a new CharacterString
      */
-    public CharacterString() {
-    	super.data = "";
+    public CharacterString(String str) {
+    	super.data = str;
     }
     
 	@Override

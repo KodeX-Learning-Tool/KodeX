@@ -22,7 +22,7 @@ import kodex.plugininterface.ProcedurePlugin;
  * @author Patrick Spiesberger
  * @author Raimon Gramlich
  *
- * @version 1.0properties
+ * @version 1.0
  * 
  */
 public class PluginLoader {

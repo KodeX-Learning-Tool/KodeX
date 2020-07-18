@@ -298,8 +298,7 @@ public class NetworkPresenter extends Presenter {
                 setConnectDisable(false);
 
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                System.out.println("Already created this socket");
             }
         };
 
