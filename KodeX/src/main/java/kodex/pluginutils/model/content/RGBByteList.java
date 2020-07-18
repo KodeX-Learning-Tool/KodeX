@@ -20,7 +20,7 @@ public class RGBByteList extends AbstractList<String> {
     }
 
     @Override
-    public Boolean isValid(Content input) {
+    public Boolean isValid(Object input) {
         // TODO implement here
         return null;
     }
