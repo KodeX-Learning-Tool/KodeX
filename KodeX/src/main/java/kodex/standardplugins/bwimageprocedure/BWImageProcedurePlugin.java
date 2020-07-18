@@ -1,10 +1,5 @@
 package kodex.standardplugins.bwimageprocedure;
 
-import java.nio.Buffer;
-import java.util.*;
-
-import javafx.scene.image.PixelBuffer;
-import javafx.scene.image.WritableImage;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.Content;
 import kodex.plugininterface.ImportPresenter;
@@ -38,7 +33,7 @@ public class BWImageProcedurePlugin extends ProcedurePlugin {
     private ChainLinkPresenter[] chainLinks; // [2..*]
 
     /**
-     * COnstructor of class BWImageProecedure. Sets all chainLinks
+     * Constructor of class BWImageProecedure. Sets all chainLinks
      */
     public  BWImageProcedurePlugin() {
     	chainLinks = new ChainLinkPresenter[5];
@@ -46,7 +41,7 @@ public class BWImageProcedurePlugin extends ProcedurePlugin {
 
     @Override
 	public String getPluginName() {
-		return "Black & White Image";
+		return "Schwarz & Weiß Bild";
 	}
 
 	@Override
@@ -56,7 +51,7 @@ public class BWImageProcedurePlugin extends ProcedurePlugin {
 
 	@Override
 	public ChainLinkPresenter getChainHead() {
-		return null;
+		return chainLinks[0];
 	}
 
 	@Override
