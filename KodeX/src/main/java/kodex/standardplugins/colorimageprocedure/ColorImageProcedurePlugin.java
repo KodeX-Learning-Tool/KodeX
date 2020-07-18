@@ -15,12 +15,8 @@ import kodex.standardplugins.colorimageprocedure.presenter.ColorImageImportPrese
  * 
  * @version 1.0
  */
-public class ColorImageProcedurePlugin extends ProcedurePlugin {	
+public class ColorImageProcedurePlugin extends ProcedurePlugin {
 	
-	private final StringProperty pluginName;
-	
-	private final StringProperty pluginDescription;
-
     /**
      * Creates a new instance of the ColorImageProcedurePlugin.
      */
@@ -70,14 +66,4 @@ public class ColorImageProcedurePlugin extends ProcedurePlugin {
     public ColorImageProcedureInformation createProcedureInformation() {
         return new ColorImageProcedureInformation();
     }
-
-	@Override
-	public StringProperty pluginNameProperty() {
-		return pluginName;
-	}
-
-	@Override
-	public StringProperty pluginDescriptionProperty() {
-		return pluginDescription;
-	}
 }

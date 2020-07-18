@@ -40,18 +40,11 @@ public class GreyScaleImageProcedurePlugin extends ProcedurePlugin {
      * Constructor of class BWImageProecedure. Sets all chainLinks
      */
     public GreyScaleImageProcedurePlugin() {
+    	this.pluginName = new SimpleStringProperty("Graustufen Bild");
+    	this.pluginDescription = new SimpleStringProperty("Verfahren");
+    	
     	chainLinks = new ChainLinkPresenter[5];
     }
-    
-	@Override
-	public StringProperty pluginNameProperty() {
-		return new SimpleStringProperty("Graustufen Bild");
-	}
-
-	@Override
-	public StringProperty pluginDescriptionProperty() {
-		return new SimpleStringProperty("Verfahren");
-	}
 
 	@Override
 	public ChainLinkPresenter getChainHead() {

@@ -2,6 +2,8 @@ package kodex.plugininterface;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  * This class forms the communication interface between a plugin and the framework.
@@ -16,7 +18,14 @@ import javafx.beans.property.SimpleBooleanProperty;
  */
 public abstract class ProcedurePlugin implements Pluginable, Comparable<ProcedurePlugin> {
 	
+	/** The BooleanProperty activated stores the state of the procedure. */
 	protected final BooleanProperty activated = new SimpleBooleanProperty(false);
+	
+	/** The StringProperty of the plugin name. */
+	protected StringProperty pluginName = new SimpleStringProperty("missing_plugin_name");
+	
+	/** The StringProperty of the plugin description. */
+	protected StringProperty pluginDescription = new SimpleStringProperty("missing_plugin_description");
 	
     /**
      * Constructor of the ProcedurePlugin class
@@ -70,5 +79,15 @@ public abstract class ProcedurePlugin implements Pluginable, Comparable<Procedur
 	public BooleanProperty activatedProperty() {
 		return activated;
 	}
+    
 
+	@Override
+	public StringProperty pluginNameProperty() {
+		return pluginName;
+	}
+
+	@Override
+	public StringProperty pluginDescriptionProperty() {
+		return pluginDescription;
+	}
 }
