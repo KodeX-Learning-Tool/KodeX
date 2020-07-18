@@ -22,7 +22,7 @@ import kodex.pluginutils.model.content.AbstractImage;
  */
 public abstract class ProcedureInformation {
 	
-	protected StringProperty name;
+	protected StringProperty procedureName;
     protected StringProperty shortDescription;
     protected StringProperty tags;
 	
@@ -38,7 +38,7 @@ public abstract class ProcedureInformation {
      * ProcedureInformation class constructor
      */
     public ProcedureInformation() {
-        this.name = new SimpleStringProperty("Debug-Verfahren");
+        this.procedureName = new SimpleStringProperty("Debug-Verfahren");
         this.shortDescription = new SimpleStringProperty("Das Kodierungsverfahren zum Debuggen.");
         this.tags = new SimpleStringProperty("Klasse ?, Verfahren");
     }
@@ -85,11 +85,11 @@ public abstract class ProcedureInformation {
      * @return name of procedure
      */
     public String getName() {
-        return name.get();
+        return procedureName.get();
     }
     
     public StringProperty nameProperty() {
-        return name;
+        return procedureName;
     }
     
     /**
