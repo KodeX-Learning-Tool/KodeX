@@ -25,9 +25,6 @@ public class ColorImageImportPresenter extends ImportPresenter {
 	
 	/** The binary string which is imported for decoding. */
 	private String binaryString;
-
-	private AnchorPane importview; 
-
 	
 	
 	/**
@@ -74,16 +71,18 @@ public class ColorImageImportPresenter extends ImportPresenter {
 	@Override
 	public AnchorPane getView() {
 		
+		AnchorPane importView = new AnchorPane();
+		
 		// loads the template
 		try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("importexample.fxml"));
             loader.setController(this);
-            importview = loader.load();
+            importView = loader.load();
         } catch (IOException exc) {
             exc.printStackTrace();
         }
 		
-		return importview;
+		return importView;
 	}
 	
 	
