@@ -27,9 +27,6 @@ public abstract class ProcedureInformation {
 	/** The StringProperty of the procedure name. */
 	protected StringProperty procedureName;
     
-    /** The short description displayed in the plugin table. */
-    protected StringProperty shortDescription;
-    
     /** The ListProperty tags stores all the tags which describe the procedure. */
     protected ListProperty<String> tags;
 	
@@ -43,9 +40,9 @@ public abstract class ProcedureInformation {
      * ProcedureInformation class constructor.
      */
     public ProcedureInformation() {
-        this.procedureName = new SimpleStringProperty("Debug-Verfahren");
-        this.shortDescription = new SimpleStringProperty("Das Kodierungsverfahren zum Debuggen.");
-        this.tags = new SimpleListProperty<>(FXCollections.observableArrayList("Klasse ?", "Verfahren", "encoding & decoding"));
+        this.procedureName = new SimpleStringProperty("Debug-Procedure");
+        this.tags = new SimpleListProperty<>(FXCollections.observableArrayList("Grade ?", "Procedure", "encoding & decoding"));
+        this.description = new SimpleStringProperty("Missing_Detailed_Description");
     }
     
     /**
@@ -87,24 +84,6 @@ public abstract class ProcedureInformation {
     public StringProperty descriptionProperty() {
         return description; //Standard Beschreibung
         //TODO: Language.getMessage("noDescription"); 
-    }
-    
-    /**
-     * Gets a brief description of the procedure.
-     *
-     * @return the short description of the procedure
-     */
-    public String getShortDescription() {
-        return shortDescription.get();
-    }
-    
-    /**
-     * Returns the short description property.
-     *
-     * @return the string property shortDescription
-     */
-    public StringProperty shortDescriptionProperty() {
-        return shortDescription;
     }
 
     /**
