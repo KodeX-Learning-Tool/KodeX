@@ -2,6 +2,7 @@ package kodex.standardplugins.colorimageprocedure.presenter;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
@@ -58,14 +59,24 @@ public class ColorImageImportPresenter extends ImportPresenter {
 		
 		image = new Image(file.getPath());
 		
-		validateEncodeImport();
+		if (validateEncodeImport()) {
+			
+		}
 	}
 
 	@Override
 	public void handleDecodeImport() {
 		File file = importFile("Dekodieren");
 		
-		validateDecodeImport();
+		try {
+			binaryString = Files.readString(file.toPath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		if (validateDecodeImport()) {
+			
+		}
 	}
 
 	@Override
