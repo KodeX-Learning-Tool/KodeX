@@ -60,6 +60,6 @@ public abstract class Content {
      * Note: Must be defined more precisely by classes that implement this interface
      * @return true, if content is valid, otherwise false
      */
-    public abstract Boolean isValid(Content input);
+    public abstract Boolean isValid(Object input);
 
 }
