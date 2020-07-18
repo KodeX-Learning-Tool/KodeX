@@ -3,6 +3,8 @@ package kodex.model;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import kodex.plugininterface.ProcedurePlugin;
 
 /**
@@ -16,9 +18,9 @@ public class LabelSort implements FilterStrategy {
     public LabelSort() {}
 
 	@Override
-	public List<ProcedurePlugin> filterProcedures(List<ProcedurePlugin> selectedProcedures) {
-		List<ProcedurePlugin> filteredProcedures = new LinkedList<ProcedurePlugin>();
-		List<ProcedurePlugin> noLabel = new LinkedList<ProcedurePlugin>();
+	public ObservableList<ProcedurePlugin> filterProcedures(ObservableList<ProcedurePlugin> selectedProcedures) {
+		ObservableList<ProcedurePlugin> filteredProcedures = FXCollections.observableArrayList();
+		ObservableList<ProcedurePlugin> noLabel = FXCollections.observableArrayList();
 		Collections.sort(selectedProcedures); //alphabetical sort
 		for (ProcedurePlugin plugin : selectedProcedures) {
 			if (plugin.createProcedureInformation().getLabels().get(0).isEmpty() || 
