@@ -51,7 +51,7 @@ public class IndexPage {
      */
     public ObservableList<ProcedurePlugin> findProcedures(String searchTerm) {
         for (ProcedurePlugin plugin : availableProcedures) {
-        	if (plugin.getPluginName().get().startsWith(searchTerm)) {
+        	if (plugin.pluginNameProperty().get().startsWith(searchTerm)) {
         		selectedProcedures.add(plugin);
         	}
         }

@@ -44,12 +44,12 @@ public class GreyScaleImageProcedurePlugin extends ProcedurePlugin {
     }
     
 	@Override
-	public StringProperty getPluginName() {
+	public StringProperty pluginNameProperty() {
 		return new SimpleStringProperty("Graustufen Bild");
 	}
 
 	@Override
-	public StringProperty getPluginDescription() {
+	public StringProperty pluginDescriptionProperty() {
 		return new SimpleStringProperty("Verfahren");
 	}
 

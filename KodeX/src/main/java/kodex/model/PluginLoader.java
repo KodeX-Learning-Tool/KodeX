@@ -147,7 +147,7 @@ public class PluginLoader {
         enabledPlugins.remove(plugin);
         
         for (ProcedurePlugin p: allProcedurePlugins) {
-        	if (p.getPluginName().get().equals(plugin.getPluginName().get()) && !enabledProcedurePlugins.contains(p)) {
+        	if (p.pluginNameProperty().get().equals(plugin.pluginNameProperty().get()) && !enabledProcedurePlugins.contains(p)) {
         		allProcedurePlugins.remove(p);
         		enabledProcedurePlugins.remove(p);
         	}
@@ -166,7 +166,7 @@ public class PluginLoader {
         
         // add the equivalent procedure plugin if it exists
         for (ProcedurePlugin p: allProcedurePlugins) {
-        	if (p.getPluginName().get().equals(plugin.getPluginName().get()) && !enabledProcedurePlugins.contains(p)) {
+        	if (p.pluginNameProperty().get().equals(plugin.pluginNameProperty().get()) && !enabledProcedurePlugins.contains(p)) {
         		enabledProcedurePlugins.add(p);
         	}
         }
@@ -182,7 +182,7 @@ public class PluginLoader {
         
         // removes the equivalent procedure plugin if it exists
         for (ProcedurePlugin p: allProcedurePlugins) {
-        	if (p.getPluginName().get().equals(plugin.getPluginName().get())) {
+        	if (p.pluginNameProperty().get().equals(plugin.pluginNameProperty().get())) {
         		enabledProcedurePlugins.remove(p);
         	}
         }

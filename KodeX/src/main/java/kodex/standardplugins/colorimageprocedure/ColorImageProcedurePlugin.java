@@ -26,7 +26,6 @@ public class ColorImageProcedurePlugin extends ProcedurePlugin {
      */
     public ColorImageProcedurePlugin() {
     	this.pluginName = new SimpleStringProperty("Farbbildverfahrensplugin");
-
     	this.pluginDescription = new SimpleStringProperty("Das Kodierungsverfahren Bild-zu-Bitfolge.");
     }
 
@@ -73,12 +72,12 @@ public class ColorImageProcedurePlugin extends ProcedurePlugin {
     }
 
 	@Override
-	public StringProperty getPluginName() {
+	public StringProperty pluginNameProperty() {
 		return pluginName;
 	}
 
 	@Override
-	public StringProperty getPluginDescription() {
+	public StringProperty pluginDescriptionProperty() {
 		return pluginDescription;
 	}
 }

@@ -42,12 +42,12 @@ public class BWImageProcedurePlugin extends ProcedurePlugin {
     }
 
     @Override
-	public StringProperty getPluginName() {
+	public StringProperty pluginNameProperty() {
 		return new SimpleStringProperty("Schwarz & Weiß Bild");
 	}
 
 	@Override
-	public StringProperty getPluginDescription() {
+	public StringProperty pluginDescriptionProperty() {
 		return new SimpleStringProperty("Verfahren");
 	}
 

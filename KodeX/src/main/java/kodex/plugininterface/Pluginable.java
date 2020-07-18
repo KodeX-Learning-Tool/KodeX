@@ -20,14 +20,14 @@ public interface Pluginable {
      * Note: Make absolutely sure which symbols are allowed in a string
      * @return name of plugin
      */
-    public StringProperty getPluginName();
+    public StringProperty pluginNameProperty();
 
     /**
      * Returns the description of the plugin
      * Note: The description is limited to a string and should be short enough to be displayed in a table
      * @return description of the plugin
      */
-    public StringProperty getPluginDescription();
+    public StringProperty pluginDescriptionProperty();
 
     /**
      * Returns the state of the plugin

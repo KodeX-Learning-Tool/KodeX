@@ -25,13 +25,13 @@ public class TextQRCodeProcedurePlugin extends ProcedurePlugin {
     private ChainLinkPresenter[] chainLinks; // [2..*]
 
 	@Override
-	public StringProperty getPluginName() {
+	public StringProperty pluginNameProperty() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public StringProperty getPluginDescription() {
+	public StringProperty pluginDescriptionProperty() {
 		// TODO Auto-generated method stub
 		return null;
 	}

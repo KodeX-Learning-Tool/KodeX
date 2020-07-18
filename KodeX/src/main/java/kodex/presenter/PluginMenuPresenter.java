@@ -91,8 +91,8 @@ public class PluginMenuPresenter extends Presenter {
 		checkBoxColumn.setCellFactory(CheckBoxTableCell.forTableColumn(checkBoxColumn));
 		  
 		// defines the name and description column
-		nameColumn.setCellValueFactory(cellData -> cellData.getValue().getPluginName());
-		descriptionColumn.setCellValueFactory(cellData -> cellData.getValue().getPluginDescription());
+		nameColumn.setCellValueFactory(cellData -> cellData.getValue().pluginNameProperty());
+		descriptionColumn.setCellValueFactory(cellData -> cellData.getValue().pluginDescriptionProperty());
 		  
 		// fills in the with the plugin information
 		pluginTable.setItems(pluginLoader.getPlugins());
