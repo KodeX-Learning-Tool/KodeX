@@ -1,74 +1,27 @@
 package kodex.standardplugins.colorimageprocedure;
 
-import java.util.List;
-
+import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.scene.image.Image;
 import kodex.plugininterface.ProcedureInformation;
 
 /**
+ * This class holds the information of the corresponding procedure plugin.
  * 
+ * @author Raimon Gramlich
+ * 
+ * @version 1.0
  */
 public class ColorImageProcedureInformation extends ProcedureInformation {
-
-
     /**
-     * 
+     * Creates a new instance of the ColorImageProcedureInformation class and sets the fields accordingly.
      */
-    private Image icon;
-
-    /**
-     * 
-     */
-    private String name;
-
-    /**
-     * 
-     */
-    private List<String> labels;
-
-    /**
-     * 
-     */
-    private String description;
-
-    /**
-     * 
-     */
-    public void ColorImageProcedureInformation() {
-        // TODO implement here
+    public ColorImageProcedureInformation() {
+        this.procedureName = new SimpleStringProperty("Farbbildverfahren");
+        this.icon = new Image(getClass().getResourceAsStream("img/mario_color.png"));
+        this.description = new SimpleStringProperty("Es wird zunächst das Bild in eine Matrix umgewandelt." +
+            	" Daraufhin wandelt man diese in eine Liste um. Am Ende erhält man eine Binärfolge.");
+        this.tags = new SimpleListProperty<>(FXCollections.observableArrayList("Klasse 7", "Kodierungsverfahren", "Kodieren und Dekodieren"));
     }
-
-    /**
-     * @return
-     */
-    public String getName() {
-        // TODO implement here
-        return "";
-    }
-
-    /**
-     * @return
-     */
-    public Image getIcon() {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @return
-     */
-    public List<String> getLabels() {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @return
-     */
-    public String getDescription() {
-        // TODO implement here
-        return "";
-    }
-
-
 }

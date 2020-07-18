@@ -24,7 +24,7 @@ public class CharacterString extends AbstractString {
 	}
 
 	@Override
-	public Boolean isValid(Content input) {
+	public Boolean isValid(Object input) {
 		// TODO Auto-generated method stub
 		return null;
 	}

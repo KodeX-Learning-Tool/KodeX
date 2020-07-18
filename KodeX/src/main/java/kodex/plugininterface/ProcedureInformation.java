@@ -2,9 +2,13 @@ package kodex.plugininterface;
 
 import java.util.LinkedList;
 import java.util.List;
-
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
-import kodex.pluginutils.model.content.AbstractImage;
 
 /**
  * This abstract class specifies which information about a procedure should
@@ -13,41 +17,41 @@ import kodex.pluginutils.model.content.AbstractImage;
  * and the icon do not have to be implemented (standard values).
  * 
  * @author Patrick Spiesberger
+ * @author Raimon Gramlich
  * 
  * @version 1.0
  *
  */
 public abstract class ProcedureInformation {
-
-    /**
-     * ProcedureInformation class constructor
-     */
-    public ProcedureInformation() {}
+	
+	/** The StringProperty of the procedure name. */
+	protected StringProperty procedureName;
     
-
-    /* 
-     * Image that is displayed for the procedure
-     */
-    protected Image defaultIcon;
-
+    /** The ListProperty tags stores all the tags which describe the procedure. */
+    protected ListProperty<String> tags;
+	
+    /** The Image that is displayed as the icon of the procedure. */
+    protected Image icon;
+    
+    /** The StringProperty that contains a description of the procedure. */
+	protected StringProperty description;
+    
     /**
-     * Returns name of procedure
-     * @return name of procedure
+     * Creates an instance of the ProcedureInformation class.
      */
-    public abstract String getName();
-
+    public ProcedureInformation() {
+        this.procedureName = new SimpleStringProperty("Debug-Procedure");
+        this.tags = new SimpleListProperty<>(FXCollections.observableArrayList("Grade ?", "Procedure", "encoding & decoding"));
+        this.description = new SimpleStringProperty("Missing_Detailed_Description");
+    }
+    
     /**
-     * Returns the icon that should be used for the indexpage
+     * Returns the icon that should be used for the indexpage.
+     *
      * @return icon for indexpage
      */
     public Image getIcon() {
-    	if (defaultIcon != null) {
-    		return defaultIcon; 
-    	}
-    	else {
-    		return null; 
-    		//TODO: Stanard-Bild zurück geben
-    	}
+    	return icon;
     }
 
     /**
@@ -62,13 +66,60 @@ public abstract class ProcedureInformation {
     }
 
     /**
-     * Returns a brief description of the procedure
-     * @return description of procedure
+     * Returns the detailed description of the procedure.
+     *
+     * @return description of the procedure
      * Note: The description is limited to a string
      */
     public String getDescription() {
-        return ""; //Standard Beschreibung
+        return description.get(); //Standard Beschreibung
+        //TODO: Language.getMessage("noDescription"); 
+    }
+    
+    /**
+     * Returns the detailed description property.
+     *
+     * @return description property of the procedure
+     */
+    public StringProperty descriptionProperty() {
+        return description; //Standard Beschreibung
         //TODO: Language.getMessage("noDescription"); 
     }
 
+    /**
+     * Gets the procedure name.
+     *
+     * @return the name of the procedure
+     */
+    public String getName() {
+        return procedureName.get();
+    }
+    
+    /**
+     * Returns the Name property.
+     *
+     * @return the string property procedureName
+     */
+    public StringProperty nameProperty() {
+        return procedureName;
+    }
+    
+
+    /**
+     * Gets the list with the tags.
+     *
+     * @return the ObservableList with containing the tags
+     */
+    public ObservableList<String> getTags() {
+        return tags.getValue();
+    }
+    
+    /**
+     * Gets the ListProperty tags.
+     *
+     * @return the list property tags
+     */
+    public ListProperty<String> tagProperty() {
+        return tags;
+    }  
 }

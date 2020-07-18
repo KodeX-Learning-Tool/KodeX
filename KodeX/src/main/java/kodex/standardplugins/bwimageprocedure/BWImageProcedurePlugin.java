@@ -1,5 +1,7 @@
 package kodex.standardplugins.bwimageprocedure;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.Content;
 import kodex.plugininterface.ImportPresenter;
@@ -36,18 +38,11 @@ public class BWImageProcedurePlugin extends ProcedurePlugin {
      * Constructor of class BWImageProecedure. Sets all chainLinks
      */
     public  BWImageProcedurePlugin() {
+    	this.pluginName = new SimpleStringProperty("Schwarz & Weiß Bild");
+    	this.pluginDescription = new SimpleStringProperty("Verfahren");
+    	
     	chainLinks = new ChainLinkPresenter[5];
     }
-
-    @Override
-	public String getPluginName() {
-		return "Schwarz & Weiß Bild";
-	}
-
-	@Override
-	public String getPluginDescription() {
-		return "Verfahren";
-	}
 
 	@Override
 	public ChainLinkPresenter getChainHead() {

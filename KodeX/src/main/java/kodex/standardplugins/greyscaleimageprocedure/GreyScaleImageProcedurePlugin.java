@@ -1,6 +1,8 @@
 package kodex.standardplugins.greyscaleimageprocedure;
 
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.Content;
 import kodex.plugininterface.ImportPresenter;
@@ -38,18 +40,11 @@ public class GreyScaleImageProcedurePlugin extends ProcedurePlugin {
      * Constructor of class BWImageProecedure. Sets all chainLinks
      */
     public GreyScaleImageProcedurePlugin() {
+    	this.pluginName = new SimpleStringProperty("Graustufen Bild");
+    	this.pluginDescription = new SimpleStringProperty("Verfahren");
+    	
     	chainLinks = new ChainLinkPresenter[5];
     }
-    
-	@Override
-	public String getPluginName() {
-		return "Graustufen Bild";
-	}
-
-	@Override
-	public String getPluginDescription() {
-		return "Verfahren";
-	}
 
 	@Override
 	public ChainLinkPresenter getChainHead() {

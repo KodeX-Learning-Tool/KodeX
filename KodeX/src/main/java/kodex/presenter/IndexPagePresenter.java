@@ -1,8 +1,8 @@
 package kodex.presenter;
 
 import java.io.IOException;
-import java.util.List;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
@@ -34,7 +34,7 @@ import kodex.plugininterface.ProcedurePlugin;
 public class IndexPagePresenter extends Presenter {
 
     /** The List of procedures which will be displayed on the index page.*/
-    private List<ProcedurePlugin> selectedProcedures;
+    private ObservableList<ProcedurePlugin> selectedProcedures;
     
     /** A Label displaying the page title. */
     @FXML
@@ -76,7 +76,7 @@ public class IndexPagePresenter extends Presenter {
      * @throws IOException is thrown when the fxml file couldn't get loaded properly.
      */
 	@FXML
-	private void initialize() throws IOException {
+	private void initialize() {
 	    this.indexPage = new IndexPage();
 	    
 	    //
@@ -86,7 +86,6 @@ public class IndexPagePresenter extends Presenter {
 	    
 	    // get procedures unordered and unfiltered
 	    selectedProcedures = indexPage.filterProcedures(Filter.NO_FILTER);
-	    
 	    
 	    // initialize combo box items	    
 	    filterComboBox.setItems(FXCollections.observableArrayList(Filter.values()));
@@ -112,11 +111,9 @@ public class IndexPagePresenter extends Presenter {
 	    
 	    filterComboBox.setCellFactory(cellFactory);
 	    filterComboBox.setButtonCell(cellFactory.call(null));
-	    
+
 		// adds the ProcedureButtons for each enabled procedure plugin
-		for (ProcedurePlugin procedure: selectedProcedures) {
-			procedureButtonPane.getChildren().add(new ProcedureButton(procedure));
-		}	
+	    createProcedureButtons();
 	}
     
 	/**
@@ -149,22 +146,22 @@ public class IndexPagePresenter extends Presenter {
 		     * 
 		     * @param procedurePlugin : The reference to the ProcedurePlugin.
 		     */
-			ProcedureButton(ProcedurePlugin procedurePlugin) throws IOException {
+			ProcedureButton(ProcedurePlugin procedurePlugin) {
 				
 				this.procedure = procedurePlugin;
 				this.procedureInformation = procedurePlugin.createProcedureInformation();
 				
 				// loads the template
 				try {
-		            FXMLLoader loader = new FXMLLoader(getClass().getResource("procedurebutton.fxml"));
+		            FXMLLoader loader = new FXMLLoader(getClass().getResource("procedurebuttontemplate.fxml"));
 		            loader.setController(this);
 		            loader.setRoot(this);
 		            loader.load();
 		        } catch (IOException exc) {
-		            throw new IOException(exc);
+		            exc.printStackTrace();
 		        }
 				
-				procedureLabel.setText(procedureInformation.getName());		
+				procedureLabel.setText(procedureInformation.getName());
 				procedureIcon.setImage(procedureInformation.getIcon());
 			}
 			
@@ -212,5 +209,16 @@ public class IndexPagePresenter extends Presenter {
      */
     private void filterProcedures(Filter filter) {
     	selectedProcedures = indexPage.filterProcedures(filter);
+    }
+    
+    /**
+     * Creates and adds all ProceduresButtons to the index page view.
+     *
+     * @param filter : The selected filter.
+     */
+    private void createProcedureButtons() {
+		for (ProcedurePlugin procedure: selectedProcedures) {
+			procedureButtonPane.getChildren().add(new ProcedureButton(procedure));
+		}	
     }
 }

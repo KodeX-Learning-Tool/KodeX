@@ -1,7 +1,6 @@
 package kodex.model;
 
-import java.util.List;
-
+import javafx.collections.ObservableList;
 import kodex.plugininterface.ProcedurePlugin;
 
 /**
@@ -19,9 +18,8 @@ public interface FilterStrategy {
     /**
      * The concrete filter strategy
      * 
-     * @param selectedProcedures : List of procedures to filter
-     * @return filtered list of plugins
+     * @param selectedProcedures : ObservableList of procedures to filter
+     * @return filtered ObservableList of plugins
      */
-    public List<ProcedurePlugin> filterProcedures(List<ProcedurePlugin> selectedProcedures);
-
+	public ObservableList<ProcedurePlugin> filterProcedures(ObservableList<ProcedurePlugin> selectedProcedures);
 }

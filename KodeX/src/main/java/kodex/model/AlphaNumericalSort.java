@@ -2,6 +2,7 @@ package kodex.model;
 
 import java.util.*;
 
+import javafx.collections.ObservableList;
 import kodex.plugininterface.ProcedurePlugin;
 
 /**
@@ -24,11 +25,11 @@ public class AlphaNumericalSort implements FilterStrategy {
      * This is a filter strategy for the list of procedures.
      * This strategy returns the list of procedures, which are sorted in alphanumeric order.
      * 
-     * @param selectedProcedures : List of plugins to be sorted
-     * @return sorted list of plugins
+     * @param selectedProcedures : ObservableList of plugins to be sorted
+     * @return sorted ObservableList of plugins
      */
     @Override
-    public List<ProcedurePlugin> filterProcedures(List<ProcedurePlugin> selectedProcedures) {
+    public ObservableList<ProcedurePlugin> filterProcedures(ObservableList<ProcedurePlugin> selectedProcedures) {
         Collections.sort(selectedProcedures);
         return selectedProcedures;
     }

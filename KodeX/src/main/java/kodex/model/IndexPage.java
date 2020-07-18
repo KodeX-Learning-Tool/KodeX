@@ -2,6 +2,8 @@ package kodex.model;
 
 import java.util.*;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import kodex.plugininterface.ProcedurePlugin;
 
 /**
@@ -19,10 +21,10 @@ import kodex.plugininterface.ProcedurePlugin;
 public class IndexPage {
 
 	/* List of all aviable procedures */
-    private List<ProcedurePlugin> availableProcedures = new LinkedList<>();
+    private ObservableList<ProcedurePlugin> availableProcedures = FXCollections.observableArrayList();
 
     /* List of all procedures according to the desired restriction */
-    private List<ProcedurePlugin> selectedProcedures = new LinkedList<>();
+    private ObservableList<ProcedurePlugin> selectedProcedures = FXCollections.observableArrayList();
     
     /**
      * Constructor of class IndexPage. Loads the current list
@@ -47,9 +49,9 @@ public class IndexPage {
      * @param searchTerm : search query
      * @return list of procedure plugins
      */
-    public List<ProcedurePlugin> findProcedures(String searchTerm) {
+    public ObservableList<ProcedurePlugin> findProcedures(String searchTerm) {
         for (ProcedurePlugin plugin : availableProcedures) {
-        	if (plugin.getPluginName().startsWith(searchTerm)) {
+        	if (plugin.pluginNameProperty().get().startsWith(searchTerm)) {
         		selectedProcedures.add(plugin);
         	}
         }
@@ -64,7 +66,7 @@ public class IndexPage {
      * @param filter : concrete strategy
      * @return list of procedure plugins
      */
-    public List<ProcedurePlugin> filterProcedures(Filter filter) {
+    public ObservableList<ProcedurePlugin> filterProcedures(Filter filter) {
     	FilterStrategy strategy = null;
         if (filter.equals(Filter.ALPHABETIC)) {
         	strategy = new AlphaNumericalSort();

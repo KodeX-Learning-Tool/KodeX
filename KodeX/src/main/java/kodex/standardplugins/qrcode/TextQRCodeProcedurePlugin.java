@@ -1,6 +1,7 @@
 package kodex.standardplugins.qrcode;
 
 
+import javafx.beans.property.StringProperty;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.Content;
 import kodex.plugininterface.ImportPresenter;
@@ -24,13 +25,13 @@ public class TextQRCodeProcedurePlugin extends ProcedurePlugin {
     private ChainLinkPresenter[] chainLinks; // [2..*]
 
 	@Override
-	public String getPluginName() {
+	public StringProperty pluginNameProperty() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String getPluginDescription() {
+	public StringProperty pluginDescriptionProperty() {
 		// TODO Auto-generated method stub
 		return null;
 	}

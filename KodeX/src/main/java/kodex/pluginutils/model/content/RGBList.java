@@ -20,7 +20,7 @@ public class RGBList extends AbstractList<Color> {
     }
 
     @Override
-    public Boolean isValid(Content input) {
+    public Boolean isValid(Object input) {
         // TODO implement here
         return null;
     }
