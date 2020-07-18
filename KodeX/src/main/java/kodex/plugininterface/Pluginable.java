@@ -1,5 +1,8 @@
 package kodex.plugininterface;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.StringProperty;
+
 /**
  * This interface must be implemented by every plugin and
  * contains information about the plugin
@@ -16,13 +19,14 @@ public interface Pluginable {
      * @return name of plugin
      * Note: Make absolutely sure which symbols are allowed in a string
      */
-    public String getPluginName();
+    public StringProperty getPluginName();
 
     /**
      * Returns the category of the plugin
      * @return category of plugin
      * Note: The category is limited to a string and should be uniform
      */
-    public String getPluginDescription();
+    public StringProperty getPluginDescription();
 
+    public BooleanProperty activatedProperty();
 }

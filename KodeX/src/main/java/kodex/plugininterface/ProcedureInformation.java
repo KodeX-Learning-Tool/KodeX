@@ -3,6 +3,9 @@ package kodex.plugininterface;
 import java.util.LinkedList;
 import java.util.List;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.image.Image;
 import kodex.pluginutils.model.content.AbstractImage;
 
@@ -18,36 +21,34 @@ import kodex.pluginutils.model.content.AbstractImage;
  *
  */
 public abstract class ProcedureInformation {
-
-    /**
-     * ProcedureInformation class constructor
-     */
-    public ProcedureInformation() {}
+	
+	protected StringProperty name;
+    protected StringProperty shortDescription;
+    protected StringProperty tags;
+	
     
 
     /* 
      * Image that is displayed for the procedure
      */
-    protected Image defaultIcon;
-
+    protected Image icon;
+	protected String description;
+    
     /**
-     * Returns name of procedure
-     * @return name of procedure
+     * ProcedureInformation class constructor
      */
-    public abstract String getName();
-
+    public ProcedureInformation() {
+        this.name = new SimpleStringProperty("Debug-Verfahren");
+        this.shortDescription = new SimpleStringProperty("Das Kodierungsverfahren zum Debuggen.");
+        this.tags = new SimpleStringProperty("Klasse ?, Verfahren");
+    }
+    
     /**
      * Returns the icon that should be used for the indexpage
      * @return icon for indexpage
      */
     public Image getIcon() {
-    	if (defaultIcon != null) {
-    		return defaultIcon; 
-    	}
-    	else {
-    		return null; 
-    		//TODO: Stanard-Bild zurück geben
-    	}
+    	return icon;
     }
 
     /**
@@ -67,8 +68,38 @@ public abstract class ProcedureInformation {
      * Note: The description is limited to a string
      */
     public String getDescription() {
-        return ""; //Standard Beschreibung
+        return description; //Standard Beschreibung
         //TODO: Language.getMessage("noDescription"); 
     }
+    
+    public String getShortDescription() {
+        return shortDescription.get();
+    }
+    
+    public StringProperty shortDescriptionProperty() {
+        return shortDescription;
+    }
 
+    /**
+     * Returns name of procedure
+     * @return name of procedure
+     */
+    public String getName() {
+        return name.get();
+    }
+    
+    public StringProperty nameProperty() {
+        return name;
+    }
+    
+    /**
+     * @return
+     */
+    public String getTags() {
+        return tags.get();
+    }
+    
+    public StringProperty tagProperty() {
+        return tags;
+    }  
 }

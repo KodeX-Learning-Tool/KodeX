@@ -1,6 +1,8 @@
 package kodex.standardplugins.colorimageprocedure;
 
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.Content;
 import kodex.plugininterface.ProcedurePlugin;
@@ -9,12 +11,19 @@ import kodex.standardplugins.colorimageprocedure.presenter.ColorImageImportPrese
 /**
  * 
  */
-public class ColorImageProcedurePlugin extends ProcedurePlugin {
+public class ColorImageProcedurePlugin extends ProcedurePlugin {	
+	
+	private final StringProperty pluginName;
+	
+	private final StringProperty pluginDescription;
 
     /**
      * Default constructor
      */
     public ColorImageProcedurePlugin() {
+    	this.pluginName = new SimpleStringProperty("Farbbildverfahrensplugin");
+
+    	this.pluginDescription = new SimpleStringProperty("Das Kodierungsverfahren Bild-zu-Bitfolge.");
     }
 
     /**
@@ -49,28 +58,23 @@ public class ColorImageProcedurePlugin extends ProcedurePlugin {
      * @return
      */
     public ColorImageImportPresenter createImportPresenter() {
-        // TODO implement here
-        return null;
+        return new ColorImageImportPresenter(this);
     }
 
     /**
      * @return
      */
     public ColorImageProcedureInformation createProcedureInformation() {
-        // TODO implement here
-        return null;
+        return new ColorImageProcedureInformation();
     }
 
 	@Override
-	public String getPluginName() {
-		// TODO Auto-generated method stub
-		return null;
+	public StringProperty getPluginName() {
+		return pluginName;
 	}
 
 	@Override
-	public String getPluginDescription() {
-		// TODO Auto-generated method stub
-		return null;
+	public StringProperty getPluginDescription() {
+		return pluginDescription;
 	}
-
 }
