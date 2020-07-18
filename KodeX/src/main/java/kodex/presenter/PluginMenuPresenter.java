@@ -60,9 +60,6 @@ public class PluginMenuPresenter extends Presenter {
      */
     public PluginMenuPresenter(PresenterManager pm) {
         super(pm, "pluginpage");
-        
-        // get a PluginLoader instance this way since PluginLoader uses the singleton pattern
-        pluginLoader = PluginLoader.getInstance();
     }
     
     /**
@@ -78,26 +75,33 @@ public class PluginMenuPresenter extends Presenter {
 		addPluginButton.textProperty().bind(I18N.createStringBinding("pluginpage.addbutton"));
 		removePluginButton.textProperty().bind(I18N.createStringBinding("pluginpage.removebutton"));
 		
-		/* // defines the check box column
-		 * checkBoxColumn.setCellValueFactory(c -> {
-		 * c.getValue().activatedProperty().addListener((observer, oldValue, newValue)
-		 * -> { if (newValue.booleanValue()) {
-		 * pluginLoader.activatePlugin(c.getValue()); } else {
-		 * pluginLoader.deactivatePlugin(c.getValue()); } }); return
-		 * c.getValue().activatedProperty(); });
-		 * checkBoxColumn.setCellFactory(CheckBoxTableCell.forTableColumn(checkBoxColumn
-		 * ));
-		 * 
-		 * // defines the name and description column
-		 * nameColumn.setCellValueFactory(cellData ->
-		 * cellData.getValue().nameProperty());
-		 * descriptionColumn.setCellValueFactory(cellData ->
-		 * cellData.getValue().shortDescriptionProperty());
-		 * 
-		 * // fills in the with the plugin information
-		 * pluginTable.setItems(pluginLoader.getEnabledPlugins());
-		 * pluginTable.setEditable(true);
-		 */
+		// get a PluginLoader instance this way since PluginLoader uses the singleton pattern
+        pluginLoader = PluginLoader.getInstance();
+		
+		// defines the check box column
+		checkBoxColumn.setCellValueFactory(c -> {
+			c.getValue().activatedProperty().addListener((observer, oldValue, newValue) -> { 
+				 if (newValue.booleanValue()) {
+					pluginLoader.activatePlugin(c.getValue());
+					System.out.println(c.getValue().activatedProperty().get());
+				} else {
+					pluginLoader.deactivatePlugin(c.getValue());
+					System.out.println(c.getValue().activatedProperty().get());
+				} 
+			 }); return
+			 c.getValue().activatedProperty(); 
+		});
+		 
+		checkBoxColumn.setCellFactory(CheckBoxTableCell.forTableColumn(checkBoxColumn));
+		  
+		// defines the name and description column
+		nameColumn.setCellValueFactory(cellData -> cellData.getValue().getPluginName());
+		descriptionColumn.setCellValueFactory(cellData -> cellData.getValue().getPluginDescription());
+		  
+		// fills in the with the plugin information
+		pluginTable.setItems(pluginLoader.getPlugins());
+		pluginTable.setEditable(true);
+		 
 	}
 
     /**
