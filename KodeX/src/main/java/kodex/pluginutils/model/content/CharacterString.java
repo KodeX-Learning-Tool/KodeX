@@ -1,50 +1,32 @@
 package kodex.pluginutils.model.content;
 
+import java.io.File;
+
+import kodex.plugininterface.Content;
+
 /**
- * 
+ * This class holds data in string format. A CharacterString consists of only alphabetical characters.
+ * Extending AbstractString, it adds validation and exporting capabilities to Javas String.
  */
-public class CharacterString extends DataString {
+public class CharacterString extends AbstractString {
 
     /**
-     * Default constructor
+     * Creates a new CharacterString
      */
-    public CharacterString() {
+    public CharacterString(String str) {
+    	super.data = str;
     }
+    
+	@Override
+	protected File toFile() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    /**
-     * 
-     */
-    private String characterString;
-
-    /**
-     * @param charString; String
-     */
-    public CharacterString(String charString) {
-        // TODO implement here
-    }
-
-    /**
-     * @return
-     */
-    public String getCharacterString() {
-        // TODO implement here
-        return "";
-    }
-
-    /**
-     * @param input
-     */
-    public void setCharacterString(String input) {
-        // TODO implement here
-    }
-
-    /**
-     * @param input 
-     * @return
-     */
-    public Boolean isValid(String input) {
-        // TODO implement here
-        return null;
-    }
+	@Override
+	public Boolean isValid(Content input) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

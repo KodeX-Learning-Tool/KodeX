@@ -6,24 +6,24 @@ import javafx.scene.image.WritableImage;
 import kodex.plugininterface.Content;
 
 /**
- * This class holds data in Image format. An BlackWhitImage consists of a WritableImage 
- * using only the RGB values 0x000000 and 0xFFFFFF.
+ * This class holds data in Image format. An GrayScaleImage consists of a WritableImage 
+ * where each pixels red, green and blue value are all equal.
  * Extending AbstractImage, it adds validation and exporting capabilities to JavaFX's WritableImage.
  */
-public class BlackWhiteImage extends AbstractImage{
+public class GrayScaleImage extends AbstractImage{
 	
 	/**
-     * Creates a new BlackWhiteImage
+     * Creates a new GrayScaleImage
      */
-    public BlackWhiteImage() {
+    public GrayScaleImage() {
     	super.image = new WritableImage(1, 1);
     }
 
     /**
-     * Creates a new BlackWhiteImage and sets its data to the image passed in the arguments
+     * Creates a new GrayScaleImage and sets its data to the image passed in the arguments
      * @param image The WritableImage to be used as data
      */
-    public BlackWhiteImage(WritableImage image) {
+    public GrayScaleImage(WritableImage image) {
         this.image = image;
     }
 

@@ -20,8 +20,9 @@ import kodex.plugininterface.ProcedurePlugin;
  * from anywhere and return the list of activated plugins on request.
  * 
  * @author Patrick Spiesberger
+ * @author Raimon Gramlich
  *
- * @version 1.0properties
+ * @version 1.0
  * 
  */
 public class PluginLoader {
