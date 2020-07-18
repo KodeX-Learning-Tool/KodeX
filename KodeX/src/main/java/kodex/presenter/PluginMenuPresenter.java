@@ -1,8 +1,6 @@
 package kodex.presenter;
 
 import java.io.File;
-import java.io.IOException;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -107,7 +105,7 @@ public class PluginMenuPresenter extends Presenter {
      * Opens the system-explorer to let the user choose the plugin and loads it if possible.
      */
 	@FXML
-	private void handleAddPlugin() throws IOException {
+	private void handleAddPlugin() {
 		// create new FileChooser
 		FileChooser chooser = new FileChooser();
 		chooser.setTitle("Plugin zum importieren auswählen.");
@@ -127,7 +125,7 @@ public class PluginMenuPresenter extends Presenter {
      * Deletes the selected plugin if possible.
      */
 	@FXML
-	private void handleRemovePlugin() throws IOException {
+	private void handleRemovePlugin() {
 		// get selected table row
 		Pluginable plugin = pluginTable.getSelectionModel().getSelectedItem();
 		if (plugin != null) {
