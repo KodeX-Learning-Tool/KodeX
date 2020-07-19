@@ -85,6 +85,7 @@ public abstract class ChainLinkPresenter implements IPresenter {
      */
     public void setContent(Content content) {
         this.content = content;
+        updateChain();
     }
 
     /**
