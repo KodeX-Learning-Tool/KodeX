@@ -229,7 +229,7 @@ public class ChainPresenter implements IPresenter {
     	// add a newly created chain item for each ChainLinkPresenter
 		int i = 0;
 		while (chainLinkPresenter != null) {
-			chainSplitPane.getItems().set(i, new ChainItem(chainLinkPresenter));
+			chainSplitPane.getItems().add(new ChainItem(chainLinkPresenter));
 			chainLinkPresenter = chainLinkPresenter.getNext();
 			i++;
 		}	
