@@ -152,12 +152,12 @@ public class ChainPresenter implements IPresenter {
 			
 			// loads template file
 			try {
-	            FXMLLoader loader = new FXMLLoader(getClass().getResource("chianlinktemplate.fxml"));
+	            FXMLLoader loader = new FXMLLoader(getClass().getResource("chainlinktemplate.fxml"));
 	            loader.setController(this);
 	            loader.setRoot(this);
 	            loader.load();
 	        } catch (IOException exc) {
-	        	System.err.println("The file chianlinktemplate.fxml was not found!");
+	        	System.err.println("The file chainlinktemplate.fxml was not found!");
 	        }
 			
 		}
