@@ -80,18 +80,7 @@ public class ChainPresenter implements IPresenter {
      */
     @FXML
     private void initialize() {
-    	
-    	// add change listener to the dividers of the SplitPane
-    	dividers = chainSplitPane.getDividers();
-    	
-    	for (Divider divider: dividers) {
-    		divider.positionProperty().addListener((obs, oldValue, newValue) -> {
-    			if (isMoving == false) {
-        			double delta = newValue.doubleValue() - oldValue.doubleValue();
-        			moveDividers(divider, delta);
-    			}
-    		});
-    	} 
+
     }
     
 	
@@ -152,12 +141,12 @@ public class ChainPresenter implements IPresenter {
 			
 			// loads template file
 			try {
-	            FXMLLoader loader = new FXMLLoader(getClass().getResource("chianlinktemplate.fxml"));
+	            FXMLLoader loader = new FXMLLoader(getClass().getResource("chainlinktemplate.fxml"));
 	            loader.setController(this);
 	            loader.setRoot(this);
 	            loader.load();
 	        } catch (IOException exc) {
-	        	System.err.println("The file chianlinktemplate.fxml was not found!");
+	        	System.err.println("The file chainlinktemplate.fxml was not found!");
 	        }
 			
 		}
@@ -227,12 +216,23 @@ public class ChainPresenter implements IPresenter {
     	ChainLinkPresenter chainLinkPresenter = firstChainLinkPresenter;
 	
     	// add a newly created chain item for each ChainLinkPresenter
-		int i = 0;
 		while (chainLinkPresenter != null) {
-			chainSplitPane.getItems().set(i, new ChainItem(chainLinkPresenter));
+			chainSplitPane.getItems().add(new ChainItem(chainLinkPresenter));
 			chainLinkPresenter = chainLinkPresenter.getNext();
-			i++;
-		}	
+		}
+		
+    	
+    	// add change listener to the dividers of the SplitPane
+    	dividers = chainSplitPane.getDividers();
+    	
+    	for (Divider divider: dividers) {
+    		divider.positionProperty().addListener((obs, oldValue, newValue) -> {
+    			if (isMoving == false) {
+        			double delta = newValue.doubleValue() - oldValue.doubleValue();
+        			moveDividers(divider, delta);
+    			}
+    		});
+    	} 
     }
 
     /**
@@ -243,7 +243,7 @@ public class ChainPresenter implements IPresenter {
     public void jumpToChainLink(int id) {    	
     	// This sets the position of the vertical dividers between the Chain Links.
     	// TODO: expand the chain item
-    	
+		
     	Node chainItem = chainSplitPane.getChildrenUnmodifiable().get(id);
     	
     	// calculate the hValue for the view port of the scroll pane
@@ -261,6 +261,7 @@ public class ChainPresenter implements IPresenter {
      */
     private void moveDividers(Divider divider, double delta) {
     	isMoving = true;
+    	
     	int id = dividers.indexOf(divider);
     	
     	// move left or right hand dividers depending on the direction of movement

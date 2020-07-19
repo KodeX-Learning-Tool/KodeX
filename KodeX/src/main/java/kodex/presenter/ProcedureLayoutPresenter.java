@@ -109,7 +109,7 @@ public class ProcedureLayoutPresenter extends Presenter {
 			
 			// loads the template file
 			try {
-	            FXMLLoader loader = new FXMLLoader(getClass().getResource("overviewbutton.fxml"));
+	            FXMLLoader loader = new FXMLLoader(getClass().getResource("overviewbuttontemplate.fxml"));
 	            loader.setController(this);
 	            loader.setRoot(this);
 	            loader.load();
@@ -209,12 +209,12 @@ public class ProcedureLayoutPresenter extends Presenter {
 			
 			// loads the template file
 			try {
-	            FXMLLoader loader = new FXMLLoader(getClass().getResource("editor.fxml"));
+	            FXMLLoader loader = new FXMLLoader(getClass().getResource("editlayout.fxml"));
 	            loader.setController(this);
 	            loader.setRoot(this);
 	            loader.load();
 	        } catch (IOException exc) {
-	        	System.err.println("The file editor.fxml was not found!");
+	        	System.err.println("The file editlayout.fxml was not found!");
 	        }
 		}
 		
