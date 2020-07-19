@@ -54,7 +54,7 @@ public class ColorImageProcedurePlugin extends ProcedurePlugin {
     	
     	
     	// set next for chain links
-    	for (int i = 0; i < chainLinks.length - 2; i++) {
+    	for (int i = 0; i < chainLinks.length - 1; i++) {
         	chainLinks[i].setNext(chainLinks[i+1]);
     	}
     	
