@@ -40,7 +40,12 @@ public abstract class ChainLinkPresenter implements IPresenter {
 	 * of this link into the content for the next link
      */
     protected ChainStep nextStep;
-
+    
+    /** The corresponding chain link edit presenter. */
+    protected ChainLinkEditPresenter chainLinkEditPresenter;
+    
+    /** The corresponding chain link header presenter. */
+    protected ChainLinkHeaderPresenter chainLinkHeaderPresenter;
 
     /**
      * ChainLinkPresenter class constructors.
