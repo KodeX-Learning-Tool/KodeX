@@ -3,6 +3,8 @@ import kodex.plugininterface.ProcedurePlugin;
 import kodex.standardplugins.bwimageprocedure.BWImageProcedurePlugin;
 import kodex.standardplugins.colorimageprocedure.ColorImageProcedurePlugin;
 import kodex.standardplugins.greyscaleimageprocedure.GreyScaleImageProcedurePlugin;
+import kodex.standardplugins.qrcode.TextQRCodeProcedurePlugin;
+import kodex.standardplugins.rle.TextRLEProcedurePlugin;
 
 module kodex.KodeX {
     requires javafx.controls;
@@ -20,8 +22,8 @@ module kodex.KodeX {
     exports kodex;
     
     provides Pluginable
-    	with ColorImageProcedurePlugin, BWImageProcedurePlugin, GreyScaleImageProcedurePlugin;
+    	with ColorImageProcedurePlugin, BWImageProcedurePlugin, GreyScaleImageProcedurePlugin, TextQRCodeProcedurePlugin, TextRLEProcedurePlugin;
     
     provides ProcedurePlugin
-    	with ColorImageProcedurePlugin, BWImageProcedurePlugin, GreyScaleImageProcedurePlugin;
+    	with ColorImageProcedurePlugin, BWImageProcedurePlugin, GreyScaleImageProcedurePlugin, TextQRCodeProcedurePlugin, TextRLEProcedurePlugin;
 }
