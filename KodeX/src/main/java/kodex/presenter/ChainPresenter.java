@@ -216,11 +216,9 @@ public class ChainPresenter implements IPresenter {
     	ChainLinkPresenter chainLinkPresenter = firstChainLinkPresenter;
 	
     	// add a newly created chain item for each ChainLinkPresenter
-		int i = 0;
 		while (chainLinkPresenter != null) {
 			chainSplitPane.getItems().add(new ChainItem(chainLinkPresenter));
 			chainLinkPresenter = chainLinkPresenter.getNext();
-			i++;
 		}
 		
     	
