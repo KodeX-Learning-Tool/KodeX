@@ -142,8 +142,13 @@ public abstract class ChainLinkPresenter implements IPresenter {
         int id = calculateID();
         if (id != -1) {
         	mark(id);
-        	markPrev(id);
-        	markNext(id);
+        	if (previous != null) {
+            	previous.markPrev(id);
+        	}
+        	
+        	if (next != null) {
+        		next.markNext(id);
+        	}
         }
     }
     
@@ -162,9 +167,8 @@ public abstract class ChainLinkPresenter implements IPresenter {
      * @param id : representative ID
      */
     public void markPrev(int id) {
-        previous.mark(id);
-        if (previous.getPrev() != null) {
-        	previous = previous.getPrev();
+    	mark(id);
+        if (previous != null) {
         	previous.markPrev(id);
         }
     }
@@ -175,9 +179,8 @@ public abstract class ChainLinkPresenter implements IPresenter {
      * @param id : representative ID
      */
     public void markNext(int id) {
-        next.mark(id);
-        if (next.getNext() != null) {
-        	next = next.getNext();
+        mark(id);
+        if (next != null) {
         	next.markNext(id);
         }
     }
