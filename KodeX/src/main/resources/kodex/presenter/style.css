@@ -175,7 +175,7 @@
 
 .index-page {
 	-fx-background-color: -fx-root-color;
-	-fx-padding: 88 36 36 160;
+	-fx-padding: 88 36 0 160;
 }
 
 .index-page__header__container {
