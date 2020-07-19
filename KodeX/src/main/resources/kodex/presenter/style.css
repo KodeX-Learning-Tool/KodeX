@@ -227,7 +227,6 @@
 	-fx-background-color: -fx-root-color;
 	
 	-fx-pref-columns: 3;
-	-fx-pref-tile-height: 360px;
 	
 	-fx-alignment:  top-left;
 	
@@ -258,6 +257,24 @@
 .index-page__procedure-tile--label {
 	-fx-wrap-text: true;
 	-fx-text-alignment: justify;
+}
+
+/*Procedure Button */
+
+.procedure__button__icon {
+	-fx-alignment: center;
+}
+
+.procedure__button__icon__container {
+	-fx-padding: 32;
+}
+
+.procedure__button .seperator {
+	
+}
+
+.index-page__procedure-tile .label {
+	-fx-padding: 16;
 }
 
 /*Network-Menu*/

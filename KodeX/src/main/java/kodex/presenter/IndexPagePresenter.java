@@ -22,9 +22,10 @@ import kodex.plugininterface.ProcedureInformation;
 import kodex.plugininterface.ProcedurePlugin;
 
 /**
- * This presenter is responsible for the index page. The view displays the all available coding procedures,
- * which can be adjusted by the search or filter/sort function. If a procedure is selected,
- * the ProcedureLayoutPresenter will display its view next.
+ * This presenter is responsible for the index page. The view displays the all
+ * available coding procedures, which can be adjusted by the search or
+ * filter/sort function. If a procedure is selected, the
+ * ProcedureLayoutPresenter will display its view next.
  * 
  * @author Yannick Neubert
  * @author Raimon Gramlich
@@ -33,168 +34,194 @@ import kodex.plugininterface.ProcedurePlugin;
  */
 public class IndexPagePresenter extends Presenter {
 
-    /** The List of procedures which will be displayed on the index page.*/
+    /** The List of procedures which will be displayed on the index page. */
     private ObservableList<ProcedurePlugin> selectedProcedures;
-    
+
     /** A Label displaying the page title. */
     @FXML
     private Label lblHeader;
-    
+
     /** A TextField which allows the user to input search terms. */
-	@FXML
-	private TextField searchTextField;
-	
-	/** A ComboBox for choosing categories for sorting or filtering the diplayed procedures. */
-	@FXML
-	private ComboBox<Filter> filterComboBox;
-	
-	/** ProcedureButtons, to be shown on the index page, will be dynamically added to this TilePane. */
-	@FXML
-	private TilePane procedureButtonPane;
-	
-	/** Allows the creation of other presenter to which the IndexPagePresenter can switch with. */
-	private PresenterFactory presenterFactory;
-	
-	/** Represents the model which stores the data for this presenter. */
-	private IndexPage indexPage;
-	
+    @FXML
+    private TextField searchTextField;
+
     /**
-     * Creates a new IndexPagePresenter with references to a PresenterManger 
-     * and a PresenterFactory.
+     * A ComboBox for choosing categories for sorting or filtering the diplayed
+     * procedures.
+     */
+    @FXML
+    private ComboBox<Filter> filterComboBox;
+
+    /**
+     * ProcedureButtons, to be shown on the index page, will be dynamically added to
+     * this TilePane.
+     */
+    @FXML
+    private TilePane procedureButtonPane;
+
+    /**
+     * Allows the creation of other presenter to which the IndexPagePresenter can
+     * switch with.
+     */
+    private PresenterFactory presenterFactory;
+
+    /** Represents the model which stores the data for this presenter. */
+    private IndexPage indexPage;
+
+    /**
+     * Creates a new IndexPagePresenter with references to a PresenterManger and a
+     * PresenterFactory.
      * 
      * @param pm : The reference to the PresenterManger.
      * @param pf : The reference to the PresenterFactory.
      */
     public IndexPagePresenter(PresenterManager pm, PresenterFactory pf) {
-    	super(pm, "indexpage");
-    	this.presenterFactory = pf;
+        super(pm, "indexpage");
+        this.presenterFactory = pf;
     }
-    
+
     /**
      * Initializes the view-object created by the FXMLLoader.
      * 
-     * @throws IOException is thrown when the fxml file couldn't get loaded properly.
+     * @throws IOException is thrown when the fxml file couldn't get loaded
+     *                     properly.
      */
-	@FXML
-	private void initialize() {
-	    this.indexPage = new IndexPage();
-	    
-	    //
-	    lblHeader.textProperty().bind(I18N.createStringBinding("indexpage.header"));
-	    searchTextField.promptTextProperty().bind(I18N.createStringBinding("indexpage.searchbar.prompt"));
-	    filterComboBox.promptTextProperty().bind(I18N.createStringBinding("indexpage.filterbox.prompt"));
-	    
-	    // get procedures unordered and unfiltered
-	    selectedProcedures = indexPage.filterProcedures(Filter.NO_FILTER);
-	    
-	    // initialize combo box items	    
-	    filterComboBox.setItems(FXCollections.observableArrayList(Filter.values()));
-	    
-	    
-	    // determines the how each item is displayed in the combo box
-	    Callback<ListView<Filter>, ListCell<Filter>> cellFactory = new Callback<ListView<Filter>, ListCell<Filter>>() {
-	        @Override
-	        public ListCell<Filter > call(ListView<Filter > p) {
-	        	return new ListCell<Filter>() {
-	                @Override
-	                protected void updateItem(Filter item, boolean empty) {
-	                    super.updateItem(item, empty);
-	                    if (empty) {
-	                        setText("");
-	                    } else {
-	                        setText(item.toString());
-	                    }
-	                }
-	            };
-	        }
-	    };
-	    
-	    filterComboBox.setCellFactory(cellFactory);
-	    filterComboBox.setButtonCell(cellFactory.call(null));
+    @FXML
+    private void initialize() {
+        this.indexPage = new IndexPage();
 
-		// adds the ProcedureButtons for each enabled procedure plugin
-	    createProcedureButtons();
-	}
-    
-	/**
-	 * This class represents a single procedure button. It loads a template via fxml
-	 * file and fills it with the information it has gotten from an instance of the 
-	 * ProcedureInformation class.
-	 * 
-	 * @author Raimon Gramlich
-	 * 
-	 * @version 1.0
-	 */
-	private class ProcedureButton extends VBox {
-			
-			/** The Label for displaying the procedure name.*/
-			@FXML
-			private Label procedureLabel;
-			
-			/** The ImageView for displaying the procedure icon.*/
-			@FXML
-			private ImageView procedureIcon;
-			
-			/** The procedure which this button represents.*/
-			private ProcedurePlugin procedure;
-			
-			/** The information regarding the procedure.*/
-			private ProcedureInformation procedureInformation;
-			
-		    /**
-		     * Creates a new ProcedureButton with a reference to a ProcedurePlugin.
-		     * 
-		     * @param procedurePlugin : The reference to the ProcedurePlugin.
-		     */
-			ProcedureButton(ProcedurePlugin procedurePlugin) {
-				
-				this.procedure = procedurePlugin;
-				this.procedureInformation = procedurePlugin.createProcedureInformation();
-				
-				// loads the template
-				try {
-		            FXMLLoader loader = new FXMLLoader(getClass().getResource("procedurebuttontemplate.fxml"));
-		            loader.setController(this);
-		            loader.setRoot(this);
-		            loader.load();
-		        } catch (IOException exc) {
-		            exc.printStackTrace();
-		        }
-				
-				procedureLabel.setText(procedureInformation.getName());
-				procedureIcon.setImage(procedureInformation.getIcon());
-			}
-			
-		    /**
-		     * Gets called when the user clicks on a ProcedureButton. Switches the active presenter and 
-		     * gives the reference of the procedure it represents to the PresenterManager. 
-		     */
-			@FXML
-			private void handleProcedureSelected() {
-				presenterManager.updateSideMenuView(SideMenuTypes.MINI_MENU);
-				presenterManager.updatePresenter(presenterFactory.createProcedureLayoutPresenter(procedure));
-			}
-	 }
+        //
+        lblHeader.textProperty().bind(I18N.createStringBinding("indexpage.header"));
+        searchTextField.promptTextProperty().bind(I18N.createStringBinding("indexpage.searchbar.prompt"));
+        filterComboBox.promptTextProperty().bind(I18N.createStringBinding("indexpage.filterbox.prompt"));
+
+        // get procedures unordered and unfiltered
+        selectedProcedures = indexPage.filterProcedures(Filter.NO_FILTER);
+
+        // initialize combo box items
+        filterComboBox.setItems(FXCollections.observableArrayList(Filter.values()));
+
+        // determines the how each item is displayed in the combo box
+        Callback<ListView<Filter>, ListCell<Filter>> cellFactory = new Callback<ListView<Filter>, ListCell<Filter>>() {
+            @Override
+            public ListCell<Filter> call(ListView<Filter> p) {
+                return new ListCell<Filter>() {
+                    @Override
+                    protected void updateItem(Filter item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setText("");
+                        } else {
+                            setText(item.toString());
+                        }
+                    }
+                };
+            }
+        };
+
+        filterComboBox.setCellFactory(cellFactory);
+        filterComboBox.setButtonCell(cellFactory.call(null));
+
+        // adds the ProcedureButtons for each enabled procedure plugin
+        createProcedureButtons();
+    }
 
     /**
-     * Gets called when the user writes something in the search text field. 
+     * This class represents a single procedure button. It loads a template via fxml
+     * file and fills it with the information it has gotten from an instance of the
+     * ProcedureInformation class.
+     * 
+     * @author Raimon Gramlich
+     * 
+     * @version 1.0
      */
-	@FXML
-	private void handleSearch() {
+    private class ProcedureButton extends VBox {
+
+        /** The width for all procedure images. */
+        private static final int IMAGE_WIDTH = 240;
+
+        /** The height for all procedure images. */
+        private static final int IMAGE_HEIGHT = 240;
+
+        /** The Label for displaying the procedure name. */
+        @FXML
+        private Label procedureLabel;
+
+        /** The ImageView for displaying the procedure icon. */
+        @FXML
+        private ImageView procedureIcon;
+
+        /** The procedure which this button represents. */
+        private ProcedurePlugin procedure;
+
+        /** The information regarding the procedure. */
+        private ProcedureInformation procedureInformation;
+
+        /**
+         * Creates a new ProcedureButton with a reference to a ProcedurePlugin.
+         * 
+         * @param procedurePlugin : The reference to the ProcedurePlugin.
+         */
+        ProcedureButton(ProcedurePlugin procedurePlugin) {
+
+            this.procedure = procedurePlugin;
+            this.procedureInformation = procedurePlugin.createProcedureInformation();
+
+            // loads the template
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("procedurebuttontemplate.fxml"));
+                loader.setController(this);
+                loader.setRoot(this);
+                loader.load();
+            } catch (IOException exc) {
+                exc.printStackTrace();
+            }
+
+            procedureLabel.setText(procedureInformation.getName());
+            procedureIcon.setImage(procedureInformation.getIcon());
+
+            procedureIcon.setFitHeight(IMAGE_HEIGHT);
+            procedureIcon.setFitWidth(IMAGE_WIDTH);
+
+            /*
+             * When fit width and height are both set, preserveRatio will try to create the
+             * best fit for the image into the width and height "box" created by fit width
+             * and height while keeping the aspect ratio
+             */
+            procedureIcon.setPreserveRatio(true);
+        }
+
+        /**
+         * Gets called when the user clicks on a ProcedureButton. Switches the active
+         * presenter and gives the reference of the procedure it represents to the
+         * PresenterManager.
+         */
+        @FXML
+        private void handleProcedureSelected() {
+            presenterManager.updateSideMenuView(SideMenuTypes.MINI_MENU);
+            presenterManager.updatePresenter(presenterFactory.createProcedureLayoutPresenter(procedure));
+        }
+    }
+
+    /**
+     * Gets called when the user writes something in the search text field.
+     */
+    @FXML
+    private void handleSearch() {
         searchProcedures(searchTextField.getText());
     }
 
     /**
-     * Gets called when the user selects an item in the combo box. 
+     * Gets called when the user selects an item in the combo box.
      */
-	@FXML
-	private void handleFilterSelected() {
+    @FXML
+    private void handleFilterSelected() {
         filterProcedures(filterComboBox.getSelectionModel().getSelectedItem());
     }
 
     /**
-     * Searches in the list of enabled procedure plugins for a procedure name
-     * which matches the given term.
+     * Searches in the list of enabled procedure plugins for a procedure name which
+     * matches the given term.
      * 
      * @param searchTerm : The search term
      */
@@ -203,22 +230,23 @@ public class IndexPagePresenter extends Presenter {
     }
 
     /**
-     * Filters or sorts the list of enabled procedure plugins
-     * according to the selected filter.
+     * Filters or sorts the list of enabled procedure plugins according to the
+     * selected filter.
+     * 
      * @param filter : The selected filter.
      */
     private void filterProcedures(Filter filter) {
-    	selectedProcedures = indexPage.filterProcedures(filter);
+        selectedProcedures = indexPage.filterProcedures(filter);
     }
-    
+
     /**
      * Creates and adds all ProceduresButtons to the index page view.
      *
      * @param filter : The selected filter.
      */
     private void createProcedureButtons() {
-		for (ProcedurePlugin procedure: selectedProcedures) {
-			procedureButtonPane.getChildren().add(new ProcedureButton(procedure));
-		}	
+        for (ProcedurePlugin procedure : selectedProcedures) {
+            procedureButtonPane.getChildren().add(new ProcedureButton(procedure));
+        }
     }
 }
