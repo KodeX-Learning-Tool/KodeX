@@ -144,7 +144,11 @@ public class DefaultSettings extends Settings {
      * @param path : desired default path
      */
     public void setDefaultPath(String path) {
-        DefaultSettings.defaultPath = path;
+        if (path.isEmpty()) {
+        	DefaultSettings.defaultPath = System.getProperty("user.home");
+        } else {
+            DefaultSettings.defaultPath = path;
+        }
     	prop.setProperty("path", defaultPath);
         storeUserProperties();
     }

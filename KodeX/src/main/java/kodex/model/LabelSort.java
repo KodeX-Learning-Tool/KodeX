@@ -38,9 +38,8 @@ public class LabelSort implements FilterStrategy {
 		Collections.sort(selectedProcedures); //alphabetical sort
 		
 		for (ProcedurePlugin plugin : selectedProcedures) {
-			if (plugin.createProcedureInformation().getLabels().get(0).isEmpty() || 
+			if (plugin.createProcedureInformation().getLabels().isEmpty()|| 
 					!isNumber(plugin.createProcedureInformation().getLabels().get(0))) {
-				selectedProcedures.remove(plugin);
 				noLabel.add(plugin);
 			}
 			else {
