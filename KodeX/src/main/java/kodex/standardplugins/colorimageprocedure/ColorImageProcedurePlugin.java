@@ -35,8 +35,7 @@ public class ColorImageProcedurePlugin extends ProcedurePlugin {
      * @return
      */
     public ChainLinkPresenter getChainHead() {
-        // TODO implement here
-        return null;
+        return chainLinks[0];
     }
 
     /**
