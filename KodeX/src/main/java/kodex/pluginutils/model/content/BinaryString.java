@@ -9,12 +9,19 @@ import kodex.plugininterface.Content;
  * Extending AbstractString, it adds validation and exporting capabilities to Javas String.
  */
 public class BinaryString extends AbstractString {
-
+	
     /**
      * Creates a new BinaryString
      */
     public BinaryString() {
     	super.data = "";
+    }
+	
+    /**
+     * Creates a new BinaryString with the given input.
+     */
+    public BinaryString(String input) {
+    	super.data = input;
     }
 
 	@Override

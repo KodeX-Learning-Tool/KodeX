@@ -8,10 +8,10 @@ import kodex.plugininterface.ChainStep;
 /**
  * 
  */
-public class BitStringChainLinkPresenter extends ChainLinkPresenter {
+public class BinaryStringChainLinkPresenter extends ChainLinkPresenter {
 
 
-	public BitStringChainLinkPresenter(ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
+	public BinaryStringChainLinkPresenter(ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
 		super(previous, previousStep, nextStep);
 		// TODO Auto-generated constructor stub
 	}
