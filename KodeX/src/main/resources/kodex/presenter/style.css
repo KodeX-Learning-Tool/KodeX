@@ -178,10 +178,16 @@
 	-fx-padding: 88 36 36 160;
 }
 
-.index-page__header { }
+.index-page__header__container {
+	-fx-max-width: 960;
+}
 
 .index-page__header__spring {
 	-fx-min-width: 40;
+}
+
+.index-page__top__spring {
+	-fx-pref-height: 24;
 }
 
 .index-page__header__control__spring {
@@ -219,12 +225,14 @@
 
 .index-page__procedures-container {
 	-fx-background-color: -fx-root-color;
+	
 	-fx-pref-columns: 3;
-	-fx-pref-tile-height: 400px;
-	-fx-alignment: center;
-	-fx-tile-alignment: center;
-	-fx-vgap: 10px;
-	-fx-hgap: 10px;
+	-fx-pref-tile-height: 360px;
+	
+	-fx-alignment:  top-left;
+	
+	-fx-vgap: 24px;
+	-fx-hgap: 24px;
 }
 
 .index-page__procedure-tile {

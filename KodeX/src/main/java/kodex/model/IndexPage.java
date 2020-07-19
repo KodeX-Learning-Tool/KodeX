@@ -1,5 +1,9 @@
 package kodex.model;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 import javafx.collections.FXCollections;
@@ -94,7 +98,43 @@ public class IndexPage {
      * @param plugin : The procedure whose relevance should be increased
      */
     public void increaseRelevancy(ProcedurePlugin plugin) {
-        // TODO implement here
+    	String url = "sorting_relevancy.properties";
+    	InputStream input = getClass().getResourceAsStream(url);
+    	Properties prop = new Properties();;
+    	
+    	try {
+			prop.load(input);
+			
+			//plugin already stored in property file
+			if (prop.getProperty(plugin.createProcedureInformation().getName()) != null) {
+				int value = Integer.valueOf(prop.getProperty(plugin.createProcedureInformation().getName()));
+				prop.setProperty(plugin.createProcedureInformation().getName(), String.valueOf(value + 1));
+			} 
+			//plugin not stored in property file --> first call
+			else {
+				prop.setProperty(plugin.createProcedureInformation().getName(), String.valueOf(1));
+			}
+			
+			storeProperties(prop);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    
+    /*
+     * Stores changed properties
+     */
+    private void storeProperties(Properties prop) {
+    	try {
+			prop.store(new FileOutputStream(getClass().getResource("").getPath()
+					+ "/sorting_relevancy.properties"), null);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
 }
