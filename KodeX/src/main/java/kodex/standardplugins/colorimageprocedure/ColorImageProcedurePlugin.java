@@ -5,6 +5,15 @@ import javafx.beans.property.SimpleStringProperty;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.Content;
 import kodex.plugininterface.ProcedurePlugin;
+import kodex.pluginutils.model.steps.ColorImageToRGBMatrix;
+import kodex.pluginutils.model.steps.RGBByteListToBinaryString;
+import kodex.pluginutils.model.steps.RGBListToRGBByteList;
+import kodex.pluginutils.model.steps.RGBMatrixToRGBList;
+import kodex.pluginutils.presenter.chainlink.BinaryStringChainLinkPresenter;
+import kodex.pluginutils.presenter.chainlink.ColorImageChainLinkPresenter;
+import kodex.pluginutils.presenter.chainlink.RGBByteListChainLinkPresenter;
+import kodex.pluginutils.presenter.chainlink.RGBListChainLinkPresenter;
+import kodex.pluginutils.presenter.chainlink.RGBMatrixChainLinkPresenter;
 import kodex.standardplugins.colorimageprocedure.presenter.ColorImageImportPresenter;
 
 /**
@@ -28,6 +37,27 @@ public class ColorImageProcedurePlugin extends ProcedurePlugin {
     public ColorImageProcedurePlugin() {
     	this.pluginName = new SimpleStringProperty("Farbbildverfahrensplugin");
     	this.pluginDescription = new SimpleStringProperty("Das Kodierungsverfahren Bild-zu-Bitfolge.");
+    	
+    	this.chainLinks = new ChainLinkPresenter[5];
+    	
+    	ColorImageToRGBMatrix colorImageToRGBMatrix = new ColorImageToRGBMatrix();
+    	RGBMatrixToRGBList rgbMatrixToRGBList = new RGBMatrixToRGBList();
+    	RGBListToRGBByteList rgbListToRGBByteList = new RGBListToRGBByteList();
+    	RGBByteListToBinaryString rgbByteListToBinaryString = new RGBByteListToBinaryString();
+    	
+    	
+    	chainLinks[0] = new ColorImageChainLinkPresenter(null, null, colorImageToRGBMatrix);
+    	chainLinks[1] = new RGBMatrixChainLinkPresenter(chainLinks[0], colorImageToRGBMatrix, rgbMatrixToRGBList);
+    	chainLinks[2] = new RGBListChainLinkPresenter(chainLinks[1], rgbMatrixToRGBList, rgbListToRGBByteList);
+    	chainLinks[3] = new RGBByteListChainLinkPresenter(chainLinks[2], rgbListToRGBByteList, rgbByteListToBinaryString);
+    	chainLinks[4] = new BinaryStringChainLinkPresenter(chainLinks[3], rgbByteListToBinaryString, null);
+    	
+    	
+    	// set next for chain links
+    	for (int i = 0; i < chainLinks.length - 2; i++) {
+        	chainLinks[i].setNext(chainLinks[i+1]);
+    	}
+    	
     }
 
     /**
@@ -41,14 +71,14 @@ public class ColorImageProcedurePlugin extends ProcedurePlugin {
      * @param content
      */
     public void initEncodeProcedure(Content content) {
-        // TODO implement here
+    	chainLinks[0].setContent(content);
     }
 
     /**
      * @param content
      */
     public void initDecodeProcedure(Content content) {
-        // TODO implement here
+        chainLinks[chainLinks.length-1].setContent(content);
     }
 
     /**
