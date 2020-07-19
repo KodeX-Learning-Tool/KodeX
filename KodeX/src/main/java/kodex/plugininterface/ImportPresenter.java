@@ -24,6 +24,9 @@ public abstract class ImportPresenter implements IPresenter {
 	
 	/* Specific plugin the import presenter is created for */
 	protected ProcedurePlugin plugin;
+	
+	/** The reference to the procedure layout presenter. */
+	protected ProcedureLayoutPresenter procedureLayoutPresenter;
 
     /**
 	 * Constructor in which the ProcedurePlugin is passed in order to be 
@@ -63,7 +66,7 @@ public abstract class ImportPresenter implements IPresenter {
      * @param plp : LayoutPresenter to be set
      */
     public void setLayoutPresenter(ProcedureLayoutPresenter plp) {
-        // TODO implement here
+    	procedureLayoutPresenter = plp;
     }
 
     /**
