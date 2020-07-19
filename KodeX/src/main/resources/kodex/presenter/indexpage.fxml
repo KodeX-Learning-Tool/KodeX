@@ -16,44 +16,48 @@
    <children>
       <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <BorderPane styleClass="index-page__header">
-               <left>
-                  <Label fx:id="lblHeader" styleClass="default-page-title" BorderPane.alignment="CENTER" />
-               </left>
-               <center>
-                  <Region styleClass="index-page__header__spring" BorderPane.alignment="CENTER" />
-               </center>
-               <right>
-                  <HBox styleClass="index-page__header__control" BorderPane.alignment="CENTER">
-                     <children>
-                        <HBox>
+            <VBox styleClass="index-page__header__container">
+               <children>
+                  <BorderPane styleClass="index-page__header">
+                     <left>
+                        <Label fx:id="lblHeader" styleClass="default-page-title" BorderPane.alignment="CENTER" />
+                     </left>
+                     <center>
+                        <Region styleClass="index-page__header__spring" BorderPane.alignment="CENTER" />
+                     </center>
+                     <right>
+                        <HBox styleClass="index-page__header__control" BorderPane.alignment="CENTER">
                            <children>
-                              <AnchorPane>
+                              <HBox>
                                  <children>
-                                    <TextField fx:id="searchTextField" layoutX="3.0" layoutY="2.0" onKeyTyped="#handleSearch" styleClass="network__controll__input__text-field" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <AnchorPane>
+                                       <children>
+                                          <TextField fx:id="searchTextField" layoutX="3.0" layoutY="2.0" onKeyTyped="#handleSearch" styleClass="network__controll__input__text-field" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane>
+                                       <children>
+                                          <Label prefWidth="24.0" styleClass="index-page__header__search-label" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <graphic>
+                                                <FontIcon iconLiteral="mdi-magnify" iconSize="24" />
+                                             </graphic>
+                                          </Label>
+                                       </children>
+                                    </AnchorPane>
                                  </children>
-                              </AnchorPane>
+                              </HBox>
+                              <Region styleClass="index-page__header__control__spring" />
                               <AnchorPane>
                                  <children>
-                                    <Label prefWidth="24.0" styleClass="index-page__header__search-label" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <graphic>
-                                          <FontIcon iconLiteral="mdi-magnify" iconSize="24" />
-                                       </graphic>
-                                    </Label>
+                                    <ComboBox fx:id="filterComboBox" layoutX="3.0" layoutY="2.0" onAction="#handleFilterSelected" styleClass="default-choice-box--shadow" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                               </AnchorPane>
                            </children>
                         </HBox>
-                        <Region styleClass="index-page__header__control__spring" />
-                        <AnchorPane>
-                           <children>
-                              <ComboBox fx:id="filterComboBox" layoutX="3.0" layoutY="2.0" onAction="#handleFilterSelected" styleClass="default-choice-box--shadow" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                           </children>
-                        </AnchorPane>
-                     </children>
-                  </HBox>
-               </right>
-            </BorderPane>
+                     </right>
+                  </BorderPane>
+               </children>
+            </VBox>
             <Region styleClass="index-page__top__spring" />
             <BorderPane VBox.vgrow="ALWAYS">
                <center>

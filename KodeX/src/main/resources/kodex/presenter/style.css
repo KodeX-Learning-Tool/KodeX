@@ -178,7 +178,9 @@
 	-fx-padding: 88 36 36 160;
 }
 
-.index-page__header { }
+.index-page__header__container {
+	-fx-max-width: 960;
+}
 
 .index-page__header__spring {
 	-fx-min-width: 40;
