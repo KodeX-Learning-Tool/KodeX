@@ -18,18 +18,18 @@ import kodex.standardplugins.colorimageprocedure.presenter.ColorImageImportPrese
 public class ColorImageProcedurePlugin extends ProcedurePlugin {
 	
     /**
+     * 
+     */
+    private ChainLinkPresenter[] chainLinks; // [2..*]
+
+	
+    /**
      * Creates a new instance of the ColorImageProcedurePlugin.
      */
     public ColorImageProcedurePlugin() {
     	this.pluginName = new SimpleStringProperty("Farbbildverfahrensplugin");
     	this.pluginDescription = new SimpleStringProperty("Das Kodierungsverfahren Bild-zu-Bitfolge.");
     }
-
-    /**
-     * 
-     */
-    private ChainLinkPresenter[] chainLinks; // [2..*]
-
 
     /**
      * @return
