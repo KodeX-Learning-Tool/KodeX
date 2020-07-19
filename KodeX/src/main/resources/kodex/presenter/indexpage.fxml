@@ -16,62 +16,58 @@
    <children>
       <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane>
-               <children>
-                  <BorderPane styleClass="index-page__header" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <left>
-                        <Label fx:id="lblHeader" styleClass="default-page-title" BorderPane.alignment="CENTER" />
-                     </left>
-                     <center>
-                        <Region styleClass="index-page__header__spring" BorderPane.alignment="CENTER" />
-                     </center>
-                     <right>
-                        <HBox styleClass="index-page__header__control" BorderPane.alignment="CENTER">
+            <BorderPane styleClass="index-page__header">
+               <left>
+                  <Label fx:id="lblHeader" styleClass="default-page-title" BorderPane.alignment="CENTER" />
+               </left>
+               <center>
+                  <Region styleClass="index-page__header__spring" BorderPane.alignment="CENTER" />
+               </center>
+               <right>
+                  <HBox styleClass="index-page__header__control" BorderPane.alignment="CENTER">
+                     <children>
+                        <HBox>
                            <children>
-                              <HBox>
-                                 <children>
-                                    <AnchorPane>
-                                       <children>
-                                          <TextField fx:id="searchTextField" layoutX="3.0" layoutY="2.0" onKeyTyped="#handleSearch" styleClass="network__controll__input__text-field" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                       </children>
-                                    </AnchorPane>
-                                    <AnchorPane>
-                                       <children>
-                                          <Label prefWidth="24.0" styleClass="index-page__header__search-label" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                             <graphic>
-                                                <FontIcon iconLiteral="mdi-magnify" iconSize="24" />
-                                             </graphic>
-                                          </Label>
-                                       </children>
-                                    </AnchorPane>
-                                 </children>
-                              </HBox>
-                              <Region styleClass="index-page__header__control__spring" />
                               <AnchorPane>
                                  <children>
-                                    <ComboBox fx:id="filterComboBox" layoutX="3.0" layoutY="2.0" onAction="#handleFilterSelected" styleClass="default-choice-box--shadow" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <TextField fx:id="searchTextField" layoutX="3.0" layoutY="2.0" onKeyTyped="#handleSearch" styleClass="network__controll__input__text-field" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane>
+                                 <children>
+                                    <Label prefWidth="24.0" styleClass="index-page__header__search-label" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <graphic>
+                                          <FontIcon iconLiteral="mdi-magnify" iconSize="24" />
+                                       </graphic>
+                                    </Label>
                                  </children>
                               </AnchorPane>
                            </children>
                         </HBox>
-                     </right>
-                  </BorderPane>
-               </children>
-            </AnchorPane>
-            <Region />
-            <AnchorPane>
-               <children>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" pannable="true" styleClass="index-page__scroll-pane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <content>
+                        <Region styleClass="index-page__header__control__spring" />
                         <AnchorPane>
                            <children>
-                              <TilePane fx:id="procedureButtonPane" styleClass="index-page__procedures-container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <ComboBox fx:id="filterComboBox" layoutX="3.0" layoutY="2.0" onAction="#handleFilterSelected" styleClass="default-choice-box--shadow" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children>
                         </AnchorPane>
+                     </children>
+                  </HBox>
+               </right>
+            </BorderPane>
+            <Region styleClass="index-page__top__spring" />
+            <BorderPane VBox.vgrow="ALWAYS">
+               <center>
+                  <ScrollPane fitToWidth="true" hbarPolicy="NEVER" pannable="true" styleClass="index-page__scroll-pane">
+                     <content>
+                        <BorderPane styleClass="vbooooox">
+                           <center>
+                              <TilePane fx:id="procedureButtonPane" styleClass="index-page__procedures-container" />
+                           </center>
+                        </BorderPane>
                      </content>
                   </ScrollPane>
-               </children>
-            </AnchorPane>
+               </center>
+            </BorderPane>
          </children>
       </VBox>
    </children>
