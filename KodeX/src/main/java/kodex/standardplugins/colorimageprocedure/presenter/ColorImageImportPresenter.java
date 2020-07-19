@@ -62,33 +62,37 @@ public class ColorImageImportPresenter extends ImportPresenter {
 	public void handleEncodeImport() {
 		File file = importFile("Kodieren");
 		
-	    //Creating an image 
-	    Image image = new Image(file.getPath()); 
-	    int width = (int)image.getWidth(); 
-	    int height = (int)image.getHeight(); 
-	        
-	    //Creating a writable image 
-	    WritableImage writableImage = new WritableImage(width, height); 
-	         
-	    //Reading color from the loaded image 
-	    PixelReader pixelReader = image.getPixelReader();
-	    
-	    //getting the pixel writer 
-	    PixelWriter writer = writableImage.getPixelWriter();           
-	      
-	    //Reading the color of the image 
-	    for(int y = 0; y < height; y++) { 
-	       for(int x = 0; x < width; x++) { 
-	          //Retrieving the color of the pixel of the loaded image   
-	          Color color = pixelReader.getColor(x, y); 
-	              
-	          //Setting the color to the writable image 
-	          writer.setColor(x, y, color.darker());              
-	       }
-	    }	
-		
-		if (validateEncodeImport()) {
-			plugin.initEncodeProcedure(new ColorImage(writableImage));
+		if (file != null) {
+		    //Creating an image 			
+		    Image image = new Image(file.toURI().toString()); 
+		    int width = (int)image.getWidth(); 
+		    int height = (int)image.getHeight(); 
+		        
+		    //Creating a writable image 
+		   writableImage = new WritableImage(width, height); 
+		         
+		    //Reading color from the loaded image 
+		    PixelReader pixelReader = image.getPixelReader();
+		    
+		    //getting the pixel writer 
+		    PixelWriter writer = writableImage.getPixelWriter();           
+		      
+		    //Reading the color of the image 
+		    for(int y = 0; y < height; y++) { 
+		       for(int x = 0; x < width; x++) { 
+		          //Retrieving the color of the pixel of the loaded image   
+		          Color color = pixelReader.getColor(x, y); 
+		              
+		          //Setting the color to the writable image 
+		          writer.setColor(x, y, color.darker());              
+		       }
+		    }	
+			
+			if (validateEncodeImport()) {
+				plugin.initEncodeProcedure(new ColorImage(writableImage));
+				
+				procedureLayoutPresenter.switchToChainPresenter();
+			}
 		}
 
 	}
@@ -97,14 +101,16 @@ public class ColorImageImportPresenter extends ImportPresenter {
 	public void handleDecodeImport() {
 		File file = importFile("Dekodieren");
 		
-		try {
-			binaryString = Files.readString(file.toPath());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		if (validateDecodeImport()) {
+		if (file != null) {
+			// reads the string from the file
+			try {
+				binaryString = Files.readString(file.toPath());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			
+			if (validateDecodeImport()) {
+			}
 		}
 	}
 
