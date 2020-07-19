@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <fx:root onMouseClicked="#handleProcedureSelected" styleClass="index-page__procedure-tile" stylesheets="@style.css" type="VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fx:id="procedureIcon" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-      <Region prefHeight="200.0" prefWidth="200.0" />
-      <Label fx:id="procedureLabel" styleClass="index-page__procedure-tile--label" text="Button" />
+      <StackPane styleClass="procedure__button__icon__container">
+         <children>
+            <ImageView fx:id="procedureIcon" pickOnBounds="true" preserveRatio="true" styleClass="procedure__button__icon" />
+         </children>
+      </StackPane>
+      <Separator />
+      <Label fx:id="procedureLabel" text="Button" />
    </children>
 </fx:root>
