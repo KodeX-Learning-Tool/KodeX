@@ -5,11 +5,16 @@ import java.io.IOException;
 import java.nio.file.Files;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
+import kodex.pluginutils.model.content.ColorImage;
 
 /**
  * This class imports an image for encoding or a binary string for decoding.
@@ -57,10 +62,33 @@ public class ColorImageImportPresenter extends ImportPresenter {
 	public void handleEncodeImport() {
 		File file = importFile("Kodieren");
 		
-		image = new Image(file.getPath());
+	    //Creating an image 
+	    Image image = new Image(file.getPath()); 
+	    int width = (int)image.getWidth(); 
+	    int height = (int)image.getHeight(); 
+	        
+	    //Creating a writable image 
+	    WritableImage writableImage = new WritableImage(width, height); 
+	         
+	    //Reading color from the loaded image 
+	    PixelReader pixelReader = image.getPixelReader();
+	    
+	    //getting the pixel writer 
+	    PixelWriter writer = writableImage.getPixelWriter();           
+	      
+	    //Reading the color of the image 
+	    for(int y = 0; y < height; y++) { 
+	       for(int x = 0; x < width; x++) { 
+	          //Retrieving the color of the pixel of the loaded image   
+	          Color color = pixelReader.getColor(x, y); 
+	              
+	          //Setting the color to the writable image 
+	          writer.setColor(x, y, color.darker());              
+	       }
+	    }	
 		
 		if (validateEncodeImport()) {
-			
+			plugin.initEncodeProcedure(new ColorImage(writableImage));
 		}
 	}
 
