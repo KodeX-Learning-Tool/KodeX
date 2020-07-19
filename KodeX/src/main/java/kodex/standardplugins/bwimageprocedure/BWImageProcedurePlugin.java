@@ -38,9 +38,6 @@ public class BWImageProcedurePlugin extends ProcedurePlugin {
      * Constructor of class BWImageProecedure. Sets all chainLinks
      */
     public  BWImageProcedurePlugin() {
-    	this.pluginName = new SimpleStringProperty("Schwarz & Weiß Bild");
-    	this.pluginDescription = new SimpleStringProperty("Verfahren");
-    	
     	chainLinks = new ChainLinkPresenter[5];
     }
 
@@ -72,4 +69,14 @@ public class BWImageProcedurePlugin extends ProcedurePlugin {
 	public ImportPresenter createImportPresenter() {
 		return new BWImageImportPresenter(this);
 	}
+
+    @Override
+    public StringProperty pluginNameProperty() {
+        return new SimpleStringProperty("Schwarz & Weiß Bild");
+    }
+
+    @Override
+    public StringProperty pluginDescriptionProperty() {
+        return new SimpleStringProperty("Verfahren");
+    }
 }
