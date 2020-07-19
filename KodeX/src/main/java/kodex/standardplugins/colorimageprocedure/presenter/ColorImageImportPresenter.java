@@ -14,6 +14,7 @@ import javafx.stage.FileChooser;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
+import kodex.pluginutils.model.content.BinaryString;
 import kodex.pluginutils.model.content.ColorImage;
 
 /**
@@ -110,6 +111,9 @@ public class ColorImageImportPresenter extends ImportPresenter {
 			}
 			
 			if (validateDecodeImport()) {
+				plugin.initDecodeProcedure(new BinaryString(binaryString));
+				
+				procedureLayoutPresenter.switchToChainPresenter();
 			}
 		}
 	}
