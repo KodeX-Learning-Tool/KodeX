@@ -67,7 +67,7 @@ public abstract class ChainLinkPresenter implements IPresenter {
      * @return ChainLinkEditPresenter of this link
      */
     public ChainLinkEditPresenter getChainLinkEditPresenter() {
-        return null;
+        return chainLinkEditPresenter;
     }
 
     /**
@@ -76,7 +76,7 @@ public abstract class ChainLinkPresenter implements IPresenter {
      * @return View of the ChainLinkHeaderPresenter
      */
     public Pane getChainLinkHeaderView() {
-        return null;
+        return chainLinkHeaderPresenter.getView();
     }
 
     /**
