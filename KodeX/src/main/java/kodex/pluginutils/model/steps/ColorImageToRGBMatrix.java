@@ -40,8 +40,20 @@ public class ColorImageToRGBMatrix extends ChainStep {
 
 	@Override
 	public void decode(Content right, Content left) {
-		// TODO Auto-generated method stub
+		System.out.println("Decoding RGBMatrix as ColorImage");
+		ColorImage leftimg = (ColorImage) left;
+		RGBMatrix rightmtx = (RGBMatrix) right;
 		
+		int width = (int) rightmtx.getHeader().get("width");
+		int height = (int) rightmtx.getHeader().get("height");
+		leftimg.setSize(width, height);
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				leftimg.setColor(x, y, rightmtx.get(x, y));
+			}
+		}
+		
+		leftimg.setHeader(rightmtx.getHeader());
 	}
 
 }

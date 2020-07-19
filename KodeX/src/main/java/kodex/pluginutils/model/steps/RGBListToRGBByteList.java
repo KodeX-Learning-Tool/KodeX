@@ -34,9 +34,7 @@ public class RGBListToRGBByteList extends ChainStep {
 		}
 		rightlist.setList(rgblist);
 		
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("size", rightlist.size());
-		rightlist.setHeader(map);
+		rightlist.setHeader(leftlist.getHeader());
 	}
 
 	private static String percentToByteString(double input) {
@@ -49,8 +47,19 @@ public class RGBListToRGBByteList extends ChainStep {
 	
 	@Override
 	public void decode(Content right, Content left) {
-		// TODO Auto-generated method stub
+		System.out.println("Decoding RGBByteList as RGBList");
+		RGBList leftlist = (RGBList) left;
+		RGBByteList rightlist = (RGBByteList) right;
 		
+		for (int i = 0; i < rightlist.size() / 3; i++) {
+			int red = Integer.parseInt(rightlist.get(i * 3), 2);
+			int green = Integer.parseInt(rightlist.get(i * 3 + 1), 2);
+			int blue = Integer.parseInt(rightlist.get(i * 3 + 2), 2);
+			Color color = Color.rgb(red, green, blue);
+			leftlist.add(color);
+		} 
+		
+		leftlist.setHeader(rightlist.getHeader());
 	}
 
 

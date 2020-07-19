@@ -32,12 +32,23 @@ public class RGBByteListToBinaryString extends ChainStep {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("length", rightstring.length());
 		rightstring.setHeader(map);
+		
+		rightstring.setHeader(leftlist.getHeader());
 	}
 
 	@Override
 	public void decode(Content right, Content left) {
-		// TODO Auto-generated method stub
+		System.out.println("Decoding BinaryString as RGBByteList");
+		RGBByteList leftlist = (RGBByteList) left;
+		BinaryString rightstring = (BinaryString) right;
 		
+		String input = rightstring.getString();
+		for (int i = 0; i < input.length() / 8; i++) {
+			String rgb = input.substring(i * 8, i * 8 + 8);
+			leftlist.add(rgb);
+		}
+		
+		leftlist.setHeader(rightstring.getHeader());
 	}
 
 
