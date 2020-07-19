@@ -235,23 +235,31 @@
 }
 
 .index-page__procedure-tile {
+	
+	-fx-font-size: 18;
+	
+	-fx-padding: 8;
+	
 	-fx-background-color: -fx-base-color;
-	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 2, 4);
-	-fx-background-radius: 24px;
-	-fx-padding: 5px;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 8, 0, 2, 4);
+	-fx-background-radius: 24;
 	-fx-alignment: center;
-	-fx-max-width: 280px;
-	-fx-min-width: 280px;
 }
 
-.index-page__procedure-tile--selected {
+.index-page__procedure-tile {
+	
+	-fx-font-size: 18;
+	
+	-fx-padding: 8;
+	
 	-fx-background-color: -fx-base-color;
-	-fx-effect: dropshadow(gaussian, rgba(163, 213, 224, 0.25), 10, 0, 4, 8);
-	-fx-background-radius: 24px;
-	-fx-padding: 5px;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 8, 0, 2, 4);
+	-fx-background-radius: 24;
 	-fx-alignment: center;
-	-fx-max-width: 280px;
-	-fx-min-width: 280px;
+}
+
+.index-page__procedure-tile:hover {
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 12, 0, 4, 5);
 }
 
 .index-page__procedure-tile--label {
