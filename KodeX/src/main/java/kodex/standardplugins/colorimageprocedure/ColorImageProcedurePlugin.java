@@ -2,6 +2,7 @@ package kodex.standardplugins.colorimageprocedure;
 
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.Content;
 import kodex.plugininterface.ProcedurePlugin;
@@ -35,9 +36,6 @@ public class ColorImageProcedurePlugin extends ProcedurePlugin {
      * Creates a new instance of the ColorImageProcedurePlugin.
      */
     public ColorImageProcedurePlugin() {
-    	this.pluginName = new SimpleStringProperty("Farbbildverfahrensplugin");
-    	this.pluginDescription = new SimpleStringProperty("Das Kodierungsverfahren Bild-zu-Bitfolge.");
-    	
     	this.chainLinks = new ChainLinkPresenter[5];
     	
     	ColorImageToRGBMatrix colorImageToRGBMatrix = new ColorImageToRGBMatrix();
@@ -93,5 +91,15 @@ public class ColorImageProcedurePlugin extends ProcedurePlugin {
      */
     public ColorImageProcedureInformation createProcedureInformation() {
         return new ColorImageProcedureInformation();
+    }
+
+    @Override
+    public StringProperty pluginNameProperty() {
+        return new SimpleStringProperty("Farbbildverfahrensplugin");
+    }
+
+    @Override
+    public StringProperty pluginDescriptionProperty() {
+        return new SimpleStringProperty("Das Kodierungsverfahren Bild-zu-Bitfolge.");
     }
 }
