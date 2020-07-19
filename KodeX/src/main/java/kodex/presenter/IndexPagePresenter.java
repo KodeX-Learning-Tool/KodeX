@@ -134,6 +134,7 @@ public class IndexPagePresenter extends Presenter {
      * ProcedureInformation class.
      * 
      * @author Raimon Gramlich
+     * @author Leonhard Kraft
      * 
      * @version 1.0
      */
@@ -149,6 +150,7 @@ public class IndexPagePresenter extends Presenter {
         @FXML
         private Label procedureLabel;
         
+        /** The container for the image. */
         @FXML
         private Pane iconContainer;
         
