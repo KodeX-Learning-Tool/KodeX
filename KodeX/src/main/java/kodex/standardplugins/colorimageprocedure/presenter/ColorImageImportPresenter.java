@@ -27,7 +27,7 @@ import kodex.pluginutils.model.content.ColorImage;
 public class ColorImageImportPresenter extends ImportPresenter {
 	
 	/** The image which is imported for encoding. */
-	private Image image;
+	private WritableImage writableImage;
 	
 	/** The binary string which is imported for decoding. */
 	private String binaryString;
@@ -44,7 +44,7 @@ public class ColorImageImportPresenter extends ImportPresenter {
 
 	@Override
 	public boolean validateEncodeImport() {
-		return plugin.getChainHead().getContent().isValid(image);
+		return plugin.getChainHead().getContent().isValid(writableImage);
 	}
 
 	@Override
@@ -90,6 +90,7 @@ public class ColorImageImportPresenter extends ImportPresenter {
 		if (validateEncodeImport()) {
 			plugin.initEncodeProcedure(new ColorImage(writableImage));
 		}
+
 	}
 
 	@Override
