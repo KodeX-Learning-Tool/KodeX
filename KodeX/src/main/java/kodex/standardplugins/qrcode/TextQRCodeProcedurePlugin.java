@@ -1,6 +1,7 @@
 package kodex.standardplugins.qrcode;
 
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.Content;
@@ -26,14 +27,12 @@ public class TextQRCodeProcedurePlugin extends ProcedurePlugin {
 
     @Override
     public StringProperty pluginNameProperty() {
-        // TODO Auto-generated method stub
-        return null;
+        return new SimpleStringProperty("QR-Code");
     }
 
     @Override
     public StringProperty pluginDescriptionProperty() {
-        // TODO Auto-generated method stub
-        return null;
+        return new SimpleStringProperty("Verfahren");
     }
 
     @Override

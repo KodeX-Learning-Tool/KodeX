@@ -1,6 +1,7 @@
 package kodex.standardplugins.rle;
 
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.Content;
@@ -26,14 +27,12 @@ public class TextRLEProcedurePlugin extends ProcedurePlugin {
 
     @Override
     public StringProperty pluginNameProperty() {
-        // TODO Auto-generated method stub
-        return null;
+        return new SimpleStringProperty("Lauflängencodierung");
     }
 
     @Override
     public StringProperty pluginDescriptionProperty() {
-        // TODO Auto-generated method stub
-        return null;
+        return new SimpleStringProperty("Komprimierungsverfahren");
     }
 
     @Override
