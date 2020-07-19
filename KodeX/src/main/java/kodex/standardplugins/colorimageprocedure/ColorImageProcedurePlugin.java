@@ -2,7 +2,6 @@ package kodex.standardplugins.colorimageprocedure;
 
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.Content;
 import kodex.plugininterface.ProcedurePlugin;
