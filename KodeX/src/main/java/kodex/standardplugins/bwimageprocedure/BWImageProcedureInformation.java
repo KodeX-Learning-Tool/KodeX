@@ -18,7 +18,7 @@ import kodex.plugininterface.ProcedureInformation;
 public class BWImageProcedureInformation extends ProcedureInformation {
 
     // icon of this plugin
-    private Image icon;
+    private Image icon = new Image(getClass().getResourceAsStream("img/mario_bw.png"));;
 
     // name of this plugin
     private String name = "Schwarz/Weiß - Bild";
