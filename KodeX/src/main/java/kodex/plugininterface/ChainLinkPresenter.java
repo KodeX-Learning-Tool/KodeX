@@ -40,15 +40,20 @@ public abstract class ChainLinkPresenter implements IPresenter {
 	 * of this link into the content for the next link
      */
     protected ChainStep nextStep;
-
+    
+    /** The corresponding chain link edit presenter. */
+    protected ChainLinkEditPresenter chainLinkEditPresenter;
+    
+    /** The corresponding chain link header presenter. */
+    protected ChainLinkHeaderPresenter chainLinkHeaderPresenter;
 
     /**
-     * Constructs a new ChainLinkPresenter. It sets the previous and next ChainSteps
-     * as well as the previous ChainLinkPresenter. The next ChainLinkPresenter
-     *  can not yet be set since it hasn't been initialized yet.
-     * @param previous : The previous ChainLinkPresenter
-     * @param previousStep : The previous ChainStep
-     * @param nextStep : The next ChainStep
+     * ChainLinkPresenter class constructors.
+     * Sets the previous level, as well as the next and previous step.
+     * The next level is not set because it is not known when a chain is initialized.
+     * @param previous : previous level
+     * @param previousStep : vprevious step
+     * @param nextStep : next step
      */
     public ChainLinkPresenter(ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
         this.previous = previous;
@@ -62,7 +67,7 @@ public abstract class ChainLinkPresenter implements IPresenter {
      * @return ChainLinkEditPresenter of this link
      */
     public ChainLinkEditPresenter getChainLinkEditPresenter() {
-        return null;
+        return chainLinkEditPresenter;
     }
 
     /**
@@ -71,7 +76,7 @@ public abstract class ChainLinkPresenter implements IPresenter {
      * @return View of the ChainLinkHeaderPresenter
      */
     public Pane getChainLinkHeaderView() {
-        return null;
+        return chainLinkHeaderPresenter.getView();
     }
 
     /**
@@ -80,6 +85,7 @@ public abstract class ChainLinkPresenter implements IPresenter {
      */
     public void setContent(Content content) {
         this.content = content;
+        updateChain();
     }
 
     /**
@@ -105,8 +111,8 @@ public abstract class ChainLinkPresenter implements IPresenter {
      */
     public void updateNextChainLink() {
     	if (next != null) {
-    		nextStep.encode(getContent(), next.getContent());
-    		next.updateNextChainLink();
+        	nextStep.encode(content, next.getContent());
+        	next.updateNextChainLink();
     	}
     }
 
@@ -115,8 +121,8 @@ public abstract class ChainLinkPresenter implements IPresenter {
      */
     public void updatePrevChainLink() {
     	if (previous != null) {
-    		previousStep.decode(getContent(), previous.getContent());
-    		previous.updatePrevChainLink();
+    		previousStep.decode(previous.getContent(), content);
+        	previous.updatePrevChainLink();
     	}
     }
 
@@ -136,8 +142,13 @@ public abstract class ChainLinkPresenter implements IPresenter {
         int id = calculateID();
         if (id != -1) {
         	mark(id);
-        	markPrev(id);
-        	markNext(id);
+        	if (previous != null) {
+            	previous.markPrev(id);
+        	}
+        	
+        	if (next != null) {
+        		next.markNext(id);
+        	}
         }
     }
     
@@ -156,9 +167,8 @@ public abstract class ChainLinkPresenter implements IPresenter {
      * @param id : representative ID
      */
     public void markPrev(int id) {
-        previous.mark(id);
-        if (previous.getPrev() != null) {
-        	previous = previous.getPrev();
+    	mark(id);
+        if (previous != null) {
         	previous.markPrev(id);
         }
     }
@@ -169,9 +179,8 @@ public abstract class ChainLinkPresenter implements IPresenter {
      * @param id : representative ID
      */
     public void markNext(int id) {
-        next.mark(id);
-        if (next.getNext() != null) {
-        	next = next.getNext();
+        mark(id);
+        if (next != null) {
         	next.markNext(id);
         }
     }

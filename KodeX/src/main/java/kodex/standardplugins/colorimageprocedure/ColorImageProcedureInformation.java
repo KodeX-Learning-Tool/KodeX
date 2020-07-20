@@ -1,69 +1,30 @@
 package kodex.standardplugins.colorimageprocedure;
 
-import java.util.List;
-
+import javafx.collections.FXCollections;
 import javafx.scene.image.Image;
 import kodex.plugininterface.ProcedureInformation;
 
 /**
- * This class contains information about the ColorImageProcedurePlugin
+ * This class holds the information of the corresponding procedure plugin.
  * 
- * @author Yannick Neubert
+ * @author Raimon Gramlich
+ * 
  * @version 1.0
  */
 public class ColorImageProcedureInformation extends ProcedureInformation {
-
-
     /**
-     * 
-     */
-    private Image icon;
-
-    /**
-     * 
-     */
-    private String name;
-
-    /**
-     * 
-     */
-    private List<String> labels;
-
-    /**
-     * 
-     */
-    private String description;
-
-    /**
-     * 
+     * Creates a new instance of the ColorImageProcedureInformation class and sets the fields accordingly.
      */
     public ColorImageProcedureInformation() {
-        this.name = "ColorImage";
+        this.icon = new Image(getClass().getResourceAsStream("img/mario_color.png"));
+        this.description = "Es wird zunächst das Bild in eine Matrix umgewandelt." +
+            	" Daraufhin wandelt man diese in eine Liste um. Am Ende erhält man eine Binärfolge.";
+        this.labels = FXCollections.observableArrayList("Klasse 7", "Kodierungsverfahren", "Kodieren und Dekodieren");
     }
 
     @Override
     public String getName() {
-        // TODO implement here
-        return "";
+        // TODO Auto-generated method stub
+        return "Farbbildverfahren";
     }
-
-    @Override
-    public Image getIcon() {
-        // TODO implement here
-        return null;
-    }
-
-    @Override
-    public List<String> getLabels() {
-        // TODO implement here
-        return null;
-    }
-
-    @Override
-    public String getDescription() {
-        // TODO implement here
-        return "";
-    }
-
-
 }
