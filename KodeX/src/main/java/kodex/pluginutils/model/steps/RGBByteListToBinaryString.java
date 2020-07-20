@@ -38,7 +38,6 @@ public class RGBByteListToBinaryString extends ChainStep {
 
 	@Override
 	public void decode(Content right, Content left) {
-		System.out.println("Decoding BinaryString as RGBByteList");
 		RGBByteList leftlist = (RGBByteList) left;
 		BinaryString rightstring = (BinaryString) right;
 		

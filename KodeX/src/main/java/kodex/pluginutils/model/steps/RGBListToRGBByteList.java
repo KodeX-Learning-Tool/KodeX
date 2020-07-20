@@ -47,7 +47,6 @@ public class RGBListToRGBByteList extends ChainStep {
 	
 	@Override
 	public void decode(Content right, Content left) {
-		System.out.println("Decoding RGBByteList as RGBList");
 		RGBList leftlist = (RGBList) left;
 		RGBByteList rightlist = (RGBByteList) right;
 		
