@@ -33,9 +33,8 @@ public class ColorImage extends AbstractImage{
 	}
 
 	@Override
-	public Boolean isValid(Object input) {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
+    public boolean isValid(Object input) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 }
