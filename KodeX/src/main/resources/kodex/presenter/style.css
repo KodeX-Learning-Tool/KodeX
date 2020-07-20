@@ -179,7 +179,7 @@
 }
 
 .index-page__header__container {
-	-fx-max-width: 960;
+	/* -fx-max-width: 960;*/
 }
 
 .index-page__header__spring {
@@ -187,7 +187,7 @@
 }
 
 .index-page__top__spring {
-	-fx-pref-height: 24;
+	-fx-min-height: 16;
 }
 
 .index-page__header__control__spring {

@@ -2,10 +2,9 @@ package kodex.plugininterface;
 
 import java.util.LinkedList;
 import java.util.List;
+
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
@@ -18,31 +17,28 @@ import javafx.scene.image.Image;
  * 
  * @author Patrick Spiesberger
  * @author Raimon Gramlich
+ * @author Leonhard Kraft
  * 
  * @version 1.0
  *
  */
 public abstract class ProcedureInformation {
-	
-	/** The StringProperty of the procedure name. */
-	protected StringProperty procedureName;
     
     /** The ListProperty tags stores all the tags which describe the procedure. */
-    protected ListProperty<String> tags;
+    protected ObservableList<String> tags;
 	
     /** The Image that is displayed as the icon of the procedure. */
     protected Image icon;
     
     /** The StringProperty that contains a description of the procedure. */
-	protected StringProperty description;
+	protected String description;
     
     /**
      * Creates an instance of the ProcedureInformation class.
      */
     public ProcedureInformation() {
-        this.procedureName = new SimpleStringProperty("Debug-Procedure");
-        this.tags = new SimpleListProperty<>(FXCollections.observableArrayList("Grade ?", "Procedure", "encoding & decoding"));
-        this.description = new SimpleStringProperty("Missing_Detailed_Description");
+        this.tags = FXCollections.observableArrayList("Grade ?", "Procedure", "encoding & decoding");
+        this.description = "Missing_Detailed_Description";
     }
     
     /**
@@ -72,16 +68,6 @@ public abstract class ProcedureInformation {
      * Note: The description is limited to a string
      */
     public String getDescription() {
-        return description.get(); //Standard Beschreibung
-        //TODO: Language.getMessage("noDescription"); 
-    }
-    
-    /**
-     * Returns the detailed description property.
-     *
-     * @return description property of the procedure
-     */
-    public StringProperty descriptionProperty() {
         return description; //Standard Beschreibung
         //TODO: Language.getMessage("noDescription"); 
     }
@@ -91,18 +77,7 @@ public abstract class ProcedureInformation {
      *
      * @return the name of the procedure
      */
-    public String getName() {
-        return procedureName.get();
-    }
-    
-    /**
-     * Returns the Name property.
-     *
-     * @return the string property procedureName
-     */
-    public StringProperty nameProperty() {
-        return procedureName;
-    }
+    public abstract String getName();
     
 
     /**
@@ -111,15 +86,6 @@ public abstract class ProcedureInformation {
      * @return the ObservableList with containing the tags
      */
     public ObservableList<String> getTags() {
-        return tags.getValue();
-    }
-    
-    /**
-     * Gets the ListProperty tags.
-     *
-     * @return the list property tags
-     */
-    public ListProperty<String> tagProperty() {
         return tags;
-    }  
+    }
 }

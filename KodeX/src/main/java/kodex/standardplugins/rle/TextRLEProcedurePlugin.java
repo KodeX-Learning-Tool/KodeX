@@ -1,6 +1,7 @@
 package kodex.standardplugins.rle;
 
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.Content;
@@ -24,49 +25,43 @@ public class TextRLEProcedurePlugin extends ProcedurePlugin {
      */
     private ChainLinkPresenter[] chainLinks; //[2..*]
 
-	@Override
-	public StringProperty pluginNameProperty() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public StringProperty pluginNameProperty() {
+        return new SimpleStringProperty("Lauflängencodierung");
+    }
 
-	@Override
-	public StringProperty pluginDescriptionProperty() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public StringProperty pluginDescriptionProperty() {
+        return new SimpleStringProperty("Komprimierungsverfahren");
+    }
 
-	@Override
-	public ChainLinkPresenter getChainHead() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public ChainLinkPresenter getChainHead() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public void initEncodeProcedure(Content content) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void initEncodeProcedure(Content content) {
+        // TODO Auto-generated method stub
+        
+    }
 
-	@Override
-	public void initDecodeProcedure(Content content) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void initDecodeProcedure(Content content) {
+        // TODO Auto-generated method stub
+        
+    }
 
-	@Override
-	public ProcedureInformation createProcedureInformation() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public ProcedureInformation createProcedureInformation() {
+        return new TextRLEProcedureInformation();
+    }
 
-	@Override
-	public ImportPresenter createImportPresenter() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-    
-
-
+    @Override
+    public ImportPresenter createImportPresenter() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

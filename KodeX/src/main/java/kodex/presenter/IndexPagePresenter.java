@@ -1,6 +1,7 @@
 package kodex.presenter;
 
 import java.io.IOException;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,6 +12,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
@@ -132,6 +134,7 @@ public class IndexPagePresenter extends Presenter {
      * ProcedureInformation class.
      * 
      * @author Raimon Gramlich
+     * @author Leonhard Kraft
      * 
      * @version 1.0
      */
@@ -143,9 +146,15 @@ public class IndexPagePresenter extends Presenter {
         /** The height for all procedure images. */
         private static final int IMAGE_HEIGHT = 240;
 
+        private static final int INSETS = 32 * 2;
+
         /** The Label for displaying the procedure name. */
         @FXML
         private Label procedureLabel;
+
+        /** The container for the image. */
+        @FXML
+        private Pane iconContainer;
 
         /** The ImageView for displaying the procedure icon. */
         @FXML
@@ -179,9 +188,12 @@ public class IndexPagePresenter extends Presenter {
 
             procedureLabel.setText(procedureInformation.getName());
             procedureIcon.setImage(procedureInformation.getIcon());
-
-            procedureIcon.setFitHeight(IMAGE_HEIGHT);
-            procedureIcon.setFitWidth(IMAGE_WIDTH);
+            
+            /*
+             * insets are needed, because prefHeight and Width of a stack pane also include the padding (left/right, top/bottom)
+             */
+            iconContainer.setPrefHeight((double)(IMAGE_HEIGHT + INSETS));
+            iconContainer.setPrefWidth((double)(IMAGE_WIDTH + INSETS));
 
             /*
              * When fit width and height are both set, preserveRatio will try to create the
@@ -189,6 +201,9 @@ public class IndexPagePresenter extends Presenter {
              * and height while keeping the aspect ratio
              */
             procedureIcon.setPreserveRatio(true);
+
+            procedureIcon.setFitHeight(IMAGE_HEIGHT);
+            procedureIcon.setFitWidth(IMAGE_WIDTH);
         }
 
         /**

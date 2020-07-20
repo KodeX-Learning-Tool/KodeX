@@ -8,7 +8,7 @@
 
 <fx:root onMouseClicked="#handleProcedureSelected" styleClass="index-page__procedure-tile" stylesheets="@style.css" type="VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <StackPane styleClass="procedure__button__icon__container">
+      <StackPane fx:id="iconContainer" styleClass="procedure__button__icon__container">
          <children>
             <ImageView fx:id="procedureIcon" pickOnBounds="true" preserveRatio="true" styleClass="procedure__button__icon" />
          </children>
