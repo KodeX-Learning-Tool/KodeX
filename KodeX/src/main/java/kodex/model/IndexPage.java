@@ -131,7 +131,6 @@ public class IndexPage {
         String url = "sorting_relevancy.properties";
         InputStream input = getClass().getResourceAsStream(url);
         Properties prop = new Properties();
-        ;
 
         try {
             prop.load(input);

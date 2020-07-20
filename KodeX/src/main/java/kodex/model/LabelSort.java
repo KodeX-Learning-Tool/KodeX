@@ -55,7 +55,7 @@ public class LabelSort implements FilterStrategy {
 		Map<ProcedurePlugin, Integer> sortedMap = sortByValue(unsortMap);
 		
 		//add all plugins with class label
-		filteredProcedures.addAll(sortedMap.entrySet().iterator().next().getKey());
+		filteredProcedures.addAll(sortedMap.keySet());
 		
 		//add all plugins with no class label
 		filteredProcedures.addAll(noLabel);
