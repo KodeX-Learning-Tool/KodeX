@@ -14,7 +14,7 @@ import java.util.Map;
  * @version 1.0
  * 
  */
-public abstract class Content {
+public abstract class Content<T> {
 
 	/**
 	 * The header for this content.
@@ -60,6 +60,6 @@ public abstract class Content {
      * Note: Must be defined more precisely by classes that implement this interface
      * @return true, if content is valid, otherwise false
      */
-    public abstract Boolean isValid(Object input);
+    public abstract boolean isValid(T input);
 
 }
