@@ -21,5 +21,5 @@ public interface FilterStrategy {
      * @param selectedProcedures : ObservableList of procedures to filter
      * @return filtered ObservableList of plugins
      */
-	public ObservableList<ProcedurePlugin> filterProcedures(ObservableList<ProcedurePlugin> selectedProcedures);
+	public void filterProcedures(ObservableList<ProcedurePlugin> selectedProcedures);
 }

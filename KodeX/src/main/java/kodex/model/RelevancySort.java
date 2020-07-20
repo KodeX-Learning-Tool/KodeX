@@ -19,8 +19,7 @@ public class RelevancySort implements FilterStrategy {
      * @return
      */
     @Override
-    public ObservableList<ProcedurePlugin> filterProcedures(ObservableList<ProcedurePlugin> selectedProcedures) {
+    public void filterProcedures(ObservableList<ProcedurePlugin> selectedProcedures) {
         // TODO implement here
-        return null;
     }
 }
