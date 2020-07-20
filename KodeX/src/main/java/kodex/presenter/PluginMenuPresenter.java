@@ -1,8 +1,6 @@
 package kodex.presenter;
 
 import java.io.File;
-import java.io.IOException;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -60,9 +58,6 @@ public class PluginMenuPresenter extends Presenter {
      */
     public PluginMenuPresenter(PresenterManager pm) {
         super(pm, "pluginpage");
-        
-        // get a PluginLoader instance this way since PluginLoader uses the singleton pattern
-        pluginLoader = PluginLoader.getInstance();
     }
     
     /**
@@ -78,26 +73,31 @@ public class PluginMenuPresenter extends Presenter {
 		addPluginButton.textProperty().bind(I18N.createStringBinding("pluginpage.addbutton"));
 		removePluginButton.textProperty().bind(I18N.createStringBinding("pluginpage.removebutton"));
 		
-		/* // defines the check box column
-		 * checkBoxColumn.setCellValueFactory(c -> {
-		 * c.getValue().activatedProperty().addListener((observer, oldValue, newValue)
-		 * -> { if (newValue.booleanValue()) {
-		 * pluginLoader.activatePlugin(c.getValue()); } else {
-		 * pluginLoader.deactivatePlugin(c.getValue()); } }); return
-		 * c.getValue().activatedProperty(); });
-		 * checkBoxColumn.setCellFactory(CheckBoxTableCell.forTableColumn(checkBoxColumn
-		 * ));
-		 * 
-		 * // defines the name and description column
-		 * nameColumn.setCellValueFactory(cellData ->
-		 * cellData.getValue().nameProperty());
-		 * descriptionColumn.setCellValueFactory(cellData ->
-		 * cellData.getValue().shortDescriptionProperty());
-		 * 
-		 * // fills in the with the plugin information
-		 * pluginTable.setItems(pluginLoader.getEnabledPlugins());
-		 * pluginTable.setEditable(true);
-		 */
+		// get a PluginLoader instance this way since PluginLoader uses the singleton pattern
+        pluginLoader = PluginLoader.getInstance();
+		
+		// defines the check box column
+		checkBoxColumn.setCellValueFactory(c -> {
+			c.getValue().activatedProperty().addListener((observer, oldValue, newValue) -> { 
+				 if (newValue.booleanValue()) {
+					pluginLoader.activatePlugin(c.getValue());
+				} else {
+					pluginLoader.deactivatePlugin(c.getValue());
+				} 
+			 }); return
+			 c.getValue().activatedProperty(); 
+		});
+		 
+		checkBoxColumn.setCellFactory(CheckBoxTableCell.forTableColumn(checkBoxColumn));
+		  
+		// defines the name and description column
+		nameColumn.setCellValueFactory(cellData -> cellData.getValue().pluginNameProperty());
+		descriptionColumn.setCellValueFactory(cellData -> cellData.getValue().pluginDescriptionProperty());
+		  
+		// fills in the with the plugin information
+		pluginTable.setItems(pluginLoader.getPlugins());
+		pluginTable.setEditable(true);
+		 
 	}
 
     /**
@@ -105,7 +105,7 @@ public class PluginMenuPresenter extends Presenter {
      * Opens the system-explorer to let the user choose the plugin and loads it if possible.
      */
 	@FXML
-	private void handleAddPlugin() throws IOException {
+	private void handleAddPlugin() {
 		// create new FileChooser
 		FileChooser chooser = new FileChooser();
 		chooser.setTitle("Plugin zum importieren auswählen.");
@@ -125,7 +125,7 @@ public class PluginMenuPresenter extends Presenter {
      * Deletes the selected plugin if possible.
      */
 	@FXML
-	private void handleRemovePlugin() throws IOException {
+	private void handleRemovePlugin() {
 		// get selected table row
 		Pluginable plugin = pluginTable.getSelectionModel().getSelectedItem();
 		if (plugin != null) {

@@ -16,9 +16,9 @@
    <children>
       <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane>
+            <VBox styleClass="index-page__header__container">
                <children>
-                  <BorderPane styleClass="index-page__header" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <BorderPane styleClass="index-page__header">
                      <left>
                         <Label fx:id="lblHeader" styleClass="default-page-title" BorderPane.alignment="CENTER" />
                      </left>
@@ -57,21 +57,21 @@
                      </right>
                   </BorderPane>
                </children>
-            </AnchorPane>
-            <Region />
-            <AnchorPane>
-               <children>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" pannable="true" styleClass="index-page__scroll-pane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            </VBox>
+            <Region styleClass="index-page__top__spring" />
+            <BorderPane VBox.vgrow="ALWAYS">
+               <center>
+                  <ScrollPane fitToWidth="true" hbarPolicy="NEVER" pannable="true" styleClass="index-page__scroll-pane">
                      <content>
-                        <AnchorPane>
-                           <children>
-                              <TilePane fx:id="procedureButtonPane" styleClass="index-page__procedures-container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                           </children>
-                        </AnchorPane>
+                        <BorderPane styleClass="vbooooox">
+                           <center>
+                              <TilePane fx:id="procedureButtonPane" styleClass="index-page__procedures-container" />
+                           </center>
+                        </BorderPane>
                      </content>
                   </ScrollPane>
-               </children>
-            </AnchorPane>
+               </center>
+            </BorderPane>
          </children>
       </VBox>
    </children>

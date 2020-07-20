@@ -1,72 +1,35 @@
 package kodex.standardplugins.bwimageprocedure;
 
-import java.util.List;
-
+import javafx.collections.FXCollections;
 import javafx.scene.image.Image;
 import kodex.plugininterface.ProcedureInformation;
 
 /**
+ * This class represents the information about the "black and white image
+ * to binary sequence" procedure
+ * 
+ * @author Patrick Spiesberger
+ * 
+ * @version 1.0
  * 
  */
 public class BWImageProcedureInformation extends ProcedureInformation {
-
+    
     /**
-     * 
-     */
-    private Image icon;
-
-    /**
-     * 
-     */
-    private String name;
-
-    /**
-     * 
-     */
-    private List<String> labels;
-
-    /**
-     * 
-     */
-    private String description;
-
-    /**
-     * 
+     * Default Constructor of class BWImageProcedureInformation
      */
     public BWImageProcedureInformation() {
-        // TODO implement here
+        icon = new Image(getClass().getResourceAsStream("img/mario_bw.png"));
+        labels = FXCollections.observableArrayList("7", "image", "encoding & decoding");
+        
+        description = "Dieses Plugin zeigt den Weg von einem Bild in Schwarz/Weiß"
+                + " bis zu der binären Zeichenkette";
+        
+        //TODO: Set image
     }
 
-    /**
-     * @return
-     */
+    @Override
     public String getName() {
-        // TODO implement here
-        return "";
+        return "Schwarz & Weiß - Bild";
     }
-
-    /**
-     * @return
-     */
-    public Image getIcon() {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @return
-     */
-    public List<String> getLabels() {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @return
-     */
-    public String getDescription() {
-        // TODO implement here
-        return "";
-    }
-
 }

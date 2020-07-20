@@ -1,78 +1,29 @@
 package kodex.standardplugins.qrcode;
 
-import java.util.*;
-
+import javafx.collections.FXCollections;
 import javafx.scene.image.Image;
 import kodex.plugininterface.ProcedureInformation;
 
 /**
+ * This class contains information about the qr-code procedure plugin.
  * 
+ * @author Leonhard Kraft
+ * @version 1.0
  */
 public class TextQRCodeProcedureInformation extends ProcedureInformation {
 
     /**
-     * Default constructor
+     * Creates a new instance of the QR-Code class and sets the fields accordingly.
      */
     public TextQRCodeProcedureInformation() {
+        
+        this.icon = new Image(getClass().getResourceAsStream("img/qr-code_kodex.png"));
+        this.description = "In diesem Verfahren kann ein Text zu einem QR-Code umgewandelt werden. Umgedreht kann auch ein QR-Code wieder in einen Text übersetzt werden";
+        this.labels = FXCollections.observableArrayList("Klasse 7", "Kodierungsverfahren", "Kodieren und Dekodieren");
     }
 
-    /**
-     * 
-     */
-    private String name;
-
-    /**
-     * 
-     */
-    private Image icon;
-
-    /**
-     * 
-     */
-    private List<String> labels;
-
-    /**
-     * 
-     */
-    private String description;
-
-    /**
-     * 
-     */
-    public void TextQRCodeProcedureInformation() {
-        // TODO implement here
-    }
-
-    /**
-     * @return
-     */
+    @Override
     public String getName() {
-        // TODO implement here
-        return "";
+        return "QR-Code";
     }
-
-    /**
-     * @return
-     */
-    public Image getIcon() {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @return
-     */
-    public List<String> getLabels() {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @return
-     */
-    public String getDescription() {
-        // TODO implement here
-        return "";
-    }
-
 }

@@ -5,10 +5,10 @@ import java.io.FileFilter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.ServiceLoader;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import kodex.plugininterface.Pluginable;
 import kodex.plugininterface.ProcedurePlugin;
 
@@ -20,8 +20,9 @@ import kodex.plugininterface.ProcedurePlugin;
  * from anywhere and return the list of activated plugins on request.
  * 
  * @author Patrick Spiesberger
+ * @author Raimon Gramlich
  *
- * @version 1.0properties
+ * @version 1.0
  * 
  */
 public class PluginLoader {
@@ -30,19 +31,22 @@ public class PluginLoader {
     private static PluginLoader instance = new PluginLoader();
 
     /* List of all plugins */
-    private List<Pluginable> allPlugins = new LinkedList<Pluginable>();
+    private ObservableList<Pluginable> allPlugins = FXCollections.observableArrayList();
 
     /* List of all enabled plugins */
-    private List<Pluginable> enabledPlugins = new LinkedList<Pluginable>();
+    private ObservableList<Pluginable> enabledPlugins = FXCollections.observableArrayList();
+    
+    /* List of all procedure plugins */
+    private ObservableList<ProcedurePlugin> allProcedurePlugins = FXCollections.observableArrayList();
     
     /* List of all enabled procedure plugins */
-    private List<ProcedurePlugin> procedurePlugins = new LinkedList<ProcedurePlugin>();
+    private ObservableList<ProcedurePlugin> enabledProcedurePlugins = FXCollections.observableArrayList();
     
+    /* ServiceLoader which loads all implementations of the Pluginable class */
     private ServiceLoader<Pluginable> pluginLoader;
     
+    /* ServiceLoader which loads all implementations of the ProcedurePlugin class */
     private ServiceLoader<ProcedurePlugin> procedureLoader;
-
-
 
     /**
      * Constructor of PluginLoader class
@@ -66,12 +70,13 @@ public class PluginLoader {
     	pluginLoader = ServiceLoader.load(Pluginable.class);
     	procedureLoader = ServiceLoader.load(ProcedurePlugin.class);
     	
+    	// add loaded plugins to the respective lists
     	for (Pluginable plugin : pluginLoader) {
     		allPlugins.add(plugin);
     	}
     	
     	for (ProcedurePlugin plugin : procedureLoader) {
-    		procedurePlugins.add(plugin);
+    		allProcedurePlugins.add(plugin);
     	}
     }
 
@@ -124,7 +129,7 @@ public class PluginLoader {
     	}
     	
     	for (ProcedurePlugin plugin : procedureLoader) {
-    		procedurePlugins.add(plugin);
+    		allProcedurePlugins.add(plugin);
     	}	
     }
     
@@ -139,6 +144,14 @@ public class PluginLoader {
     public void removePlugin(Pluginable plugin) {
         deactivatePlugin(plugin);
         allPlugins.remove(plugin);
+        enabledPlugins.remove(plugin);
+        
+        for (ProcedurePlugin p: allProcedurePlugins) {
+        	if (p.pluginNameProperty().get().equals(plugin.pluginNameProperty().get()) && !enabledProcedurePlugins.contains(p)) {
+        		allProcedurePlugins.remove(p);
+        		enabledProcedurePlugins.remove(p);
+        	}
+        }
     }
 
     /**
@@ -150,6 +163,13 @@ public class PluginLoader {
         if (!enabledPlugins.contains(plugin)) {
         	enabledPlugins.add(plugin);
         }
+        
+        // add the equivalent procedure plugin if it exists
+        for (ProcedurePlugin p: allProcedurePlugins) {
+        	if (p.pluginNameProperty().get().equals(plugin.pluginNameProperty().get()) && !enabledProcedurePlugins.contains(p)) {
+        		enabledProcedurePlugins.add(p);
+        	}
+        }
     }
 
     /**
@@ -159,39 +179,41 @@ public class PluginLoader {
      */
     public void deactivatePlugin(Pluginable plugin) {
         enabledPlugins.remove(plugin);
+        
+        // removes the equivalent procedure plugin if it exists
+        for (ProcedurePlugin p: allProcedurePlugins) {
+        	if (p.pluginNameProperty().get().equals(plugin.pluginNameProperty().get())) {
+        		enabledProcedurePlugins.remove(p);
+        	}
+        }
     }
 
     /**
      * Returns list of all plugins
      * 
-     * @return list of all plugins
+     * @return ObservableList of all plugins
      */
-    public List<Pluginable> getPlugins() {
+    public ObservableList<Pluginable> getPlugins() {
         return allPlugins;
     }
 
     /**
      * Returns list of all enabled plugins
      * 
-     * @return list of all enabled plugins
+     * @return ObservableList of all enabled plugins
      */
-    public List<Pluginable> getEnabledPlugins() {
+    public ObservableList<Pluginable> getEnabledPlugins() {
         return enabledPlugins;
     }
 
     /**
      * Returns list of all enabled procedure plugins
      * 
-     * @return list of all enabled procedure plugins
+     * @return ObservableList of all enabled procedure plugins
      */
     
-    public List<ProcedurePlugin> getEnabledProcedurePlugins() {
-    	for (ProcedurePlugin plugin : procedureLoader) {
-    		if (!enabledPlugins.contains(plugin)) {
-    			procedurePlugins.remove(plugin);
-    		}
-    	}
-        return procedurePlugins;
+    public ObservableList<ProcedurePlugin> getEnabledProcedurePlugins() {
+        return enabledProcedurePlugins;
     }
 
 }

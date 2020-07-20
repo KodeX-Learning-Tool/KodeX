@@ -1,79 +1,36 @@
 package kodex.standardplugins.greyscaleimageprocedure;
 
-import java.util.List;
-
+import javafx.collections.FXCollections;
 import javafx.scene.image.Image;
 import kodex.plugininterface.ProcedureInformation;
-import kodex.pluginutils.model.content.AbstractImage;
 
 /**
+ * This class represents the information about the "grey-scale image
+ * to binary sequence" procedure
+ * 
+ * @author Patrick Spiesberger
+ * 
+ * @version 1.0
  * 
  */
 public class GreyScaleProcedureInformation extends ProcedureInformation {
 
     /**
-     * Default constructor
+     * Default Constructor of class BWImageProcedureInformation
      */
     public GreyScaleProcedureInformation() {
+    	icon = new Image(getClass().getResourceAsStream("img/mario_grey.png"));
+    	
+        labels = FXCollections.observableArrayList("7", "image", "encoding & decoding");
+    	
+    	description = "Dieses Plugin zeigt den Weg von einem Bild in verschieden"
+                + " Graustufen bis zu der binären Zeichenkette";
+    	
+    	//TODO: Set image
     }
 
-    /**
-     * 
-     */
-    private AbstractImage icon;
-
-    /**
-     * 
-     */
-    private String name;
-
-    /**
-     * 
-     */
-    private List<String> labels;
-
-    /**
-     * 
-     */
-    private String description;
-
-    /**
-     * 
-     */
-    public void GreyScaleImageProcedureInfromation() {
-        // TODO implement here
-    }
-
-    /**
-     * @return
-     */
+    @Override
     public String getName() {
-        // TODO implement here
-        return "";
+        return "Graustufen - Bild";
     }
-
-    /**
-     * @return
-     */
-    public Image getIcon() {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @return
-     */
-    public List<String> getLabels() {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @return
-     */
-    public String getDescription() {
-        // TODO implement here
-        return "";
-    }
-
 }

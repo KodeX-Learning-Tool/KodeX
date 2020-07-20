@@ -1,7 +1,6 @@
 package kodex.model;
 
-import java.util.List;
-
+import javafx.collections.ObservableList;
 import kodex.plugininterface.ProcedurePlugin;
 
 /**
@@ -20,8 +19,7 @@ public class RelevancySort implements FilterStrategy {
      * @return
      */
     @Override
-    public List<ProcedurePlugin> filterProcedures(List<ProcedurePlugin> selectedProcedures) {
+    public void filterProcedures(ObservableList<ProcedurePlugin> selectedProcedures) {
         // TODO implement here
-        return null;
     }
 }

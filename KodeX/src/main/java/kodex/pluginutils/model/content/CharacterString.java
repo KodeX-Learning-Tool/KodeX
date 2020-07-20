@@ -13,8 +13,8 @@ public class CharacterString extends AbstractString {
     /**
      * Creates a new CharacterString
      */
-    public CharacterString() {
-    	super.data = "";
+    public CharacterString(String str) {
+    	super.data = str;
     }
     
 	@Override
@@ -24,7 +24,7 @@ public class CharacterString extends AbstractString {
 	}
 
 	@Override
-	public Boolean isValid(Content input) {
+	public Boolean isValid(Object input) {
 		// TODO Auto-generated method stub
 		return null;
 	}
