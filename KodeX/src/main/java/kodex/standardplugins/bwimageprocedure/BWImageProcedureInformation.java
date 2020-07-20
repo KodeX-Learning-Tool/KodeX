@@ -30,6 +30,6 @@ public class BWImageProcedureInformation extends ProcedureInformation {
 
     @Override
     public String getName() {
-        return "Graustufen - Bild";
+        return "Schwarz & Weiß - Bild";
     }
 }
