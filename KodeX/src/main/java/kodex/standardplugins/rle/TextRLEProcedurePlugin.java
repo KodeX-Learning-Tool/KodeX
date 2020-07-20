@@ -8,22 +8,39 @@ import kodex.plugininterface.Content;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedureInformation;
 import kodex.plugininterface.ProcedurePlugin;
+import kodex.pluginutils.presenter.chainlink.LetterStringPresenter;
+import kodex.pluginutils.presenter.chainlink.TupleStringPresenter;
+import kodex.standardplugins.rle.model.steps.RLEStep;
+import kodex.standardplugins.rle.presenter.RLEImportPresenter;
 
 /**
  * 
  */
 public class TextRLEProcedurePlugin extends ProcedurePlugin {
-
-    /**
-     * Default constructor
-     */
-    public TextRLEProcedurePlugin() {
-    }
-
+    
     /**
      * 
      */
     private ChainLinkPresenter[] chainLinks; //[2..*]
+    
+    /**
+     * Creates a new instance of the TextRLEProcedurePlugin.
+     */
+    public TextRLEProcedurePlugin() {
+        this.chainLinks = new ChainLinkPresenter[2];
+        
+        RLEStep rleStep = new RLEStep();
+        
+        
+        chainLinks[0] = new LetterStringPresenter(null, null, rleStep);
+        chainLinks[1] = new TupleStringPresenter(chainLinks[0], rleStep, null);
+        
+        
+        // set next for chain links
+        for (int i = 0; i < chainLinks.length - 1; i++) {
+            chainLinks[i].setNext(chainLinks[i + 1]);
+        }
+    }
 
     @Override
     public StringProperty pluginNameProperty() {
@@ -37,20 +54,17 @@ public class TextRLEProcedurePlugin extends ProcedurePlugin {
 
     @Override
     public ChainLinkPresenter getChainHead() {
-        // TODO Auto-generated method stub
-        return null;
+        return chainLinks[0];
     }
 
     @Override
     public void initEncodeProcedure(Content content) {
-        // TODO Auto-generated method stub
-        
+        chainLinks[0].updateChain();
     }
 
     @Override
     public void initDecodeProcedure(Content content) {
-        // TODO Auto-generated method stub
-        
+        chainLinks[chainLinks.length-1].updateChain();
     }
 
     @Override
@@ -60,8 +74,7 @@ public class TextRLEProcedurePlugin extends ProcedurePlugin {
 
     @Override
     public ImportPresenter createImportPresenter() {
-        // TODO Auto-generated method stub
-        return null;
+        return new RLEImportPresenter(this);
     }
 
 }

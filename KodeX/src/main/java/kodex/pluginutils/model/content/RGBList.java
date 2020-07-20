@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.LinkedList;
 
 import javafx.scene.paint.Color;
-import kodex.plugininterface.Content;
 
 /**
  * This class holds data in LinkedList format. An RGBList consists of colors.
@@ -20,9 +19,9 @@ public class RGBList extends AbstractList<Color> {
     }
 
     @Override
-    public Boolean isValid(Object input) {
-        // TODO implement here
-        return null;
+    public boolean isValid(Object input) {
+        // TODO Auto-generated method stub
+        return false;
     }
 
 	@Override

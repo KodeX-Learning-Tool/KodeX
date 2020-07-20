@@ -27,7 +27,7 @@ public abstract class ChainLinkPresenter implements IPresenter {
     protected ChainLinkPresenter previous;
 
     /* The content of this link */
-    protected Content content;
+    protected Content<?> content;
 
     /* 
  	 * The step in the process chain with which you can convert the content
@@ -83,7 +83,7 @@ public abstract class ChainLinkPresenter implements IPresenter {
      * Sets the content for this link
      * @param content : content to be set
      */
-    public void setContent(Content content) {
+    public void setContent(Content<?> content) {
         this.content = content;
         updateChain();
     }
@@ -92,7 +92,7 @@ public abstract class ChainLinkPresenter implements IPresenter {
      * Returns the content of this link
      * @return content of this link
      */
-    public Content getContent() {
+    public Content<?> getContent() {
         return this.content;
     }
 

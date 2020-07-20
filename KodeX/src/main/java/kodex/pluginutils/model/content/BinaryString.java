@@ -31,9 +31,9 @@ public class BinaryString extends AbstractString {
 	}
 
 	@Override
-	public Boolean isValid(Object input) {
+	public boolean isValid(Object input) {
 		// TODO Auto-generated method stub
-		return null;
+		return false;
 	}
 
 }
