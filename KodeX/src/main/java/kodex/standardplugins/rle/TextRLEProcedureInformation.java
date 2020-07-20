@@ -18,7 +18,7 @@ public class TextRLEProcedureInformation extends ProcedureInformation {
     public TextRLEProcedureInformation() {
         this.icon = new Image(getClass().getResourceAsStream("img/hello_world.png"));
         this.description = "In diesem Verfahren kann ein Text mit der Lauflängencodierung komprimiert oder dekomprimiert werden.";
-        this.tags = FXCollections.observableArrayList("Klasse 7", "Komprimierungsverfahren", "Kodieren und Dekodieren");
+        this.labels = FXCollections.observableArrayList("Klasse 7", "Komprimierungsverfahren", "Kodieren und Dekodieren");
     }
 
     @Override

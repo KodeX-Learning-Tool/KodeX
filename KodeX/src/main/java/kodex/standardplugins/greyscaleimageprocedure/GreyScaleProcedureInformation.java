@@ -18,7 +18,7 @@ public class GreyScaleProcedureInformation extends ProcedureInformation {
      * Default Constructor of class BWImageProcedureInformation
      */
     public GreyScaleProcedureInformation() {
-        tags = FXCollections.observableArrayList("7", "image", "encoding & decoding");
+        labels = FXCollections.observableArrayList("7", "image", "encoding & decoding");
     	
     	description = "Dieses Plugin zeigt den Weg von einem Bild in verschieden"
                 + " Graustufen bis zu der binären Zeichenkette";

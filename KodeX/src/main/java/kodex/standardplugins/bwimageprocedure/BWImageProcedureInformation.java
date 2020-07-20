@@ -20,7 +20,7 @@ public class BWImageProcedureInformation extends ProcedureInformation {
      */
     public BWImageProcedureInformation() {
         icon = new Image(getClass().getResourceAsStream("img/mario_bw.png"));
-        tags = FXCollections.observableArrayList("7", "image", "encoding & decoding");
+        labels = FXCollections.observableArrayList("7", "image", "encoding & decoding");
         
         description = "Dieses Plugin zeigt den Weg von einem Bild in Schwarz/Weiß"
                 + " bis zu der binären Zeichenkette";

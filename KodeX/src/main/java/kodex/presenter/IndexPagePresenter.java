@@ -31,6 +31,7 @@ import kodex.plugininterface.ProcedurePlugin;
  * 
  * @author Yannick Neubert
  * @author Raimon Gramlich
+ * @author Leonhard Kraft
  * 
  * @version 1.0
  */
@@ -98,8 +99,8 @@ public class IndexPagePresenter extends Presenter {
         filterComboBox.promptTextProperty().bind(I18N.createStringBinding("indexpage.filterbox.prompt"));
 
         // get procedures unordered and unfiltered
-        selectedProcedures = indexPage.filterProcedures(Filter.NO_FILTER);
-
+        selectedProcedures = indexPage.getSelectedProcedures();
+                
         // initialize combo box items
         filterComboBox.setItems(FXCollections.observableArrayList(Filter.values()));
 
@@ -223,7 +224,8 @@ public class IndexPagePresenter extends Presenter {
      */
     @FXML
     private void handleSearch() {
-        searchProcedures(searchTextField.getText());
+        searchProcedures();
+        //TODO: keep filter after searching
     }
 
     /**
@@ -231,27 +233,35 @@ public class IndexPagePresenter extends Presenter {
      */
     @FXML
     private void handleFilterSelected() {
-        filterProcedures(filterComboBox.getSelectionModel().getSelectedItem());
+        filterProcedures();
+        //TODO: keep search after filtering
     }
 
     /**
      * Searches in the list of enabled procedure plugins for a procedure name which
      * matches the given term.
-     * 
-     * @param searchTerm : The search term
      */
-    private void searchProcedures(String searchTerm) {
-        selectedProcedures = indexPage.findProcedures(searchTerm);
+    private void searchProcedures() {
+        indexPage.findProcedures(searchTextField.getText());
+        updateProcedureButtons();
     }
 
     /**
      * Filters or sorts the list of enabled procedure plugins according to the
      * selected filter.
-     * 
-     * @param filter : The selected filter.
      */
-    private void filterProcedures(Filter filter) {
-        selectedProcedures = indexPage.filterProcedures(filter);
+    private void filterProcedures() {
+        indexPage.filterProcedures(filterComboBox.getSelectionModel().getSelectedItem());
+        updateProcedureButtons();
+    }
+    
+    /**
+     * Clears all procedureButtons and renews the displayed buttons.
+     */
+    private void updateProcedureButtons() {
+        //TODO not good practice to delete everything and create it again
+        procedureButtonPane.getChildren().clear();
+        createProcedureButtons();
     }
 
     /**

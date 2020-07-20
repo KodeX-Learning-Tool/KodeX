@@ -58,7 +58,10 @@ public abstract class ProcedurePlugin implements Pluginable, Comparable<Procedur
      */
     @Override
     public int compareTo(ProcedurePlugin plugin) {
-    	return this.createProcedureInformation().getName().compareTo(pluginNameProperty().get());
+        ProcedureInformation ourInfo = this.createProcedureInformation();
+        ProcedureInformation theirInfo = plugin.createProcedureInformation();
+        
+    	return ourInfo.getName().compareTo(theirInfo.getName());
     }
     
     @Override
