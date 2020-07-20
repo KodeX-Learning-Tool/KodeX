@@ -56,7 +56,7 @@ public class ColorImageImportPresenter extends ImportPresenter {
 			clp = clp.getNext();
 		}	
 		
-		return clp.getContent().isValid(binaryString);
+		return clp.getContent().isValid( binaryString);
 	}
 
 	@Override

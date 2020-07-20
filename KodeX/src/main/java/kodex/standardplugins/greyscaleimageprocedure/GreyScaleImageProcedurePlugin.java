@@ -50,17 +50,12 @@ public class GreyScaleImageProcedurePlugin extends ProcedurePlugin {
 
 	@Override
 	public void initEncodeProcedure(Content content) {
-		AbstractImage img = new BlackWhiteImage(); //TODO: Content integrieren
-		AbstractMatrix mtx = new RGBMatrix(img.getHeight(), img.getHeight());
-		new ColorImageToRGBMatrix().encode(img, mtx);
+		chainLinks[0].updateChain();
 	}
 
 	@Override
 	public void initDecodeProcedure(Content content) {
-		AbstractString charStr = new CharacterString(content.toString());
-		AbstractString binStr = new BinaryString();
-		new TextToBinaryString().decode(charStr, binStr);
-		
+		chainLinks[chainLinks.length-1].updateChain();
 	}
 
 	@Override
@@ -80,6 +75,6 @@ public class GreyScaleImageProcedurePlugin extends ProcedurePlugin {
 
     @Override
     public StringProperty pluginDescriptionProperty() {
-        return new SimpleStringProperty("Verfahren");
+        return new SimpleStringProperty("Kodierungsverfahren");
     }
 }
