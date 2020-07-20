@@ -28,4 +28,12 @@ public abstract class AbstractString extends Content{
 	public void setString(String data) {
 		this.data = data;
 	}
+
+	
+	
+	
+	 //below some shortcuts for common actions
+	public int length() {
+		return data.length();
+	}
 }
