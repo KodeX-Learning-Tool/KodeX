@@ -85,7 +85,7 @@ public class BWImageImportPresenter extends ImportPresenter {
 		
 		// loads the template
 		try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("importexample.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("bwImageImport.fxml"));
             loader.setController(this);
             importView = loader.load();
         } catch (IOException exc) {

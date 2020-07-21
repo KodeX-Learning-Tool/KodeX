@@ -9,7 +9,7 @@ import javafx.scene.image.WritableImage;
  * where each pixels red, green and blue value are all equal.
  * Extending AbstractImage, it adds validation and exporting capabilities to JavaFX's WritableImage.
  */
-public class GrayScaleImage extends AbstractImage{
+public class GrayScaleImage extends AbstractImage {
 	
 	/**
      * Creates a new GrayScaleImage

@@ -143,11 +143,11 @@
 	-fx-max-width: 400;
 	-fx-max-height: 400;
 	
-	-fx-padding: 16;
+	-fx-padding: 120;
 }
 
 .import__icon {
-	-fx-icon-size: 80;
+	-fx-icon-size: 240;
 }
 
 /* Input-Area */
