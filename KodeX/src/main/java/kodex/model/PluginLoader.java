@@ -76,7 +76,7 @@ public class PluginLoader {
     	}
     	
     	for (ProcedurePlugin plugin : procedureLoader) {
-    		allProcedurePlugins.add(plugin);
+            allProcedurePlugins.add(plugin);
     	}
     }
 

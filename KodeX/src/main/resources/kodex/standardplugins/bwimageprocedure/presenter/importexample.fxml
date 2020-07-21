@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane styleClass="default-root" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox layoutX="16.0" layoutY="16.0" styleClass="import__container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button fx:id="encodeImportButton" mnemonicParsing="false" onAction="#handleEncodeImport" styleClass="default-button--shadow" text="Bild Importieren" HBox.hgrow="ALWAYS">
+               <graphic>
+                  <FontIcon iconLiteral="mdi-upload" styleClass="import__icon" />
+               </graphic>
+            </Button>
+            <Region styleClass="import__container__spring" />
+            <Button fx:id="decodeImportButton" mnemonicParsing="false" onAction="#handleDecodeImport" styleClass="default-button--shadow" text="Textdatei Importieren" HBox.hgrow="ALWAYS">
+               <graphic>
+                  <FontIcon iconLiteral="mdi-upload" styleClass="import__icon" />
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

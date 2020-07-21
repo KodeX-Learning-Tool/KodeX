@@ -1,5 +1,8 @@
 package kodex.standardplugins.bwimageprocedure.presenter;
 
+import java.io.IOException;
+
+import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
@@ -77,8 +80,19 @@ public class BWImageImportPresenter extends ImportPresenter {
 
 	@Override
 	public AnchorPane getView() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		AnchorPane importView = new AnchorPane();
+		
+		// loads the template
+		try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("importexample.fxml"));
+            loader.setController(this);
+            importView = loader.load();
+        } catch (IOException exc) {
+            exc.printStackTrace();
+        }
+		
+		return importView;
 	}
 	
 	/**
