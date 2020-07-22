@@ -37,8 +37,13 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
 	
 	@Override
 	protected void mark(int id) {
-		// TODO Auto-generated method stub
-		
+		rgbListView.getSelectionModel().select(id);
+		chainLinkEditPresenter.setMarkID(id);
+	}
+	
+	@Override
+	protected int calculateID() {
+		return rgbListView.getSelectionModel().getSelectedIndex();
 	}
 
 	@Override
@@ -68,11 +73,6 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
 		chainLinkPane.getChildren().add(rgbListView);
 		
 		return chainLinkPane;
-	}
-		
-	@Override
-	protected int calculateID() {
-		return rgbListView.getSelectionModel().getSelectedIndex();
 	}
 	
 	/**
