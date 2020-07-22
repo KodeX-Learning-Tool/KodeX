@@ -62,10 +62,10 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
 		if (file == null) {
 			return;
 		}
+		System.out.println(file.toPath().toUri().toString());
+		img = convertToFxImage(new Image(file.toPath().toUri().toString()));
 
-		img = convertToFxImage(new Image(file.toPath().toString()));
-
-		if (validateDecodeImport()) {
+		if (validateEncodeImport()) {
 			procedureLayoutPresenter.switchToChainPresenter();
 		} else {
 			System.err.println("File content not valid.");
@@ -100,7 +100,7 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
 
 		// loads the template
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("greyScaleImport.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("greyscaleimport.fxml"));
 			loader.setController(this);
 			importView = loader.load();
 		} catch (IOException exc) {

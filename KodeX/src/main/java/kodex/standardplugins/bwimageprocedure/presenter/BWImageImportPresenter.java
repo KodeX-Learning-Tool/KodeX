@@ -61,10 +61,9 @@ public class BWImageImportPresenter extends ImportPresenter {
 		if (file == null) {
 			return;
 		}
+		img = convertToFxImage(new Image(file.toPath().toUri().toString()));
 
-		img = convertToFxImage(new Image(file.toPath().toString()));
-
-		if (validateDecodeImport()) {
+		if (validateEncodeImport()) {
 			procedureLayoutPresenter.switchToChainPresenter();
 		} else {
 			System.err.println("File content not valid.");
@@ -96,18 +95,19 @@ public class BWImageImportPresenter extends ImportPresenter {
 
 	@Override
 	public AnchorPane getView() {
+		
+        AnchorPane importView = new AnchorPane();
 
-		AnchorPane importView = new AnchorPane();
+        // loads the template
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("bwimport.fxml"));
+            loader.setController(this);
+            importView = loader.load();
+        } catch (IOException exc) {
+            exc.printStackTrace();
+        }
 
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("bwImageImport.fxml"));
-			loader.setController(this);
-			importView = loader.load();
-		} catch (IOException exc) {
-			exc.printStackTrace();
-		}
-
-		return importView;
+        return importView;
 	}
 
 	/**
@@ -135,6 +135,7 @@ public class BWImageImportPresenter extends ImportPresenter {
 	 */
 	private File importFile(String type) {
 		FileChooser fc = new FileChooser();
+		System.out.println("Test");
 		fc.setTitle("Datei zum " + type + " auswählen.");
 		return fc.showOpenDialog(null);
 	}
