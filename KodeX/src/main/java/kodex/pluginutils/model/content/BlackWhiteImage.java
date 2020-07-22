@@ -34,7 +34,7 @@ public class BlackWhiteImage extends AbstractImage{
 	}
 
 	@Override
-    public boolean isValid(Object input) {
+    public boolean isValid(WritableImage input) {
         // TODO Auto-generated method stub
         return false;
     }

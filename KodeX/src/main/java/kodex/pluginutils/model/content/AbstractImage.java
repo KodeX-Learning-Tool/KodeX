@@ -8,7 +8,7 @@ import kodex.plugininterface.Content;
  * This class holds data in image format. It adds validation and exporting capabilities
  * to JavaFX's WritableImage.
  */
-public abstract class AbstractImage extends Content {
+public abstract class AbstractImage extends Content<WritableImage> {
 
 	/**
 	 * The WritableImage containing this Contents data
