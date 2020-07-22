@@ -65,7 +65,4 @@ public class RGBByteListChainLinkPresenter extends ChainLinkPresenter {
 		
 		return chainLinkPane;
 	}
-	
-	}
-
 }
