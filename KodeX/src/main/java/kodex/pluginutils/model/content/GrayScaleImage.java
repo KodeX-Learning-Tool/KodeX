@@ -34,8 +34,27 @@ public class GrayScaleImage extends AbstractImage {
 
 	@Override
     public boolean isValid(WritableImage input) {
-        // TODO Auto-generated method stub
-        return false;
+		if (input == null) {
+			System.out.println("Invalid import, no file selected");
+			return false;
+		}
+		else if (input.getWidth() > 500 || input.getHeight() > 500) {
+			System.out.println("Invalid import, file too large");
+			return false;
+		}
+		
+		//Check if image is a greyscale image
+		//Source of Code: https://stackoverflow.com/a/36157968
+		int pixel,red, green, blue;
+	    for (int x = 0; x < input.getWidth(); x++) {
+	        for (int y = 0; y < input.getHeight(); y++) {
+	            pixel = input.getPixelReader().getArgb(x, y);
+	            red = (pixel >> 16) & 0xff;
+	            green = (pixel >> 8) & 0xff;
+	            blue = (pixel) & 0xff;
+	            if (red != green || green != blue ) return false;
+	        }
+	    }
+	    return true;
     }
-
 }
