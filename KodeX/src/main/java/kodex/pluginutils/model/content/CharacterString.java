@@ -24,9 +24,16 @@ public class CharacterString extends AbstractString {
 	}
 
 	@Override
-    public boolean isValid(Object input) {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean isValid(String input) {
+		if (input == null) {
+			return false;
+		}
+		for (int i = 0; i < input.length(); i++) {
+			if (!Character.isDigit(input.charAt(i))) {
+				return false;
+			}
+		}
+		return true;
     }
 
 }

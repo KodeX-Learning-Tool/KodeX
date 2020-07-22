@@ -36,14 +36,6 @@ public class BWImageImportPresenter extends ImportPresenter {
 
 	@Override
 	public boolean validateDecodeImport() {
-		if (binaryChain == null) {
-			return false;
-		}
-		for (int i = 0; i < binaryChain.length(); i++) {
-			if (binaryChain.charAt(i) != '0' && binaryChain.charAt(i) != '1') {
-				return false;
-			}
-		}
 		return true;
 	}
                 

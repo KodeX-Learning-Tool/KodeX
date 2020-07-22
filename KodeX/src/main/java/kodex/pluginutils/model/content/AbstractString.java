@@ -6,7 +6,7 @@ import kodex.plugininterface.Content;
  * This class holds data in string format. It adds validation and exporting capabilities
  * to Javas String.
  */
-public abstract class AbstractString extends Content{
+public abstract class AbstractString extends Content<String>{
 
 	/**
 	 * The String containing this Contents data
