@@ -30,7 +30,7 @@
                               <HBox prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <Label fx:id="titleLabel" text="Eingabe" />
-                                    <Region prefHeight="100.0" prefWidth="151.0" />
+                                    <Region />
                                     <Button mnemonicParsing="false" onAction="#handleEdit">
                                        <graphic>
                                           <FontIcon iconLiteral="mdi-lead-pencil" />
