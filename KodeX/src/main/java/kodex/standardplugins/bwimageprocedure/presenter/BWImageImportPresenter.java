@@ -7,9 +7,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
+import kodex.pluginutils.model.content.BinaryString;
+import kodex.pluginutils.model.content.BlackWhiteImage;
 
 /**
  * This class is responsible for managing the import 
@@ -26,17 +27,28 @@ public class BWImageImportPresenter extends ImportPresenter {
 	
 	public BWImageImportPresenter(ProcedurePlugin plugin) {
 		super(plugin);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public boolean validateEncodeImport() {
-		return true;
+		BinaryString content = (BinaryString) plugin.getChainHead().getContent();
+
+		if (content.isValid(binaryChain)) {
+			plugin.getChainHead().updateChain();
+	        return true;
+	     }
+	     return false;
 	}
 
 	@Override
 	public boolean validateDecodeImport() {
-		return true;
+		BlackWhiteImage content = (BlackWhiteImage) plugin.getChainHead().getContent();
+
+		if (content.isValid(img)) {
+			plugin.getChainHead().updateChain();
+	        return true;
+	     }
+	     return false;
 	}
                 
 	@Override
