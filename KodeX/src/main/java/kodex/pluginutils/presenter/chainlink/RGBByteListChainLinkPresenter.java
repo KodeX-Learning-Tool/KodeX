@@ -1,6 +1,8 @@
 package kodex.pluginutils.presenter.chainlink;
 
 
+import java.util.LinkedList;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -33,6 +35,18 @@ public class RGBByteListChainLinkPresenter extends ChainLinkPresenter {
 		super(previous, previousStep, nextStep);
 		chainLinkEditPresenter = new RGBByteListEditPresenter(this);
 		// chainLinkHeaderPresenter = new RGBByteListHeaderPresenter(this.getContent());
+		content = new RGBByteList();
+		LinkedList<String> list = new LinkedList<>();
+		list.add("00000000, 11111111, 11111111");
+		list.add("11111111, 00000000, 00000000");
+		list.add("11111111, 11111111, 00000000");
+		list.add("00000000, 11111111, 11111111");
+		list.add("11111111, 11111111, 11111111");
+		list.add("00000000, 00000000, 00000000");
+		list.add("11111111, 11000000, 11001011");
+		list.add("10100101, 00101010, 00101010");
+		list.add("10001010, 00101011, 11100010");
+		((RGBByteList) content).setList(list);
 	}
 
 	@Override
