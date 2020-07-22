@@ -41,6 +41,13 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
 		super(previous, previousStep, nextStep);
 		chainLinkEditPresenter = new RGBMatrixEditPresenter(this);
 		// chainLinkHeaderPresenter = new RGBMatrixHeaderPresenter(this.getContent());
+		content = new RGBMatrix(3,3);
+		Color[][] matrix = {
+	            {Color.AQUA, Color.RED, Color.YELLOW},
+	            {Color.AQUA, Color.BLACK, Color.WHITE},
+	            {Color.PINK, Color.BROWN, Color.BLUEVIOLET},
+	        };
+		((RGBMatrix) content).setMatrix(matrix);
 	}
 
 
