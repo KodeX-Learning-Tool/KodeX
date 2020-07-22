@@ -56,7 +56,6 @@ public class BWImageImportPresenter extends ImportPresenter {
 		
 		AnchorPane importView = new AnchorPane();
 		
-		// loads the template
 		try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("bwImageImport.fxml"));
             loader.setController(this);
