@@ -1,7 +1,6 @@
 package kodex.standardplugins.rle.model.steps;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import kodex.model.Tuple;
@@ -28,11 +27,12 @@ public class RLEStep extends ChainStep {
         
         for (int i = 1; i < letterStringChars.length; i++) {
             
-            newChar = letterStringChars[1];
-            
+            newChar = letterStringChars[i];
+
             if (newChar != currentChar) {
                 
                 tuples.add(new Tuple<>(Character.toString(currentChar), count));
+
                 currentChar = newChar;
                 count = 1;
                 
@@ -40,6 +40,10 @@ public class RLEStep extends ChainStep {
                 count++;
             }
         }
+        
+        //add last read char with its count
+        tuples.add(new Tuple<>(Character.toString(currentChar), count));
+
         tupleString.setTuples(tuples.toArray((Tuple<String, Integer>[]) new Tuple[tuples.size()]));
     }
 
