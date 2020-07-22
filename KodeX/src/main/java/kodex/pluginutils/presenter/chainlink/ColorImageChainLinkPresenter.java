@@ -33,6 +33,15 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
 	
 	/** The scale factor of the image. */
 	private int scaleFactor = 1;
+	
+	/** The Constant NOT_MARKED. */
+	private final static int NOT_MARKED = -1;
+	
+	/** The ID of the last element marked. */
+	private int lastElementMarked = NOT_MARKED;
+	
+	/** The last marked color. */
+	private Color lastMarkedColor;
 
 	/**
 	 * Instantiates a new color image chain link presenter.
@@ -52,11 +61,79 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
 
 	@Override
 	protected void mark(int id) {
-		// TODO Auto-generated method stub
+		id = id * scaleFactor;
+		Image image = colorImageView.getImage();
+		 
+	    int width = (int)image.getWidth(); 
+	    int height = (int)image.getHeight(); 
 		
+	    //Creating a writable image 
+		WritableImage writableImage = new WritableImage(width, height); 
+	         
+	    //Reading color from the loaded image 
+	    PixelReader pixelReader = image.getPixelReader();
+	    
+	    //getting the pixel writer 
+	    PixelWriter writer = writableImage.getPixelWriter();           
+	      
+	    //Reading the color of the image 
+	    for(int y = 0; y < height; y++) { 
+	       for(int x = 0; x < width; x++) { 
+	          //Retrieving the color of the pixel of the loaded image   
+	          Color color = pixelReader.getColor(x, y); 
+	              
+	          //Setting the color to the writable image 
+	          writer.setColor(x, y, color);              
+	       }
+	    }
+	    
+	    // unmark last marked "pixel"
+	    if (lastElementMarked != NOT_MARKED) {
+	    	editPixelColor(writer, pixelReader, lastElementMarked, lastMarkedColor);
+	    }
+	    
+	    // mark "pixel"
+	    editPixelColor(writer, pixelReader, id, Color.RED);
+	    
+	    // show marked image
+	    colorImageView.setImage(writableImage);
+	    
+	    // sets the mark id for editing
+	    chainLinkEditPresenter.setMarkID(id);
 	}
+	
+	/**
+	 * Edits the color of the pixel or a set of pixels if the image is scaled up.
+	 *
+	 * @param writer the PixelWriter
+	 * @param reader the PixelReader
+	 * @param id the universal id for marking elements
+	 * @param color the color which the "pixel" should be edited to
+	 */
+	private void editPixelColor(PixelWriter writer, PixelReader reader, int id, Color color) {		
+	    int x = id % (int) Math.round(colorImageView.getImage().getHeight());
+	    int y = (id / (int) Math.round(colorImageView.getImage().getHeight())) * scaleFactor;
 
-
+	    // store original color
+	    if (lastElementMarked != id) {
+		    lastMarkedColor = reader.getColor(x, y);
+	    }
+	    
+	    // mark the image
+	    for (int i = x; i < x + scaleFactor; i++) {
+	    	for (int j = y; j < y + scaleFactor; j++) {
+	    		writer.setColor(i, j, color);
+	    	}
+	    }
+	    
+	    // store last marked "pixel"
+	    lastElementMarked = id;
+	}
+	
+	@Override
+	protected int calculateID() {
+		return (int) (selectedX / scaleFactor) + ((int) (selectedY / scaleFactor) * (int) (colorImageView.getImage().getHeight() / scaleFactor));
+	}
 
 	@Override
 	public AnchorPane getView() {
