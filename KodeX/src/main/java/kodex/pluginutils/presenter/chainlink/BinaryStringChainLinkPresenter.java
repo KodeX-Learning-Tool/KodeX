@@ -21,6 +21,8 @@ public class BinaryStringChainLinkPresenter extends ChainLinkPresenter {
 		super(previous, previousStep, nextStep);
 		chainLinkEditPresenter = new BinaryStringEditPresenter(this);
 		// chainLinkHeaderPresenter = new BinaryStringHeaderPresenter(this.getContent());
+		content = new BinaryString("000000001111111111111111" + "111111110000000000000000" + "111111111111111100000000" + "000000001111111111111111"
+		+ "111111111111111111111111" + "000000000000000000000000" + "111111111100000011001011" + "101001010010101000101010" + "100010100010101111100010");
 	}
 
 
