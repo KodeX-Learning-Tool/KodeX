@@ -103,11 +103,11 @@ public class ColorImageImportPresenter extends ImportPresenter {
 		       }
 		    }	
 			
-			if (validateEncodeImport()) {
-				plugin.initEncodeProcedure(new ColorImage(writableImage));
-				
+			if (validateEncodeImport()) {				
 				procedureLayoutPresenter.switchToChainPresenter();
-			}
+			} else {
+	            System.err.println("File content not valid.");
+	        }
 		}
 
 	}
@@ -125,10 +125,10 @@ public class ColorImageImportPresenter extends ImportPresenter {
 			}
 			
 			if (validateDecodeImport()) {
-				plugin.initDecodeProcedure(new BinaryString(binaryString));
-				
 				procedureLayoutPresenter.switchToChainPresenter();
-			}
+			} else {
+	            System.err.println("File content not valid.");
+	        }
 		}
 	}
 
