@@ -3,7 +3,6 @@ package kodex.pluginutils.model.content;
 import java.io.File;
 
 import javafx.scene.image.WritableImage;
-import kodex.plugininterface.Content;
 
 /**
  * This class holds data in Image format. An GrayScaleImage consists of a WritableImage 
@@ -34,9 +33,9 @@ public class GrayScaleImage extends AbstractImage{
 	}
 
 	@Override
-	public Boolean isValid(Object input) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public boolean isValid(Object input) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
 }

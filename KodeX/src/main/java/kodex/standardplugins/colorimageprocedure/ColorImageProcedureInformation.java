@@ -19,7 +19,7 @@ public class ColorImageProcedureInformation extends ProcedureInformation {
         this.icon = new Image(getClass().getResourceAsStream("img/mario_color.png"));
         this.description = "Es wird zunächst das Bild in eine Matrix umgewandelt." +
             	" Daraufhin wandelt man diese in eine Liste um. Am Ende erhält man eine Binärfolge.";
-        this.tags = FXCollections.observableArrayList("Klasse 7", "Kodierungsverfahren", "Kodieren und Dekodieren");
+        this.labels = FXCollections.observableArrayList("Klasse 7", "Kodierungsverfahren", "Kodieren und Dekodieren");
     }
 
     @Override

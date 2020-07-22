@@ -19,7 +19,7 @@ public class TextQRCodeProcedureInformation extends ProcedureInformation {
         
         this.icon = new Image(getClass().getResourceAsStream("img/qr-code_kodex.png"));
         this.description = "In diesem Verfahren kann ein Text zu einem QR-Code umgewandelt werden. Umgedreht kann auch ein QR-Code wieder in einen Text übersetzt werden";
-        this.tags = FXCollections.observableArrayList("Klasse 7", "Kodierungsverfahren", "Kodieren und Dekodieren");
+        this.labels = FXCollections.observableArrayList("Klasse 7", "Kodierungsverfahren", "Kodieren und Dekodieren");
     }
 
     @Override

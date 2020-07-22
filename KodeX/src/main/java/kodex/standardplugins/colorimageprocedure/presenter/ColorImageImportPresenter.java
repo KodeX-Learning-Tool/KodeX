@@ -45,7 +45,15 @@ public class ColorImageImportPresenter extends ImportPresenter {
 
 	@Override
 	public boolean validateEncodeImport() {
-		return plugin.getChainHead().getContent().isValid(writableImage);
+
+        
+		ColorImage content = (ColorImage) plugin.getChainHead().getContent();
+        
+        if (content.isValid(writableImage)) {
+            plugin.getChainHead().updateChain();
+            return true;
+        }
+        return false;
 	}
 
 	@Override
@@ -54,9 +62,15 @@ public class ColorImageImportPresenter extends ImportPresenter {
 		
 		while (clp.getNext() != null) {
 			clp = clp.getNext();
-		}	
+		}
 		
-		return clp.getContent().isValid(binaryString);
+        BinaryString content = (BinaryString) clp.getContent();
+        
+        if (content.isValid(binaryString)) {
+            clp.updateChain();
+            return true;
+        }
+        return false;
 	}
 
 	@Override
@@ -89,11 +103,11 @@ public class ColorImageImportPresenter extends ImportPresenter {
 		       }
 		    }	
 			
-			if (validateEncodeImport()) {
-				plugin.initEncodeProcedure(new ColorImage(writableImage));
-				
+			if (validateEncodeImport()) {				
 				procedureLayoutPresenter.switchToChainPresenter();
-			}
+			} else {
+	            System.err.println("File content not valid.");
+	        }
 		}
 
 	}
@@ -111,10 +125,10 @@ public class ColorImageImportPresenter extends ImportPresenter {
 			}
 			
 			if (validateDecodeImport()) {
-				plugin.initDecodeProcedure(new BinaryString(binaryString));
-				
 				procedureLayoutPresenter.switchToChainPresenter();
-			}
+			} else {
+	            System.err.println("File content not valid.");
+	        }
 		}
 	}
 

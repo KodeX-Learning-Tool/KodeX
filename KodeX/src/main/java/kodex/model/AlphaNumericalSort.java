@@ -29,10 +29,7 @@ public class AlphaNumericalSort implements FilterStrategy {
      * @return sorted ObservableList of plugins
      */
     @Override
-    public ObservableList<ProcedurePlugin> filterProcedures(ObservableList<ProcedurePlugin> selectedProcedures) {
+    public void filterProcedures(ObservableList<ProcedurePlugin> selectedProcedures) {
         Collections.sort(selectedProcedures);
-        return selectedProcedures;
     }
-
-
 }

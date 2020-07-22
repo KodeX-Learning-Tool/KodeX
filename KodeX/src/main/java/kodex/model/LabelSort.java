@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import kodex.plugininterface.ProcedureInformation;
 import kodex.plugininterface.ProcedurePlugin;
 
 /**
@@ -31,31 +32,33 @@ public class LabelSort implements FilterStrategy {
     
 
 	@Override
-	public ObservableList<ProcedurePlugin> filterProcedures(ObservableList<ProcedurePlugin> selectedProcedures) {
+	public void filterProcedures(ObservableList<ProcedurePlugin> selectedProcedures) {
 		
 		ObservableList<ProcedurePlugin> filteredProcedures = FXCollections.observableArrayList();
 		ObservableList<ProcedurePlugin> noLabel = FXCollections.observableArrayList();
 		Collections.sort(selectedProcedures); //alphabetical sort
 		
 		for (ProcedurePlugin plugin : selectedProcedures) {
-			if (plugin.createProcedureInformation().getLabels().isEmpty()|| 
-					!isNumber(plugin.createProcedureInformation().getLabels().get(0))) {
+		    
+		    ProcedureInformation info = plugin.createProcedureInformation();
+		    ObservableList<String> labels = info.getLabels();
+		    
+			if (labels.isEmpty()|| 
+					!isNumber(labels.get(0))) {
 				noLabel.add(plugin);
 			}
 			else {
-				unsortMap.put(plugin, Integer.valueOf(plugin.createProcedureInformation().getLabels().get(0)));
+				unsortMap.put(plugin, Integer.valueOf(labels.get(0)));
 			}
 		}
 		
 		Map<ProcedurePlugin, Integer> sortedMap = sortByValue(unsortMap);
 		
 		//add all plugins with class label
-		filteredProcedures.addAll(sortedMap.entrySet().iterator().next().getKey());
+		filteredProcedures.addAll(sortedMap.keySet());
 		
 		//add all plugins with no class label
 		filteredProcedures.addAll(noLabel);
-		
-		return filteredProcedures;
 	}	
 	
 	/**

@@ -1,4 +1,5 @@
-package kodex.standardplugins.rle.presenter;
+package kodex.pluginutils.presenter.edit;
+
 
 import javafx.scene.layout.AnchorPane;
 import kodex.plugininterface.ChainLinkEditPresenter;
@@ -7,9 +8,10 @@ import kodex.plugininterface.ChainLinkPresenter;
 /**
  * 
  */
-public class RLECharStringEditPresenter extends ChainLinkEditPresenter {
+public class RGBByteListEditPresenter extends ChainLinkEditPresenter {
 
-	public RLECharStringEditPresenter(ChainLinkPresenter chainLinkPresenter) {
+
+	public RGBByteListEditPresenter(ChainLinkPresenter chainLinkPresenter) {
 		super(chainLinkPresenter);
 		// TODO Auto-generated constructor stub
 	}
@@ -25,7 +27,6 @@ public class RLECharStringEditPresenter extends ChainLinkEditPresenter {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 
 }

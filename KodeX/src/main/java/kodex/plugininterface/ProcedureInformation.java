@@ -1,10 +1,5 @@
 package kodex.plugininterface;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
@@ -24,8 +19,8 @@ import javafx.scene.image.Image;
  */
 public abstract class ProcedureInformation {
     
-    /** The ListProperty tags stores all the tags which describe the procedure. */
-    protected ObservableList<String> tags;
+    /** The ListProperty tags stores all the labels which describe the procedure. */
+    protected ObservableList<String> labels;
 	
     /** The Image that is displayed as the icon of the procedure. */
     protected Image icon;
@@ -37,7 +32,7 @@ public abstract class ProcedureInformation {
      * Creates an instance of the ProcedureInformation class.
      */
     public ProcedureInformation() {
-        this.tags = FXCollections.observableArrayList("Grade ?", "Procedure", "encoding & decoding");
+        this.labels = FXCollections.observableArrayList("Grade ?", "Procedure", "encoding & decoding");
         this.description = "Missing_Detailed_Description";
     }
     
@@ -48,17 +43,6 @@ public abstract class ProcedureInformation {
      */
     public Image getIcon() {
     	return icon;
-    }
-
-    /**
-     * Returns a list of the process labels. At the top of the list
-     * must be the class level, from which class level the procedure is suitable.
-	 * If no class level applies, please enter 0.
-     * @return List of labels
-     */
-    public List<String> getLabels() {
-        List<String> labels = new LinkedList<>();
-        return labels;
     }
 
     /**
@@ -85,7 +69,7 @@ public abstract class ProcedureInformation {
      *
      * @return the ObservableList with containing the tags
      */
-    public ObservableList<String> getTags() {
-        return tags;
+    public ObservableList<String> getLabels() {
+        return labels;
     }
 }

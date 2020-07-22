@@ -3,7 +3,6 @@ package kodex.pluginutils.model.content;
 import java.io.File;
 
 import javafx.scene.paint.Color;
-import kodex.plugininterface.Content;
 
 /**
  * This class holds data in Matrix format. An RGBMatrix consists of a 2D array [rows][cols]
@@ -29,9 +28,9 @@ public class RGBMatrix extends AbstractMatrix<Color> {
 	}
 
 	@Override
-	public Boolean isValid(Object input) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public boolean isValid(Object input) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
 }

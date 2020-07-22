@@ -4,7 +4,6 @@ import java.io.File;
 
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import kodex.presenter.IPresenter;
 
 /**
@@ -27,7 +26,7 @@ public abstract class ChainLinkPresenter implements IPresenter {
     protected ChainLinkPresenter previous;
 
     /* The content of this link */
-    protected Content content;
+    protected Content<?> content;
 
     /* 
  	 * The step in the process chain with which you can convert the content
@@ -52,7 +51,7 @@ public abstract class ChainLinkPresenter implements IPresenter {
      * Sets the previous level, as well as the next and previous step.
      * The next level is not set because it is not known when a chain is initialized.
      * @param previous : previous level
-     * @param previousStep : vprevious step
+     * @param previousStep : previous step
      * @param nextStep : next step
      */
     public ChainLinkPresenter(ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
@@ -71,19 +70,19 @@ public abstract class ChainLinkPresenter implements IPresenter {
     }
 
     /**
-     * Returns the view of the header for this level, only calls getView () 
-     * on the ChainLinkHeaderPresenter of this level and returns the result.
-     * @return View of the ChainLinkHeaderPresenter
+     * Gets the ChainLinkPresenter of this link.
+     * 
+     * @return The ChainLinkHeaderPresenter
      */
-    public Pane getChainLinkHeaderView() {
-        return chainLinkHeaderPresenter.getView();
+    public ChainLinkHeaderPresenter getChainLinkHeader() {
+        return chainLinkHeaderPresenter;
     }
 
     /**
      * Sets the content for this link
      * @param content : content to be set
      */
-    public void setContent(Content content) {
+    public void setContent(Content<?> content) {
         this.content = content;
         updateChain();
     }
@@ -92,7 +91,7 @@ public abstract class ChainLinkPresenter implements IPresenter {
      * Returns the content of this link
      * @return content of this link
      */
-    public Content getContent() {
+    public Content<?> getContent() {
         return this.content;
     }
 
