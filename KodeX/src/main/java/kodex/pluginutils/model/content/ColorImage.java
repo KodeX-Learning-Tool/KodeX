@@ -19,7 +19,7 @@ public class ColorImage extends AbstractImage {
     }
 
     /**
-     * Creates a new ColorImage and sets its data to the image passed in the arguments
+     * Creates a new ColorImage and sets its data to the image psassed in the arguments
      * @param image The WritableImage to be used as data
      */
     public ColorImage(WritableImage image) {
