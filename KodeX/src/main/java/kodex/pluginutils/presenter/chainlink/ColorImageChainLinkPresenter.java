@@ -34,6 +34,13 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
 	/** The scale factor of the image. */
 	private int scaleFactor = 1;
 
+	/**
+	 * Instantiates a new color image chain link presenter.
+	 *
+	 * @param previous the previous ChainLinkPresenter
+	 * @param previousStep the previous step
+	 * @param nextStep the next step
+	 */
 	public ColorImageChainLinkPresenter(ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
 		super(previous, previousStep, nextStep);
 		chainLinkEditPresenter = new ColorImageEditPresenter(this);
