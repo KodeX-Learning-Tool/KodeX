@@ -1,6 +1,8 @@
 package kodex.pluginutils.presenter.chainlink;
 
 
+import java.util.LinkedList;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -33,6 +35,18 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
 		super(previous, previousStep, nextStep);
 		chainLinkEditPresenter = new RGBListEditPresenter(this);
 		// chainLinkHeaderPresenter = new RGBListHeaderPresenter(this.getContent());
+		content = new RGBList();
+		LinkedList<Color> list = new LinkedList<>();
+		list.add(Color.AQUA);
+		list.add(Color.RED);
+		list.add(Color.YELLOW);
+		list.add(Color.AQUA);
+		list.add(Color.BLACK);
+		list.add(Color.WHITE);
+		list.add(Color.PINK);
+		list.add(Color.BROWN);
+		list.add(Color.BLUEVIOLET);
+		((RGBList) content).setList(list);
 	}
 	
 	@Override
