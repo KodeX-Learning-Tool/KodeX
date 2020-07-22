@@ -1,14 +1,19 @@
 package kodex.standardplugins.greyscaleimageprocedure.presenter;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
+import kodex.pluginutils.model.content.CharacterString;
+import kodex.pluginutils.model.content.GreyScaleImage;
 
 /**
  * This class is responsible for managing the import 
@@ -21,21 +26,32 @@ import kodex.plugininterface.ProcedurePlugin;
 public class GreyScaleImageImportPresenter extends ImportPresenter {
 	
 	private WritableImage img;
-	private String binaryChain;
+	private String charString;
 
 	public GreyScaleImageImportPresenter(ProcedurePlugin plugin) {
 		super(plugin);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public boolean validateEncodeImport() {
-		return true;
+		CharacterString content = (CharacterString) plugin.getChainHead().getContent();
+
+		if (content.isValid(charString)) {
+			plugin.getChainHead().updateChain();
+	        return true;
+	     }
+	     return false;
 	}
 
 	@Override
 	public boolean validateDecodeImport() {
-		return true;
+		GreyScaleImage content = (GreyScaleImage) plugin.getChainHead().getContent();
+
+		if (content.isValid(img)) {
+			plugin.getChainHead().updateChain();
+	        return true;
+	     }
+	     return false;
 	}
 
 	@Override
@@ -45,7 +61,25 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
 
 	@Override
 	public void handleDecodeImport() {
-		// TODO Auto-generated method stub
+		File file = importFile("Kodieren");
+
+        if (file == null) {
+            return;
+        }
+        
+        try {
+            charString = Files.readString(file.toPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        if (validateEncodeImport()) {
+            
+            procedureLayoutPresenter.switchToChainPresenter();
+        } else {
+            System.err.println("File content not valid.");
+        }
 		
 	}
 
@@ -82,4 +116,15 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
 	    return wr;
 	}
 
+    /**
+     * Open a FileChooser to import a file.
+     *
+     * @param type the type (i.e. Decode/Encode)
+     * @return the chosen file
+     */
+    private File importFile(String type) {
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Datei zum " + type + " auswählen.");
+        return fc.showOpenDialog(null);
+    }
 }

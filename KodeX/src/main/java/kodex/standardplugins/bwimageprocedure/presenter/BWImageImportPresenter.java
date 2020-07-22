@@ -1,12 +1,15 @@
 package kodex.standardplugins.bwimageprocedure.presenter;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.content.BinaryString;
@@ -59,10 +62,28 @@ public class BWImageImportPresenter extends ImportPresenter {
 
 	@Override
 	public void handleDecodeImport() {
-		// TODO Auto-generated method stub
-		
+		File file = importFile("Dekodieren");
+
+        if (file == null) {
+            return;
+        }
+        
+        try {
+            binaryChain = Files.readString(file.toPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        if (validateEncodeImport()) {
+            
+            procedureLayoutPresenter.switchToChainPresenter();
+        } else {
+            System.err.println("File content not valid.");
+        }
 	}
 
+	
 	@Override
 	public AnchorPane getView() {
 		
@@ -95,4 +116,16 @@ public class BWImageImportPresenter extends ImportPresenter {
 	    }
 	    return wr;
 	}
+	
+    /**
+     * Open a FileChooser to import a file.
+     *
+     * @param type the type (i.e. Decode/Encode)
+     * @return the chosen file
+     */
+    private File importFile(String type) {
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Datei zum " + type + " auswählen.");
+        return fc.showOpenDialog(null);
+    }
 }
