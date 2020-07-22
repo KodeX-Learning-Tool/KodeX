@@ -34,7 +34,7 @@ public class BWImageImportPresenter extends ImportPresenter {
 
 	@Override
 	public boolean validateEncodeImport() {
-		BlackWhiteImage content = (BlackWhiteImage) plugin.getChainHead().getContent();
+		BlackWhiteImage content = new BlackWhiteImage();
 
 		if (content.isValid(img)) {
 			plugin.getChainHead().updateChain();
@@ -45,7 +45,7 @@ public class BWImageImportPresenter extends ImportPresenter {
 
 	@Override
 	public boolean validateDecodeImport() {
-		BinaryString content = (BinaryString) plugin.getChainHead().getContent();
+		BinaryString content = new BinaryString();
 
 		if (content.isValid(binaryChain)) {
 			plugin.getChainHead().updateChain();

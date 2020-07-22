@@ -34,7 +34,7 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
 
 	@Override
 	public boolean validateEncodeImport() {
-		GreyScaleImage content = (GreyScaleImage) plugin.getChainHead().getContent();
+		GreyScaleImage content = new GreyScaleImage();
 
 		if (content.isValid(img)) {
 			plugin.getChainHead().updateChain();
@@ -46,7 +46,7 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
 	@Override
 	public boolean validateDecodeImport() {
 
-		CharacterString content = (CharacterString) plugin.getChainHead().getContent();
+		CharacterString content = new CharacterString();
 
 		if (content.isValid(charString)) {
 			plugin.getChainHead().updateChain();
@@ -62,7 +62,6 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
 		if (file == null) {
 			return;
 		}
-		System.out.println(file.toPath().toUri().toString());
 		img = convertToFxImage(new Image(file.toPath().toUri().toString()));
 
 		if (validateEncodeImport()) {

@@ -10,6 +10,10 @@ import kodex.plugininterface.Content;
  */
 public class CharacterString extends AbstractString {
 
+    public CharacterString() {
+    	super.data = "";
+    }
+    
     /**
      * Creates a new CharacterString
      */
