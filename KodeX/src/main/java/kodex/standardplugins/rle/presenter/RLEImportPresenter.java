@@ -34,7 +34,12 @@ public class RLEImportPresenter extends ImportPresenter {
     public boolean validateEncodeImport() {
         
         LetterString content = (LetterString) plugin.getChainHead().getContent();
-        return content.isValid(letterString);
+        
+        if (content.isValid(letterString)) {
+            plugin.getChainHead().updateChain();
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -46,7 +51,12 @@ public class RLEImportPresenter extends ImportPresenter {
         }   
         
         TupleString content = (TupleString) clp.getContent();
-        return content.isValid(tupleString);
+        
+        if (content.isValid(tupleString)) {
+            clp.updateChain();
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -66,6 +76,7 @@ public class RLEImportPresenter extends ImportPresenter {
         }
 
         if (validateEncodeImport()) {
+            
             procedureLayoutPresenter.switchToChainPresenter();
         } else {
             System.err.println("File content not valid.");
