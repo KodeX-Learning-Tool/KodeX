@@ -24,6 +24,11 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
 	/** The matrix grid pane. */
 	private GridPane matrixPane = new GridPane();
 	
+	/** The Constant NOT_MARKED. */
+	private final static int NOT_MARKED = -1;
+	
+	/** The ID of the last element marked. */
+	private int lastElementMarked = NOT_MARKED;
 	
 	/**
 	 * Instantiates a new RGB matrix chain link presenter.
@@ -42,11 +47,38 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
 
 	@Override
 	protected void mark(int id) {
-		// TODO Auto-generated method stub
+		// unmark last element marked
+		if (lastElementMarked != NOT_MARKED) {
+			editMatrixElementColor(lastElementMarked, Color.BLACK);
+		}
 		
+		// mark selected element
+		editMatrixElementColor(id, Color.RED);
+		lastElementMarked = id;
+		
+		// set mark id for editing
+		chainLinkEditPresenter.setMarkID(id);
+	}
+	
+	/**
+	 *  Edits the font color of the button.
+	 *
+	 * @param id the universal id
+	 * @param color the color to be set
+	 */
+	private void editMatrixElementColor(int id, Color color) {
+		RGBMatrix matrix = (RGBMatrix) content;
+		
+		int i = id / matrix.getHeight();
+		int j = id % matrix.getHeight();
+		MatrixButton element = (MatrixButton) matrixPane.getChildren().get(i + j * matrix.getHeight());
+		element.setTextFill(color);
 	}
 
-
+	@Override
+	protected int calculateID() {
+		return selectedElementID;
+	}
 
 	@Override
 	public AnchorPane getView() {
