@@ -16,8 +16,8 @@ import kodex.pluginutils.model.content.BinaryString;
 import kodex.pluginutils.model.content.BlackWhiteImage;
 
 /**
- * This class is responsible for managing the import 
- * of the black-and-white image or a binary sequence.
+ * This class is responsible for managing the import of the black-and-white
+ * image or a binary sequence.
  * 
  * @author Patrick Spiesberger
  * @version 1.0
@@ -27,105 +27,115 @@ public class BWImageImportPresenter extends ImportPresenter {
 
 	private WritableImage img;
 	private String binaryChain;
-	
+
 	public BWImageImportPresenter(ProcedurePlugin plugin) {
 		super(plugin);
 	}
 
 	@Override
 	public boolean validateEncodeImport() {
-		BinaryString content = (BinaryString) plugin.getChainHead().getContent();
-
-		if (content.isValid(binaryChain)) {
-			plugin.getChainHead().updateChain();
-	        return true;
-	     }
-	     return false;
-	}
-
-	@Override
-	public boolean validateDecodeImport() {
 		BlackWhiteImage content = (BlackWhiteImage) plugin.getChainHead().getContent();
 
 		if (content.isValid(img)) {
 			plugin.getChainHead().updateChain();
-	        return true;
-	     }
-	     return false;
+			return true;
+		}
+		return false;
 	}
-                
+
+	@Override
+	public boolean validateDecodeImport() {
+		BinaryString content = (BinaryString) plugin.getChainHead().getContent();
+
+		if (content.isValid(binaryChain)) {
+			plugin.getChainHead().updateChain();
+			return true;
+		}
+		return false;
+	}
+
 	@Override
 	public void handleEncodeImport() {
-		// TODO Auto-generated method stub
-		
+		File file = importFile("Kodieren");
+
+		if (file == null) {
+			return;
+		}
+
+		img = convertToFxImage(new Image(file.toPath().toString()));
+
+		if (validateDecodeImport()) {
+			procedureLayoutPresenter.switchToChainPresenter();
+		} else {
+			System.err.println("File content not valid.");
+		}
 	}
 
 	@Override
 	public void handleDecodeImport() {
 		File file = importFile("Dekodieren");
 
-        if (file == null) {
-            return;
-        }
-        
-        try {
-            binaryChain = Files.readString(file.toPath());
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
+		if (file == null) {
+			return;
+		}
 
-        if (validateEncodeImport()) {
-            
-            procedureLayoutPresenter.switchToChainPresenter();
-        } else {
-            System.err.println("File content not valid.");
-        }
+		try {
+			binaryChain = Files.readString(file.toPath());
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+
+		if (validateDecodeImport()) {
+			procedureLayoutPresenter.switchToChainPresenter();
+		} else {
+			System.err.println("File content not valid.");
+		}
+
 	}
 
-	
 	@Override
 	public AnchorPane getView() {
-		
+
 		AnchorPane importView = new AnchorPane();
-		
+
 		try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("bwImageImport.fxml"));
-            loader.setController(this);
-            importView = loader.load();
-        } catch (IOException exc) {
-            exc.printStackTrace();
-        }
-		
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("bwImageImport.fxml"));
+			loader.setController(this);
+			importView = loader.load();
+		} catch (IOException exc) {
+			exc.printStackTrace();
+		}
+
 		return importView;
 	}
-	
+
 	/**
 	 * Converts an image to a writable image
 	 */
 	private static WritableImage convertToFxImage(Image image) {
-	    WritableImage wr = null;
-	    if (image != null) {
-	        wr = new WritableImage((int) image.getWidth(), (int) image.getHeight());
-	        PixelWriter pw = wr.getPixelWriter();
-	        for (int x = 0; x < image.getWidth(); x++) {
-	            for (int y = 0; y < image.getHeight(); y++) {
-	                pw.setArgb(x, y, image.getPixelReader().getArgb(x, y));
-	            }
-	        }
-	    }
-	    return wr;
+		WritableImage wr = null;
+		if (image != null) {
+			wr = new WritableImage((int) image.getWidth(), (int) image.getHeight());
+			PixelWriter pw = wr.getPixelWriter();
+			for (int x = 0; x < image.getWidth(); x++) {
+				for (int y = 0; y < image.getHeight(); y++) {
+					pw.setArgb(x, y, image.getPixelReader().getArgb(x, y));
+				}
+			}
+		}
+		return wr;
 	}
-	
-    /**
-     * Open a FileChooser to import a file.
-     *
-     * @param type the type (i.e. Decode/Encode)
-     * @return the chosen file
-     */
-    private File importFile(String type) {
-        FileChooser fc = new FileChooser();
-        fc.setTitle("Datei zum " + type + " auswählen.");
-        return fc.showOpenDialog(null);
-    }
+
+	/**
+	 * Open a FileChooser to import a file.
+	 *
+	 * @param type the type (i.e. Decode/Encode)
+	 * @return the chosen file
+	 */
+	private File importFile(String type) {
+		FileChooser fc = new FileChooser();
+		fc.setTitle("Datei zum " + type + " auswählen.");
+		return fc.showOpenDialog(null);
+	}
 }
