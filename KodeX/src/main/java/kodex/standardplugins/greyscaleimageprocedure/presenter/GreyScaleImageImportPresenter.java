@@ -27,28 +27,7 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
 
 	@Override
 	public boolean validateEncodeImport() {
-		if (img == null) {
-			System.out.println("Invalid import, no file selected");
-			return false;
-		}
-		else if (img.getWidth() > 500 || img.getHeight() > 500) {
-			System.out.println("Invalid import, file too large");
-			return false;
-		}
-		
-		//Check if image is a greyscale image
-		//Source of Code: https://stackoverflow.com/a/36157968
-		int pixel,red, green, blue;
-	    for (int x = 0; x < img.getWidth(); x++) {
-	        for (int y = 0; y < img.getHeight(); y++) {
-	            pixel = img.getPixelReader().getArgb(x, y);
-	            red = (pixel >> 16) & 0xff;
-	            green = (pixel >> 8) & 0xff;
-	            blue = (pixel) & 0xff;
-	            if (red != green || green != blue ) return false;
-	        }
-	    }
-	    return true;
+		return true;
 	}
 
 	@Override

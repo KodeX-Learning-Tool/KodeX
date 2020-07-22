@@ -31,25 +31,6 @@ public class BWImageImportPresenter extends ImportPresenter {
 
 	@Override
 	public boolean validateEncodeImport() {
-		if (img == null) {
-			System.out.println("Invalid import, no file selected");
-			return false;
-		}
-		else if (img.getWidth() > 500 || img.getHeight() > 500) {
-			System.out.println("Invalid import, file too large");
-			return false;
-		}
-		
-		//Check if every pixel is black or white
-		for (int x = 0; x < img.getWidth(); x++) {
-            for (int y = 0; y < img.getHeight(); y++) {
-                if (img.getPixelReader().getColor(x, y) != Color.BLACK 
-                		&& img.getPixelReader().getColor(x, y) != Color.WHITE) {
-                	return false;
-                }
-    
-            }
-		}
 		return true;
 	}
 
