@@ -45,8 +45,13 @@ public class ColorImageImportPresenter extends ImportPresenter {
 
 	@Override
 	public boolean validateEncodeImport() {
-		//return plugin.getChainHead().getContent().isValid(writableImage);
-		return true;
+		ColorImage content = (ColorImage) plugin.getChainHead().getContent();
+        
+        if (content.isValid(writableImage)) {
+            plugin.getChainHead().updateChain();
+            return true;
+        }
+        return false;
 	}
 
 	@Override
@@ -55,10 +60,15 @@ public class ColorImageImportPresenter extends ImportPresenter {
 		
 		while (clp.getNext() != null) {
 			clp = clp.getNext();
-		}	
+		}
 		
-		//return clp.getContent().isValid( binaryString);
-		return true;
+        BinaryString content = (BinaryString) clp.getContent();
+        
+        if (content.isValid(binaryString)) {
+            clp.updateChain();
+            return true;
+        }
+        return false;
 	}
 
 	@Override
