@@ -53,7 +53,7 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
 	public ColorImageChainLinkPresenter(ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
 		super(previous, previousStep, nextStep);
 		chainLinkEditPresenter = new ColorImageEditPresenter(this);
-		chainLinkHeaderPresenter = new ColorImageHeaderPresenter(this.getContent());
+		// chainLinkHeaderPresenter = new ColorImageHeaderPresenter(this.getContent());
 		content = new ColorImage();
 	}
 

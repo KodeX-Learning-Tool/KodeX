@@ -40,7 +40,8 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
 	public RGBMatrixChainLinkPresenter(ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
 		super(previous, previousStep, nextStep);
 		chainLinkEditPresenter = new RGBMatrixEditPresenter(this);
-		chainLinkHeaderPresenter = new RGBMatrixHeaderPresenter(this.getContent());
+		// chainLinkHeaderPresenter = new RGBMatrixHeaderPresenter(this.getContent());
+		content = new RGBMatrix(3, 3);
 	}
 
 
@@ -85,12 +86,10 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
 		AnchorPane chainLinkPane = new AnchorPane();
 		RGBMatrix matrix = (RGBMatrix) content;
 		
-		Color[][] colorMatrix = matrix.getMatrix();
-		
 		// create buttons for each element in the 2d array
 		for (int i = 0; i < matrix.getWidth(); i++) {
 			for (int j = 0; j < matrix.getHeight(); j++) {
-				matrixPane.add(new MatrixButton(colorToRGBString(colorMatrix[i][j]), i + j * matrix.getHeight()), i, j);
+				matrixPane.add(new MatrixButton(colorToRGBString(matrix.get(i, j)), i + j * matrix.getHeight()), i, j);
 			}
 		}
 		
@@ -134,7 +133,7 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
 	 * Gets the RGB string of the given color.
 	 *
 	 * @param color the color
-	 * @return the rgb string
+	 * @return the RGB string
 	 */
 	private String colorToRGBString(Color color) {		
 		return "(" + String.valueOf((int) Math.round(color.getRed() * 255)) + ", " + String.valueOf((int) Math.round(color.getGreen() * 255)) 
