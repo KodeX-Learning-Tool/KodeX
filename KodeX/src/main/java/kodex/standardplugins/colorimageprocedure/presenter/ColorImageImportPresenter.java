@@ -97,7 +97,7 @@ public class ColorImageImportPresenter extends ImportPresenter {
 		          Color color = pixelReader.getColor(x, y); 
 		              
 		          //Setting the color to the writable image 
-		          writer.setColor(x, y, color.darker());              
+		          writer.setColor(x, y, color);              
 		       }
 		    }	
 			
