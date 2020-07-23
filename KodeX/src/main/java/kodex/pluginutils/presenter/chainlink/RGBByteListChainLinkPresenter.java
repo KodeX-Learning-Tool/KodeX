@@ -61,7 +61,6 @@ public class RGBByteListChainLinkPresenter extends ChainLinkPresenter {
 		    @Override
 		    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 		        // executes handleMark on selected
-		    	System.out.println("Selected: " + calculateID());
 		        handleMark();
 		    }
 		});
