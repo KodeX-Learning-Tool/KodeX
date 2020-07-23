@@ -135,7 +135,7 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
 	 * Gets the RGB string of the given color.
 	 *
 	 * @param color the color
-	 * @return the rgb string
+	 * @return the RGB string
 	 */
 	private String colorToRGBString(Color color) {		
 		return "(" + String.valueOf((int) Math.round(color.getRed() * 255)) + ", " + String.valueOf((int) Math.round(color.getGreen() * 255)) 
