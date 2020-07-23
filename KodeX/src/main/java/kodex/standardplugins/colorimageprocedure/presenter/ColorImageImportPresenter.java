@@ -45,8 +45,6 @@ public class ColorImageImportPresenter extends ImportPresenter {
 
 	@Override
 	public boolean validateEncodeImport() {
-
-        
 		ColorImage content = (ColorImage) plugin.getChainHead().getContent();
         
         if (content.isValid(writableImage)) {

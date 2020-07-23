@@ -3,6 +3,7 @@ package kodex.pluginutils.model.content;
 import java.io.File;
 
 import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
 import kodex.plugininterface.Content;
 
 /**
@@ -34,9 +35,26 @@ public class BlackWhiteImage extends AbstractImage{
 	}
 
 	@Override
-    public boolean isValid(Object input) {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean isValid(WritableImage input) {
+		if (input == null) {
+			System.out.println("Invalid import, no file selected");
+			return false;
+		}
+		else if (input.getWidth() > 500 || input.getHeight() > 500) {
+			System.out.println("Invalid import, file too large");
+			return false;
+		}
+		
+		//Check if every pixel is black or white
+		for (int x = 0; x < input.getWidth(); x++) {
+            for (int y = 0; y < input.getHeight(); y++) {
+                if (input.getPixelReader().getColor(x, y) != Color.BLACK 
+                		&& input.getPixelReader().getColor(x, y) != Color.WHITE) {
+                	return false;
+                }
+            }
+		}
+		return true;
     }
 
 }

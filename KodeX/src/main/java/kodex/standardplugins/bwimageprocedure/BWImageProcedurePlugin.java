@@ -15,7 +15,15 @@ import kodex.pluginutils.model.content.BlackWhiteImage;
 import kodex.pluginutils.model.content.CharacterString;
 import kodex.pluginutils.model.content.RGBMatrix;
 import kodex.pluginutils.model.steps.ColorImageToRGBMatrix;
+import kodex.pluginutils.model.steps.RGBByteListToBinaryString;
+import kodex.pluginutils.model.steps.RGBListToRGBByteList;
+import kodex.pluginutils.model.steps.RGBMatrixToRGBList;
 import kodex.pluginutils.model.steps.TextToBinaryString;
+import kodex.pluginutils.presenter.chainlink.BinaryStringChainLinkPresenter;
+import kodex.pluginutils.presenter.chainlink.ColorImageChainLinkPresenter;
+import kodex.pluginutils.presenter.chainlink.RGBByteListChainLinkPresenter;
+import kodex.pluginutils.presenter.chainlink.RGBListChainLinkPresenter;
+import kodex.pluginutils.presenter.chainlink.RGBMatrixChainLinkPresenter;
 import kodex.standardplugins.bwimageprocedure.presenter.BWImageImportPresenter;
 
 /**
@@ -39,6 +47,23 @@ public class BWImageProcedurePlugin extends ProcedurePlugin {
      */
     public  BWImageProcedurePlugin() {
     	chainLinks = new ChainLinkPresenter[5];
+    	ColorImageToRGBMatrix colorImageToRGBMatrix = new ColorImageToRGBMatrix();
+    	RGBMatrixToRGBList rgbMatrixToRGBList = new RGBMatrixToRGBList();
+    	RGBListToRGBByteList rgbListToRGBByteList = new RGBListToRGBByteList();
+    	RGBByteListToBinaryString rgbByteListToBinaryString = new RGBByteListToBinaryString();
+    	
+    	
+    	chainLinks[0] = new ColorImageChainLinkPresenter(null, null, colorImageToRGBMatrix);
+    	chainLinks[1] = new RGBMatrixChainLinkPresenter(chainLinks[0], colorImageToRGBMatrix, rgbMatrixToRGBList);
+    	chainLinks[2] = new RGBListChainLinkPresenter(chainLinks[1], rgbMatrixToRGBList, rgbListToRGBByteList);
+    	chainLinks[3] = new RGBByteListChainLinkPresenter(chainLinks[2], rgbListToRGBByteList, rgbByteListToBinaryString);
+    	chainLinks[4] = new BinaryStringChainLinkPresenter(chainLinks[3], rgbByteListToBinaryString, null);
+    	
+    	
+    	// set next for chain links
+    	for (int i = 0; i < chainLinks.length - 1; i++) {
+        	chainLinks[i].setNext(chainLinks[i+1]);
+    	}
     }
 
 	@Override
@@ -48,16 +73,12 @@ public class BWImageProcedurePlugin extends ProcedurePlugin {
 
 	@Override
 	public void initEncodeProcedure(Content content) {
-		AbstractImage img = new BlackWhiteImage(); //TODO: Content integrieren
-		AbstractMatrix mtx = new RGBMatrix(img.getHeight(), img.getHeight());
-		new ColorImageToRGBMatrix().encode(img, mtx);
+		chainLinks[0].updateChain();
 	}
 
 	@Override
 	public void initDecodeProcedure(Content content) {
-		AbstractString charStr = new CharacterString(content.toString());
-		AbstractString binStr = new BinaryString();
-		new TextToBinaryString().decode(charStr, binStr);
+		chainLinks[chainLinks.length-1].updateChain();
 	}
 
 	@Override
@@ -70,13 +91,13 @@ public class BWImageProcedurePlugin extends ProcedurePlugin {
 		return new BWImageImportPresenter(this);
 	}
 
-    @Override
+    @Override	
     public StringProperty pluginNameProperty() {
         return new SimpleStringProperty("Schwarz & Weiß Bild");
     }
 
     @Override
     public StringProperty pluginDescriptionProperty() {
-        return new SimpleStringProperty("Verfahren");
+        return new SimpleStringProperty("Kodierungsverfahren");
     }
 }

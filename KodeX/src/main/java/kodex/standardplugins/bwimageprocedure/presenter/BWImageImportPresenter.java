@@ -1,16 +1,23 @@
 package kodex.standardplugins.bwimageprocedure.presenter;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+
+import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
+import kodex.pluginutils.model.content.BinaryString;
+import kodex.pluginutils.model.content.BlackWhiteImage;
 
 /**
- * This class is responsible for managing the import 
- * of the black-and-white image or a binary sequence.
+ * This class is responsible for managing the import of the black-and-white
+ * image or a binary sequence.
  * 
  * @author Patrick Spiesberger
  * @version 1.0
@@ -20,81 +27,116 @@ public class BWImageImportPresenter extends ImportPresenter {
 
 	private WritableImage img;
 	private String binaryChain;
-	
+
 	public BWImageImportPresenter(ProcedurePlugin plugin) {
 		super(plugin);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public boolean validateEncodeImport() {
-		if (img == null) {
-			System.out.println("Invalid import, no file selected");
-			return false;
+		BlackWhiteImage content = new BlackWhiteImage();
+
+		if (content.isValid(img)) {
+			plugin.getChainHead().updateChain();
+			return true;
 		}
-		else if (img.getWidth() > 500 || img.getHeight() > 500) {
-			System.out.println("Invalid import, file too large");
-			return false;
-		}
-		
-		//Check if every pixel is black or white
-		for (int x = 0; x < img.getWidth(); x++) {
-            for (int y = 0; y < img.getHeight(); y++) {
-                if (img.getPixelReader().getColor(x, y) != Color.BLACK 
-                		&& img.getPixelReader().getColor(x, y) != Color.WHITE) {
-                	return false;
-                }
-    
-            }
-		}
-		return true;
+		return false;
 	}
 
 	@Override
 	public boolean validateDecodeImport() {
-		if (binaryChain == null) {
-			return false;
+		BinaryString content = new BinaryString();
+
+		if (content.isValid(binaryChain)) {
+			plugin.getChainHead().updateChain();
+			return true;
 		}
-		for (int i = 0; i < binaryChain.length(); i++) {
-			if (binaryChain.charAt(i) != '0' && binaryChain.charAt(i) != '1') {
-				return false;
-			}
-		}
-		return true;
+		return false;
 	}
-                
+
 	@Override
 	public void handleEncodeImport() {
-		// TODO Auto-generated method stub
-		
+		File file = importFile("Kodieren");
+
+		if (file == null) {
+			return;
+		}
+		img = convertToFxImage(new Image(file.toPath().toUri().toString()));
+
+		if (validateEncodeImport()) {
+			procedureLayoutPresenter.switchToChainPresenter();
+		} else {
+			System.err.println("File content not valid.");
+		}
 	}
 
 	@Override
 	public void handleDecodeImport() {
-		// TODO Auto-generated method stub
-		
+		File file = importFile("Dekodieren");
+
+		if (file == null) {
+			return;
+		}
+
+		try {
+			binaryChain = Files.readString(file.toPath());
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+
+		if (validateDecodeImport()) {
+			procedureLayoutPresenter.switchToChainPresenter();
+		} else {
+			System.err.println("File content not valid.");
+		}
+
 	}
 
 	@Override
 	public AnchorPane getView() {
-		// TODO Auto-generated method stub
-		return null;
+		
+        AnchorPane importView = new AnchorPane();
+
+        // loads the template
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("bwimport.fxml"));
+            loader.setController(this);
+            importView = loader.load();
+        } catch (IOException exc) {
+            exc.printStackTrace();
+        }
+
+        return importView;
 	}
-	
+
 	/**
 	 * Converts an image to a writable image
 	 */
 	private static WritableImage convertToFxImage(Image image) {
-	    WritableImage wr = null;
-	    if (image != null) {
-	        wr = new WritableImage((int) image.getWidth(), (int) image.getHeight());
-	        PixelWriter pw = wr.getPixelWriter();
-	        for (int x = 0; x < image.getWidth(); x++) {
-	            for (int y = 0; y < image.getHeight(); y++) {
-	                pw.setArgb(x, y, image.getPixelReader().getArgb(x, y));
-	            }
-	        }
-	    }
-	    return wr;
+		WritableImage wr = null;
+		if (image != null) {
+			wr = new WritableImage((int) image.getWidth(), (int) image.getHeight());
+			PixelWriter pw = wr.getPixelWriter();
+			for (int x = 0; x < image.getWidth(); x++) {
+				for (int y = 0; y < image.getHeight(); y++) {
+					pw.setArgb(x, y, image.getPixelReader().getArgb(x, y));
+				}
+			}
+		}
+		return wr;
+	}
+
+	/**
+	 * Open a FileChooser to import a file.
+	 *
+	 * @param type the type (i.e. Decode/Encode)
+	 * @return the chosen file
+	 */
+	private File importFile(String type) {
+		FileChooser fc = new FileChooser();
+		System.out.println("Test");
+		fc.setTitle("Datei zum " + type + " auswählen.");
+		return fc.showOpenDialog(null);
 	}
 }

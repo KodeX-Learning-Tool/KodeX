@@ -31,9 +31,16 @@ public class BinaryString extends AbstractString {
 	}
 
 	@Override
-	public boolean isValid(Object input) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean isValid(String input) {
+		if (input == null) {
+			return false;
+		}
+		for (int i = 0; i < input.length(); i++) {
+			if (input.charAt(i) != '0' && input.charAt(i) != '1') {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }
