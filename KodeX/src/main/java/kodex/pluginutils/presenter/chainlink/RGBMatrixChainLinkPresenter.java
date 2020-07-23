@@ -86,12 +86,10 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
 		AnchorPane chainLinkPane = new AnchorPane();
 		RGBMatrix matrix = (RGBMatrix) content;
 		
-		Color[][] colorMatrix = matrix.getMatrix();
-		
 		// create buttons for each element in the 2d array
 		for (int i = 0; i < matrix.getWidth(); i++) {
 			for (int j = 0; j < matrix.getHeight(); j++) {
-				matrixPane.add(new MatrixButton(colorToRGBString(colorMatrix[i][j]), i + j * matrix.getHeight()), i, j);
+				matrixPane.add(new MatrixButton(colorToRGBString(matrix.get(i, j)), i + j * matrix.getHeight()), i, j);
 			}
 		}
 		
