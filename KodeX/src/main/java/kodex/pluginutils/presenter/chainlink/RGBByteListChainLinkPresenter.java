@@ -1,6 +1,8 @@
 package kodex.pluginutils.presenter.chainlink;
 
 
+import java.util.LinkedList;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -53,7 +55,15 @@ public class RGBByteListChainLinkPresenter extends ChainLinkPresenter {
 		
 		rgbByteListView = new ListView<>();
 		
-		rgbByteListView.setItems(FXCollections.observableArrayList(((RGBByteList) getContent()).getList()));
+		LinkedList<String> list = ((RGBByteList) getContent()).getList();
+		
+		LinkedList<String> tripleList = new LinkedList<>();
+		
+		for (int j = 0; j < list.size(); j += 3) {
+			tripleList.add(list.get(j) + ", " + list.get(j + 1) + ", " + list.get(j + 2));
+		}
+		
+		rgbByteListView.setItems(FXCollections.observableArrayList(tripleList));
 		
 		// adds listener to list view items
 		rgbByteListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
