@@ -8,6 +8,8 @@ import kodex.plugininterface.Content;
 /**
  * This class holds data in Image format. An ColorImage consists of a Writable RGB Image.
  * Extending AbstractImage, it adds validation and exporting capabilities to JavaFX's WritableImage.
+ * 
+ * @author Raimon Gramlich
  */
 public class ColorImage extends AbstractImage {
 	
@@ -34,7 +36,18 @@ public class ColorImage extends AbstractImage {
 
 	@Override
     public boolean isValid(WritableImage input) {
-        // TODO Auto-generated method stub
-        return false;
+		Boolean isValid = true;
+		
+        if (input.getWidth() > MAX_IMAGE_WIDTH && MIN_IMAGE_WIDTH > input.getWidth()) {
+        	isValid = false;
+        }
+        
+        if (input.getHeight() > MAX_IMAGE_HEIGHT && MIN_IMAGE_HEIGHT > input.getHeight()) {
+        	isValid = false;
+        }
+        
+        image = input;
+        
+        return isValid;
     }
 }

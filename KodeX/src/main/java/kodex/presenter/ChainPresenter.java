@@ -2,6 +2,7 @@ package kodex.presenter;
 
 import java.io.File;
 import java.io.IOException;
+
 import org.kordamp.ikonli.javafx.FontIcon;
 
 import javafx.collections.ObservableList;
@@ -16,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import kodex.plugininterface.ChainLinkHeaderPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ProcedurePlugin;
 
@@ -146,9 +148,9 @@ public class ChainPresenter implements IPresenter {
 	            loader.setRoot(this);
 	            loader.load();
 	        } catch (IOException exc) {
+	            exc.printStackTrace();
 	        	System.err.println("The file chainlinktemplate.fxml was not found!");
 	        }
-			
 		}
 		
 	    /**
@@ -158,7 +160,14 @@ public class ChainPresenter implements IPresenter {
 		@FXML
 		private void initialize() {
 			// titleLabel.setText("Kodierungsstufe: " + chainLinkPresenter.getName());
-			informationBox.getChildren().set(0, chainLinkPresenter.getChainLinkHeaderView());
+		    
+		    ChainLinkHeaderPresenter header = chainLinkPresenter.getChainLinkHeader();
+		    
+		    if (header != null) {
+		        
+		        informationBox.getChildren().set(0, header.getView());
+		    }
+			
 			chainLinkPane.setCenter(chainLinkPresenter.getView());
 		}
 		
@@ -220,7 +229,6 @@ public class ChainPresenter implements IPresenter {
 			chainSplitPane.getItems().add(new ChainItem(chainLinkPresenter));
 			chainLinkPresenter = chainLinkPresenter.getNext();
 		}
-		
     	
     	// add change listener to the dividers of the SplitPane
     	dividers = chainSplitPane.getDividers();

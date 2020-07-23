@@ -4,7 +4,6 @@ import java.io.File;
 
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import kodex.presenter.IPresenter;
 
 /**
@@ -52,7 +51,7 @@ public abstract class ChainLinkPresenter implements IPresenter {
      * Sets the previous level, as well as the next and previous step.
      * The next level is not set because it is not known when a chain is initialized.
      * @param previous : previous level
-     * @param previousStep : vprevious step
+     * @param previousStep : previous step
      * @param nextStep : next step
      */
     public ChainLinkPresenter(ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
@@ -71,12 +70,12 @@ public abstract class ChainLinkPresenter implements IPresenter {
     }
 
     /**
-     * Returns the view of the header for this level, only calls getView () 
-     * on the ChainLinkHeaderPresenter of this level and returns the result.
-     * @return View of the ChainLinkHeaderPresenter
+     * Gets the ChainLinkPresenter of this link.
+     * 
+     * @return The ChainLinkHeaderPresenter
      */
-    public Pane getChainLinkHeaderView() {
-        return chainLinkHeaderPresenter.getView();
+    public ChainLinkHeaderPresenter getChainLinkHeader() {
+        return chainLinkHeaderPresenter;
     }
 
     /**

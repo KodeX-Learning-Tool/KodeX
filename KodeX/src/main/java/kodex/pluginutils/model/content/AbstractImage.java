@@ -7,9 +7,23 @@ import kodex.plugininterface.Content;
 /**
  * This class holds data in image format. It adds validation and exporting capabilities
  * to JavaFX's WritableImage.
+ * 
+ * @author Raimon Gramlich
  */
 public abstract class AbstractImage extends Content<WritableImage> {
-
+	
+	/** The Constant MAX_IMAGE_WIDTH. */
+	protected final static int MAX_IMAGE_WIDTH = 500;
+	
+	/** The Constant MAX_IMAGE_HEIGHT. */
+	protected final static int MAX_IMAGE_HEIGHT = 500;
+	
+	/** The Constant MIN_IMAGE_WIDTH. */
+	protected final static int MIN_IMAGE_WIDTH = 0;
+	
+	/** The Constant MIN_IMAGE_HEIGHT. */
+	protected final static int MIN_IMAGE_HEIGHT = 0;
+	
 	/**
 	 * The WritableImage containing this Contents data
 	 */
