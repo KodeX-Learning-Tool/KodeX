@@ -8,19 +8,18 @@ import kodex.plugininterface.ChainLinkPresenter;
 /**
  * 
  */
-public class BitStringEditPresenter extends ChainLinkEditPresenter {
+public class RGBByteListEditPresenter extends ChainLinkEditPresenter {
 
-    
 
-    public BitStringEditPresenter(ChainLinkPresenter chainLinkPresenter) {
+	public RGBByteListEditPresenter(ChainLinkPresenter chainLinkPresenter) {
 		super(chainLinkPresenter);
 		// TODO Auto-generated constructor stub
 	}
 
-	/**
-     * 
-     */
-    public void handleSubmit() {
+	@Override
+	public void handleSubmit() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
@@ -28,5 +27,6 @@ public class BitStringEditPresenter extends ChainLinkEditPresenter {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 }

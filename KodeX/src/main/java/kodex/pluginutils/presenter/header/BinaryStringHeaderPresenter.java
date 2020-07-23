@@ -9,11 +9,11 @@ import kodex.plugininterface.Content;
 /**
  * 
  */
-public class BitStringHeaderPresenter extends ChainLinkHeaderPresenter {
+public class BinaryStringHeaderPresenter extends ChainLinkHeaderPresenter {
 
     
 
-	public BitStringHeaderPresenter(Content content) {
+	public BinaryStringHeaderPresenter(Content content) {
 		super(content);
 		// TODO Auto-generated constructor stub
 	}
