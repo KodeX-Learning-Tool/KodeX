@@ -6,7 +6,7 @@ import kodex.plugininterface.Content;
  * This class holds data in matrix format. The Matrix is stored in a 2D Array 
  * with the format [rows][cols].
  */
-public abstract class AbstractMatrix<E> extends Content<E> {  
+public abstract class AbstractMatrix<E> extends Content {  
 
 	protected E[][] matrix;
 	
