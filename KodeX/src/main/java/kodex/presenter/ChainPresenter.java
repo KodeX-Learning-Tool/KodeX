@@ -206,7 +206,7 @@ public class ChainPresenter implements IPresenter {
 		
 	    /** Toggles between the flag isHidden between true and false, while changing the icon accordingly.  */
 		private void toggleHide() {
-			if (isHidden) {
+			if (Boolean.TRUE.equals(isHidden)) {
 				hideButtonIcon.setIconLiteral(shownIcon);
 				isHidden = false;
 			} else {
@@ -235,7 +235,7 @@ public class ChainPresenter implements IPresenter {
     	
     	for (Divider divider: dividers) {
     		divider.positionProperty().addListener((obs, oldValue, newValue) -> {
-    			if (isMoving == false) {
+    			if (Boolean.FALSE.equals(isMoving)) {
         			double delta = newValue.doubleValue() - oldValue.doubleValue();
         			moveDividers(divider, delta);
     			}
