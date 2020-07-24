@@ -166,12 +166,16 @@ public class ChainPresenter implements IPresenter {
 	     */
 		@FXML
 		private void initialize() {
-			// titleLabel.setText("Kodierungsstufe: " + chainLinkPresenter.getName());
+			// titleLabel.setText(chainLinkPresenter.getName());
 		    
 		    ChainLinkHeaderPresenter header = chainLinkPresenter.getChainLinkHeader();
 		    
-		    // enable language support
-		    hiddenLabel.textProperty().bind(I18N.createStringBinding("chainlinktemplate.hiddenlabel").concat(""));
+		    // replace horizontal lines with vertical ones 
+		    String chainLinkName = chainLinkPresenter.getName();
+		    chainLinkName = chainLinkName.replace("-", 	"|");
+		    
+		    // enable language support and display the name
+		    hiddenLabel.textProperty().bind(I18N.createStringBinding("chainlinktemplate.hiddenlabel").concat(" " + chainLinkName));
 		    
 		    // bind the visibility to the managed property and hide the hiddenPane
 		    chainItemContent.visibleProperty().bind(chainItemContent.managedProperty());
