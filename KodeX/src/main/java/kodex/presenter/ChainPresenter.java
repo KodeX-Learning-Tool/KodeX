@@ -113,6 +113,18 @@ public class ChainPresenter implements IPresenter {
 		@FXML
 		private FontIcon hideButtonIcon;
 		
+		/** The actual content of the chain item. */
+		@FXML
+		private AnchorPane chainItemContent;
+		
+		/** The AnchorPane which is displayed when the content is hidden. */
+		@FXML
+		private AnchorPane hiddenPane;
+		
+		/** The Label displaying the text when the content is hidden. */
+		@FXML
+		private Label hiddenLabel;
+		
 		/** This Boolean represents the state of the chain item. */
 		private Boolean isHidden;
 		
@@ -124,12 +136,6 @@ public class ChainPresenter implements IPresenter {
 		
 		/** The reference to the ChainLinkPresenter. */
 		private ChainLinkPresenter chainLinkPresenter;
-		
-		/** The actual content of the chain item. */
-		private VBox chainItemContent;
-		
-		/** The Label which is displayed when the content is hidden. */
-		private Label hiddenLabel;
 		
 	    /**
 	     * Creates a new ChainItem with a reference to its ChainLinkPresenter.
@@ -163,8 +169,11 @@ public class ChainPresenter implements IPresenter {
 		    
 		    ChainLinkHeaderPresenter header = chainLinkPresenter.getChainLinkHeader();
 		    
+		    chainItemContent.visibleProperty().bind(chainItemContent.managedProperty());
+		    hiddenPane.visibleProperty().bind(hiddenPane.managedProperty());
+		    hiddenPane.setManaged(false);
+		    
 		    if (header != null) {
-		        
 		        informationBox.getChildren().set(0, header.getView());
 		    }
 			
@@ -208,9 +217,18 @@ public class ChainPresenter implements IPresenter {
 		private void toggleHide() {
 			if (Boolean.TRUE.equals(isHidden)) {
 				hideButtonIcon.setIconLiteral(shownIcon);
+				this.setMaxWidth(chainItemContent.getMaxWidth());
+				
+				hiddenPane.setManaged(false);
+				chainItemContent.setManaged(true);
 				isHidden = false;
 			} else {
 				hideButtonIcon.setIconLiteral(hiddenIcon);
+				
+				this.setMaxWidth(hiddenPane.getPrefWidth());
+				
+				hiddenPane.setManaged(true);
+				chainItemContent.setManaged(false);
 				isHidden = true;
 			}
 		}
