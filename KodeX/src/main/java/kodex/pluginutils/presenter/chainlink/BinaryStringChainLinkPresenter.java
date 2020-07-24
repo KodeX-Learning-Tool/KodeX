@@ -1,8 +1,8 @@
 package kodex.pluginutils.presenter.chainlink;
 
 
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.BinaryString;
@@ -38,16 +38,17 @@ public class BinaryStringChainLinkPresenter extends ChainLinkPresenter {
 	public AnchorPane getView() {
 		AnchorPane chainLinkPane = new AnchorPane();
 		
-		Text binaryText = new Text(((BinaryString) getContent()).getString());
+		TextArea binaryTextArea = new TextArea(((BinaryString) getContent()).getString());
 		
-		binaryText.wrappingWidthProperty().bind(chainLinkPane.widthProperty());
+		binaryTextArea.setEditable(false);
+		binaryTextArea.setWrapText(true);
+
+		AnchorPane.setTopAnchor(binaryTextArea, 0d);
+		AnchorPane.setRightAnchor(binaryTextArea, 0d);
+		AnchorPane.setBottomAnchor(binaryTextArea, 0d);
+		AnchorPane.setLeftAnchor(binaryTextArea, 0d);
 		
-		chainLinkPane.getChildren().add(binaryText);
-		
-		AnchorPane.setTopAnchor(binaryText, 0d);
-		AnchorPane.setRightAnchor(binaryText, 0d);
-		AnchorPane.setBottomAnchor(binaryText, 0d);
-		AnchorPane.setLeftAnchor(binaryText, 0d);
+		chainLinkPane.getChildren().add(binaryTextArea);
 		
 		return chainLinkPane;
 	}
