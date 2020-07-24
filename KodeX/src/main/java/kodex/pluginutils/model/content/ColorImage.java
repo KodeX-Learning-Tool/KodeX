@@ -3,7 +3,6 @@ package kodex.pluginutils.model.content;
 import java.io.File;
 
 import javafx.scene.image.WritableImage;
-import kodex.plugininterface.Content;
 
 /**
  * This class holds data in Image format. An ColorImage consists of a Writable RGB Image.

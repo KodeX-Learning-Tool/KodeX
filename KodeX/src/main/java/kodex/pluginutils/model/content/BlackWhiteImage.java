@@ -4,7 +4,6 @@ import java.io.File;
 
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
-import kodex.plugininterface.Content;
 
 /**
  * This class holds data in Image format. An BlackWhitImage consists of a WritableImage 
