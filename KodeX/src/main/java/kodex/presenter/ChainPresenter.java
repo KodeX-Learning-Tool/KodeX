@@ -17,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkHeaderPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ProcedurePlugin;
@@ -168,6 +169,8 @@ public class ChainPresenter implements IPresenter {
 			// titleLabel.setText("Kodierungsstufe: " + chainLinkPresenter.getName());
 		    
 		    ChainLinkHeaderPresenter header = chainLinkPresenter.getChainLinkHeader();
+		    
+		    hiddenLabel.textProperty().bind(I18N.createStringBinding("chainlinktemplate.hiddenlabel").concat(""));
 		    
 		    chainItemContent.visibleProperty().bind(chainItemContent.managedProperty());
 		    hiddenPane.visibleProperty().bind(hiddenPane.managedProperty());
