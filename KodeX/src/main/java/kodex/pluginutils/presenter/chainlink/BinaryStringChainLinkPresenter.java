@@ -20,7 +20,8 @@ public class BinaryStringChainLinkPresenter extends ChainLinkPresenter {
 	public BinaryStringChainLinkPresenter(ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
 		super(previous, previousStep, nextStep);
 		chainLinkEditPresenter = new BinaryStringEditPresenter(this);
-		chainLinkHeaderPresenter = new BinaryStringHeaderPresenter(this.getContent());
+		// chainLinkHeaderPresenter = new BinaryStringHeaderPresenter(this.getContent());
+		content = new BinaryString();
 	}
 
 
