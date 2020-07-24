@@ -170,16 +170,20 @@ public class ChainPresenter implements IPresenter {
 		    
 		    ChainLinkHeaderPresenter header = chainLinkPresenter.getChainLinkHeader();
 		    
+		    // enable language support
 		    hiddenLabel.textProperty().bind(I18N.createStringBinding("chainlinktemplate.hiddenlabel").concat(""));
 		    
+		    // bind the visibility to the managed property and hide the hiddenPane
 		    chainItemContent.visibleProperty().bind(chainItemContent.managedProperty());
 		    hiddenPane.visibleProperty().bind(hiddenPane.managedProperty());
 		    hiddenPane.setManaged(false);
 		    
+		    // display the header if available
 		    if (header != null) {
 		        informationBox.getChildren().set(0, header.getView());
 		    }
 			
+		    // display the chain link content
 			chainLinkPane.setCenter(chainLinkPresenter.getView());
 		}
 		
@@ -219,17 +223,24 @@ public class ChainPresenter implements IPresenter {
 	    /** Toggles between the flag isHidden between true and false, while changing the icon accordingly.  */
 		private void toggleHide() {
 			if (Boolean.TRUE.equals(isHidden)) {
+				// change the icon
 				hideButtonIcon.setIconLiteral(shownIcon);
+				
+				// reverse max width
 				this.setMaxWidth(chainItemContent.getMaxWidth());
 				
+				// show chain item content and hide the hidden pane
 				hiddenPane.setManaged(false);
 				chainItemContent.setManaged(true);
 				isHidden = false;
 			} else {
+				// change the icon
 				hideButtonIcon.setIconLiteral(hiddenIcon);
 				
+				// force the chain item to be thinner
 				this.setMaxWidth(hiddenPane.getPrefWidth());
 				
+				// hide chain item content and show the hidden pane
 				hiddenPane.setManaged(true);
 				chainItemContent.setManaged(false);
 				isHidden = true;
