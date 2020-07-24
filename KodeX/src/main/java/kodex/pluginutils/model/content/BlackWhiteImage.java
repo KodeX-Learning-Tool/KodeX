@@ -37,9 +37,18 @@ public class BlackWhiteImage extends AbstractImage{
 	@Override
     public boolean isValid(WritableImage input) {
 		if (input == null) {
-			System.out.println("Invalid import, no file selected");
+			System.out.println("Invalid import, no import to validate");
 			return false;
 		}
+		
+        if (input.getWidth() > MAX_IMAGE_WIDTH || MIN_IMAGE_WIDTH > input.getWidth()) {
+        	return false;
+        }
+        
+        if (input.getHeight() > MAX_IMAGE_HEIGHT || MIN_IMAGE_HEIGHT > input.getHeight()) {
+        	return false;
+        }
+        
 		else if (input.getWidth() > 500 || input.getHeight() > 500) {
 			System.out.println("Invalid import, file too large");
 			return false;

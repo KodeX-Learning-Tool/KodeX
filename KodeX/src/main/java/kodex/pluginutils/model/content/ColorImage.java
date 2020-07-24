@@ -36,18 +36,22 @@ public class ColorImage extends AbstractImage {
 
 	@Override
     public boolean isValid(WritableImage input) {
-		Boolean isValid = true;
 		
-        if (input.getWidth() > MAX_IMAGE_WIDTH && MIN_IMAGE_WIDTH > input.getWidth()) {
-        	isValid = false;
+		if (input == null) {
+			System.out.println("Invalid import, no import to validate");
+			return false;
+		}
+		
+        if (input.getWidth() > MAX_IMAGE_WIDTH || MIN_IMAGE_WIDTH > input.getWidth()) {
+        	return false;
         }
         
-        if (input.getHeight() > MAX_IMAGE_HEIGHT && MIN_IMAGE_HEIGHT > input.getHeight()) {
-        	isValid = false;
+        if (input.getHeight() > MAX_IMAGE_HEIGHT || MIN_IMAGE_HEIGHT > input.getHeight()) {
+        	return false;
         }
         
         image = input;
         
-        return isValid;
+        return true;
     }
 }
