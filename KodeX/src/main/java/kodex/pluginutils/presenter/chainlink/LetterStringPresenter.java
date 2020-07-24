@@ -7,7 +7,10 @@ import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.LetterString;
 
 public class LetterStringPresenter extends ChainLinkPresenter {
-
+	
+	/** The chain link name. */
+	private static final String CHAIN_LINK_NAME = "Buchstabenkette";
+	
     public LetterStringPresenter(ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
         super(previous, previousStep, nextStep);
         this.content = new LetterString();
@@ -29,4 +32,9 @@ public class LetterStringPresenter extends ChainLinkPresenter {
         ap.getChildren().add(displaytext);
         return ap;
     }
+
+	@Override
+	public String getName() {
+		return CHAIN_LINK_NAME;
+	}
 }

@@ -15,7 +15,9 @@ import kodex.pluginutils.presenter.header.BinaryStringHeaderPresenter;
  * @author Raimon Gramlich
  */
 public class BinaryStringChainLinkPresenter extends ChainLinkPresenter {
-
+	
+	/** The chain link name. */
+	private static final String CHAIN_LINK_NAME = "Binärkette";
 
 	public BinaryStringChainLinkPresenter(ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
 		super(previous, previousStep, nextStep);
@@ -51,6 +53,11 @@ public class BinaryStringChainLinkPresenter extends ChainLinkPresenter {
 		chainLinkPane.getChildren().add(binaryTextArea);
 		
 		return chainLinkPane;
+	}
+
+	@Override
+	public String getName() {
+		return CHAIN_LINK_NAME;
 	}
 
 }

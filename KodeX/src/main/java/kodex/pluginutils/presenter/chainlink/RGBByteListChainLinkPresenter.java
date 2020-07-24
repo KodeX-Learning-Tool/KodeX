@@ -20,7 +20,10 @@ import kodex.pluginutils.presenter.header.RGBByteListHeaderPresenter;
  * @author Raimon Gramlich
  */
 public class RGBByteListChainLinkPresenter extends ChainLinkPresenter {
-
+	
+	/** The chain link name. */
+	private static final String CHAIN_LINK_NAME = "RGB-Byte-Liste";
+	
 	/** The rgb byte list view. */
 	private ListView<String> rgbByteListView;
 
@@ -79,6 +82,11 @@ public class RGBByteListChainLinkPresenter extends ChainLinkPresenter {
 		chainLinkPane.getChildren().add(rgbByteListView);
 		
 		return chainLinkPane;
+	}
+
+	@Override
+	public String getName() {
+		return CHAIN_LINK_NAME;
 	}
 	
 }

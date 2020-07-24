@@ -239,5 +239,12 @@ public abstract class ChainLinkPresenter implements IPresenter {
      * @return View in the form of an AnchorPane in which the content is displayed
      */
     public abstract AnchorPane getView();
+    
+    /**
+     * Gets the name of the chain link.
+     *
+     * @return the name of the chain link
+     */
+    public abstract String getName();
 
 }

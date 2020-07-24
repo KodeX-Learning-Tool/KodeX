@@ -18,7 +18,10 @@ import kodex.pluginutils.presenter.header.RGBListHeaderPresenter;
  * @author Raimon Gramlich
  */
 public class RGBListChainLinkPresenter extends ChainLinkPresenter {
-
+	
+	/** The chain link name. */
+	private static final String CHAIN_LINK_NAME = "RGB-Liste";
+	
 	/** The rgb list view. */
 	private ListView<String> rgbListView;
 
@@ -85,6 +88,11 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
 	private String colorToRGBString(Color color) {		
 		return "(" + String.valueOf((int) Math.round(color.getRed() * 255)) + ", " + String.valueOf((int) Math.round(color.getGreen() * 255)) 
 		+ ", " + String.valueOf((int) Math.round(color.getBlue() * 255)) + ")";
+	}
+
+	@Override
+	public String getName() {
+		return CHAIN_LINK_NAME;
 	}
 
 }

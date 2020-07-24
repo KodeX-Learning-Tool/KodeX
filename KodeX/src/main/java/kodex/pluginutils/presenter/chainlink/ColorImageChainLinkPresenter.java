@@ -21,6 +21,9 @@ import kodex.pluginutils.presenter.header.ColorImageHeaderPresenter;
  */
 public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
 	
+	/** The chain link name. */
+	private static final String CHAIN_LINK_NAME = "Farbbild";
+	
 	/** The color image view displaying the image. */
 	private ImageView colorImageView;
 	
@@ -212,5 +215,10 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
 	    }
 	 
 	    return output;
+	}
+
+	@Override
+	public String getName() {
+		return CHAIN_LINK_NAME;
 	}
 }
