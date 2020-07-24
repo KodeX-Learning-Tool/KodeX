@@ -9,14 +9,17 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.SplitPane.Divider;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkHeaderPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ProcedurePlugin;
@@ -113,6 +116,14 @@ public class ChainPresenter implements IPresenter {
 		@FXML
 		private FontIcon hideButtonIcon;
 		
+		/** The titled pane containing further information. */
+		@FXML
+		private TitledPane informationTitledPane;
+		
+		/** The export button. */
+		@FXML
+		private Button exportButton;
+		
 		/** This Boolean represents the state of the chain item. */
 		private Boolean isHidden;
 		
@@ -160,6 +171,10 @@ public class ChainPresenter implements IPresenter {
 		@FXML
 		private void initialize() {
 			// titleLabel.setText("Kodierungsstufe: " + chainLinkPresenter.getName());
+			
+			// add language support
+			informationTitledPane.textProperty().bind(I18N.createStringBinding("chainlinktemplate.information.header"));
+			exportButton.textProperty().bind(I18N.createStringBinding("chainlinktemplate.exportbutton"));
 		    
 		    ChainLinkHeaderPresenter header = chainLinkPresenter.getChainLinkHeader();
 		    
