@@ -519,3 +519,14 @@
 .overview__item {
 	-fx-content-display: center;
 }
+
+.chainlink__hidden-label {
+    -fx-pref-width: 1px;
+    -fx-min-width: 1px;
+    -fx-max-width: 1px;
+    -fx-font-family: "Monospaced";
+    -fx-font-size: 24;
+    -fx-wrap-text: true;
+    -fx-text-alginment: center;
+    -fx-line-spacing: -5;
+}
