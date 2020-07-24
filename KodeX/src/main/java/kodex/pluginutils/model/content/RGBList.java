@@ -38,9 +38,9 @@ public class RGBList extends AbstractList<Color> {
     }
 
 	@Override
-	protected File toFile() {
+	public void export(File file) {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 }

@@ -57,9 +57,9 @@ public class RGBByteList extends AbstractList<String> {
     }
 
 	@Override
-	protected File toFile() {
+	public void export(File file) {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 }

@@ -20,13 +20,7 @@ public class CharacterString extends AbstractString {
     public CharacterString(String str) {
     	super.data = str;
     }
-    
-	@Override
-	protected File toFile() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+   
 	@Override
     public boolean isValid(String input) {
 		if (input == null) {
@@ -39,4 +33,10 @@ public class CharacterString extends AbstractString {
 		}
 		return true;
     }
+
+	@Override
+	public void export(File file) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -29,12 +29,6 @@ public class ColorImage extends AbstractImage {
     }
 
 	@Override
-	protected File toFile() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
     public boolean isValid(WritableImage input) {
 		
 		if (input == null) {
@@ -54,4 +48,10 @@ public class ColorImage extends AbstractImage {
         
         return true;
     }
+
+	@Override
+	public void export(File file) {
+		// TODO Auto-generated method stub
+		
+	}
 }

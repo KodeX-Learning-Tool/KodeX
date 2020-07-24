@@ -22,12 +22,6 @@ public class RGBMatrix extends AbstractMatrix<Color> {
     }
 
 	@Override
-	protected File toFile() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public boolean isValid(Object input) {
 		RGBMatrix object;
     	
@@ -54,6 +48,12 @@ public class RGBMatrix extends AbstractMatrix<Color> {
     	}
     	
         return true;
+	}
+
+	@Override
+	public void export(File file) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

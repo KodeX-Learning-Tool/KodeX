@@ -29,12 +29,6 @@ public class BlackWhiteImage extends AbstractImage{
     }
 
 	@Override
-	protected File toFile() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
     public boolean isValid(WritableImage input) {
 		if (input == null) {
 			System.out.println("Invalid import, no import to validate");
@@ -65,5 +59,11 @@ public class BlackWhiteImage extends AbstractImage{
 		}
 		return true;
     }
+
+	@Override
+	public void export(File file) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

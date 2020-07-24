@@ -43,16 +43,7 @@ public abstract class Content<T> {
      * Exports the content to the given location
      * @param file : The location where this content should be written
      */
-    public void export(File file) {
-    	//TODO exporting files
-    	File export = this.toFile();
-	}
-    
-    /**
-     * Creates and returns a file containing the data of this content
-     * @return A file containing this contents data
-     */
-    protected abstract File toFile();
+    public abstract void export(File file);
 
     /**
      * Returns whether the input for this content is valid

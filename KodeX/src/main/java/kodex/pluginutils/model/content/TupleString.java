@@ -10,12 +10,6 @@ public class TupleString extends Content<String> {
     private Tuple<String, Integer>[] tuples;
 
     @Override
-    protected File toFile() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public boolean isValid(String input) {
         
         String[] inputStrings = input.split(" ");
@@ -86,5 +80,11 @@ public class TupleString extends Content<String> {
     public void setTuples(Tuple<String, Integer>[] tuples) {
         this.tuples = tuples;
     }
+
+	@Override
+	public void export(File file) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
