@@ -1,11 +1,13 @@
 package kodex.pluginutils.presenter.chainlink;
 
+import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
@@ -54,7 +56,7 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
     chainLinkEditPresenter = new ColorImageEditPresenter(this);
-    chainLinkHeaderPresenter = new ColorImageHeaderPresenter(this.getContent());
+    // chainLinkHeaderPresenter = new ColorImageHeaderPresenter(this.getContent());
     content = new ColorImage();
   }
 
@@ -96,10 +98,11 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
   @Override
   public AnchorPane getView() {
     AnchorPane chainLinkPane = new AnchorPane();
+    StackPane alignmentPane = new StackPane();
     Image image = ((ColorImage) this.getContent()).getImage();
-
+    
     scaleFactor = (int) (PREFFERED_IMAGE_SIZE / Math.max(image.getWidth(), image.getHeight()));
-
+    
     // scale if smaller than preffered size
     if (scaleFactor > 1) {
       colorImageView = new ImageView(resample(image, scaleFactor));
@@ -116,17 +119,22 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
           // store selected (marked) pixel
           selectedX = e.getX();
           selectedY = e.getY();
-
+      
           handleMark();
-        });
-
-    chainLinkPane.getChildren().add(colorImageView);
-
-    AnchorPane.setTopAnchor(colorImageView, 0d);
-    AnchorPane.setRightAnchor(colorImageView, 0d);
-    AnchorPane.setBottomAnchor(colorImageView, 0d);
-    AnchorPane.setLeftAnchor(colorImageView, 0d);
-
+        });   
+    
+    // anchor the alignment pane in the center
+    AnchorPane.setTopAnchor(alignmentPane, 0d);
+    AnchorPane.setRightAnchor(alignmentPane, 0d);
+    AnchorPane.setBottomAnchor(alignmentPane, 0d);
+    AnchorPane.setLeftAnchor(alignmentPane, 0d);
+    
+    // align the image view in the center
+    alignmentPane.getChildren().add(colorImageView);
+    alignmentPane.setAlignment(Pos.CENTER);
+    
+    chainLinkPane.getChildren().add(alignmentPane);
+    
     return chainLinkPane;
   }
 
