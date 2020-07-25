@@ -74,7 +74,7 @@ public class ChainPresenter implements IPresenter {
     @FXML private AnchorPane chainItemContent;
 
     /** This Boolean represents the state of the chain item. */
-    private Boolean isHidden;
+    private Boolean hidden;
 
     /** The IconLiteral of the hidden-icon. */
     private String hiddenIcon = "mdi-chevron-down";
@@ -93,7 +93,7 @@ public class ChainPresenter implements IPresenter {
     ChainItem(ChainLinkPresenter chainLinkPresenter) {
       this.chainLinkPresenter = chainLinkPresenter;
 
-      isHidden = false;
+      hidden = false;
 
       // loads template file
       try {
@@ -185,7 +185,7 @@ public class ChainPresenter implements IPresenter {
      * accordingly.
      */
     private void toggleHide() {
-      if (Boolean.TRUE.equals(isHidden)) {
+      if (Boolean.TRUE.equals(hidden)) {
         // change the icon
 				hideButtonIcon.setIconLiteral(shownIcon);
 
@@ -195,7 +195,7 @@ public class ChainPresenter implements IPresenter {
 				// show chain item content and hide the hidden pane
 				hiddenPane.setManaged(false);
 				chainItemContent.setManaged(true);
-				isHidden = false;
+				hidden = false;
 			} else {
 				// change the icon
 				hideButtonIcon.setIconLiteral(hiddenIcon);
@@ -206,7 +206,7 @@ public class ChainPresenter implements IPresenter {
 				// hide chain item content and show the hidden pane
 				hiddenPane.setManaged(true);
 				chainItemContent.setManaged(false);
-				isHidden = true;
+				hidden = true;
 			}
 		}
   }
