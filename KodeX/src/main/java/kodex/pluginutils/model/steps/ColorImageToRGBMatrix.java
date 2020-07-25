@@ -8,7 +8,8 @@ import kodex.pluginutils.model.content.ColorImage;
 import kodex.pluginutils.model.content.RGBMatrix;
 
 /**
- * 
+ * This class represents the bidirectional step between ColorImage and RGBMatrix.
+ * It contains the functionality to decode and encode the content between these explicitly defined levels.
  */
 public class ColorImageToRGBMatrix extends ChainStep {
 
@@ -21,7 +22,7 @@ public class ColorImageToRGBMatrix extends ChainStep {
 
 
 	@Override
-	public void encode(Content left, Content right) {
+	public void encode(Content<?> left, Content<?> right) {
 		ColorImage leftimg = (ColorImage) left;
 		RGBMatrix rightmtx = (RGBMatrix) right;
 		
@@ -39,7 +40,7 @@ public class ColorImageToRGBMatrix extends ChainStep {
 	}
 
 	@Override
-	public void decode(Content right, Content left) {
+	public void decode(Content<?> right, Content<?> left) {
 		ColorImage leftimg = (ColorImage) left;
 		RGBMatrix rightmtx = (RGBMatrix) right;
 		
