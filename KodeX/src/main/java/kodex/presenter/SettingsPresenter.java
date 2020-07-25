@@ -2,9 +2,7 @@ package kodex.presenter;
 
 import java.io.File;
 import java.util.Locale;
-
 import org.controlsfx.control.ToggleSwitch;
-
 import javafx.collections.FXCollections;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
@@ -21,237 +19,224 @@ import kodex.model.validator.PortNumValidator;
 import kodex.presenter.textformatter.PortNumFormatter;
 
 /**
- * This Presenter is responsible for the settings page. In the settings page the
- * user can alter the settings.
- * 
+ * This Presenter is responsible for the settings page. In the settings page the user can alter the
+ * settings.
+ *
  * @author Leonhard Kraft
  * @author Yannick Neubert
- * 
  * @version 1.0
  */
 public class SettingsPresenter extends Presenter {
 
+  /*
+   * Store an Instance of defaultSettings to prevent calling getInstance every
+   * time they are needed
+   */
+  private DefaultSettings defaultSettings;
+
+  @FXML private ChoiceBox<Locale> languageChoiceBox;
+
+  @FXML private ToggleSwitch darkModeSwitch;
+
+  @FXML private TextField portTextField;
+
+  @FXML private TextField pathTextField;
+
+  @FXML private Label lblHeader;
+
+  @FXML private Label lblLanguage;
+
+  @FXML private Label lblDarkmode;
+
+  @FXML private Label lblDefaultPort;
+
+  @FXML private Label lblDefaultPortDescription;
+
+  @FXML private Label lblDefaultPath;
+
+  @FXML private Label lblDefaultPathDescription;
+
+  @FXML private Button resetButton;
+
+  /**
+   * Creates a new SettingsPresenter with a reference to the PresenterManager.
+   *
+   * @param presenterManager The PresenterManager for the superclass constructor.
+   */
+  public SettingsPresenter(PresenterManager presenterManager) {
+    super(presenterManager, "settingspage");
+  }
+
+  /*
+   * Creates a language converter to show Locales with their local language
+   */
+  private StringConverter<Locale> createLanguageConverter() {
+    return new StringConverter<Locale>() {
+
+      @Override
+      public Locale fromString(String string) {
+        return null;
+      }
+
+      @Override
+      public String toString(Locale locale) {
+        return locale.getDisplayLanguage(locale);
+      }
+    };
+  }
+
+  /**
+   * This Method is called when the user clicks on the item to change the default path for saving
+   * files. Opens a dialog to change the path and saves it.
+   */
+  @FXML
+  public void handleBrowsePath() {
+
+    DirectoryChooser dirChooser = new DirectoryChooser();
+
+    // TODO: change from null to stage to disable stage interactions while dialog is
+    // open
+    File selectedDirectory = dirChooser.showDialog(null);
+
+    if (selectedDirectory == null) {
+      // no directory has been chosen
+      return;
+    }
+
+    defaultSettings.setDefaultPath(selectedDirectory.getAbsolutePath());
+    updateDefaultPath();
+  }
+
+  /** This Method is called when a new Language is selected. Changes the language. */
+  @FXML
+  public void handleChangeLanguage() {
+
+    Locale chosenLanguage = languageChoiceBox.getValue();
+
+    if (chosenLanguage == null) {
+      return;
+    }
+
+    defaultSettings.setSavedLanguage(chosenLanguage);
+    I18N.setLocale(chosenLanguage);
+  }
+
+  /**
+   * This Method is called when the Dark-Mode has been de-/activated. Changes the appearance of the
+   * application by changing the loaded css file.
+   */
+  @FXML
+  public void handleDarkModeToggle() {
+
+    // TODO switch label of switch
+    defaultSettings.setDarkMode(darkModeSwitch.isSelected());
+  }
+
+  /**
+   * This Method is called when the user clicks on the item to restore the default settings. Resets
+   * the settings.
+   */
+  @FXML
+  public void handleRestoreDefaultSettings() {
+
+    defaultSettings.reset();
+
+    // initialize all settings again to display the reset
+    this.initialize();
+  }
+
+  /**
+   * This Method is called when the user clicks on the item to confirm the entered default port.
+   * Saves the entered port.
+   */
+  @FXML
+  public void handleSubmitPort() {
+
+    String portText = portTextField.getText();
+
+    if (!PortNumValidator.getInstance().isValid(portText)) {
+      // port number is invalid
+
+      setErrorPseudoClass(portTextField, true);
+      return;
+    }
+
+    int portNumber = Integer.parseInt(portText);
+
+    defaultSettings.setPort(portNumber);
+  }
+
+  /** Initializes the view-object created by the FXMLLoader. */
+  @FXML
+  private void initialize() {
+
+    defaultSettings = DefaultSettings.getInstance();
+
+    lblHeader.textProperty().bind(I18N.createStringBinding("settingspage.header"));
+    lblLanguage.textProperty().bind(I18N.createStringBinding("settingspage.language.header"));
+    lblDarkmode.textProperty().bind(I18N.createStringBinding("settingspage.darkmode.header"));
+    lblDefaultPort.textProperty().bind(I18N.createStringBinding("settingspage.defaultport.header"));
+    lblDefaultPortDescription
+        .textProperty()
+        .bind(I18N.createStringBinding("settingspage.defaultport.lbl"));
+    lblDefaultPath.textProperty().bind(I18N.createStringBinding("settingspage.defaultpath.header"));
+    lblDefaultPathDescription
+        .textProperty()
+        .bind(I18N.createStringBinding("settingspage.defaultpath.lbl"));
+    resetButton.textProperty().bind(I18N.createStringBinding("settingspage.resetbutton"));
+
+    // reset pseudo classes for reset
+
+    setErrorPseudoClass(portTextField, false);
+
     /*
-     * Store an Instance of defaultSettings to prevent calling getInstance every
-     * time they are needed
+     * Initialize the language ChoiceBox setting.
      */
-    private DefaultSettings defaultSettings;
 
-    @FXML
-    private ChoiceBox<Locale> languageChoiceBox;
-
-    @FXML
-    private ToggleSwitch darkModeSwitch;
-
-    @FXML
-    private TextField portTextField;
-
-    @FXML
-    private TextField pathTextField;
-    
-    @FXML
-    private Label lblHeader;
-    
-    @FXML
-    private Label lblLanguage;
-    
-    @FXML
-    private Label lblDarkmode;
-    
-    @FXML
-    private Label lblDefaultPort;
-    
-    @FXML
-    private Label lblDefaultPortDescription;
-    
-    @FXML
-    private Label lblDefaultPath;
-    
-    @FXML
-    private Label lblDefaultPathDescription;
-    
-    @FXML
-    private Button resetButton;
-
-    /**
-     * Creates a new SettingsPresenter with a reference to the PresenterManager
-     * 
-     * @param presenterManager The PresenterManager for the superclass constructor.
-     */
-    public SettingsPresenter(PresenterManager presenterManager) {
-        super(presenterManager, "settingspage");
-    }
-
-    /**
-     * Initializes the view-object created by the FXMLLoader.
-     */
-    @FXML
-    private void initialize() {
-
-        defaultSettings = DefaultSettings.getInstance();
-        
-        lblHeader.textProperty().bind(I18N.createStringBinding("settingspage.header"));
-        lblLanguage.textProperty().bind(I18N.createStringBinding("settingspage.language.header"));
-        lblDarkmode.textProperty().bind(I18N.createStringBinding("settingspage.darkmode.header"));
-        lblDefaultPort.textProperty().bind(I18N.createStringBinding("settingspage.defaultport.header"));
-        lblDefaultPortDescription.textProperty().bind(I18N.createStringBinding("settingspage.defaultport.lbl"));
-        lblDefaultPath.textProperty().bind(I18N.createStringBinding("settingspage.defaultpath.header"));
-        lblDefaultPathDescription.textProperty().bind(I18N.createStringBinding("settingspage.defaultpath.lbl"));
-        resetButton.textProperty().bind(I18N.createStringBinding("settingspage.resetbutton"));
-        
-        // reset pseudo classes for reset
-
-        setErrorPseudoClass(portTextField, false);
-
-        /*
-         * Initialize the language ChoiceBox setting.
-         */
-
-        languageChoiceBox.setConverter(createLanguageConverter());
-        languageChoiceBox.setItems(FXCollections.observableArrayList(I18N.getSupportedLocales()));
-        // set initial language, works fine because select uses equals to compare and
-        // therefore the instances don't have to be the same
-        languageChoiceBox.getSelectionModel().select(I18N.getLocale());
-
-        /*
-         * Initialize the DarkMode switch setting.
-         */
-
-        darkModeSwitch.setSelected(defaultSettings.isDarkMode());
-
-        /*
-         * Initialize the port setting.
-         */
-        portTextField.setTextFormatter(PortNumFormatter.createTextFormatter());
-
-        String portString = Integer.toString(DefaultSettings.getPort());
-        portTextField.setText(portString);
-
-        /*
-         * Initialize the path setting.
-         */
-        updateDefaultPath();
-    }
+    languageChoiceBox.setConverter(createLanguageConverter());
+    languageChoiceBox.setItems(FXCollections.observableArrayList(I18N.getSupportedLocales()));
+    // set initial language, works fine because select uses equals to compare and
+    // therefore the instances don't have to be the same
+    languageChoiceBox.getSelectionModel().select(I18N.getLocale());
 
     /*
-     * Creates a language converter to show Locales with their local language
+     * Initialize the DarkMode switch setting.
      */
-    private StringConverter<Locale> createLanguageConverter() {
-        return new StringConverter<Locale>() {
 
-            @Override
-            public String toString(Locale locale) {
-                return locale.getDisplayLanguage(locale);
-            }
-
-            @Override
-            public Locale fromString(String string) {
-                return null;
-            }
-        };
-    }
+    darkModeSwitch.setSelected(defaultSettings.isDarkMode());
 
     /*
-     * Sets or removes the error pseudoclass for the given control depending on the
-     * given state.
+     * Initialize the port setting.
      */
-    private void setErrorPseudoClass(Control control, boolean state) {
+    portTextField.setTextFormatter(PortNumFormatter.createTextFormatter());
 
-        final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
-        control.pseudoClassStateChanged(errorClass, state);
-    }
+    String portString = Integer.toString(DefaultSettings.getPort());
+    portTextField.setText(portString);
 
     /*
-     * Sets the text of the default path text field to the path saved in the
-     * properties
+     * Initialize the path setting.
      */
-    private void updateDefaultPath() {
+    updateDefaultPath();
+  }
 
-        String pathtext = defaultSettings.getDefaultPath();
+  /*
+   * Sets or removes the error pseudoclass for the given control depending on the
+   * given state.
+   */
+  private void setErrorPseudoClass(Control control, boolean state) {
 
-        pathTextField.setText(pathtext);
-    }
+    final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
+    control.pseudoClassStateChanged(errorClass, state);
+  }
 
-    /**
-     * This Method is called when a new Language is selected. Changes the language.
-     */
-    @FXML
-    public void handleChangeLanguage() {
-        
-        Locale chosenLanguage = languageChoiceBox.getValue();
-        
-        if (chosenLanguage == null) {
-            return;
-        }
-        
-        defaultSettings.setSavedLanguage(chosenLanguage);
-        I18N.setLocale(chosenLanguage);
-    }
+  /*
+   * Sets the text of the default path text field to the path saved in the
+   * properties
+   */
+  private void updateDefaultPath() {
 
-    /**
-     * This Method is called when the Dark-Mode has been de-/activated. Changes the
-     * appearance of the application by changing the loaded css file.
-     */
-    @FXML
-    public void handleDarkModeToggle() {
+    String pathtext = defaultSettings.getDefaultPath();
 
-        // TODO switch label of switch
-        defaultSettings.setDarkMode(darkModeSwitch.isSelected());
-    }
-
-    /**
-     * This Method is called when the user clicks on the item to change the default
-     * path for saving files. Opens a dialog to change the path and saves it.
-     */
-    @FXML
-    public void handleBrowsePath() {
-
-        DirectoryChooser dirChooser = new DirectoryChooser();
-
-        // TODO: change from null to stage to disable stage interactions while dialog is
-        // open
-        File selectedDirectory = dirChooser.showDialog(null);
-
-        if (selectedDirectory == null) {
-            // no directory has been chosen
-            return;
-        }
-
-        defaultSettings.setDefaultPath(selectedDirectory.getAbsolutePath());
-        updateDefaultPath();
-    }
-
-    /**
-     * This Method is called when the user clicks on the item to confirm the entered
-     * default port. Saves the entered port.
-     */
-    @FXML
-    public void handleSubmitPort() {
-
-        String portText = portTextField.getText();
-
-        if (!PortNumValidator.getInstance().isValid(portText)) {
-            // port number is invalid
-
-            setErrorPseudoClass(portTextField, true);
-            return;
-        }
-
-        int portNumber = Integer.parseInt(portText);
-
-        defaultSettings.setPort(portNumber);
-    }
-
-    /**
-     * This Method is called when the user clicks on the item to restore the default
-     * settings. Resets the settings.
-     */
-    @FXML
-    public void handleRestoreDefaultSettings() {
-
-        defaultSettings.reset();
-
-        // initialize all settings again to display the reset
-        this.initialize();
-    }
+    pathTextField.setText(pathtext);
+  }
 }
