@@ -29,10 +29,6 @@ public class RGBByteListToBinaryString extends ChainStep {
 		}
 		rightstring.setString(result);
 		
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("length", rightstring.length());
-		rightstring.setHeader(map);
-		
 		rightstring.setHeader(leftlist.getHeader());
 	}
 
