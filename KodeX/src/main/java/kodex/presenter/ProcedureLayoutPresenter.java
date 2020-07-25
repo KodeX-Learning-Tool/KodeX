@@ -10,7 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
@@ -40,7 +40,7 @@ public class ProcedureLayoutPresenter extends Presenter {
 	
 	/** The Pane which makes sliding in the Editor possible. */
 	@FXML
-	private Pane overlayPane;
+	private StackPane overlayPane;
 		
     /**
      * The active Coding Procedure. It contains the data for the Coding Chain and 
