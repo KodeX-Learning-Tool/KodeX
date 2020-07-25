@@ -229,7 +229,7 @@ public class ProcedureLayoutPresenter extends Presenter {
   @FXML private BorderPane procedurePane;
 
   /** The Pane which makes sliding in the Editor possible. */
-  @FXML private Pane overlayPane;
+  @FXML private StackPane overlayPane;
 
 	/** The procedure root pane which contains the whole procedure layout view. */
 	@FXML
@@ -298,6 +298,7 @@ public class ProcedureLayoutPresenter extends Presenter {
 
 			editor.setEditorView(editPresenter.getView());
 			editor.showEditor();
+		}
   }
 
   /** This method displays the chain view with the fitting items in the overview bar. */
