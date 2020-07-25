@@ -3,9 +3,12 @@ package kodex.standardplugins.colorimageprocedure.presenter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import javafx.fxml.FXML;
 import java.util.HashMap;
 import java.util.Scanner;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
@@ -13,6 +16,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
@@ -30,6 +34,14 @@ import kodex.pluginutils.model.content.ColorImage;
  */
 public class ColorImageImportPresenter extends ImportPresenter {
 	
+	/** The import button for encoding. */
+	@FXML
+	private Button encodeImportButton;
+	
+	/** The import button for decoding. */
+	@FXML
+	private Button decodeImportButton;
+	
 	/** The image which is imported for encoding. */
 	private WritableImage writableImage;
 	
@@ -46,6 +58,13 @@ public class ColorImageImportPresenter extends ImportPresenter {
 	 */
 	public ColorImageImportPresenter(ProcedurePlugin plugin) {
 		super(plugin);
+	}
+	
+	@FXML
+	private void initialize() {
+		// language support		
+		encodeImportButton.textProperty().bind(I18N.createStringBinding("importexample.encode.importbutton"));
+		decodeImportButton.textProperty().bind(I18N.createStringBinding("importexample.decode.importbutton"));
 	}
 
 	@Override
@@ -81,7 +100,7 @@ public class ColorImageImportPresenter extends ImportPresenter {
 
 	@Override
 	public void handleEncodeImport() {
-		File file = importFile("Kodieren");
+		File file = importFile(true);
 		
 		if (file != null) {
 		    //Creating an image 			
@@ -120,7 +139,7 @@ public class ColorImageImportPresenter extends ImportPresenter {
 
 	@Override
 	public void handleDecodeImport() {
-		File file = importFile("Dekodieren");
+		File file = importFile(false);
 		
 		if (file != null) {
 			parseTextFile(file);
@@ -154,12 +173,21 @@ public class ColorImageImportPresenter extends ImportPresenter {
 	/**
 	 * Open a FileChooser to import a file.
 	 *
-	 * @param type the type (i.e. Decode/Encode)
+	 * @param isEncoding whether the file is used for encoding or decoding
 	 * @return the chosen file
 	 */
-	private File importFile(String type) {		
+	private File importFile(Boolean isEncoding) {		
 		FileChooser fc = new FileChooser();
-		fc.setTitle("Datei zum " + type + " auswählen.");
+		String propertyName;
+		
+		if (Boolean.TRUE.equals(isEncoding)) {
+			propertyName = "importexample.filechooser.encode.title";
+		} else {
+			propertyName = "importexample.filechooser.decode.title";
+		}
+		
+		fc.titleProperty().bind(I18N.createStringBinding(propertyName));
+		
 		return fc.showOpenDialog(null);
 	}
 	
