@@ -1,9 +1,6 @@
 package kodex.pluginutils.model.content;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
 import javafx.scene.image.WritableImage;
 
 /**

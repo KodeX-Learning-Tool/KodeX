@@ -60,6 +60,10 @@ public class RGBMatrix extends AbstractMatrix<Color> {
 	@Override
 	public void export(File file) {
 		try {
+			
+			if (!file.getAbsolutePath().endsWith(".txt"))
+				file = new File(file.getAbsoluteFile() + ".txt");
+			
 			FileWriter writer = new FileWriter(file);
 
 			//header
