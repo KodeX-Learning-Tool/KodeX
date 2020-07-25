@@ -55,8 +55,10 @@ public class ColorImageImportPresenter extends ImportPresenter {
   @FXML
   private void initialize() {
     // language support   
-    encodeImportButton.textProperty().bind(I18N.createStringBinding("importexample.encode.importbutton"));
-    decodeImportButton.textProperty().bind(I18N.createStringBinding("importexample.decode.importbutton"));
+    encodeImportButton.textProperty()
+        .bind(I18N.createStringBinding("importexample.encode.importbutton"));
+    decodeImportButton.textProperty()
+        .bind(I18N.createStringBinding("importexample.decode.importbutton"));
   }
 
   @Override
