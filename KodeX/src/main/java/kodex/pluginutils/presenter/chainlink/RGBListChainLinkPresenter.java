@@ -16,8 +16,8 @@ import kodex.pluginutils.presenter.header.RGBListHeaderPresenter;
 /** @author Raimon Gramlich */
 public class RGBListChainLinkPresenter extends ChainLinkPresenter {
 
-	/** The chain link name. */
-	private static final String CHAIN_LINK_NAME = "RGB-Liste";
+  /** The chain link name. */
+  private static final String CHAIN_LINK_NAME = "RGB-Liste";
 
   /** The rgb list view. */
   private ListView<String> rgbListView;
@@ -60,8 +60,6 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
 
   @Override
   public AnchorPane getView() {
-    AnchorPane chainLinkPane = new AnchorPane();
-
     rgbListView = new ListView<>();
 
     ObservableList<String> list = FXCollections.observableArrayList();
@@ -87,6 +85,8 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
               }
             });
 
+    AnchorPane chainLinkPane = new AnchorPane();
+    
     chainLinkPane.getChildren().add(rgbListView);
 
     return chainLinkPane;

@@ -20,8 +20,8 @@ import kodex.pluginutils.presenter.header.RGBByteListHeaderPresenter;
  */
 public class RGBByteListChainLinkPresenter extends ChainLinkPresenter {
 
-	/** The chain link name. */
-	private static final String CHAIN_LINK_NAME = "RGB-Byte-Liste";
+  /** The chain link name. */
+  private static final String CHAIN_LINK_NAME = "RGB-Byte-Liste";
 
   /** The rgb byte list view. */
   private ListView<String> rgbByteListView;
@@ -47,9 +47,7 @@ public class RGBByteListChainLinkPresenter extends ChainLinkPresenter {
   }
 
   @Override
-  public AnchorPane getView() {
-    AnchorPane chainLinkPane = new AnchorPane();
-    
+  public AnchorPane getView() {    
     rgbByteListView = new ListView<>();
     
     List<String> list = ((RGBByteList) getContent()).getList();
@@ -76,16 +74,18 @@ public class RGBByteListChainLinkPresenter extends ChainLinkPresenter {
               }
             });
 
+    AnchorPane chainLinkPane = new AnchorPane();
+
     // add list view to chain link view
     chainLinkPane.getChildren().add(rgbByteListView);
 
     return chainLinkPane;
   }
 
-	@Override
-	public String getName() {
-		return CHAIN_LINK_NAME;
-	}
+  @Override
+  public String getName() {
+    return CHAIN_LINK_NAME;
+  }
 
   @Override
   protected void mark(int id) {

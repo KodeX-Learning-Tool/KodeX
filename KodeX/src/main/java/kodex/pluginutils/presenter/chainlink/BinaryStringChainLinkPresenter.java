@@ -15,8 +15,8 @@ import kodex.pluginutils.presenter.header.BinaryStringHeaderPresenter;
  */
 public class BinaryStringChainLinkPresenter extends ChainLinkPresenter {
 
-	/** The chain link name. */
-	private static final String CHAIN_LINK_NAME = "Binärkette";
+  /** The chain link name. */
+  private static final String CHAIN_LINK_NAME = "Binärkette";
 
   public BinaryStringChainLinkPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
@@ -27,9 +27,7 @@ public class BinaryStringChainLinkPresenter extends ChainLinkPresenter {
   }
 
   @Override
-  public AnchorPane getView() {
-    AnchorPane chainLinkPane = new AnchorPane();
-    
+  public AnchorPane getView() {    
     TextArea binaryTextArea = new TextArea(((BinaryString) getContent()).getString());
     
     binaryTextArea.setEditable(false);
@@ -40,15 +38,17 @@ public class BinaryStringChainLinkPresenter extends ChainLinkPresenter {
     AnchorPane.setBottomAnchor(binaryTextArea, 0d);
     AnchorPane.setLeftAnchor(binaryTextArea, 0d);
     
+    AnchorPane chainLinkPane = new AnchorPane();
+    
     chainLinkPane.getChildren().add(binaryTextArea);
     
     return chainLinkPane;
   }
 
-	@Override
-	public String getName() {
-		return CHAIN_LINK_NAME;
-	}
+  @Override
+  public String getName() {
+    return CHAIN_LINK_NAME;
+  }
 
   @Override
   protected void mark(int id) {

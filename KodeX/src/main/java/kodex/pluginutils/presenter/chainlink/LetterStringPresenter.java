@@ -8,8 +8,8 @@ import kodex.pluginutils.model.content.LetterString;
 
 public class LetterStringPresenter extends ChainLinkPresenter {
 
-	/** The chain link name. */
-	private static final String CHAIN_LINK_NAME = "Buchstabenkette";
+  /** The chain link name. */
+  private static final String CHAIN_LINK_NAME = "Buchstabenkette";
 
   public LetterStringPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
@@ -28,10 +28,10 @@ public class LetterStringPresenter extends ChainLinkPresenter {
     return ap;
   }
 
-	@Override
-	public String getName() {
-		return CHAIN_LINK_NAME;
-	}
+  @Override
+  public String getName() {
+    return CHAIN_LINK_NAME;
+  }
 
   @Override
   protected void mark(int id) {

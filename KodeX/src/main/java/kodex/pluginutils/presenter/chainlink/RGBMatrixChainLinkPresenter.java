@@ -68,7 +68,7 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
     super(previous, previousStep, nextStep);
     chainLinkEditPresenter = new RGBMatrixEditPresenter(this);
     // chainLinkHeaderPresenter = new RGBMatrixHeaderPresenter(this.getContent());
-    content = new RGBMatrix(3,3);
+    content = new RGBMatrix(3, 3);
   }
 
   @Override
@@ -132,10 +132,10 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
     return chainLinkPane;
   }
 
-	@Override
-	public String getName() {
-		return CHAIN_LINK_NAME;
-	}
+  @Override
+  public String getName() {
+    return CHAIN_LINK_NAME;
+  }
 
   @Override
   protected void mark(int id) {

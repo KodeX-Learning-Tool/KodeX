@@ -18,8 +18,8 @@ import kodex.pluginutils.model.content.TupleString;
  */
 public class TupleStringPresenter extends ChainLinkPresenter {
 
-	/** The chain link name. */
-	private static final String CHAIN_LINK_NAME = "Tupelkette";
+  /** The chain link name. */
+  private static final String CHAIN_LINK_NAME = "Tupelkette";
 
   public TupleStringPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
@@ -42,10 +42,10 @@ public class TupleStringPresenter extends ChainLinkPresenter {
     return ap;
   }
 
-	@Override
-	public String getName() {
-		return CHAIN_LINK_NAME;
-	}
+  @Override
+  public String getName() {
+    return CHAIN_LINK_NAME;
+  }
 
   @Override
   protected void mark(int id) {
