@@ -27,12 +27,6 @@ public class GreyScaleImage extends AbstractImage {
     }
 
 	@Override
-	protected File toFile() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
     public boolean isValid(WritableImage input) {
 		if (input == null) {
 			System.out.println("Invalid import, no file selected");
@@ -57,4 +51,10 @@ public class GreyScaleImage extends AbstractImage {
 	    }
 	    return true;
     }
+
+	@Override
+	public void export(File file) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -1,9 +1,7 @@
 package kodex.pluginutils.model.content;
 
 import java.io.File;
-
 import javafx.scene.image.WritableImage;
-import kodex.plugininterface.Content;
 
 /**
  * This class holds data in Image format. An ColorImage consists of a Writable RGB Image.
@@ -29,25 +27,29 @@ public class ColorImage extends AbstractImage {
     }
 
 	@Override
-	protected File toFile() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
     public boolean isValid(WritableImage input) {
-		Boolean isValid = true;
 		
-        if (input.getWidth() > MAX_IMAGE_WIDTH && MIN_IMAGE_WIDTH > input.getWidth()) {
-        	isValid = false;
+		if (input == null) {
+			System.out.println("Invalid import, no import to validate");
+			return false;
+		}
+		
+        if (input.getWidth() > MAX_IMAGE_WIDTH || MIN_IMAGE_WIDTH > input.getWidth()) {
+        	return false;
         }
         
-        if (input.getHeight() > MAX_IMAGE_HEIGHT && MIN_IMAGE_HEIGHT > input.getHeight()) {
-        	isValid = false;
+        if (input.getHeight() > MAX_IMAGE_HEIGHT || MIN_IMAGE_HEIGHT > input.getHeight()) {
+        	return false;
         }
         
         image = input;
         
-        return isValid;
+        return true;
     }
+
+	@Override
+	public void export(File file) {
+		// TODO Auto-generated method stub
+		
+	}
 }
