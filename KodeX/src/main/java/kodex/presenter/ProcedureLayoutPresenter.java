@@ -41,6 +41,10 @@ public class ProcedureLayoutPresenter extends Presenter {
 	/** The Pane which makes sliding in the Editor possible. */
 	@FXML
 	private StackPane overlayPane;
+	
+	/** The procedure root pane which contains the whole procedure layout view. */
+	@FXML
+	private AnchorPane procedureRootPane;
 		
     /**
      * The active Coding Procedure. It contains the data for the Coding Chain and 
@@ -188,6 +192,21 @@ public class ProcedureLayoutPresenter extends Presenter {
 	 * @version 1.0
 	 */
     private class Editor extends AnchorPane {
+    	
+    	/** The Constant ANIMATION_LENGTH in millis. */
+    	private static final int ANIMATION_LENGTH = 500;
+    	
+    	/** The Constant EDITOR_RATIO which determines the ratio between procedurelayout width and editor width. */
+	    private static final int EDITOR_RATIO = 5;
+	    
+	    /** The Constant NORMAL_TRANSITION_RATE plays the transition at a normal rate. */
+    	private static final int NORMAL_TRANSITION_RATE = 1;
+	    
+	    /** The Constant REVERSE_TRANSITION_RATE plays the transition at a normal rate in reverse. */
+    	private static final int REVERSE_TRANSITION_RATE = -1;
+    	
+    	/** The Constant EDITOR_VIEW_INDEX which determines where the editor view is inserted. */
+	    private static final int EDITOR_VIEW_INDEX = 3;
 		
     	/** The VBox which displays the concrete view for a chain link.. */
 		@FXML
@@ -221,17 +240,21 @@ public class ProcedureLayoutPresenter extends Presenter {
 	    /** Initializes the view-object created by the FXMLLoader. Sets up a TranslateTransition.  */
 		@FXML
 		private void initialize() {
-		    this.setPrefWidth(200);
+			// calculate editor width from total procedure view width
+			int editorWidth = (int) Math.round(procedureRootPane.getWidth() / EDITOR_RATIO);
+			
+			// set size and hide the pane outside the visible area
+		    this.setPrefWidth(editorWidth);
 		    this.setPrefHeight(overlayPane.getHeight());
 		    this.setTranslateX(overlayPane.getWidth());
 		    
 		    // creates a new TranslateTransition to move the window on the x-axis
-		    editorTranslation = new TranslateTransition(Duration.millis(500), this);
-		    editorTranslation.setFromX(overlayPane.getWidth() + 150);
-		    editorTranslation.setToX(overlayPane.getWidth() - 150);
 		    
 		    // gets and adds the concrete editor items for the chain link
 		    editItemsBox.getChildren().set(3, editPresenter.getView());
+		    editorTranslation = new TranslateTransition(Duration.millis(ANIMATION_LENGTH), this);
+		    editorTranslation.setFromX(overlayPane.getWidth() + editorWidth);
+		    editorTranslation.setToX(overlayPane.getWidth() - editorWidth);
 		}
 		
 	    /**
@@ -245,14 +268,14 @@ public class ProcedureLayoutPresenter extends Presenter {
 		
 		/** Plays the slide in animation at normal rate. */
 		public void showEditor() {
-		    editorTranslation.setRate(1);
-		    editorTranslation.play();
+			    editorTranslation.setRate(NORMAL_TRANSITION_RATE);
+			    editorTranslation.play();
 		}
 		
 		/** Plays the slide in animation at a normal rate in reverse. */
 		public void hideEditor() {
-			editorTranslation.setRate(-1);
-			editorTranslation.play();
+				editorTranslation.setRate(REVERSE_TRANSITION_RATE);
+				editorTranslation.play();
 		}
 	}
 
