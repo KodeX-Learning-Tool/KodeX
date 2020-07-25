@@ -43,24 +43,6 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
 	/** The last marked color. */
 	private Color lastMarkedColor;
 
-  /** The Constant PREFFERED_IMAGE_SIZE. Scales the image if it smaller than this value. */
-  private static final int PREFFERED_IMAGE_SIZE = 90;
-
-  /** The Constant NOT_MARKED. */
-  private static final int NOT_MARKED = -1;
-
-  /** The color image view displaying the image. */
-  private ImageView colorImageView;
-
-  /** The selected X coordinate. */
-  private double selectedX;
-
-  /** The selected Y coordinate. */
-  private double selectedY;
-
-  /** The scale factor of the image. */
-  private int scaleFactor = 1;
-
   /**
    * Instantiates a new color image chain link presenter.
    *

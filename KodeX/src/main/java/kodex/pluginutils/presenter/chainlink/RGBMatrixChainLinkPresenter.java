@@ -15,35 +15,6 @@ import kodex.pluginutils.presenter.header.RGBMatrixHeaderPresenter;
 /** @author Raimon Gramlich */
 public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
 
-	/** The chain link name. */
-	private static final String CHAIN_LINK_NAME = "RGB-Matrix";
-
-	/** The universal ID of the selected element. */
-	private int selectedElementID;
-
-	/** The matrix grid pane. */
-	private GridPane matrixPane = new GridPane();
-
-	/** The Constant NOT_MARKED. */
-	private final static int NOT_MARKED = -1;
-
-	/** The ID of the last element marked. */
-	private int lastElementMarked = NOT_MARKED;
-
-	/**
-	 * Instantiates a new RGB matrix chain link presenter.
-	 *
-	 * @param previous the previous ChainLinkPresenter
-	 * @param previousStep the previous step
-	 * @param nextStep the next step
-	 */
-	public RGBMatrixChainLinkPresenter(ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
-		super(previous, previousStep, nextStep);
-		chainLinkEditPresenter = new RGBMatrixEditPresenter(this);
-		// chainLinkHeaderPresenter = new RGBMatrixHeaderPresenter(this.getContent());
-		content = new RGBMatrix(3, 3);
-	}
-
   /**
    * The Class MatrixButton.
    *
@@ -69,6 +40,9 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
           });
     }
   }
+
+  /** The chain link name. */
+  private static final String CHAIN_LINK_NAME = "RGB-Matrix";
 
   /** The Constant NOT_MARKED. */
   private static final int NOT_MARKED = -1;
