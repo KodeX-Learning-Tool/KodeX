@@ -217,6 +217,12 @@ public class ProcedureLayoutPresenter extends Presenter {
 		
 		/** The TranslateTransition for sliding the editor window in and out. */
 		private TranslateTransition editorTranslation;
+				
+		/** Whether the editor is shown. */
+		private Boolean editorShown = false;
+
+		/** Whether the editor is moving at the moment. */
+		private Boolean moving = false;
 		
 	    /** Creates a new Editor.  */
 		Editor() {			
@@ -259,14 +265,32 @@ public class ProcedureLayoutPresenter extends Presenter {
 		
 		/** Plays the slide in animation at normal rate. */
 		public void showEditor() {
+			if (Boolean.FALSE.equals(moving) && Boolean.FALSE.equals(editorShown)) {
+				moving = true;
 			    editorTranslation.setRate(NORMAL_TRANSITION_RATE);
 			    editorTranslation.play();
+			    editorTranslation.setOnFinished(event -> {
+						editorShown = true;
+						moving = false;
+					}
+			    );
+			    
+			}
 		}
 		
 		/** Plays the slide in animation at a normal rate in reverse. */
 		public void hideEditor() {
+			if (Boolean.FALSE.equals(moving) && Boolean.TRUE.equals(editorShown)) {
+				moving = true;
 				editorTranslation.setRate(REVERSE_TRANSITION_RATE);
 				editorTranslation.play();
+			    editorTranslation.setOnFinished(event -> {
+						editorShown = false;
+						moving = false;
+					}
+			    );
+			}
+		}
 		
 		/**
 		 * Sets the editor view.
