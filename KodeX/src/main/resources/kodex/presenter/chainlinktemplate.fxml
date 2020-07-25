@@ -45,7 +45,7 @@
                      <bottom>
                         <AnchorPane BorderPane.alignment="CENTER">
                            <children>
-                              <TitledPane animated="false" prefHeight="82.0" prefWidth="240.0" text="Informationen:" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TitledPane fx:id="informationTitledPane" animated="false" prefHeight="82.0" prefWidth="240.0" text="Informationen:" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <content>
                                     <AnchorPane>
                                        <children>
@@ -56,7 +56,7 @@
                                                       <VBox fx:id="informationBox" prefHeight="25.0" prefWidth="217.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <children>
                                                             <Region />
-                                                            <Button mnemonicParsing="false" onAction="#handleExport" text="Exportieren" />
+                                                            <Button fx:id="exportButton" mnemonicParsing="false" onAction="#handleExport" text="Exportieren" />
                                                          </children>
                                                       </VBox>
                                                    </children>
