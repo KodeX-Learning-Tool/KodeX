@@ -519,3 +519,11 @@
 .overview__item {
 	-fx-content-display: center;
 }
+
+.editor-pane {
+    -fx-background-color: -fx-root-color;
+    -fx-background-radius: 5;
+    -fx-border-style: solid;
+    -fx-border-color: black;
+    -fx-border-radius: 5;
+}
