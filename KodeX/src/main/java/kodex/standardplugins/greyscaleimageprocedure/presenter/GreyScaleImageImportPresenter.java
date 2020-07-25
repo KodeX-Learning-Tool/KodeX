@@ -3,7 +3,6 @@ package kodex.standardplugins.greyscaleimageprocedure.presenter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelWriter;
@@ -16,125 +15,122 @@ import kodex.pluginutils.model.content.CharacterString;
 import kodex.pluginutils.model.content.GreyScaleImage;
 
 /**
- * This class is responsible for managing the import of the greyscale image or a
- * binary sequence.
- * 
+ * This class is responsible for managing the import of the greyscale image or a binary sequence.
+ *
  * @author Patrick Spiesberger
  * @version 1.0
- *
  */
 public class GreyScaleImageImportPresenter extends ImportPresenter {
 
-	private WritableImage img;
-	private String charString;
+  /** Converts an image to a writable image. */
+  private static WritableImage convertToFxImage(Image image) {
+    WritableImage wr = null;
+    if (image != null) {
+      wr = new WritableImage((int) image.getWidth(), (int) image.getHeight());
+      PixelWriter pw = wr.getPixelWriter();
+      for (int x = 0; x < image.getWidth(); x++) {
+        for (int y = 0; y < image.getHeight(); y++) {
+          pw.setArgb(x, y, image.getPixelReader().getArgb(x, y));
+        }
+      }
+    }
+    return wr;
+  }
+  
+  private WritableImage img;
 
-	public GreyScaleImageImportPresenter(ProcedurePlugin plugin) {
-		super(plugin);
-	}
+  private String charString;
 
-	@Override
-	public boolean validateEncodeImport() {
-		GreyScaleImage content = new GreyScaleImage();
+  public GreyScaleImageImportPresenter(ProcedurePlugin plugin) {
+    super(plugin);
+  }
 
-		if (content.isValid(img)) {
-			plugin.getChainHead().updateChain();
-			return true;
-		}
-		return false;
-	}
+  @Override
+  public AnchorPane getView() {
+    AnchorPane importView = new AnchorPane();
 
-	@Override
-	public boolean validateDecodeImport() {
+    // loads the template
+    try {
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("greyscaleimport.fxml"));
+      loader.setController(this);
+      importView = loader.load();
+    } catch (IOException exc) {
+      exc.printStackTrace();
+    }
 
-		CharacterString content = new CharacterString();
+    return importView;
+  }
 
-		if (content.isValid(charString)) {
-			plugin.getChainHead().updateChain();
-			return true;
-		}
-		return false;
-	}
+  @Override
+  public void handleDecodeImport() {
+    File file = importFile("Dekodieren");
 
-	@Override
-	public void handleEncodeImport() {
-		File file = importFile("Kodieren");
+    if (file == null) {
+      return;
+    }
 
-		if (file == null) {
-			return;
-		}
-		img = convertToFxImage(new Image(file.toPath().toUri().toString()));
+    try {
+      charString = Files.readString(file.toPath());
+    } catch (IOException e) {
+      e.printStackTrace();
+      return;
+    }
 
-		if (validateEncodeImport()) {
-			procedureLayoutPresenter.switchToChainPresenter();
-		} else {
-			System.err.println("File content not valid.");
-		}
-	}
+    if (validateDecodeImport()) {
+      procedureLayoutPresenter.switchToChainPresenter();
+    } else {
+      System.err.println("File content not valid.");
+    }
+  }
 
-	@Override
-	public void handleDecodeImport() {
-		File file = importFile("Dekodieren");
+  @Override
+  public void handleEncodeImport() {
+    File file = importFile("Kodieren");
 
-		if (file == null) {
-			return;
-		}
+    if (file == null) {
+      return;
+    }
+    img = convertToFxImage(new Image(file.toPath().toUri().toString()));
 
-		try {
-			charString = Files.readString(file.toPath());
-		} catch (IOException e) {
-			e.printStackTrace();
-			return;
-		}
+    if (validateEncodeImport()) {
+      procedureLayoutPresenter.switchToChainPresenter();
+    } else {
+      System.err.println("File content not valid.");
+    }
+  }
 
-		if (validateDecodeImport()) {
-			procedureLayoutPresenter.switchToChainPresenter();
-		} else {
-			System.err.println("File content not valid.");
-		}
-	}
+  /**
+   * Open a FileChooser to import a file.
+   *
+   * @param type the type (i.e. Decode/Encode)
+   * @return the chosen file
+   */
+  private File importFile(String type) {
+    FileChooser fc = new FileChooser();
+    fc.setTitle("Datei zum " + type + " auswählen.");
+    return fc.showOpenDialog(null);
+  }
 
-	@Override
-	public AnchorPane getView() {
-		AnchorPane importView = new AnchorPane();
+  @Override
+  public boolean validateDecodeImport() {
 
-		// loads the template
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("greyscaleimport.fxml"));
-			loader.setController(this);
-			importView = loader.load();
-		} catch (IOException exc) {
-			exc.printStackTrace();
-		}
+    CharacterString content = new CharacterString();
 
-		return importView;
-	}
+    if (content.isValid(charString)) {
+      plugin.getChainHead().updateChain();
+      return true;
+    }
+    return false;
+  }
 
-	/**
-	 * Converts an image to a writable image
-	 */
-	private static WritableImage convertToFxImage(Image image) {
-		WritableImage wr = null;
-		if (image != null) {
-			wr = new WritableImage((int) image.getWidth(), (int) image.getHeight());
-			PixelWriter pw = wr.getPixelWriter();
-			for (int x = 0; x < image.getWidth(); x++) {
-				for (int y = 0; y < image.getHeight(); y++) {
-					pw.setArgb(x, y, image.getPixelReader().getArgb(x, y));
-				}
-			}
-		}
-		return wr;
-	}
+  @Override
+  public boolean validateEncodeImport() {
+    GreyScaleImage content = new GreyScaleImage();
 
-	/**
-	 * Open a FileChooser to import a file.
-	 *
-	 * @param type the type (i.e. Decode/Encode)
-	 * @return the chosen file
-	 */
-	private File importFile(String type) {
-		FileChooser fc = new FileChooser();
-		fc.setTitle("Datei zum " + type + " auswählen.");
-		return fc.showOpenDialog(null);
-	}
+    if (content.isValid(img)) {
+      plugin.getChainHead().updateChain();
+      return true;
+    }
+    return false;
+  }
 }
