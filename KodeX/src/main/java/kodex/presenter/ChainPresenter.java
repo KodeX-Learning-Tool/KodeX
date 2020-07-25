@@ -66,6 +66,14 @@ public class ChainPresenter implements IPresenter {
     /** The AnchorPane which is displayed when the content is hidden. */
 		@FXML
 		private AnchorPane hiddenPane;
+		
+    /** The Label which is displayed when the content is hidden. */
+    @FXML
+    private Label hiddenLabel;
+    
+    /** The actual content of the chain item. */
+    @FXML
+    private AnchorPane chainItemContent;
 
     /** This Boolean represents the state of the chain item. */
     private Boolean isHidden;
@@ -79,11 +87,8 @@ public class ChainPresenter implements IPresenter {
     /** The reference to the ChainLinkPresenter. */
     private ChainLinkPresenter chainLinkPresenter;
 
-    /** The actual content of the chain item. */
-    private VBox chainItemContent;
 
-    /** The Label which is displayed when the content is hidden. */
-    private Label hiddenLabel;
+
 
     /**
      * Creates a new ChainItem with a reference to its ChainLinkPresenter.
