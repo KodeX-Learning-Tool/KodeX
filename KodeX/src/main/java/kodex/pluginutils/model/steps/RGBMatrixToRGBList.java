@@ -7,7 +7,8 @@ import kodex.pluginutils.model.content.RGBList;
 import kodex.pluginutils.model.content.RGBMatrix;
 
 /**
- * 
+ * This class represents the bidirectional step between RGBMatrix and RGBList.
+ * It contains the functionality to decode and encode the content between these explicitly defined levels.
  */
 public class RGBMatrixToRGBList extends ChainStep {
 

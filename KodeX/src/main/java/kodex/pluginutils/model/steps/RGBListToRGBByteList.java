@@ -8,7 +8,8 @@ import kodex.pluginutils.model.content.RGBByteList;
 import kodex.pluginutils.model.content.RGBList;
 
 /**
- * 
+ * This class represents the bidirectional step between RGBList and RGBByteList.
+ * It contains the functionality to decode and encode the content between these explicitly defined levels.
  */
 public class RGBListToRGBByteList extends ChainStep {
 
