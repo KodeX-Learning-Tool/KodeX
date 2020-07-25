@@ -23,7 +23,11 @@ public class RGBList extends AbstractList<Color> {
 
     @Override
     public boolean isValid(Object input) {
-    	RGBList object;
+    	@SuppressWarnings("unused")
+    	//the "unused warning" is suppressed since it has no negative effects.
+    	//it's caused by not using the variable object in any logic.
+    	//this is due to the fact that as long as the class cast works there remains nothing to be validated.
+		RGBList object;
     	
     	if (input == null) {
 			System.out.println("Invalid import, no import to validate");
@@ -48,7 +52,7 @@ public class RGBList extends AbstractList<Color> {
 			//header
 			writer.write("HEADER\n");
 			@SuppressWarnings("unchecked")
-			//the unchecked warning is suppressed since it has no negative effects
+			//the "unchecked warning" is suppressed since it has no negative effects
 			//it's caused by the lambda expression used in writing the header in combination with
 			//this class extending a generic superclass. There appears to be no way of avoiding this.
 			HashMap<String, Object> map = (HashMap<String, Object>) header;

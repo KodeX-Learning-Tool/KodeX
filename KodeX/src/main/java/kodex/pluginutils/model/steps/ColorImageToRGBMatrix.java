@@ -21,7 +21,7 @@ public class ColorImageToRGBMatrix extends ChainStep {
 
 
 	@Override
-	public void encode(Content left, Content right) {
+	public void encode(Content<?> left, Content<?> right) {
 		ColorImage leftimg = (ColorImage) left;
 		RGBMatrix rightmtx = (RGBMatrix) right;
 		
@@ -39,7 +39,7 @@ public class ColorImageToRGBMatrix extends ChainStep {
 	}
 
 	@Override
-	public void decode(Content right, Content left) {
+	public void decode(Content<?> right, Content<?> left) {
 		ColorImage leftimg = (ColorImage) left;
 		RGBMatrix rightmtx = (RGBMatrix) right;
 		

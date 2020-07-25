@@ -1,7 +1,5 @@
 package kodex.pluginutils.model.steps;
 
-import java.util.HashMap;
-
 import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.BinaryString;
@@ -19,7 +17,7 @@ public class RGBByteListToBinaryString extends ChainStep {
     }
 
 	@Override
-	public void encode(Content left, Content right) {
+	public void encode(Content<?> left, Content<?> right) {
 		RGBByteList leftlist = (RGBByteList) left;
 		BinaryString rightstring = (BinaryString) right;
 		
@@ -33,7 +31,7 @@ public class RGBByteListToBinaryString extends ChainStep {
 	}
 
 	@Override
-	public void decode(Content right, Content left) {
+	public void decode(Content<?> right, Content<?> left) {
 		RGBByteList leftlist = (RGBByteList) left;
 		BinaryString rightstring = (BinaryString) right;
 		

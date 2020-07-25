@@ -1,7 +1,5 @@
 package kodex.pluginutils.model.steps;
 
-import java.util.HashMap;
-
 import javafx.scene.paint.Color;
 import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
@@ -20,7 +18,7 @@ public class RGBMatrixToRGBList extends ChainStep {
     }
 
 	@Override
-	public void encode(Content left, Content right) {
+	public void encode(Content<?> left, Content<?> right) {
 		RGBMatrix leftmtx = (RGBMatrix) left;
 		RGBList rightlist = (RGBList) right;
 
@@ -34,7 +32,7 @@ public class RGBMatrixToRGBList extends ChainStep {
 	}
 
 	@Override
-	public void decode(Content right, Content left) {
+	public void decode(Content<?> right, Content<?> left) {
 		RGBMatrix leftmtx = (RGBMatrix) left;
 		RGBList rightlist = (RGBList) right;
 		
