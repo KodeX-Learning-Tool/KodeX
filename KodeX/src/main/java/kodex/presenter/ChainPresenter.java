@@ -124,6 +124,9 @@ public class ChainPresenter implements IPresenter {
 		@FXML
 		private Button exportButton;
 		
+		@FXML
+		private Button editButton;
+		
 		/** This Boolean represents the state of the chain item. */
 		private Boolean isHidden;
 		
@@ -184,6 +187,11 @@ public class ChainPresenter implements IPresenter {
 		    }
 			
 			chainLinkPane.setCenter(chainLinkPresenter.getView());
+			
+			// disables the edit button if there is no edit presenter for the chain link
+			if (chainLinkPresenter.getChainLinkEditPresenter() == null) {
+				editButton.setDisable(true);
+			}
 		}
 		
 	    /**

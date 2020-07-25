@@ -31,7 +31,7 @@
                                  <children>
                                     <Label fx:id="titleLabel" text="Eingabe" />
                                     <Region />
-                                    <Button mnemonicParsing="false" onAction="#handleEdit">
+                                    <Button fx:id="editButton" mnemonicParsing="false" onAction="#handleEdit">
                                        <graphic>
                                           <FontIcon iconLiteral="mdi-lead-pencil" />
                                        </graphic>
