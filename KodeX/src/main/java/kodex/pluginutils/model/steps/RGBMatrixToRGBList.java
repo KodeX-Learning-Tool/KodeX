@@ -1,14 +1,14 @@
 package kodex.pluginutils.model.steps;
 
-import java.util.HashMap;
-
+import javafx.scene.paint.Color;
 import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.RGBList;
 import kodex.pluginutils.model.content.RGBMatrix;
 
 /**
- * 
+ * This class represents the bidirectional step between RGBMatrix and RGBList.
+ * It contains the functionality to decode and encode the content between these explicitly defined levels.
  */
 public class RGBMatrixToRGBList extends ChainStep {
 
@@ -19,7 +19,7 @@ public class RGBMatrixToRGBList extends ChainStep {
     }
 
 	@Override
-	public void encode(Content left, Content right) {
+	public void encode(Content<?> left, Content<?> right) {
 		RGBMatrix leftmtx = (RGBMatrix) left;
 		RGBList rightlist = (RGBList) right;
 
@@ -33,7 +33,7 @@ public class RGBMatrixToRGBList extends ChainStep {
 	}
 
 	@Override
-	public void decode(Content right, Content left) {
+	public void decode(Content<?> right, Content<?> left) {
 		RGBMatrix leftmtx = (RGBMatrix) left;
 		RGBList rightlist = (RGBList) right;
 		
@@ -42,7 +42,8 @@ public class RGBMatrixToRGBList extends ChainStep {
 		leftmtx.setSize(width, height);
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				leftmtx.set(x, y, rightlist.get(y * width + x));
+				Color color = rightlist.get(y * width + x);
+				leftmtx.set(x, y, color);
 			}
 		}
 		

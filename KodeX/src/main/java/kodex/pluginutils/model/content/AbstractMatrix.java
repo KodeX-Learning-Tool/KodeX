@@ -6,8 +6,21 @@ import kodex.plugininterface.Content;
  * This class holds data in matrix format. The Matrix is stored in a 2D Array 
  * with the format [rows][cols].
  */
-public abstract class AbstractMatrix<E> extends Content<E> {  
+public abstract class AbstractMatrix<E> extends Content {  
 
+	/** The Constant MAX_IMAGE_WIDTH. */
+	protected final static int MAX_MATRIX_WIDTH = 500;
+	
+	/** The Constant MAX_IMAGE_HEIGHT. */
+	protected final static int MAX_MATRIX_HEIGHT = 500;
+	
+	/** The Constant MIN_IMAGE_WIDTH. */
+	protected final static int MIN_MATRIX_WIDTH = 0;
+	
+	/** The Constant MIN_IMAGE_HEIGHT. */
+	protected final static int MIN_MATRIX_HEIGHT = 0;
+	
+	/** The data for this content */
 	protected E[][] matrix;
 	
 	//Java doesn't allow the creation of an array of a generic type directly, so a cast is needed
@@ -53,7 +66,7 @@ public abstract class AbstractMatrix<E> extends Content<E> {
 	
 	
 	
-	 //below some shortcuts for common actions
+	//below some shortcuts for common actions
 	public E get(int x, int y) {
 		return matrix[y][x];
 	}

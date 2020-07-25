@@ -9,12 +9,6 @@ public class LetterString extends Content<String> {
     private String letterString;
 
     @Override
-    protected File toFile() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public boolean isValid(String input) {
         boolean valid = input.chars().allMatch(Character::isLetter);
         
@@ -38,4 +32,10 @@ public class LetterString extends Content<String> {
     public void setLetterString(String letterString) {
         this.letterString = letterString;
     }
+
+	@Override
+	public void export(File file) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -4,7 +4,6 @@ import java.io.File;
 
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
-import kodex.plugininterface.Content;
 
 /**
  * This class holds data in Image format. An BlackWhitImage consists of a WritableImage 
@@ -29,17 +28,20 @@ public class BlackWhiteImage extends AbstractImage{
     }
 
 	@Override
-	protected File toFile() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
     public boolean isValid(WritableImage input) {
 		if (input == null) {
-			System.out.println("Invalid import, no file selected");
+			System.out.println("Invalid import, no import to validate");
 			return false;
 		}
+		
+        if (input.getWidth() > MAX_IMAGE_WIDTH || MIN_IMAGE_WIDTH > input.getWidth()) {
+        	return false;
+        }
+        
+        if (input.getHeight() > MAX_IMAGE_HEIGHT || MIN_IMAGE_HEIGHT > input.getHeight()) {
+        	return false;
+        }
+        
 		else if (input.getWidth() > 500 || input.getHeight() > 500) {
 			System.out.println("Invalid import, file too large");
 			return false;
@@ -56,5 +58,11 @@ public class BlackWhiteImage extends AbstractImage{
 		}
 		return true;
     }
+
+	@Override
+	public void export(File file) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

@@ -1,8 +1,6 @@
 package kodex.pluginutils.model.steps;
 
-import java.util.HashMap;
 import java.util.LinkedList;
-
 import javafx.scene.paint.Color;
 import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
@@ -10,7 +8,8 @@ import kodex.pluginutils.model.content.RGBByteList;
 import kodex.pluginutils.model.content.RGBList;
 
 /**
- * 
+ * This class represents the bidirectional step between RGBList and RGBByteList.
+ * It contains the functionality to decode and encode the content between these explicitly defined levels.
  */
 public class RGBListToRGBByteList extends ChainStep {
 
@@ -21,7 +20,7 @@ public class RGBListToRGBByteList extends ChainStep {
     }
 
 	@Override
-	public void encode(Content left, Content right) {
+	public void encode(Content<?> left, Content<?> right) {
 		RGBList leftlist = (RGBList) left;
 		RGBByteList rightlist = (RGBByteList) right;
  
@@ -46,7 +45,7 @@ public class RGBListToRGBByteList extends ChainStep {
 	}
 	
 	@Override
-	public void decode(Content right, Content left) {
+	public void decode(Content<?> right, Content<?> left) {
 		RGBList leftlist = (RGBList) left;
 		RGBByteList rightlist = (RGBByteList) right;
 		
