@@ -54,6 +54,9 @@ public class ProcedureLayoutPresenter extends Presenter {
 
     /** The active Presenter. Is either an Import Presenter or a ChainPresenter. */
     private IPresenter activePresenter;
+    
+    /** The editor displays the concrete edit-view. */
+    private Editor editor;
 
     /**
      * Creates a new Procedure-Layout-Presenter with a reference to a Presenter-Manager
@@ -212,20 +215,11 @@ public class ProcedureLayoutPresenter extends Presenter {
 		@FXML
 		private VBox editItemsBox;
 		
-		/** The ChainLinkEditPresenter from which the editor gets the concrete view for a chain link. */
-		private ChainLinkEditPresenter editPresenter;
-		
 		/** The TranslateTransition for sliding the editor window in and out. */
 		private TranslateTransition editorTranslation;
 		
-	    /**
-	     * Creates a new Editor with a reference to a ChainLinkEditPresenter.
-	     * 
-	     * @param editPresenter : The reference to the ChainLinkEditPresenter.
-	     */
-		Editor(ChainLinkEditPresenter editPresenter) {
-			this.editPresenter = editPresenter;
-			
+	    /** Creates a new Editor.  */
+		Editor() {			
 			// loads the template file
 			try {
 	            FXMLLoader loader = new FXMLLoader(getClass().getResource("editlayout.fxml"));
@@ -249,9 +243,6 @@ public class ProcedureLayoutPresenter extends Presenter {
 		    this.setTranslateX(overlayPane.getWidth());
 		    
 		    // creates a new TranslateTransition to move the window on the x-axis
-		    
-		    // gets and adds the concrete editor items for the chain link
-		    editItemsBox.getChildren().set(3, editPresenter.getView());
 		    editorTranslation = new TranslateTransition(Duration.millis(ANIMATION_LENGTH), this);
 		    editorTranslation.setFromX(overlayPane.getWidth() + editorWidth);
 		    editorTranslation.setToX(overlayPane.getWidth() - editorWidth);
@@ -276,17 +267,34 @@ public class ProcedureLayoutPresenter extends Presenter {
 		public void hideEditor() {
 				editorTranslation.setRate(REVERSE_TRANSITION_RATE);
 				editorTranslation.play();
+		
+		/**
+		 * Sets the editor view.
+		 *
+		 * @param editorView the new editor view
+		 */
+		private void setEditorView(AnchorPane editorView) {
+		    // gets and adds the concrete editor items for the chain link
+		    editItemsBox.getChildren().set(EDITOR_VIEW_INDEX, editorView);
 		}
 	}
 
     /**
      * This method sets the Edit-Presenter in order to show an Edit-Window.
      * 
-     * @param editPresenter : The Edit-Presenter.
+     * @param editPresenter : The Edit-Presenter from which the editor gets the concrete view for a chain link.
      */
     public void setEditPresenter(ChainLinkEditPresenter editPresenter) {
-		Editor editor = new Editor(editPresenter);
-		overlayPane.getChildren().add(editor);
-		editor.showEditor();
+    	if (editPresenter != null) {
+    		
+    		// create a new editor if it is the first time
+    		if (editor == null) {
+    			editor = new Editor();
+        		overlayPane.getChildren().add(editor);
+    		}
+    		
+        	editor.setEditorView(editPresenter.getView());
+    		editor.showEditor();
+    	}
     }
 }
