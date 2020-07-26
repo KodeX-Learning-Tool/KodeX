@@ -1,53 +1,41 @@
 package kodex.pluginutils.model.steps;
 
-import javafx.scene.paint.Color;
 import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.RGBList;
 import kodex.pluginutils.model.content.RGBMatrix;
 
-/**
- * This class represents the bidirectional step between RGBMatrix and RGBList.
- * It contains the functionality to decode and encode the content between these explicitly defined levels.
- */
-public class RGBMatrixToRGBList extends ChainStep {
+/** */
+public class RGBMatrixToRGBList implements ChainStep {
 
-    /**
-     * Default constructor
-     */
-    public RGBMatrixToRGBList() {
+  @Override
+  public void decode(Content<?> right, Content<?> left) {
+    RGBMatrix leftmtx = (RGBMatrix) left;
+    RGBList rightlist = (RGBList) right;
+
+    int width = (int) rightlist.getHeader().get("width");
+    int height = (int) rightlist.getHeader().get("height");
+    leftmtx.setSize(width, height);
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        leftmtx.set(x, y, rightlist.get(y * width + x));
+      }
     }
 
-	@Override
-	public void encode(Content<?> left, Content<?> right) {
-		RGBMatrix leftmtx = (RGBMatrix) left;
-		RGBList rightlist = (RGBList) right;
+    leftmtx.setHeader(rightlist.getHeader());
+  }
 
-		for (int y = 0; y < leftmtx.getHeight(); y++) {
-			for (int x = 0; x < leftmtx.getWidth(); x++) {	
-				rightlist.add(leftmtx.get(x, y)); 
-			}
-		}
-		
-		rightlist.setHeader(leftmtx.getHeader());
-	}
+  @Override
+  public void encode(Content<?> left, Content<?> right) {
+    RGBMatrix leftmtx = (RGBMatrix) left;
+    RGBList rightlist = (RGBList) right;
 
-	@Override
-	public void decode(Content<?> right, Content<?> left) {
-		RGBMatrix leftmtx = (RGBMatrix) left;
-		RGBList rightlist = (RGBList) right;
-		
-		int width = (int) rightlist.getHeader().get("width");
-		int height = (int) rightlist.getHeader().get("height");
-		leftmtx.setSize(width, height);
-		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++) {
-				Color color = rightlist.get(y * width + x);
-				leftmtx.set(x, y, color);
-			}
-		}
-		
-		leftmtx.setHeader(rightlist.getHeader());
-	}
+    for (int y = 0; y < leftmtx.getHeight(); y++) {
+      for (int x = 0; x < leftmtx.getWidth(); x++) {
+        rightlist.add(leftmtx.get(x, y));
+      }
+    }
 
+    rightlist.setHeader(leftmtx.getHeader());
+  }
 }

@@ -13,126 +13,124 @@ import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.content.LetterString;
 import kodex.pluginutils.model.content.TupleString;
 
-/**
- * 
- */
+/** */
 public class RLEImportPresenter extends ImportPresenter {
-    
-    private String letterString;
-    private String tupleString;
-    
-    /**
-     * Instantiates a new rle import presenter.
-     *
-     * @param plugin the procedure plugin reference
-     */
-    public RLEImportPresenter(ProcedurePlugin plugin) {
-        super(plugin);
+
+  private String letterString;
+  private String tupleString;
+
+  /**
+   * Instantiates a new rle import presenter.
+   *
+   * @param plugin the procedure plugin reference
+   */
+  public RLEImportPresenter(ProcedurePlugin plugin) {
+    super(plugin);
+  }
+
+  @Override
+  public AnchorPane getView() {
+
+    AnchorPane importView = new AnchorPane();
+
+    // loads the template
+    try {
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("importexample.fxml"));
+      loader.setController(this);
+      importView = loader.load();
+    } catch (IOException exc) {
+      exc.printStackTrace();
     }
 
-    @Override
-    public boolean validateEncodeImport() {
-        
-        LetterString content = (LetterString) plugin.getChainHead().getContent();
-        
-        if (content.isValid(letterString)) {
-            plugin.getChainHead().updateChain();
-            return true;
-        }
-        return false;
+    return importView;
+  }
+
+  @Override
+  public void handleDecodeImport() {
+
+    File file = importFile("Dekodieren");
+
+    if (file == null) {
+      return;
     }
 
-    @Override
-    public boolean validateDecodeImport() {
-        ChainLinkPresenter clp = plugin.getChainHead();
-        
-        while (clp.getNext() != null) {
-            clp = clp.getNext();
-        }   
-        
-        TupleString content = (TupleString) clp.getContent();
-        
-        if (content.isValid(tupleString)) {
-            clp.updateChain();
-            return true;
-        }
-        return false;
+    try {
+      tupleString = Files.readString(file.toPath());
+    } catch (IOException e) {
+      e.printStackTrace();
+      return;
     }
 
-    @Override
-    public void handleEncodeImport() {
+    if (validateDecodeImport()) {
+      // TODO notify that we want to decode?
+      procedureLayoutPresenter.switchToChainPresenter();
+    } else {
+      System.err.println("File content not valid.");
+    }
+  }
 
-        File file = importFile("Kodieren");
+  @Override
+  public void handleEncodeImport() {
 
-        if (file == null) {
-            return;
-        }
-        
-        try {
-            letterString = Files.readString(file.toPath());
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
+    File file = importFile("Kodieren");
 
-        if (validateEncodeImport()) {
-            
-            procedureLayoutPresenter.switchToChainPresenter();
-        } else {
-            System.err.println("File content not valid.");
-        }
+    if (file == null) {
+      return;
     }
 
-    @Override
-    public void handleDecodeImport() {
-
-        File file = importFile("Dekodieren");
-
-        if (file == null) {
-            return;
-        }
-        
-        try {
-            tupleString = Files.readString(file.toPath());
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
-        
-        if (validateDecodeImport()) {
-            //TODO notify that we want to decode?
-            procedureLayoutPresenter.switchToChainPresenter();
-        } else {
-            System.err.println("File content not valid.");
-        }
+    try {
+      letterString = Files.readString(file.toPath());
+    } catch (IOException e) {
+      e.printStackTrace();
+      return;
     }
 
-    @Override
-    public AnchorPane getView() {
+    if (validateEncodeImport()) {
 
-        AnchorPane importView = new AnchorPane();
+      procedureLayoutPresenter.switchToChainPresenter();
+    } else {
+      System.err.println("File content not valid.");
+    }
+  }
 
-        // loads the template
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("importexample.fxml"));
-            loader.setController(this);
-            importView = loader.load();
-        } catch (IOException exc) {
-            exc.printStackTrace();
-        }
+  /**
+   * Open a FileChooser to import a file.
+   *
+   * @param type the type (i.e. Decode/Encode)
+   * @return the chosen file
+   */
+  private File importFile(String type) {
+    FileChooser fc = new FileChooser();
+    fc.setTitle("Datei zum " + type + " auswählen.");
+    return fc.showOpenDialog(null);
+  }
 
-        return importView;
+  @Override
+  public boolean validateDecodeImport() {
+    ChainLinkPresenter clp = plugin.getChainHead();
+
+    while (clp.getNext() != null) {
+      clp = clp.getNext();
     }
 
-    /**
-     * Open a FileChooser to import a file.
-     *
-     * @param type the type (i.e. Decode/Encode)
-     * @return the chosen file
-     */
-    private File importFile(String type) {
-        FileChooser fc = new FileChooser();
-        fc.setTitle("Datei zum " + type + " auswählen.");
-        return fc.showOpenDialog(null);
+    TupleString content = (TupleString) clp.getContent();
+
+    if (content.isValid(tupleString)) {
+      clp.updateChain();
+      return true;
     }
+    return false;
+  }
+
+  @Override
+  public boolean validateEncodeImport() {
+
+    LetterString content = (LetterString) plugin.getChainHead().getContent();
+
+    if (content.isValid(letterString)) {
+      plugin.getChainHead().updateChain();
+      return true;
+    }
+    return false;
+  }
 }
