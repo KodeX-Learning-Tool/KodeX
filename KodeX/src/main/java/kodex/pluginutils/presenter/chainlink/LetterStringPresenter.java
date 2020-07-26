@@ -8,25 +8,26 @@ import kodex.pluginutils.model.content.LetterString;
 
 public class LetterStringPresenter extends ChainLinkPresenter {
 
-    public LetterStringPresenter(ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
-        super(previous, previousStep, nextStep);
-        this.content = new LetterString();
-    }
+  public LetterStringPresenter(
+      ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
+    super(previous, previousStep, nextStep);
+    this.content = new LetterString();
+  }
 
-    @Override
-    protected void mark(int id) {
-        // TODO Auto-generated method stub
+  @Override
+  public AnchorPane getView() {
 
-    }
+    AnchorPane ap = new AnchorPane();
+    Label displaytext = new Label();
 
-    @Override
-    public AnchorPane getView() {
-        
-        AnchorPane ap = new AnchorPane();
-        Label displaytext = new Label();
-        
-        displaytext.setText(((LetterString)content).getLetterString());
-        ap.getChildren().add(displaytext);
-        return ap;
-    }
+    displaytext.setText(((LetterString) content).getLetterString());
+    ap.getChildren().add(displaytext);
+    return ap;
+  }
+
+  @Override
+  protected void mark(int id) {
+    // TODO Auto-generated method stub
+
+  }
 }
