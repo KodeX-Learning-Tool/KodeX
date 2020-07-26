@@ -17,11 +17,17 @@ before_script:
 # To keep cache across branches add 'key: "$CI_JOB_NAME"'
 cache:
   paths:
+    - maven.repository/
     - .m2/repository
   key: "$CI_JOB_NAME"
+  
+stages:
+  - compile
+  - test
+  - checkstyle
 
 java-compile:
-  stage: build
+  stage: compile
   script:
     - 'mvn $MAVEN_CLI_OPTS compile'
     
@@ -35,12 +41,8 @@ java-test:
         - target/surefire-reports/TEST-*.xml
     
 java-checkstyle:
-  stage: test
+  stage: checkstyle
   script:
     - 'mvn $MAVEN_CLI_OPTS checkstyle:check'
-    
-java-verify:
-  stage: test
-  script:
-    - 'mvn $MAVEN_CLI_OPTS verify'
+  allow_failure: true
   
