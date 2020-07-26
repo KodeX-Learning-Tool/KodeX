@@ -13,7 +13,7 @@ java-build:
   script:
     - mvn compile
     
-java-verifyt:
+java-verify:
   stage: test
   script:
     - mvn verify
