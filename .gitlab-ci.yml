@@ -17,7 +17,7 @@ cache:
 java-build:
   stage: build
   script:
-    - 'mvn $MAVEN_CLI_OPTS compile'
+    - 'mvn --batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true compile'
     
 java-verify:
   stage: test
