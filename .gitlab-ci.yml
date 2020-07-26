@@ -35,9 +35,6 @@ java-test:
   stage: test
   script:
     - 'mvn $MAVEN_CLI_OPTS test'
-    - 'ls'
-    - 'cd target'
-    - 'ls'
     - 'cat target/jacoco-report/index.html'
     
 java-checkstyle:
