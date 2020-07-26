@@ -96,6 +96,13 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-checkstyle-plugin</artifactId>
 					<version>3.1.1</version>
+					<dependencies>
+						<dependency>
+							<groupId>com.puppycrawl.tools</groupId>
+							<artifactId>checkstyle</artifactId>
+							<version>8.34</version>
+						</dependency>
+					</dependencies>
 				</plugin>
 				<plugin>
 					<groupId>org.openjfx</groupId>
@@ -135,8 +142,24 @@
 				<groupId>org.openjfx</groupId>
 				<artifactId>javafx-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>kodex.KodeX.MainApp</mainClass>
+					<mainClass>kodex.KodeX/kodex.MainApp</mainClass>
+					<compress>2</compress>
+					<noHeaderFiles>true</noHeaderFiles>
+					<noManPages>true</noManPages>
+					<launcher>launchKodex</launcher>
+					<jlinkImageName>kodex</jlinkImageName>
+					<jlinkZipName>kodexzip</jlinkZipName>
+					<stripDebug>true</stripDebug>
 				</configuration>
+				<executions>
+					<execution>
+						<id>jlink-compile</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>jlink</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin> <!--Only builds when all checkstyle rules are followed. -->
 				<groupId>org.apache.maven.plugins</groupId>
@@ -151,6 +174,15 @@
 					<failOnViolation>true</failOnViolation>
 					<linkXRef>false</linkXRef>
 				</configuration>
+				<!-- <executions> -->
+				<!-- <execution> -->
+				<!-- <id>check-validate</id> -->
+				<!-- <phase>validate</phase> -->
+				<!-- <goals> -->
+				<!-- <goal>check</goal> -->
+				<!-- </goals> -->
+				<!-- </execution> -->
+				<!-- </executions> -->
 			</plugin>
 			<plugin>
                 <groupId>org.jacoco</groupId>
