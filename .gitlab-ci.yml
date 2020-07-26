@@ -25,7 +25,6 @@ stages:
   - compile
   - test
   - checkstyle
-  - coverage
 
 java-compile:
   stage: compile
@@ -36,6 +35,7 @@ java-test:
   stage: test
   script:
     - 'mvn $MAVEN_CLI_OPTS test'
+    - 'cat target/jacoco-report/jacoco/index.html'
   artifacts:
     reports:
       junit:
@@ -46,9 +46,3 @@ java-checkstyle:
   script:
     - 'mvn $MAVEN_CLI_OPTS checkstyle:check'
   allow_failure: true
-  
-java-coverage:
-  stage: coverage
-  script:
-    - 'cat target/jacoco-report/jacoco/index.html'
-  
