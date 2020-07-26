@@ -35,11 +35,7 @@ java-test:
   stage: test
   script:
     - 'mvn $MAVEN_CLI_OPTS test'
-    - 'cat target/jacoco-report/index.html'
-  artifacts:
-    reports:
-      junit:
-        - target/surefire-reports/TEST-*.xml
+    - 'cat target/jacoco-report/jacoco/index.html'
     
 java-checkstyle:
   stage: checkstyle
