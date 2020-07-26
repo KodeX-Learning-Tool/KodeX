@@ -41,6 +41,9 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
     }
   }
 
+  /** The chain link name. */
+  private static final String CHAIN_LINK_NAME = "RGB-Matrix";
+
   /** The Constant NOT_MARKED. */
   private static final int NOT_MARKED = -1;
 
@@ -64,7 +67,8 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
     chainLinkEditPresenter = new RGBMatrixEditPresenter(this);
-    chainLinkHeaderPresenter = new RGBMatrixHeaderPresenter(this.getContent());
+    // chainLinkHeaderPresenter = new RGBMatrixHeaderPresenter(this.getContent());
+    content = new RGBMatrix(3, 3);
   }
 
   @Override
@@ -107,15 +111,13 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
   public AnchorPane getView() {
     AnchorPane chainLinkPane = new AnchorPane();
     RGBMatrix matrix = (RGBMatrix) content;
-
-    Color[][] colorMatrix = matrix.getMatrix();
-
+    
     // create buttons for each element in the 2d array
     for (int i = 0; i < matrix.getWidth(); i++) {
       for (int j = 0; j < matrix.getHeight(); j++) {
         matrixPane.add(
-            new MatrixButton(colorToRGBString(colorMatrix[i][j]), i + j * matrix.getHeight()),
-            i,
+            new MatrixButton(colorToRGBString(matrix.get(i, j)), i + j * matrix.getHeight()),
+            i, 
             j);
       }
     }
@@ -128,6 +130,11 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
     AnchorPane.setLeftAnchor(matrixPane, 0d);
 
     return chainLinkPane;
+  }
+
+  @Override
+  public String getName() {
+    return CHAIN_LINK_NAME;
   }
 
   @Override

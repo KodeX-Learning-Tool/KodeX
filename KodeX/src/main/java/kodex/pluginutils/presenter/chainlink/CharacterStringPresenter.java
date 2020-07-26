@@ -7,6 +7,9 @@ import kodex.plugininterface.ChainStep;
 /** */
 public class CharacterStringPresenter extends ChainLinkPresenter {
 
+  /** The chain link name. */
+  private static final String CHAIN_LINK_NAME = "Zeichenkette";
+	
   public CharacterStringPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
@@ -17,6 +20,11 @@ public class CharacterStringPresenter extends ChainLinkPresenter {
   public AnchorPane getView() {
     // TODO Auto-generated method stub
     return null;
+  }
+
+  @Override
+  public String getName() {
+    return CHAIN_LINK_NAME;
   }
 
   @Override

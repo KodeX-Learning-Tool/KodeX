@@ -1,5 +1,7 @@
 package kodex.pluginutils.presenter.chainlink;
 
+import java.util.LinkedList;
+import java.util.List;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -18,6 +20,9 @@ import kodex.pluginutils.presenter.header.RGBByteListHeaderPresenter;
  */
 public class RGBByteListChainLinkPresenter extends ChainLinkPresenter {
 
+  /** The chain link name. */
+  private static final String CHAIN_LINK_NAME = "RGB-Byte-Liste";
+
   /** The rgb byte list view. */
   private ListView<String> rgbByteListView;
 
@@ -32,7 +37,8 @@ public class RGBByteListChainLinkPresenter extends ChainLinkPresenter {
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
     chainLinkEditPresenter = new RGBByteListEditPresenter(this);
-    chainLinkHeaderPresenter = new RGBByteListHeaderPresenter(this.getContent());
+    // chainLinkHeaderPresenter = new RGBByteListHeaderPresenter(this.getContent());
+    content = new RGBByteList();
   }
 
   @Override
@@ -41,13 +47,18 @@ public class RGBByteListChainLinkPresenter extends ChainLinkPresenter {
   }
 
   @Override
-  public AnchorPane getView() {
-    AnchorPane chainLinkPane = new AnchorPane();
-
+  public AnchorPane getView() {    
     rgbByteListView = new ListView<>();
+    
+    List<String> list = ((RGBByteList) getContent()).getList();
+    
+    List<String> tripleList = new LinkedList<>();
+    
+    for (int j = 0; j < list.size(); j += 3) {
+      tripleList.add(list.get(j) + ", " + list.get(j + 1) + ", " + list.get(j + 2));
+    }
 
-    rgbByteListView.setItems(
-        FXCollections.observableArrayList(((RGBByteList) getContent()).getList()));
+    rgbByteListView.setItems(FXCollections.observableArrayList(tripleList));
 
     // adds listener to list view items
     rgbByteListView
@@ -59,16 +70,21 @@ public class RGBByteListChainLinkPresenter extends ChainLinkPresenter {
               @Override
               public void changed(
                   ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                // executes handleMark on selected
-                System.out.println("Selected: " + calculateID());
                 handleMark();
               }
             });
+
+    AnchorPane chainLinkPane = new AnchorPane();
 
     // add list view to chain link view
     chainLinkPane.getChildren().add(rgbByteListView);
 
     return chainLinkPane;
+  }
+
+  @Override
+  public String getName() {
+    return CHAIN_LINK_NAME;
   }
 
   @Override

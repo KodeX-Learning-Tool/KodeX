@@ -136,6 +136,13 @@ public abstract class ChainLinkPresenter implements IPresenter {
    */
   @Override
   public abstract AnchorPane getView();
+  
+  /**
+   * Gets the name of the chain link.
+   *
+   * @return the name of the chain link
+   */
+  public abstract String getName();
 
   /**
    * Called when something is clicked in the view of this link and thus marked. Marks the element

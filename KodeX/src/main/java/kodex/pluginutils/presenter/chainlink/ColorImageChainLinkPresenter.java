@@ -1,11 +1,13 @@
 package kodex.pluginutils.presenter.chainlink;
 
+import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
@@ -16,14 +18,17 @@ import kodex.pluginutils.presenter.header.ColorImageHeaderPresenter;
 /** @author Raimon Gramlich */
 public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
 
-  /** The Constant PREFFERED_IMAGE_SIZE. Scales the image if it smaller than this value. */
-  private static final int PREFFERED_IMAGE_SIZE = 90;
-
-  /** The Constant NOT_MARKED. */
-  private static final int NOT_MARKED = -1;
+  /** The chain link name. */
+  private static final String CHAIN_LINK_NAME = "Farbbild";
 
   /** The color image view displaying the image. */
   private ImageView colorImageView;
+
+  /**
+   * The Constant PREFFERED_IMAGE_SIZE. Scales the image if it smaller than this
+   * value.
+   */
+  private static final int PREFFERED_IMAGE_SIZE = 90;
 
   /** The selected X coordinate. */
   private double selectedX;
@@ -33,6 +38,9 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
 
   /** The scale factor of the image. */
   private int scaleFactor = 1;
+
+  /** The Constant NOT_MARKED. */
+  private static final int NOT_MARKED = -1;
 
   /** The ID of the last element marked. */
   private int lastElementMarked = NOT_MARKED;
@@ -51,7 +59,7 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
     chainLinkEditPresenter = new ColorImageEditPresenter(this);
-    chainLinkHeaderPresenter = new ColorImageHeaderPresenter(this.getContent());
+    // chainLinkHeaderPresenter = new ColorImageHeaderPresenter(this.getContent());
     content = new ColorImage();
   }
 
@@ -92,12 +100,11 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
 
   @Override
   public AnchorPane getView() {
-    AnchorPane chainLinkPane = new AnchorPane();
     Image image = ((ColorImage) this.getContent()).getImage();
-
+    
     scaleFactor = (int) (PREFFERED_IMAGE_SIZE / Math.max(image.getWidth(), image.getHeight()));
-
-    // scale if smaller than preffered size
+    
+    // scale if smaller than preferred size
     if (scaleFactor > 1) {
       colorImageView = new ImageView(resample(image, scaleFactor));
     } else {
@@ -113,18 +120,32 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
           // store selected (marked) pixel
           selectedX = e.getX();
           selectedY = e.getY();
-
+      
           handleMark();
-        });
+        });   
 
-    chainLinkPane.getChildren().add(colorImageView);
-
-    AnchorPane.setTopAnchor(colorImageView, 0d);
-    AnchorPane.setRightAnchor(colorImageView, 0d);
-    AnchorPane.setBottomAnchor(colorImageView, 0d);
-    AnchorPane.setLeftAnchor(colorImageView, 0d);
-
+    StackPane alignmentPane = new StackPane();
+    
+    // anchor the alignment pane in the center
+    AnchorPane.setTopAnchor(alignmentPane, 0d);
+    AnchorPane.setRightAnchor(alignmentPane, 0d);
+    AnchorPane.setBottomAnchor(alignmentPane, 0d);
+    AnchorPane.setLeftAnchor(alignmentPane, 0d);
+    
+    // align the image view in the center
+    alignmentPane.getChildren().add(colorImageView);
+    alignmentPane.setAlignment(Pos.CENTER);
+    
+    AnchorPane chainLinkPane = new AnchorPane();
+    
+    chainLinkPane.getChildren().add(alignmentPane);
+    
     return chainLinkPane;
+  }
+
+  @Override
+  public String getName() {
+    return CHAIN_LINK_NAME;
   }
 
   @Override
