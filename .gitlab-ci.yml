@@ -38,7 +38,7 @@ java-test:
     - 'ls'
     - 'cd target'
     - 'ls'
-    - 'cat target/jacoco-report/jacoco/index.html'
+    - 'cat target/jacoco-report/index.html'
     
 java-checkstyle:
   stage: checkstyle
