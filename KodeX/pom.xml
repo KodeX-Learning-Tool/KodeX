@@ -72,12 +72,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-surefire-plugin</artifactId>
-			<version>3.0.0-M5</version>
-			<type>maven-plugin</type>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-checkstyle-plugin</artifactId>
 			<version>3.1.1</version>
 			<type>maven-plugin</type>
@@ -93,6 +87,11 @@
 	<build>
 		<pluginManagement>
 			<plugins>
+			    <plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+        			<artifactId>maven-surefire-plugin</artifactId>
+        			<version>3.0.0-M5</version>
+				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-checkstyle-plugin</artifactId>
@@ -119,6 +118,19 @@
 					<release>11</release>
 				</configuration>
 			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-surefire-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 			<plugin>
 				<groupId>org.openjfx</groupId>
 				<artifactId>javafx-maven-plugin</artifactId>
@@ -145,13 +157,14 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>default-prepare-agent</id>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
                     </execution>
                     <!-- attached to Maven test phase -->
                     <execution>
-                        <id>report</id>
+                        <id>default-repor</id>
                         <phase>test</phase>
                         <goals>
                             <goal>report</goal>
