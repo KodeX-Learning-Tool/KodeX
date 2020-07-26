@@ -2,7 +2,7 @@
 image: maven:3.6.3-jdk-11
 
 variables:
-  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
+  MAVEN_CLI_OPTS: "--batch-mode --show-version"
   
 before_script:
     - cd KodeX/
@@ -17,12 +17,12 @@ cache:
 java-build:
   stage: build
   script:
-    - mvn $MAVEN_CLI_OPTS compile
+    - mvn "$MAVEN_CLI_OPTS" compile
     
 java-verify:
   stage: test
   script:
-    - mvn $MAVEN_CLI_OPTS verify
+    - mvn "$MAVEN_CLI_OPTS" verify
   artifacts:
     reports:
       junit:
