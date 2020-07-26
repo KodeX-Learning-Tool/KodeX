@@ -1,0 +1,23 @@
+# This template uses jdk8 for verifying and deploying images
+image: maven:3.6.3-jdk-11
+
+# Cache downloaded dependencies and plugins between builds.
+# To keep cache across branches add 'key: "$CI_JOB_NAME"'
+cache:
+  paths:
+    - .m2/repository
+  key: "$CI_JOB_NAME"
+
+java-build:
+  stage: build
+  script:
+    - mvn compile
+    
+java-verifyt:
+  stage: test
+  script:
+    - mvn verify
+  artifacts:
+    reports:
+      junit:
+        - target/surefire-reports/TEST-*.xml
