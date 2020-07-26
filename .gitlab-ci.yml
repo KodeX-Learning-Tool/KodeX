@@ -17,12 +17,12 @@ cache:
 java-build:
   stage: build
   script:
-    - mvn "$MAVEN_CLI_OPTS" compile
+    - mvn $MAVEN_CLI_OPTS compile
     
 java-verify:
   stage: test
   script:
-    - mvn "$MAVEN_CLI_OPTS" verify
+    - mvn $MAVEN_CLI_OPTS verify
   artifacts:
     reports:
       junit:
