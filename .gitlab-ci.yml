@@ -25,6 +25,7 @@ stages:
   - compile
   - test
   - checkstyle
+  - coverage
 
 java-compile:
   stage: compile
@@ -45,4 +46,9 @@ java-checkstyle:
   script:
     - 'mvn $MAVEN_CLI_OPTS checkstyle:check'
   allow_failure: true
+  
+java-coverage:
+  stage: coverage
+  script:
+    - 'cat target/jacoco-report/jacoco/index.html'
   
