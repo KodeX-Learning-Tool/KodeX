@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.TilePane?>
-<?import javafx.scene.layout.VBox?>
 
 
 <BorderPane fx:id="procedureRootPane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
@@ -13,12 +13,22 @@
          <children>
             <BorderPane fx:id="procedurePane">
                <top>
-                  <VBox>
-                     <children>
-                        <TilePane fx:id="overviewBox" />
-                        <Region />
-                     </children>
-                  </VBox>
+                  <BorderPane styleClass="overview__container">
+                     <center>
+                        <ScrollPane styleClass="overview__scrollbar" vbarPolicy="NEVER">
+                           <content>
+                              <BorderPane>
+                                 <center>
+                                    <TilePane fx:id="overviewBox" styleClass="overview__tilepane" />
+                                 </center>
+                              </BorderPane>
+                           </content>
+                        </ScrollPane>
+                     </center>
+                     <BorderPane.margin>
+                        <Insets />
+                     </BorderPane.margin>
+                  </BorderPane>
                </top>
             </BorderPane>
          </children>
