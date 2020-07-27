@@ -82,6 +82,12 @@
 			<version>0.0.4</version>
 			<type>maven-plugin</type>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+        	<artifactId>maven-surefire-plugin</artifactId>
+        	<version>3.0.0-M5</version>
+        	<type>maven-plugin</type>
+		</dependency>
 	</dependencies>
 
 	<build>
