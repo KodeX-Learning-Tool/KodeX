@@ -234,9 +234,6 @@ public class ChainPresenter implements IPresenter {
   @FXML
   private SplitPane chainSplitPane;
 
-  /** The view object containing everything which is displayed in the chain. */
-  private AnchorPane chainRootPane;
-
   /** The reference to the first ChainLinkPresenter. */
   private ChainLinkPresenter firstChainLinkPresenter;
 
@@ -265,7 +262,7 @@ public class ChainPresenter implements IPresenter {
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("chainlayout.fxml"));
     fxmlLoader.setController(this);
     try {
-      chainRootPane = fxmlLoader.load();
+      viewScrollPane = fxmlLoader.load();
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -300,10 +297,10 @@ public class ChainPresenter implements IPresenter {
               });
     }
   }
-
+  
   @Override
-  public AnchorPane getView() {
-    return chainRootPane;
+  public ScrollPane getView() {
+    return viewScrollPane;
   }
 
   /** Initializes the view-object created by the FXMLLoader. */

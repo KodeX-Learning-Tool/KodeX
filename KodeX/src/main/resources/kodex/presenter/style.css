@@ -479,7 +479,6 @@
 	-fx-wrap-text: true;
 }
 
-
 /* Import-Menu */
 
 .import__container {
@@ -516,8 +515,33 @@
 
 /* Overview */
 
+.overview__container {
+	-fx-padding: 16 88 16 88;
+	
+	-fx-min-height: 120;
+	-fx-pref-height: 120;
+	
+	-fx-background-color: #ccd4d9;
+}
+
+.overview__scrollbar {
+	-fx-fit-to-height: true;
+	
+	-fx-background-color: -fx-root-color;
+	
+	-fx-border-radius: 4;
+	-fx-background-radius: 4;
+}
+
+.overview__tilepane {
+	-fx-padding: 8 40 8 40;
+	-fx-alignment: center-left;
+}
+
 .overview__item {
 	-fx-content-display: center;
+	
+	-fx-border-radius: 24;
 }
 
 .chainlink__hidden-label {
@@ -536,4 +560,10 @@
     -fx-border-style: solid;
     -fx-border-color: black;
     -fx-border-radius: 5;
+}
+
+/*Chain layout */
+
+.chain__scroll-pane {
+	-fx-fit-to-height: true;
 }
