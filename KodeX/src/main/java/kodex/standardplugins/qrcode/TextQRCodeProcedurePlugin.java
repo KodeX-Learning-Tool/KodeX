@@ -34,6 +34,11 @@ public class TextQRCodeProcedurePlugin extends ProcedurePlugin {
   }
 
   @Override
+  public ChainLinkPresenter getChainTail() {
+    return chainLinks[chainLinks.length - 1];
+  }
+
+  @Override
   public void initDecodeProcedure(Content content) {
     // TODO Auto-generated method stub
 
