@@ -1,6 +1,7 @@
 package kodex.presenter;
 
 import java.io.IOException;
+
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,9 +10,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import kodex.plugininterface.ChainLinkEditPresenter;
@@ -243,7 +244,7 @@ public class ProcedureLayoutPresenter extends Presenter {
 
   /** The HBox displaying the overview items. */
   @FXML
-  private HBox overviewBox;
+  private TilePane overviewBox;
 
   /**
    * The BorderPane which displays the overview bar at the top and the view of the
@@ -258,7 +259,7 @@ public class ProcedureLayoutPresenter extends Presenter {
 
   /** The procedure root pane which contains the whole procedure layout view. */
   @FXML
-  private AnchorPane procedureRootPane;
+  private BorderPane procedureRootPane;
 
   /**
    * The active Coding Procedure. It contains the data for the Coding Chain and
