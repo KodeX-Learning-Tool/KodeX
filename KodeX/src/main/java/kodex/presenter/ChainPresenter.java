@@ -2,6 +2,9 @@ package kodex.presenter;
 
 import java.io.File;
 import java.io.IOException;
+
+import org.kordamp.ikonli.javafx.FontIcon;
+
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,15 +15,12 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.SplitPane.Divider;
 import javafx.scene.control.TitledPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkHeaderPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ProcedurePlugin;
-import org.kordamp.ikonli.javafx.FontIcon;
 
 /**
  * This Presenter is responsible for the Coding Chain. This Page shows the
@@ -42,7 +42,7 @@ public class ChainPresenter implements IPresenter {
    * @author Raimon Gramlich
    * @version 1.0
    */
-  private class ChainItem extends AnchorPane {
+  private class ChainItem extends BorderPane {
 
     /** The Label for displaying the name of the chain link. */
     @FXML
@@ -51,10 +51,14 @@ public class ChainPresenter implements IPresenter {
     /** The BorderPane to the ProcedureLayoutPresenter. */
     @FXML
     private BorderPane chainLinkPane;
+    
+    /** The BorderPane containing the interactions and content as well as header. */
+    @FXML
+    private BorderPane chainLinkContainer;
 
     /** The VBox containing information like the header and the export button. */
     @FXML
-    private VBox informationBox;
+    private BorderPane informationBox;
 
     /** The Icon displaying whether or not the chain item is expanded. */
     @FXML
@@ -72,20 +76,16 @@ public class ChainPresenter implements IPresenter {
     @FXML
     private Button editButton;
 
-    /** The AnchorPane which is displayed when the content is hidden. */
+    /** The BorderPane which is displayed when the content is hidden. */
     @FXML
-    private AnchorPane hiddenPane;
+    private BorderPane hiddenPane;
 
     /** The Label which is displayed when the content is hidden. */
     @FXML
     private Label hiddenLabel;
 
-    /** The actual content of the chain item. */
-    @FXML
-    private AnchorPane chainItemContent;
-
     /** This Boolean represents the state of the chain item. */
-    private Boolean hidden;
+    private boolean hidden;
 
     /** The IconLiteral of the hidden-icon. */
     private String hiddenIcon = "mdi-chevron-down";
@@ -175,7 +175,7 @@ public class ChainPresenter implements IPresenter {
               .concat(" " + chainLinkName));
 
       // bind the visibility to the managed property and hide the hiddenPane
-      chainItemContent.visibleProperty().bind(chainItemContent.managedProperty());
+      chainLinkPane.visibleProperty().bind(chainLinkPane.managedProperty());
       hiddenPane.visibleProperty().bind(hiddenPane.managedProperty());
       hiddenPane.setManaged(false);
 
@@ -187,7 +187,7 @@ public class ChainPresenter implements IPresenter {
       }
 
       // display the chain link content
-      chainLinkPane.setCenter(chainLinkPresenter.getView());
+      chainLinkContainer.setCenter(chainLinkPresenter.getView());
 
       // disables the edit button if there is no edit presenter for the chain link
       if (chainLinkPresenter.getChainLinkEditPresenter() == null) {
@@ -200,17 +200,18 @@ public class ChainPresenter implements IPresenter {
      * icon accordingly.
      */
     private void toggleHide() {
-      if (Boolean.TRUE.equals(hidden)) {
+      if (hidden) {
         // change the icon
         hideButtonIcon.setIconLiteral(shownIcon);
 
         // reverse max width
-        this.setMaxWidth(chainItemContent.getMaxWidth());
+        this.setMaxWidth(chainLinkPane.getMaxWidth());
 
         // show chain item content and hide the hidden pane
         hiddenPane.setManaged(false);
-        chainItemContent.setManaged(true);
+        chainLinkPane.setManaged(true);
         hidden = false;
+        
       } else {
         // change the icon
         hideButtonIcon.setIconLiteral(hiddenIcon);
@@ -220,7 +221,7 @@ public class ChainPresenter implements IPresenter {
 
         // hide chain item content and show the hidden pane
         hiddenPane.setManaged(true);
-        chainItemContent.setManaged(false);
+        chainLinkPane.setManaged(false);
         hidden = true;
       }
     }
@@ -290,7 +291,7 @@ public class ChainPresenter implements IPresenter {
           .positionProperty()
           .addListener(
               (obs, oldValue, newValue) -> {
-                if (Boolean.FALSE.equals(isMoving)) {
+                if (!isMoving) {
                   double delta = newValue.doubleValue() - oldValue.doubleValue();
                   moveDividers(divider, delta);
                 }
