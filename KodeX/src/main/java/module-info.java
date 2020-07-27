@@ -17,7 +17,8 @@ module kodex.KodeX {
 
   uses kodex.plugininterface.ProcedurePlugin;
   uses kodex.plugininterface.Pluginable;
-
+  
+  opens kodex;
   opens kodex.presenter to javafx.fxml;
   opens kodex.standardplugins.colorimageprocedure.presenter to javafx.fxml;
   opens kodex.standardplugins.rle.presenter to javafx.fxml;

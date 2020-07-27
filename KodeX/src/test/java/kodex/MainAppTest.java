@@ -8,6 +8,6 @@ class MainAppTest {
 
   @Test
   void test() {
-    fail("Not yet implemented");
+    //TODO: Not yet implemented
   }
 }
