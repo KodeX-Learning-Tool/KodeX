@@ -316,12 +316,12 @@ public class ChainPresenter implements IPresenter {
     // This sets the position of the vertical dividers between the Chain Links.
     // TODO: expand the chain item
 
-    Node chainItem = chainSplitPane.getChildrenUnmodifiable().get(id);
+    Node chainItem = chainSplitPane.getItems().get(id);
 
     // calculate the hValue for the view port of the scroll pane
     double scrollPanewidth = viewScrollPane.getContent().getBoundsInLocal().getWidth();
-    double x = (chainItem.getParent().getParent().getBoundsInParent().getMaxX()
-        + chainItem.getParent().getParent().getBoundsInParent().getMinX()) / 2.0;
+    double x = (chainItem.getParent().getBoundsInParent().getMaxX()
+        + chainItem.getParent().getBoundsInParent().getMinX()) / 2.0;
     double viewPortWdith = viewScrollPane.getViewportBounds().getWidth();
     viewScrollPane
         .setHvalue(viewScrollPane
