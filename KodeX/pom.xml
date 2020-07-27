@@ -13,6 +13,23 @@
 		<maven.compiler.target>11</maven.compiler.target>
 	</properties>
 
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>3.1.1</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>codestyle/google_checks.xml</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.openjfx</groupId>
@@ -34,18 +51,71 @@
 			<artifactId>ikonli-materialdesign-pack</artifactId>
 			<version>11.5.0</version>
 		</dependency>
-		<!-- <dependency>
-			<groupId>org.jfxtras</groupId>
-			<artifactId>jmetro</artifactId>
-			<version>11.6.12</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>org.jfxtras</groupId> <artifactId>jmetro</artifactId> 
+			<version>11.6.12</version> </dependency> -->
 		<dependency>
 			<groupId>org.controlsfx</groupId>
 			<artifactId>controlsfx</artifactId>
 			<version>11.0.2</version>
 		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.7.0-M1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.7.0-M1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-checkstyle-plugin</artifactId>
+			<version>3.1.1</version>
+			<type>maven-plugin</type>
+		</dependency>
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-maven-plugin</artifactId>
+			<version>0.0.4</version>
+			<type>maven-plugin</type>
+		</dependency>
 	</dependencies>
+
 	<build>
+		<pluginManagement>
+			<plugins>
+			    <plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+        			<artifactId>maven-surefire-plugin</artifactId>
+        			<version>3.0.0-M5</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-checkstyle-plugin</artifactId>
+					<version>3.1.1</version>
+					<dependencies>
+						<dependency>
+							<groupId>com.puppycrawl.tools</groupId>
+							<artifactId>checkstyle</artifactId>
+							<version>8.34</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+				<plugin>
+					<groupId>org.openjfx</groupId>
+					<artifactId>javafx-maven-plugin</artifactId>
+					<version>0.0.4</version>
+				</plugin>
+				<plugin>
+				    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>0.8.5</version>
+                </plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -55,14 +125,88 @@
 					<release>11</release>
 				</configuration>
 			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-surefire-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 			<plugin>
 				<groupId>org.openjfx</groupId>
 				<artifactId>javafx-maven-plugin</artifactId>
-				<version>0.0.4</version>
 				<configuration>
-					<mainClass>kodex.KodeX.MainApp</mainClass>
+					<mainClass>kodex.KodeX/kodex.MainApp</mainClass>
+					<compress>2</compress>
+					<noHeaderFiles>true</noHeaderFiles>
+					<noManPages>true</noManPages>
+					<launcher>launchKodex</launcher>
+					<jlinkImageName>kodex</jlinkImageName>
+					<jlinkZipName>kodexzip</jlinkZipName>
+					<stripDebug>true</stripDebug>
 				</configuration>
+				<executions>
+					<execution>
+						<id>jlink-compile</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>jlink</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
+			<plugin> <!--Only builds when all checkstyle rules are followed. -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<configuration>
+					<configLocation>google_checks.xml</configLocation>
+					<excludes>**/module-info.java,**/target/**/*</excludes>
+					<encoding>UTF-8</encoding>
+					<consoleOutput>true</consoleOutput>
+					<failsOnError>true</failsOnError>
+					<violationSeverity>warning</violationSeverity>
+					<failOnViolation>true</failOnViolation>
+					<linkXRef>false</linkXRef>
+				</configuration>
+				<!-- <executions> -->
+				<!-- <execution> -->
+				<!-- <id>check-validate</id> -->
+				<!-- <phase>validate</phase> -->
+				<!-- <goals> -->
+				<!-- <goal>check</goal> -->
+				<!-- </goals> -->
+				<!-- </execution> -->
+				<!-- </executions> -->
+			</plugin>
+			<plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <!-- attached to Maven test phase -->
+                    <execution>
+                        <id>default-repor</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/jacoco-report</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 </project>

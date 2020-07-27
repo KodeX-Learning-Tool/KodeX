@@ -1,6 +1,5 @@
 package kodex.standardplugins.colorimageprocedure;
 
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import kodex.plugininterface.ChainLinkPresenter;
@@ -19,87 +18,72 @@ import kodex.standardplugins.colorimageprocedure.presenter.ColorImageImportPrese
 
 /**
  * This class is the entry point to the color image procedure plugin.
- * 
+ *
  * @author Raimon Gramlich
- * 
  * @version 1.0
  */
 public class ColorImageProcedurePlugin extends ProcedurePlugin {
-	
-    /**
-     * 
-     */
-    private ChainLinkPresenter[] chainLinks; // [2..*]
 
-	
-    /**
-     * Creates a new instance of the ColorImageProcedurePlugin.
-     */
-    public ColorImageProcedurePlugin() {
-    	this.chainLinks = new ChainLinkPresenter[5];
-    	
-    	ColorImageToRGBMatrix colorImageToRGBMatrix = new ColorImageToRGBMatrix();
-    	RGBMatrixToRGBList rgbMatrixToRGBList = new RGBMatrixToRGBList();
-    	RGBListToRGBByteList rgbListToRGBByteList = new RGBListToRGBByteList();
-    	RGBByteListToBinaryString rgbByteListToBinaryString = new RGBByteListToBinaryString();
-    	
-    	
-    	chainLinks[0] = new ColorImageChainLinkPresenter(null, null, colorImageToRGBMatrix);
-    	chainLinks[1] = new RGBMatrixChainLinkPresenter(chainLinks[0], colorImageToRGBMatrix, rgbMatrixToRGBList);
-    	chainLinks[2] = new RGBListChainLinkPresenter(chainLinks[1], rgbMatrixToRGBList, rgbListToRGBByteList);
-    	chainLinks[3] = new RGBByteListChainLinkPresenter(chainLinks[2], rgbListToRGBByteList, rgbByteListToBinaryString);
-    	chainLinks[4] = new BinaryStringChainLinkPresenter(chainLinks[3], rgbByteListToBinaryString, null);
-    	
-    	
-    	// set next for chain links
-    	for (int i = 0; i < chainLinks.length - 1; i++) {
-        	chainLinks[i].setNext(chainLinks[i+1]);
-    	}
-    	
-    }
+  private ChainLinkPresenter[] chainLinks; // [2..*]
 
-    /**
-     * @return
-     */
-    public ChainLinkPresenter getChainHead() {
-        return chainLinks[0];
-    }
+  /** Creates a new instance of the ColorImageProcedurePlugin. */
+  public ColorImageProcedurePlugin() {
+    this.chainLinks = new ChainLinkPresenter[5];
 
-    /**
-     * @param content
-     */
-    public void initEncodeProcedure(Content content) {
-    	chainLinks[0].setContent(content);
-    }
+    ColorImageToRGBMatrix colorImageToRGBMatrix = new ColorImageToRGBMatrix();
+    RGBMatrixToRGBList rgbMatrixToRGBList = new RGBMatrixToRGBList();
+    RGBListToRGBByteList rgbListToRGBByteList = new RGBListToRGBByteList();
+    RGBByteListToBinaryString rgbByteListToBinaryString = new RGBByteListToBinaryString();
 
-    /**
-     * @param content
-     */
-    public void initDecodeProcedure(Content content) {
-        chainLinks[chainLinks.length-1].setContent(content);
-    }
+    chainLinks[0] = new ColorImageChainLinkPresenter(null, null, colorImageToRGBMatrix);
+    chainLinks[1] =
+        new RGBMatrixChainLinkPresenter(chainLinks[0], colorImageToRGBMatrix, rgbMatrixToRGBList);
+    chainLinks[2] =
+        new RGBListChainLinkPresenter(chainLinks[1], rgbMatrixToRGBList, rgbListToRGBByteList);
+    chainLinks[3] =
+        new RGBByteListChainLinkPresenter(
+            chainLinks[2], rgbListToRGBByteList, rgbByteListToBinaryString);
+    chainLinks[4] =
+        new BinaryStringChainLinkPresenter(chainLinks[3], rgbByteListToBinaryString, null);
 
-    /**
-     * @return
-     */
-    public ColorImageImportPresenter createImportPresenter() {
-        return new ColorImageImportPresenter(this);
+    // set next for chain links
+    for (int i = 0; i < chainLinks.length - 1; i++) {
+      chainLinks[i].setNext(chainLinks[i + 1]);
     }
+  }
 
-    /**
-     * @return
-     */
-    public ColorImageProcedureInformation createProcedureInformation() {
-        return new ColorImageProcedureInformation();
-    }
+  @Override
+  public ColorImageImportPresenter createImportPresenter() {
+    return new ColorImageImportPresenter(this);
+  }
 
-    @Override
-    public StringProperty pluginNameProperty() {
-        return new SimpleStringProperty("Farbbildverfahrensplugin");
-    }
+  @Override
+  public ColorImageProcedureInformation createProcedureInformation() {
+    return new ColorImageProcedureInformation();
+  }
 
-    @Override
-    public StringProperty pluginDescriptionProperty() {
-        return new SimpleStringProperty("Das Kodierungsverfahren Bild-zu-Bitfolge.");
-    }
+  @Override
+  public ChainLinkPresenter getChainHead() {
+    return chainLinks[0];
+  }
+
+  @Override
+  public void initDecodeProcedure(Content<?> content) {
+    chainLinks[chainLinks.length - 1].setContent(content);
+  }
+
+  @Override
+  public void initEncodeProcedure(Content<?> content) {
+    chainLinks[0].setContent(content);
+  }
+
+  @Override
+  public StringProperty pluginDescriptionProperty() {
+    return new SimpleStringProperty("Das Kodierungsverfahren Bild-zu-Bitfolge.");
+  }
+
+  @Override
+  public StringProperty pluginNameProperty() {
+    return new SimpleStringProperty("Farbbildverfahrensplugin");
+  }
 }

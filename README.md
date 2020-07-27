@@ -1,5 +1,7 @@
 # KodeX - Didaktisches Werkzeug für Kodierungstheorie an der Schule
 
+[![pipeline status](https://git.scc.kit.edu/pse-kodierungstheorie-tool/kodex/badges/master/pipeline.svg)](https://git.scc.kit.edu/pse-kodierungstheorie-tool/kodex/-/commits/master) [![coverage report](https://git.scc.kit.edu/pse-kodierungstheorie-tool/kodex/badges/master/coverage.svg)](https://git.scc.kit.edu/pse-kodierungstheorie-tool/kodex/-/commits/master)
+
 ## Beschreibung
 
 In diesem Repository befindet sich der Quellcode zum PSE-Projekt: Kodierungstheorie-Tool
