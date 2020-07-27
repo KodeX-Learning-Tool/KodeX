@@ -535,7 +535,9 @@
 
 .overview__box {
 	-fx-padding: 16 40 16 40;
+	
 	-fx-alignment: center-left;
+	-fx-spacing: 32;
 }
 
 .overview__item {

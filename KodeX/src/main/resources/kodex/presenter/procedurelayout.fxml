@@ -17,9 +17,9 @@
                         <ScrollPane fx:id="overviewScroll" styleClass="overview__scrollbar" vbarPolicy="NEVER">
                            <content>
                               <BorderPane>
-                                 <left>
+                                 <center>
                                     <HBox fx:id="overviewBox" styleClass="overview__box" BorderPane.alignment="CENTER" />
-                                 </left>
+                                 </center>
                               </BorderPane>
                            </content>
                         </ScrollPane>

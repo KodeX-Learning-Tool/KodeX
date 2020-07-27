@@ -298,11 +298,6 @@ public class ProcedureLayoutPresenter extends Presenter {
 
       overviewBox.getChildren().add(overviewItem);
 
-      // adds a buffer used for a responsive page design
-      Region region = new Region();
-      region.setPrefWidth(100);
-      overviewBox.getChildren().add(region);
-
       chainLinkPresenter = chainLinkPresenter.getNext();
       i++;
     }
