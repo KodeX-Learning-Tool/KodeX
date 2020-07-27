@@ -479,7 +479,6 @@
 	-fx-wrap-text: true;
 }
 
-
 /* Import-Menu */
 
 .import__container {
@@ -536,4 +535,10 @@
     -fx-border-style: solid;
     -fx-border-color: black;
     -fx-border-radius: 5;
+}
+
+/*Chain layout */
+
+.chain__scroll-pane {
+	-fx-fit-to-height: true;
 }
