@@ -3,9 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.TilePane?>
-
 
 <BorderPane fx:id="procedureRootPane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <center>
@@ -15,11 +14,11 @@
                <top>
                   <BorderPane styleClass="overview__container">
                      <center>
-                        <ScrollPane styleClass="overview__scrollbar" vbarPolicy="NEVER">
+                        <ScrollPane fx:id="overviewScroll" styleClass="overview__scrollbar" vbarPolicy="NEVER">
                            <content>
                               <BorderPane>
                                  <center>
-                                    <TilePane fx:id="overviewBox" styleClass="overview__tilepane" />
+                                    <HBox fx:id="overviewBox" styleClass="overview__box" BorderPane.alignment="CENTER" />
                                  </center>
                               </BorderPane>
                            </content>

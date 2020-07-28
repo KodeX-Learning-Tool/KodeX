@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.SplitPane?>
+<?import kodex.presenter.ChainSplitPane?>
 
 
 <ScrollPane fx:id="viewScrollPane" styleClass="chain__scroll-pane" stylesheets="@style.css" vbarPolicy="NEVER" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
   <content>
-      <SplitPane fx:id="chainSplitPane" />
+      <ChainSplitPane fx:id="chainSplitPane" />
   </content>
 </ScrollPane>
