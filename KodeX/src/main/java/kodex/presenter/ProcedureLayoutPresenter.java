@@ -308,7 +308,7 @@ public class ProcedureLayoutPresenter extends Presenter {
       chainLinkPresenter = chainLinkPresenter.getNext();
       i++;
     }
-  }
+  } 
 
   /**
    * This method sets the Edit-Presenter in order to show an Edit-Window.
@@ -333,7 +333,7 @@ public class ProcedureLayoutPresenter extends Presenter {
    * This method displays the chain view with the fitting items in the overview
    * bar.
    */
-  public void switchToChainPresenter() {
+  public void switchToChainPresenter(boolean encoding) {
     // switches the import presenter with a new chain presenter
     activePresenter = new ChainPresenter(activeProcedure.getChainHead(), this);
 
@@ -341,7 +341,7 @@ public class ProcedureLayoutPresenter extends Presenter {
     addOverviewItems();
 
     // fills the chain view with chain links, then display it
-    ((ChainPresenter) activePresenter).createChainView(activeProcedure);
+    ((ChainPresenter) activePresenter).createChainView(activeProcedure, encoding);
     procedurePane.setCenter(activePresenter.getView());
   }
 }

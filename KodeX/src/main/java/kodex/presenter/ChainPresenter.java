@@ -273,13 +273,15 @@ public class ChainPresenter implements IPresenter {
    *
    * @param activeProcedure the active Procedure-Plugin.
    */
-  public void createChainView(ProcedurePlugin activeProcedure) {
-    ChainLinkPresenter chainLinkPresenter = firstChainLinkPresenter;
-
+  public void createChainView(ProcedurePlugin activeProcedure, boolean encoding) {
+    ChainLinkPresenter chainLinkPresenter = 
+        encoding ? firstChainLinkPresenter : activeProcedure.getChainTail();
+    
     // add a newly created chain item for each ChainLinkPresenter
     while (chainLinkPresenter != null) {
       chainSplitPane.getItems().add(new ChainItem(chainLinkPresenter));
-      chainLinkPresenter = chainLinkPresenter.getNext();
+      
+      chainLinkPresenter = encoding ? chainLinkPresenter.getNext() : chainLinkPresenter.getPrev();
     }
 
     // add change listener to the dividers of the SplitPane
