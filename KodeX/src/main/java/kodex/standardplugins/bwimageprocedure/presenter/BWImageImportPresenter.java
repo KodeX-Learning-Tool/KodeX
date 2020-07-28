@@ -79,7 +79,7 @@ public class BWImageImportPresenter extends ImportPresenter {
     }
 
     if (validateDecodeImport()) {
-      procedureLayoutPresenter.switchToChainPresenter();
+      procedureLayoutPresenter.switchToChainPresenter(false);
     } else {
       System.err.println("File content not valid.");
     }
@@ -95,7 +95,7 @@ public class BWImageImportPresenter extends ImportPresenter {
     img = convertToFxImage(new Image(file.toPath().toUri().toString()));
 
     if (validateEncodeImport()) {
-      procedureLayoutPresenter.switchToChainPresenter();
+      procedureLayoutPresenter.switchToChainPresenter(true);
     } else {
       System.err.println("File content not valid.");
     }

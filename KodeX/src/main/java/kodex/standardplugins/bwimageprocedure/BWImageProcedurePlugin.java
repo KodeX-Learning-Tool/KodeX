@@ -72,6 +72,11 @@ public class BWImageProcedurePlugin extends ProcedurePlugin {
   }
 
   @Override
+  public ChainLinkPresenter getChainTail() {
+    return chainLinks[chainLinks.length - 1];
+  }
+
+  @Override
   public void initDecodeProcedure(Content<?> content) {
     chainLinks[chainLinks.length - 1].updateChain();
   }
