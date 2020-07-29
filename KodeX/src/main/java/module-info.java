@@ -22,6 +22,7 @@ module kodex.KodeX {
   opens kodex.presenter to javafx.fxml;
   opens kodex.standardplugins.colorimageprocedure.presenter to javafx.fxml;
   opens kodex.standardplugins.rle.presenter to javafx.fxml;
+  opens kodex.standardplugins.qrcode.presenter to javafx.fxml;
   opens kodex.standardplugins.greyscaleimageprocedure.presenter to javafx.fxml;
   opens kodex.standardplugins.bwimageprocedure.presenter to javafx.fxml;
   exports kodex;
