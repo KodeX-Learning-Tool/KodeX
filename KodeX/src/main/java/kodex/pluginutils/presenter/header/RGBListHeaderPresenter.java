@@ -4,7 +4,11 @@ import javafx.scene.layout.AnchorPane;
 import kodex.plugininterface.ChainLinkHeaderPresenter;
 import kodex.plugininterface.Content;
 
-/** */
+/** This class manages the view for the header of a RGB list.
+ * 
+ *  @author Raimon Gramlich
+ *  @version 1.0
+ */
 public class RGBListHeaderPresenter extends ChainLinkHeaderPresenter {
 
   public RGBListHeaderPresenter(Content content) {
