@@ -1,6 +1,9 @@
 package kodex.pluginutils.presenter.header;
 
+import java.util.Map;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import kodex.plugininterface.ChainLinkHeaderPresenter;
 import kodex.plugininterface.Content;
 
@@ -18,7 +21,15 @@ public class BinaryStringHeaderPresenter extends ChainLinkHeaderPresenter {
 
   @Override
   public AnchorPane getView() {
-    // TODO Auto-generated method stub
-    return null;
+    Map<String, Object> map = content.getHeader();
+    
+    TextFlow headerTextFlow = new TextFlow();
+    
+    for (Map.Entry<String, Object> entry : map.entrySet()) {
+      Text headerEntry = new Text(entry.getKey() + ": " + entry.getValue() + "\n");
+      headerTextFlow.getChildren().add(headerEntry);
+    }
+    
+    return new AnchorPane(headerTextFlow);
   }
 }
