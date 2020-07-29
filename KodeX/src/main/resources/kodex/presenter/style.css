@@ -159,6 +159,10 @@
 	-fx-alignment:  baseline-left;
 }
 
+.side-menu__button--selected {
+	-fx-background-color: rgba(255, 255, 255 , 0.2);
+}
+
 .side-menu__button.side-menu--mini {
 	-fx-alignment:  baseline-center;
 }
@@ -519,7 +523,6 @@
 	-fx-padding: 16 88 16 88;
 	
 	-fx-min-height: 136;
-	-fx-pref-height: 136;
 	
 	-fx-background-color: #ccd4d9;
 }
@@ -563,7 +566,7 @@
 
 .chainlink {
 	-fx-background-color: -fx-base-color;
-	-fx-padding: 20 40 20 40;
+	-fx-padding: 0 40 0 40;
 }
 
 .chainlink__scrollbar {
