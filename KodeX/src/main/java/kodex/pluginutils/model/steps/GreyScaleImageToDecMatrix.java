@@ -5,6 +5,7 @@ import java.util.HashMap;
 import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.ColorImage;
+import kodex.pluginutils.model.content.DecMatrix;
 import kodex.pluginutils.model.content.RGBMatrix;
 
 /** */
@@ -13,7 +14,7 @@ public class GreyScaleImageToDecMatrix implements ChainStep {
   @Override
   public void decode(Content<?> right, Content<?> left) {
     ColorImage leftimg = (ColorImage) left;
-    RGBMatrix rightmtx = (RGBMatrix) right;
+    DecMatrix rightmtx = (DecMatrix) right;
 
     int width = (int) rightmtx.getHeader().get("width");
     int height = (int) rightmtx.getHeader().get("height");
