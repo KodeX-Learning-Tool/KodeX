@@ -2,8 +2,10 @@ package kodex.pluginutils.model.steps;
 
 import java.util.HashMap;
 
+import javafx.scene.paint.Color;
 import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
+import kodex.pluginutils.model.content.BinaryMatrix;
 import kodex.pluginutils.model.content.ColorImage;
 import kodex.pluginutils.model.content.RGBMatrix;
 
@@ -13,29 +15,38 @@ public class BWImageToMatrix implements ChainStep {
   @Override
   public void decode(Content<?> right, Content<?> left) {
     ColorImage leftimg = (ColorImage) left;
-    RGBMatrix rightmtx = (RGBMatrix) right;
+    BinaryMatrix rightmtx = (BinaryMatrix) right;
 
     int width = (int) rightmtx.getHeader().get("width");
     int height = (int) rightmtx.getHeader().get("height");
+    Color col;
     leftimg.setSize(width, height);
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
-        leftimg.setColor(x, y, rightmtx.get(x, y));
+        if (rightmtx.get(x, y) == 0) {
+          col = Color.BLACK;
+        } else {
+          col = Color.WHITE;
+        }
+        leftimg.setColor(x, y, col);
       }
     }
-
     leftimg.setHeader(rightmtx.getHeader());
   }
 
   @Override
   public void encode(Content<?> left, Content<?> right) {
     ColorImage leftimg = (ColorImage) left;
-    RGBMatrix rightmtx = (RGBMatrix) right;
+    BinaryMatrix rightmtx = (BinaryMatrix) right;
 
     rightmtx.setSize(leftimg.getWidth(), leftimg.getHeight());
     for (int y = 0; y < leftimg.getHeight(); y++) {
       for (int x = 0; x < leftimg.getWidth(); x++) {
-        rightmtx.set(x, y, leftimg.getColor(x, y));
+        if (leftimg.getColor(x, y) == Color.BLACK) {
+          rightmtx.set(x, y, 0);
+        } else {
+          rightmtx.set(x, y, 1);
+        }
       }
     }
 
