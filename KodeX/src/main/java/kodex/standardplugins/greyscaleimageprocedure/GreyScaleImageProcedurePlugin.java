@@ -7,7 +7,10 @@ import kodex.plugininterface.Content;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedureInformation;
 import kodex.plugininterface.ProcedurePlugin;
+import kodex.pluginutils.model.steps.ByteListToBinaryString;
 import kodex.pluginutils.model.steps.ColorImageToRGBMatrix;
+import kodex.pluginutils.model.steps.DecMatrixToByteList;
+import kodex.pluginutils.model.steps.GreyScaleImageToDecMatrix;
 import kodex.pluginutils.model.steps.RGBByteListToBinaryString;
 import kodex.pluginutils.model.steps.RGBListToRGBByteList;
 import kodex.pluginutils.model.steps.RGBMatrixToRGBList;
@@ -31,25 +34,21 @@ public class GreyScaleImageProcedurePlugin extends ProcedurePlugin {
   /* steps of this coding chain */
   private ChainLinkPresenter[] chainLinks; // [2..*]
 
-  /** Constructor of class BWImageProecedure. Sets all chainLinks */
+  /** Constructor of class GreyScaleImageProecedurePlugin. Sets all chainLinks */
   public GreyScaleImageProcedurePlugin() {
-    chainLinks = new ChainLinkPresenter[5];
+    chainLinks = new ChainLinkPresenter[4];
 
-    ColorImageToRGBMatrix colorImageToRGBMatrix = new ColorImageToRGBMatrix();
-    RGBMatrixToRGBList rgbMatrixToRGBList = new RGBMatrixToRGBList();
-    RGBListToRGBByteList rgbListToRGBByteList = new RGBListToRGBByteList();
-    RGBByteListToBinaryString rgbByteListToBinaryString = new RGBByteListToBinaryString();
+    GreyScaleImageToDecMatrix greyScaleImageToDecMatrix = new GreyScaleImageToDecMatrix();
+    DecMatrixToByteList decMatrixToByteList = new DecMatrixToByteList();
+    ByteListToBinaryString byteListTBinaryString = new ByteListToBinaryString();
 
-    chainLinks[0] = new ColorImageChainLinkPresenter(null, null, colorImageToRGBMatrix);
+    chainLinks[0] = new ColorImageChainLinkPresenter(null, null, greyScaleImageToDecMatrix);
     chainLinks[1] =
-        new RGBMatrixChainLinkPresenter(chainLinks[0], colorImageToRGBMatrix, rgbMatrixToRGBList);
+        new RGBMatrixChainLinkPresenter(chainLinks[0], greyScaleImageToDecMatrix, decMatrixToByteList);
     chainLinks[2] =
-        new RGBListChainLinkPresenter(chainLinks[1], rgbMatrixToRGBList, rgbListToRGBByteList);
+        new RGBListChainLinkPresenter(chainLinks[1], decMatrixToByteList, byteListTBinaryString);
     chainLinks[3] =
-        new RGBByteListChainLinkPresenter(
-            chainLinks[2], rgbListToRGBByteList, rgbByteListToBinaryString);
-    chainLinks[4] =
-        new BinaryStringChainLinkPresenter(chainLinks[3], rgbByteListToBinaryString, null);
+        new RGBByteListChainLinkPresenter(chainLinks[2], byteListTBinaryString, null);
 
     // set next for chain links
     for (int i = 0; i < chainLinks.length - 1; i++) {
