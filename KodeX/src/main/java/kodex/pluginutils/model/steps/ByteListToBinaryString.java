@@ -5,7 +5,6 @@ import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.BinaryString;
 import kodex.pluginutils.model.content.ByteList;
-import kodex.pluginutils.model.content.RGBByteList;
 
 /** */
 public class ByteListToBinaryString implements ChainStep {

@@ -5,8 +5,6 @@ import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.ByteList;
 import kodex.pluginutils.model.content.DecMatrix;
-import kodex.pluginutils.model.content.RGBList;
-import kodex.pluginutils.model.content.RGBMatrix;
 
 /** */
 public class DecMatrixToByteList implements ChainStep {
