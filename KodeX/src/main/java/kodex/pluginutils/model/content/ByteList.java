@@ -4,15 +4,15 @@ import java.io.File;
 import java.util.LinkedList;
 
 /**
- * This class holds data in LinkedList format. An BitList consists of Intergers.
+ * This class holds data in LinkedList format. An List consists of Bytes.
  * Extending AbstractList, it adds validation and exporting capabilities to
  * Javas List.
  */
-public class BitList extends AbstractList<Integer> {
+public class ByteList extends AbstractList<Byte> {
 
   /** Creates a new RGBList. */
-  public BitList() {
-    super.list = new LinkedList<Integer>();
+  public ByteList() {
+    super.list = new LinkedList<Byte>();
   }
 
   @Override
@@ -22,11 +22,10 @@ public class BitList extends AbstractList<Integer> {
   }
 
   @Override
-  public boolean isValid(Integer input) {
+  public boolean isValid(Byte input) {
     if (input == null) {
       return false;
     }
-
-    return (input == 0 || input == 1);
+    return true;
   }
 }
