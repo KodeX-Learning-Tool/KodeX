@@ -98,12 +98,8 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
    * @param id the universal id
    * @param color the color to be set
    */
-  private void editMatrixElementColor(int id, Color color) {
-    RGBMatrix matrix = (RGBMatrix) content;
-
-    int i = id / matrix.getHeight();
-    int j = id % matrix.getHeight();
-    MatrixButton element = (MatrixButton) matrixPane.getChildren().get(i + j * matrix.getHeight());
+  private void editMatrixElementColor(int id, Color color) {    
+    MatrixButton element = (MatrixButton) matrixPane.getChildren().get(id);
     element.setTextFill(color);
   }
 
@@ -113,10 +109,10 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
     RGBMatrix matrix = (RGBMatrix) content;
     
     // create buttons for each element in the 2d array
-    for (int i = 0; i < matrix.getWidth(); i++) {
-      for (int j = 0; j < matrix.getHeight(); j++) {
+    for (int j = 0; j < matrix.getHeight(); j++) {
+      for (int i = 0; i < matrix.getWidth(); i++) {
         matrixPane.add(
-            new MatrixButton(colorToRGBString(matrix.get(i, j)), i + j * matrix.getHeight()),
+            new MatrixButton(colorToRGBString(matrix.get(i, j)), i + j * matrix.getWidth()),
             i, 
             j);
       }

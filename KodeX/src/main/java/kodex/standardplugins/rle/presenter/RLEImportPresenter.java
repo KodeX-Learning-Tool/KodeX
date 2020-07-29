@@ -63,7 +63,7 @@ public class RLEImportPresenter extends ImportPresenter {
 
     if (validateDecodeImport()) {
       // TODO notify that we want to decode?
-      procedureLayoutPresenter.switchToChainPresenter();
+      procedureLayoutPresenter.switchToChainPresenter(false);
     } else {
       System.err.println("File content not valid.");
     }
@@ -87,7 +87,7 @@ public class RLEImportPresenter extends ImportPresenter {
 
     if (validateEncodeImport()) {
 
-      procedureLayoutPresenter.switchToChainPresenter();
+      procedureLayoutPresenter.switchToChainPresenter(true);
     } else {
       System.err.println("File content not valid.");
     }

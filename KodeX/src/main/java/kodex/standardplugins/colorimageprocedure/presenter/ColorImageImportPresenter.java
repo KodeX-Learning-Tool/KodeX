@@ -91,7 +91,7 @@ public class ColorImageImportPresenter extends ImportPresenter {
       }
 
       if (validateDecodeImport()) {
-        procedureLayoutPresenter.switchToChainPresenter();
+        procedureLayoutPresenter.switchToChainPresenter(false);
       } else {
         System.err.println("File content not valid.");
       }
@@ -129,7 +129,7 @@ public class ColorImageImportPresenter extends ImportPresenter {
       }
 
       if (validateEncodeImport()) {
-        procedureLayoutPresenter.switchToChainPresenter();
+        procedureLayoutPresenter.switchToChainPresenter(true);
       } else {
         System.err.println("File content not valid.");
       }

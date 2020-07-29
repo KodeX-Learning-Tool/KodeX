@@ -66,6 +66,11 @@ public class ColorImageProcedurePlugin extends ProcedurePlugin {
   public ChainLinkPresenter getChainHead() {
     return chainLinks[0];
   }
+  
+  @Override
+  public ChainLinkPresenter getChainTail() {
+    return chainLinks[chainLinks.length - 1];
+  }
 
   @Override
   public void initDecodeProcedure(Content<?> content) {

@@ -67,7 +67,7 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
   protected int calculateID() {
     return (int) (selectedX / scaleFactor)
         + ((int) (selectedY / scaleFactor)
-            * (int) (colorImageView.getImage().getHeight() / scaleFactor));
+            * (int) (colorImageView.getImage().getWidth() / scaleFactor));
   }
 
   /**
@@ -79,8 +79,8 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
    * @param color the color which the "pixel" should be edited to
    */
   private void editPixelColor(PixelWriter writer, PixelReader reader, int id, Color color) {
-    int x = id % (int) Math.round(colorImageView.getImage().getHeight());
-    int y = (id / (int) Math.round(colorImageView.getImage().getHeight())) * scaleFactor;
+    int x = id % (int) Math.round(colorImageView.getImage().getWidth());
+    int y = (id / (int) Math.round(colorImageView.getImage().getWidth())) * scaleFactor;
 
     // store original color
     if (lastElementMarked != id) {
