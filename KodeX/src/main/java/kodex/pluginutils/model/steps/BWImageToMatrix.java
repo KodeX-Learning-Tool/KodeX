@@ -7,7 +7,6 @@ import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.BinaryMatrix;
 import kodex.pluginutils.model.content.ColorImage;
-import kodex.pluginutils.model.content.RGBMatrix;
 
 /** */
 public class BWImageToMatrix implements ChainStep {

@@ -2,11 +2,11 @@ package kodex.pluginutils.model.content;
 
 import java.io.File;
 import java.util.LinkedList;
-import javafx.scene.paint.Color;
 
 /**
- * This class holds data in LinkedList format. An BitList consists of Intergers. Extending
- * AbstractList, it adds validation and exporting capabilities to Javas List.
+ * This class holds data in LinkedList format. An BitList consists of Intergers.
+ * Extending AbstractList, it adds validation and exporting capabilities to
+ * Javas List.
  */
 public class BitList extends AbstractList<Integer> {
 

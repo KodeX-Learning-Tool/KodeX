@@ -1,7 +1,6 @@
 package kodex.pluginutils.model.content;
 
 import java.io.File;
-import javafx.scene.paint.Color;
 
 /**
  * This class holds data in Matrix format. An BinaryMatrix consists of a 2D array [rows][cols]

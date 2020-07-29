@@ -4,8 +4,6 @@ import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.BinaryMatrix;
 import kodex.pluginutils.model.content.BitList;
-import kodex.pluginutils.model.content.RGBList;
-import kodex.pluginutils.model.content.RGBMatrix;
 
 /** */
 public class MatrixToBitList implements ChainStep {

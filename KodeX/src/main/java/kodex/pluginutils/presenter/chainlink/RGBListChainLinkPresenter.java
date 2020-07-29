@@ -11,7 +11,6 @@ import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.RGBList;
 import kodex.pluginutils.presenter.edit.RGBListEditPresenter;
-import kodex.pluginutils.presenter.header.RGBListHeaderPresenter;
 
 /** @author Raimon Gramlich */
 public class RGBListChainLinkPresenter extends ChainLinkPresenter {
