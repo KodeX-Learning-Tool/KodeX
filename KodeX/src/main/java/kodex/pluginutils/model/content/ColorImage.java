@@ -1,6 +1,7 @@
 package kodex.pluginutils.model.content;
 
 import java.io.File;
+import java.util.HashMap;
 import javafx.scene.image.WritableImage;
 
 /**
@@ -14,6 +15,7 @@ public class ColorImage extends AbstractImage {
   /** Creates a new ColorImage. */
   public ColorImage() {
     super.image = new WritableImage(1, 1);
+    header = new HashMap<>();
   }
 
   /**
