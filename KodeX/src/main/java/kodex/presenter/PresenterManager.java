@@ -55,7 +55,7 @@ public class PresenterManager {
     this.sideMenuPresenter = sideMenuPresenter;
     updateSideMenuView();
   }
-
+  
   /**
    * This method initiates the updating of the main view by setting the center of the BorderPane
    * layout with the view of the current presenter.

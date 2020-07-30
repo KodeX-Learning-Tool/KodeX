@@ -24,10 +24,14 @@ public class SideMenuPresenter extends Presenter {
   @FXML private Button pluginPageButton;
 
   @FXML private Button helpPageButton;
+  
+  private Button selectedPage;
 
   private SideMenuTypes currentType;
 
   private PresenterFactory presenterFactroy;
+  
+  private static final String SELECTED_STYLE_CLASS = "side-menu__button--selected";
 
   /**
    * Creates a new SideMenuPresenter with a reference to the PresenterManager and a
@@ -42,7 +46,10 @@ public class SideMenuPresenter extends Presenter {
     super(presenterManager, "sidemenu");
     this.currentType = SideMenuTypes.EXTENDED_MENU;
     this.presenterFactroy = presenterFactroy;
+    changeSelectedPage(indexPageButton);
   }
+  
+  
 
   /**
    * This method changes the type of the side menu. It can be switched between a standard and a
@@ -55,11 +62,38 @@ public class SideMenuPresenter extends Presenter {
     if (type.equals(currentType)) {
       return;
     }
-
+    
     super.loadFXML(type.toString());
     this.currentType = type;
   }
-
+  
+  /**
+   * This method is called when ever a button handle method is called.
+   * 
+   * @param pressed The button that has been pressed.
+   */
+  private void pageSelect(Button pressed) {
+    changeSelectedPage(pressed);
+  }
+  
+  private void changeSelectedPage(Button selected) {
+    
+    if (selected == null) {
+      return;
+    }
+    
+    if (selected.equals(selectedPage)) {
+      return;
+    }
+    
+    if (selectedPage != null) {
+      selectedPage.getStyleClass().remove(SELECTED_STYLE_CLASS);
+    }
+    
+    this.selectedPage = selected;
+    selected.getStyleClass().add(SELECTED_STYLE_CLASS);
+  }
+  
   private void changeToExtendedMenu() {
     this.presenterManager.updateSideMenuView(SideMenuTypes.EXTENDED_MENU);
   }
@@ -71,6 +105,7 @@ public class SideMenuPresenter extends Presenter {
   public void handleHelp() {
     this.presenterManager.updatePresenter(this.presenterFactroy.createHelpPresenter());
     changeToExtendedMenu();
+    pageSelect(helpPageButton);
   }
 
   /**
@@ -80,6 +115,7 @@ public class SideMenuPresenter extends Presenter {
   public void handleIndexPage() {
     this.presenterManager.updatePresenter(this.presenterFactroy.createIndexPagePresenter());
     changeToExtendedMenu();
+    pageSelect(indexPageButton);
   }
 
   /**
@@ -89,6 +125,7 @@ public class SideMenuPresenter extends Presenter {
   public void handleNetwork() {
     this.presenterManager.updatePresenter(this.presenterFactroy.createNetworkPresenter());
     changeToExtendedMenu();
+    pageSelect(networkPageButton);
   }
 
   /**
@@ -98,6 +135,7 @@ public class SideMenuPresenter extends Presenter {
   public void handlePlugins() {
     this.presenterManager.updatePresenter(this.presenterFactroy.createPluginMenuPresenter());
     changeToExtendedMenu();
+    pageSelect(pluginPageButton);
   }
 
   /**
@@ -107,6 +145,7 @@ public class SideMenuPresenter extends Presenter {
   public void handleSettings() {
     this.presenterManager.updatePresenter(this.presenterFactroy.createSettingsPresenter());
     changeToExtendedMenu();
+    pageSelect(settingsPageButton);
   }
 
   /** Initializes the view-object created by the FXMLLoader. */
