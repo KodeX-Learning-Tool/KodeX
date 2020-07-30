@@ -244,7 +244,7 @@ public abstract class ChainLinkPresenter implements IPresenter {
   /** Updates the previous link. */
   public void updatePrevChainLink() {
     if (previous != null) {
-      previousStep.decode(previous.getContent(), content);
+      previousStep.decode(content, previous.getContent());
       previous.updatePrevChainLink();
     }
   }

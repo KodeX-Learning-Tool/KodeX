@@ -22,10 +22,7 @@ public abstract class Content<T> {
    *
    * @param file : The location where this content should be written
    */
-  public void export(File file) {
-    // TODO exporting files
-    File export = this.toFile();
-  }
+  public abstract void export(File file);
 
   /**
    * Returns the header of this content.
@@ -53,11 +50,5 @@ public abstract class Content<T> {
   public void setHeader(Map<String, Object> header) {
     this.header = header;
   }
-
-  /**
-   * Creates and returns a file containing the data of this content.
-   *
-   * @return A file containing this contents data
-   */
-  protected abstract File toFile();
+  
 }

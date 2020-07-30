@@ -1,8 +1,11 @@
 package kodex.standardplugins.colorimageprocedure.presenter;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.Scanner;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -25,6 +28,7 @@ import kodex.pluginutils.model.content.ColorImage;
  * the view for the chain view.
  *
  * @author Raimon Gramlich
+ * @author Yannick Neubert
  * @version 1.0
  */
 public class ColorImageImportPresenter extends ImportPresenter {
@@ -42,6 +46,9 @@ public class ColorImageImportPresenter extends ImportPresenter {
 
   /** The binary string which is imported for decoding. */
   private String binaryString;
+  
+  /** The header to the binaryString containing information about what it encodes. */
+  private HashMap<String, Object> header;
 
   /**
    * Instantiates a new color image import presenter.
@@ -83,13 +90,7 @@ public class ColorImageImportPresenter extends ImportPresenter {
     File file = importFile(false);
 
     if (file != null) {
-      // reads the string from the file
-      try {
-        binaryString = Files.readString(file.toPath());
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-
+      parseTextFile(file);
       if (validateDecodeImport()) {
         procedureLayoutPresenter.switchToChainPresenter(false);
       } else {
@@ -165,10 +166,12 @@ public class ColorImageImportPresenter extends ImportPresenter {
       clp = clp.getNext();
     }
 
-    BinaryString content = (BinaryString) clp.getContent();
-
+    BinaryString content = new BinaryString();
+    
     if (content.isValid(binaryString)) {
-      clp.updateChain();
+      content.setString(binaryString);
+      content.setHeader(header);
+      clp.setContent(content);
       return true;
     }
     return false;
@@ -183,5 +186,32 @@ public class ColorImageImportPresenter extends ImportPresenter {
       return true;
     }
     return false;
+  }
+  
+  private void parseTextFile(File file) {
+    try {
+      Scanner in = new Scanner(file);
+      
+      //header
+      in.next("HEADER");
+      in.next("width");
+      int width = in.nextInt();
+      in.next("height");
+      int height = in.nextInt();
+      header = new HashMap<String, Object>();
+      header.put("width", width);
+      header.put("height", height);
+
+      //content
+      in.next("CONTENT");
+      in.nextLine();
+      binaryString = in.nextLine();
+
+      in.close();
+
+    } catch (FileNotFoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 }
