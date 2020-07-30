@@ -11,15 +11,15 @@ import kodex.pluginutils.model.steps.ByteListToBinaryString;
 import kodex.pluginutils.model.steps.DecMatrixToByteList;
 import kodex.pluginutils.model.steps.GreyScaleImageToDecMatrix;
 import kodex.pluginutils.presenter.chainlink.ColorImageChainLinkPresenter;
+import kodex.pluginutils.presenter.chainlink.DecMatrixChainLinkPresenter;
 import kodex.pluginutils.presenter.chainlink.RGBByteListChainLinkPresenter;
 import kodex.pluginutils.presenter.chainlink.RGBListChainLinkPresenter;
-import kodex.pluginutils.presenter.chainlink.RGBMatrixChainLinkPresenter;
 import kodex.standardplugins.greyscaleimageprocedure.presenter.GreyScaleImageImportPresenter;
 
 /**
- * This class is responsible for the administration of the specific procedure "greyscale image to
- * binary sequence". This class holds a list of ChainLinks as attributes, i.e. the different steps
- * of this coding chain.
+ * This class is responsible for the administration of the specific procedure
+ * "greyscale image to binary sequence". This class holds a list of ChainLinks
+ * as attributes, i.e. the different steps of this coding chain.
  *
  * @author Patrick Spiesberger
  * @version 1.0
@@ -38,12 +38,9 @@ public class GreyScaleImageProcedurePlugin extends ProcedurePlugin {
     ByteListToBinaryString byteListTBinaryString = new ByteListToBinaryString();
 
     chainLinks[0] = new ColorImageChainLinkPresenter(null, null, greyScaleImageToDecMatrix);
-    chainLinks[1] =
-        new RGBMatrixChainLinkPresenter(chainLinks[0], greyScaleImageToDecMatrix, decMatrixToByteList);
-    chainLinks[2] =
-        new RGBListChainLinkPresenter(chainLinks[1], decMatrixToByteList, byteListTBinaryString);
-    chainLinks[3] =
-        new RGBByteListChainLinkPresenter(chainLinks[2], byteListTBinaryString, null);
+    chainLinks[1] = new DecMatrixChainLinkPresenter(chainLinks[0], greyScaleImageToDecMatrix, decMatrixToByteList);
+    chainLinks[2] = new RGBListChainLinkPresenter(chainLinks[1], decMatrixToByteList, byteListTBinaryString);
+    chainLinks[3] = new RGBByteListChainLinkPresenter(chainLinks[2], byteListTBinaryString, null);
 
     // set next for chain links
     for (int i = 0; i < chainLinks.length - 1; i++) {
