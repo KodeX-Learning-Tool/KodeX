@@ -41,11 +41,12 @@ public class BWImageToMatrix implements ChainStep {
     rightmtx.setSize(leftimg.getWidth(), leftimg.getHeight());
     for (int y = 0; y < leftimg.getHeight(); y++) {
       for (int x = 0; x < leftimg.getWidth(); x++) {
-        if (leftimg.getColor(x, y) == Color.BLACK) {
+        if (leftimg.getColor(x, y).toString().equals(Color.BLACK.toString())) {
           rightmtx.set(x, y, 0);
         } else {
           rightmtx.set(x, y, 1);
         }
+        
       }
     }
 

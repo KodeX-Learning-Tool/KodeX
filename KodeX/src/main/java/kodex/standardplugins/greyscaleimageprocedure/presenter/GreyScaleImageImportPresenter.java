@@ -9,9 +9,11 @@ import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.content.CharacterString;
+import kodex.pluginutils.model.content.ColorImage;
 import kodex.pluginutils.model.content.GreyScaleImage;
 
 /**
@@ -113,8 +115,13 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
 
   @Override
   public boolean validateDecodeImport() {
+    ChainLinkPresenter clp = plugin.getChainHead();
+    
+    while (clp.getNext() != null) {
+      clp = clp.getNext();
+    }
 
-    CharacterString content = new CharacterString();
+    CharacterString content = (CharacterString) clp.getContent();
 
     if (content.isValid(charString)) {
       plugin.getChainHead().updateChain();
@@ -125,7 +132,7 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
 
   @Override
   public boolean validateEncodeImport() {
-    GreyScaleImage content = new GreyScaleImage();
+    ColorImage content = (ColorImage) plugin.getChainHead().getContent();
 
     if (content.isValid(img)) {
       plugin.getChainHead().updateChain();
