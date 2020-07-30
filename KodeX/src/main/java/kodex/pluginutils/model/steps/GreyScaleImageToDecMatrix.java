@@ -37,10 +37,10 @@ public class GreyScaleImageToDecMatrix implements ChainStep {
     rightmtx.setSize(leftimg.getWidth(), leftimg.getHeight());
     for (int y = 0; y < leftimg.getHeight(); y++) {
       for (int x = 0; x < leftimg.getWidth(); x++) {
-        rightmtx.set(x, y, (int) leftimg.getColor(x, y).getGreen());
+        double color = (leftimg.getColor(x, y).getGreen()) * 255;
+        rightmtx.set(x, y, (int) color);
       }
     }
-
     HashMap<String, Object> map = new HashMap<>();
     map.put("width", Integer.valueOf(leftimg.getWidth()));
     map.put("height", Integer.valueOf(leftimg.getHeight()));

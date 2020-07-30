@@ -10,8 +10,8 @@ import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.steps.ByteListToBinaryString;
 import kodex.pluginutils.model.steps.DecMatrixToByteList;
 import kodex.pluginutils.model.steps.GreyScaleImageToDecMatrix;
+import kodex.pluginutils.presenter.chainlink.BinaryStringPresenter;
 import kodex.pluginutils.presenter.chainlink.ByteListChainLinkPresenter;
-import kodex.pluginutils.presenter.chainlink.CharacterStringPresenter;
 import kodex.pluginutils.presenter.chainlink.ColorImageChainLinkPresenter;
 import kodex.pluginutils.presenter.chainlink.DecMatrixChainLinkPresenter;
 import kodex.standardplugins.greyscaleimageprocedure.presenter.GreyScaleImageImportPresenter;
@@ -35,12 +35,12 @@ public class GreyScaleImageProcedurePlugin extends ProcedurePlugin {
 
     GreyScaleImageToDecMatrix greyScaleImageToDecMatrix = new GreyScaleImageToDecMatrix();
     DecMatrixToByteList decMatrixToByteList = new DecMatrixToByteList();
-    ByteListToBinaryString byteListTBinaryString = new ByteListToBinaryString();
+    ByteListToBinaryString byteListToBinaryString = new ByteListToBinaryString();
 
     chainLinks[0] = new ColorImageChainLinkPresenter(null, null, greyScaleImageToDecMatrix);
     chainLinks[1] = new DecMatrixChainLinkPresenter(chainLinks[0], greyScaleImageToDecMatrix, decMatrixToByteList);
-    chainLinks[2] = new ByteListChainLinkPresenter(chainLinks[1], decMatrixToByteList, byteListTBinaryString);
-    chainLinks[3] = new CharacterStringPresenter(chainLinks[2], byteListTBinaryString, null);
+    chainLinks[2] = new ByteListChainLinkPresenter(chainLinks[1], decMatrixToByteList, byteListToBinaryString);
+    chainLinks[3] = new BinaryStringPresenter(chainLinks[2], byteListToBinaryString, null);
 
     // set next for chain links
     for (int i = 0; i < chainLinks.length - 1; i++) {

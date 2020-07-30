@@ -1,5 +1,6 @@
 package kodex.pluginutils.model.steps;
 
+
 import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.ByteList;
@@ -32,10 +33,10 @@ public class DecMatrixToByteList implements ChainStep {
 
     for (int y = 0; y < leftmtx.getHeight(); y++) {
       for (int x = 0; x < leftmtx.getWidth(); x++) {
-        rightlist.add(String.valueOf(leftmtx.get(x, y)));
+        String num = String.format("%8s", Integer.toBinaryString(leftmtx.get(x, y)));
+        rightlist.add(num.replace(' ','0'));
       }
     }
-    System.out.println("Size: " + rightlist.size());
     rightlist.setHeader(leftmtx.getHeader());
   }
 }

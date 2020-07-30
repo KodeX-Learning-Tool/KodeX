@@ -31,12 +31,9 @@ public class ByteListToBinaryString implements ChainStep {
     StringBuilder result = new StringBuilder();
 
     for (int i = 0; i < leftlist.getList().size(); i++) {
-      System.out.println("String: " + leftlist.get(0));
       result.append(leftlist.get(i));
     }
-    System.out.println("Result: " +  result.toString());
-    
-    if (rightstring == null) System.out.println("Test");
+
     rightstring.setString(result.toString());
 
     HashMap<String, Object> map = new HashMap<>();

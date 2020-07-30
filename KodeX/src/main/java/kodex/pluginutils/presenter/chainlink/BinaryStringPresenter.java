@@ -12,12 +12,12 @@ import kodex.pluginutils.presenter.edit.BinaryStringEditPresenter;
  *
  * @author Raimon Gramlich
  */
-public class BinaryStringChainLinkPresenter extends ChainLinkPresenter {
+public class BinaryStringPresenter extends ChainLinkPresenter {
 
   /** The chain link name. */
   private static final String CHAIN_LINK_NAME = "Binärkette";
 
-  public BinaryStringChainLinkPresenter(
+  public BinaryStringPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
     chainLinkEditPresenter = new BinaryStringEditPresenter(this);
