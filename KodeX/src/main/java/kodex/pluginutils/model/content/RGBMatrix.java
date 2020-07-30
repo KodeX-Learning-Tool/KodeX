@@ -30,7 +30,7 @@ public class RGBMatrix extends AbstractMatrix<Color> {
   }
 
   @Override
-  public boolean isValid(Color input) {
+  public boolean isValid(Object input) {
     // TODO Auto-generated method stub
     return false;
   }

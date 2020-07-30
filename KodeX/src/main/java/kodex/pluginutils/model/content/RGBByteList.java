@@ -22,7 +22,7 @@ public class RGBByteList extends AbstractList<String> {
   }
 
   @Override
-  public boolean isValid(String input) {
+  public boolean isValid(Object input) {
     // TODO Auto-generated method stub
     return false;
   }
