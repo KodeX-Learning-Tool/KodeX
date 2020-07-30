@@ -191,8 +191,8 @@ public class ColorImageImportPresenter extends ImportPresenter {
   private void parseTextFile(File file) {
     try {
       Scanner in = new Scanner(file);
-
-      System.out.println(in.next());
+      
+      //header
       in.next("HEADER");
       in.next("width");
       int width = in.nextInt();
