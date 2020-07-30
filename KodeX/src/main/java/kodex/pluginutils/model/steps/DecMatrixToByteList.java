@@ -1,6 +1,5 @@
 package kodex.pluginutils.model.steps;
 
-import javafx.scene.paint.Color;
 import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.ByteList;
@@ -36,7 +35,7 @@ public class DecMatrixToByteList implements ChainStep {
         rightlist.add(String.valueOf(leftmtx.get(x, y)));
       }
     }
-
+    System.out.println("Size: " + rightlist.size());
     rightlist.setHeader(leftmtx.getHeader());
   }
 }

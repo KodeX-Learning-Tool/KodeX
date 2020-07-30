@@ -28,14 +28,16 @@ public class ByteListToBinaryString implements ChainStep {
   public void encode(Content<?> left, Content<?> right) {
     ByteList leftlist = (ByteList) left;
     BinaryString rightstring = (BinaryString) right;
+    StringBuilder result = new StringBuilder();
 
-    String result = "";
     for (int i = 0; i < leftlist.getList().size(); i++) {
-      result += leftlist.get(i);
+      System.out.println("String: " + leftlist.get(0));
+      result.append(leftlist.get(i));
     }
-    System.out.println("Result: " +  result);
+    System.out.println("Result: " +  result.toString());
     
-    rightstring.setString(result);
+    if (rightstring == null) System.out.println("Test");
+    rightstring.setString(result.toString());
 
     HashMap<String, Object> map = new HashMap<>();
     map.put("length", rightstring.length());

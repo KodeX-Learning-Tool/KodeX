@@ -42,8 +42,12 @@ public class BlackWhiteImage extends AbstractImage {
     // Check if every pixel is black or white
     for (int x = 0; x < input.getWidth(); x++) {
       for (int y = 0; y < input.getHeight(); y++) {
-        if (input.getPixelReader().getColor(x, y) != Color.BLACK
-            && input.getPixelReader().getColor(x, y) != Color.WHITE) {
+        if (!input.getPixelReader().getColor(x, y).toString().equals(Color.BLACK.toString())
+            && !input.getPixelReader().getColor(x, y).toString().equals(Color.WHITE.toString())
+            && !input.getPixelReader().getColor(x, y).toString().equals("0x00000000")) { //for .png images
+          System.out.println(input.getPixelReader().getColor(x, y).toString());
+          System.out.println(Color.BLACK);
+          System.out.println(Color.WHITE);
           System.out.println(x + " : " + y);
           return false;
         }

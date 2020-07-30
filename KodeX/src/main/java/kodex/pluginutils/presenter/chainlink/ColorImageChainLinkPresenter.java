@@ -27,7 +27,7 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
    * The Constant PREFFERED_IMAGE_SIZE. Scales the image if it smaller than this
    * value.
    */
-  private static final int PREFFERED_IMAGE_SIZE = 90;
+  private static final int PREFFERED_IMAGE_SIZE = 360;
 
   /** The selected X coordinate. */
   private double selectedX;
