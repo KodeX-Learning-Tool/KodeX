@@ -12,13 +12,13 @@ public class BinaryStringToQRCode implements ChainStep {
   }
 
   @Override
-  public void decode(Content<?> right, Content<?> left) {
+  public void decode(Content<?> input, Content<?> output) {
     // TODO Auto-generated method stub
 
   }
 
   @Override
-  public void encode(Content<?> left, Content<?> right) {
+  public void encode(Content<?> input, Content<?> output) {
     // TODO Auto-generated method stub
 
   }
