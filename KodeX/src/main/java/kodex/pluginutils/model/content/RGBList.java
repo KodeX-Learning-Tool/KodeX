@@ -23,7 +23,20 @@ public class RGBList extends AbstractList<Color> {
 
   @Override
   public boolean isValid(Object input) {
-    // TODO Auto-generated method stub
-    return false;
+    RGBList object;
+
+    if (input == null) {
+      System.out.println("Invalid import, no import to validate");
+      return false;
+    }
+
+    try {
+      object = ((RGBList) input);
+    } catch (ClassCastException e) {
+      System.out.println("Invalid import, import is of wrong type");
+      return false;
+    }
+
+    return true;
   }
 }

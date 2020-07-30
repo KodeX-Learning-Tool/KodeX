@@ -22,8 +22,42 @@ public class RGBByteList extends AbstractList<String> {
   }
 
   @Override
-  public boolean isValid(Object input) {
-    // TODO Auto-generated method stub
-    return false;
+  public boolean isValid(Object input) { 
+    RGBByteList object;
+
+    if (input == null) {
+      System.out.println("Invalid import, no import to validate");
+      return false;
+    }
+
+    try {
+      object = ((RGBByteList) input);
+    } catch (ClassCastException e) {
+      System.out.println("Invalid import, import is of wrong type");
+      return false;
+    }
+
+    if (object.size() % 3 != 0) {
+      System.out.println("Invalid import, import does not excludingly contain rgb triplets");
+      return false;
+    }
+
+    for (int i = 0; i < object.size(); i++) {
+      String rgb = object.get(i);
+      if (rgb.length() != 8) {
+        System.out.println("Invalid import, import does not excludingly contain rgb values");
+        return false;
+      }
+
+      for (int j = 0; j < rgb.length(); j++) {
+        if (rgb.charAt(i) != '0' && rgb.charAt(i) != '1') {
+          System.out.println("Invalid import, import does not excludingly contain rgb values");
+          return false;
+        }
+      }
+    }
+
+    return true;
   }
+
 }

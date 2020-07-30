@@ -31,7 +31,31 @@ public class RGBMatrix extends AbstractMatrix<Color> {
 
   @Override
   public boolean isValid(Object input) {
-    // TODO Auto-generated method stub
-    return false;
+    RGBMatrix object;
+
+    if (input == null) {
+      System.out.println("Invalid import, no import to validate");
+      return false;
+    }
+
+    try {
+      object = ((RGBMatrix) input);
+    } catch (ClassCastException e) {
+      System.out.println("Invalid import, import is of wrong type");
+      return false;
+    }
+
+    if (object.getWidth() > MAX_MATRIX_WIDTH || MIN_MATRIX_WIDTH > object.getWidth()) {
+      System.out.println("Ivalid import, wrong dimensions");
+      return false;
+    }
+
+    if (object.getHeight() > MAX_MATRIX_HEIGHT || MIN_MATRIX_HEIGHT > object.getHeight()) {
+      System.out.println("Ivalid import, wrong dimensions");
+      return false;
+    }
+
+    return true;
+
   }
 }
