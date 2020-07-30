@@ -28,9 +28,16 @@ public class BlackWhiteImage extends AbstractImage {
   @Override
   public boolean isValid(WritableImage input) {
     if (input == null) {
-      System.out.println("Invalid import, no file selected");
+      System.out.println("Invalid import, no import to validate");
       return false;
-    } else if (input.getWidth() > 500 || input.getHeight() > 500) {
+    }
+
+    if (input.getWidth() > MAX_IMAGE_WIDTH || MIN_IMAGE_WIDTH > input.getWidth()) {
+      System.out.println("Invalid import, file too large");
+      return false;
+    }
+
+    if (input.getHeight() > MAX_IMAGE_HEIGHT || MIN_IMAGE_HEIGHT > input.getHeight()) {
       System.out.println("Invalid import, file too large");
       return false;
     }
@@ -44,12 +51,13 @@ public class BlackWhiteImage extends AbstractImage {
         }
       }
     }
+    
     return true;
   }
 
   @Override
-  protected File toFile() {
+  public void export(File file) {
     // TODO Auto-generated method stub
-    return null;
   }
+  
 }

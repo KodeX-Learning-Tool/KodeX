@@ -12,10 +12,10 @@ import kodex.pluginutils.model.content.TupleString;
 public class RLEStep implements ChainStep {
 
   @Override
-  public void decode(Content<?> right, Content<?> left) {
+  public void decode(Content<?> input, Content<?> output) {
 
-    TupleString tupleString = (TupleString) left;
-    LetterString letterString = (LetterString) right;
+    TupleString tupleString = (TupleString) input;
+    LetterString letterString = (LetterString) output;
 
     Tuple<String, Integer>[] tuples = tupleString.getTuples();
     StringBuilder letters = new StringBuilder();
@@ -29,10 +29,10 @@ public class RLEStep implements ChainStep {
 
   @SuppressWarnings("unchecked")
   @Override
-  public void encode(Content<?> left, Content<?> right) {
+  public void encode(Content<?> input, Content<?> output) {
 
-    LetterString letterString = (LetterString) left;
-    TupleString tupleString = (TupleString) right;
+    LetterString letterString = (LetterString) input;
+    TupleString tupleString = (TupleString) output;
 
     List<Tuple<String, Integer>> tuples = new ArrayList<>();
 

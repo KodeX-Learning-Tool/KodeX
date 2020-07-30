@@ -6,8 +6,29 @@ import kodex.plugininterface.Content;
  * This class holds data in matrix format. The Matrix is stored in a 2D Array with the format
  * [rows][cols].
  */
-public abstract class AbstractMatrix<E> extends Content<E> {
 
+//This is a workaround for the isValid method since generics could not be
+//used in this context.
+//This does however create the warning
+//"Content is a raw type. References to generic type Content<T> should be
+//parameterized"
+//and requires class casting in the subclasses so that the isValid method
+//receives the correct generic type of input.
+@SuppressWarnings("rawtypes")
+public abstract class AbstractMatrix<E> extends Content {
+  /** The Constant MAX_IMAGE_WIDTH. */
+  protected static final int MAX_MATRIX_WIDTH = 500;
+  
+  /** The Constant MAX_IMAGE_HEIGHT. */
+  protected static final int MAX_MATRIX_HEIGHT = 500;
+  
+  /** The Constant MIN_IMAGE_WIDTH. */
+  protected static final int MIN_MATRIX_WIDTH = 0;
+  
+  /** The Constant MIN_IMAGE_HEIGHT. */
+  protected static final int MIN_MATRIX_HEIGHT = 0;
+  
+  /** The data for this content. */
   protected E[][] matrix;
 
   // below some shortcuts for common actions
