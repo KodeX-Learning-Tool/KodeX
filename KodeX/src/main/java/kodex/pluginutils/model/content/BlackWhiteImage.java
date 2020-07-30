@@ -45,10 +45,6 @@ public class BlackWhiteImage extends AbstractImage {
         if (!input.getPixelReader().getColor(x, y).toString().equals(Color.BLACK.toString())
             && !input.getPixelReader().getColor(x, y).toString().equals(Color.WHITE.toString())
             && !input.getPixelReader().getColor(x, y).toString().equals("0x00000000")) { //for .png images
-          System.out.println(input.getPixelReader().getColor(x, y).toString());
-          System.out.println(Color.BLACK);
-          System.out.println(Color.WHITE);
-          System.out.println(x + " : " + y);
           return false;
         }
       }
