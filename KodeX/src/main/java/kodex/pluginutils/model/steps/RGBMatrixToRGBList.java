@@ -18,34 +18,34 @@ import kodex.pluginutils.model.content.RGBMatrix;
 public class RGBMatrixToRGBList implements ChainStep {
 
   @Override
-  public void decode(Content<?> right, Content<?> left) {
-    RGBMatrix leftmtx = (RGBMatrix) left;
-    RGBList rightlist = (RGBList) right;
+  public void decode(Content<?> input, Content<?> output) {
+    RGBMatrix mtx = (RGBMatrix) output;
+    RGBList list = (RGBList) input;
 
-    int width = (int) rightlist.getHeader().get("width");
-    int height = (int) rightlist.getHeader().get("height");
-    leftmtx.setSize(width, height);
+    int width = (int) list.getHeader().get("width");
+    int height = (int) list.getHeader().get("height");
+    mtx.setSize(width, height);
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
-        Color color = rightlist.get(y * width + x);
-        leftmtx.set(x, y, color);
+        Color color = list.get(y * width + x);
+        mtx.set(x, y, color);
       }
     }
 
-    leftmtx.setHeader(rightlist.getHeader());
+    mtx.setHeader(list.getHeader());
   }
 
   @Override
-  public void encode(Content<?> left, Content<?> right) {
-    RGBMatrix leftmtx = (RGBMatrix) left;
-    RGBList rightlist = (RGBList) right;
+  public void encode(Content<?> input, Content<?> output) {
+    RGBMatrix mtx = (RGBMatrix) input;
+    RGBList list = (RGBList) output;
 
-    for (int y = 0; y < leftmtx.getHeight(); y++) {
-      for (int x = 0; x < leftmtx.getWidth(); x++) {
-        rightlist.add(leftmtx.get(x, y));
+    for (int y = 0; y < mtx.getHeight(); y++) {
+      for (int x = 0; x < mtx.getWidth(); x++) {
+        list.add(mtx.get(x, y));
       }
     }
 
-    rightlist.setHeader(leftmtx.getHeader());
+    list.setHeader(mtx.getHeader());
   }
 }

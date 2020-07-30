@@ -19,37 +19,37 @@ import kodex.pluginutils.model.content.RGBMatrix;
 public class ColorImageToRGBMatrix implements ChainStep {
 
   @Override
-  public void decode(Content<?> right, Content<?> left) {
-    ColorImage leftimg = (ColorImage) left;
-    RGBMatrix rightmtx = (RGBMatrix) right;
+  public void decode(Content<?> input, Content<?> output) {
+    ColorImage img = (ColorImage) output;
+    RGBMatrix mtx = (RGBMatrix) input;
 
-    int width = (int) rightmtx.getHeader().get("width");
-    int height = (int) rightmtx.getHeader().get("height");
-    leftimg.setSize(width, height);
+    int width = (int) mtx.getHeader().get("width");
+    int height = (int) mtx.getHeader().get("height");
+    img.setSize(width, height);
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
-        leftimg.setColor(x, y, rightmtx.get(x, y));
+        img.setColor(x, y, mtx.get(x, y));
       }
     }
 
-    leftimg.setHeader(rightmtx.getHeader());
+    img.setHeader(mtx.getHeader());
   }
 
   @Override
-  public void encode(Content<?> left, Content<?> right) {
-    ColorImage leftimg = (ColorImage) left;
-    RGBMatrix rightmtx = (RGBMatrix) right;
+  public void encode(Content<?> input, Content<?> output) {
+    ColorImage img = (ColorImage) input;
+    RGBMatrix mtx = (RGBMatrix) output;
 
-    rightmtx.setSize(leftimg.getWidth(), leftimg.getHeight());
-    for (int y = 0; y < leftimg.getHeight(); y++) {
-      for (int x = 0; x < leftimg.getWidth(); x++) {
-        rightmtx.set(x, y, leftimg.getColor(x, y));
+    mtx.setSize(img.getWidth(), img.getHeight());
+    for (int y = 0; y < img.getHeight(); y++) {
+      for (int x = 0; x < img.getWidth(); x++) {
+        mtx.set(x, y, img.getColor(x, y));
       }
     }
 
     HashMap<String, Object> map = new HashMap<>();
-    map.put("width", Integer.valueOf(leftimg.getWidth()));
-    map.put("height", Integer.valueOf(leftimg.getHeight()));
-    rightmtx.setHeader(map);
+    map.put("width", Integer.valueOf(img.getWidth()));
+    map.put("height", Integer.valueOf(img.getHeight()));
+    mtx.setHeader(map);
   }
 }
