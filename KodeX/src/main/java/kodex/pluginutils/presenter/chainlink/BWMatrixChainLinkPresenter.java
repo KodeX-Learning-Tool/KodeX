@@ -69,29 +69,13 @@ public class BWMatrixChainLinkPresenter extends ChainLinkPresenter {
   public BWMatrixChainLinkPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
-    chainLinkEditPresenter = new RGBMatrixEditPresenter(this);
+    chainLinkEditPresenter = new RGBMatrixEditPresenter(this); //TODO: anpassen
     content = new BinaryMatrix(3, 3);
   }
 
   @Override
   protected int calculateID() {
     return selectedElementID;
-  }
-
-  /**
-   * Gets the RGB string of the given color.
-   *
-   * @param color the color
-   * @return the rgb string
-   */
-  private String colorToRGBString(Color color) {
-    return "("
-        + String.valueOf((int) Math.round(color.getRed() * 255))
-        + ", "
-        + String.valueOf((int) Math.round(color.getGreen() * 255))
-        + ", "
-        + String.valueOf((int) Math.round(color.getBlue() * 255))
-        + ")";
   }
 
   /**
