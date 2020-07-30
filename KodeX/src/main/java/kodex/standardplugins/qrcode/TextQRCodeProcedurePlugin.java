@@ -7,6 +7,9 @@ import kodex.plugininterface.Content;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedureInformation;
 import kodex.plugininterface.ProcedurePlugin;
+import kodex.pluginutils.model.steps.CharacterStringToQRCode;
+import kodex.pluginutils.presenter.chainlink.CharacterStringPresenter;
+import kodex.pluginutils.presenter.chainlink.QRCodeChainLinkPresenter;
 import kodex.standardplugins.qrcode.presenter.QRCodeImportPresenter;
 
 /**
@@ -24,7 +27,14 @@ public class TextQRCodeProcedurePlugin extends ProcedurePlugin {
 
   /** Creates a new instance of the QRCodeProcedurePlugin. */
   public TextQRCodeProcedurePlugin() {
+    this.chainLinks = new ChainLinkPresenter[2];
     
+    CharacterStringToQRCode charStringToQRCode = new CharacterStringToQRCode();
+    
+    chainLinks[0] = new CharacterStringPresenter(null, null, charStringToQRCode);
+    chainLinks[1] = new QRCodeChainLinkPresenter(chainLinks[0], charStringToQRCode, null);
+    
+    chainLinks[0].setNext(chainLinks[1]);
   }
   
   @Override
@@ -59,7 +69,7 @@ public class TextQRCodeProcedurePlugin extends ProcedurePlugin {
 
   @Override
   public StringProperty pluginDescriptionProperty() {
-    return new SimpleStringProperty("Verfahren");
+    return new SimpleStringProperty("Das Kodierungs-Verfahren zum Generieren eines QRCodes");
   }
 
   @Override

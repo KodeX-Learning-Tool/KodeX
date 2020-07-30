@@ -4,7 +4,7 @@ import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
 
 /** */
-public class TextToQRCode implements ChainStep {
+public class CharacterStringToQRCode implements ChainStep {
 
   @Override
   public void decode(Content<?> right, Content<?> left) {
