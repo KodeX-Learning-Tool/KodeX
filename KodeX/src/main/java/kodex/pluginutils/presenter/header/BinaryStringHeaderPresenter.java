@@ -15,9 +15,13 @@ import kodex.plugininterface.Content;
  */
 public class BinaryStringHeaderPresenter extends ChainLinkHeaderPresenter {
 
-  public BinaryStringHeaderPresenter(Content content) {
+  /**
+   * Instantiates a new binary string header presenter.
+   *
+   * @param content the binary string reference
+   */
+  public BinaryStringHeaderPresenter(Content<?> content) {
     super(content);
-    // TODO Auto-generated constructor stub
   }
 
   @Override

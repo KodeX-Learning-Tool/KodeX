@@ -1,7 +1,6 @@
 package kodex.pluginutils.presenter.header;
 
 import java.util.Map;
-
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -15,9 +14,13 @@ import kodex.plugininterface.Content;
  */
 public class ColorImageHeaderPresenter extends ChainLinkHeaderPresenter {
 
-  public ColorImageHeaderPresenter(Content content) {
+  /**
+   * Instantiates a new color image header presenter.
+   *
+   * @param content the color image
+   */
+  public ColorImageHeaderPresenter(Content<?> content) {
     super(content);
-    // TODO Auto-generated constructor stub
   }
 
   @Override

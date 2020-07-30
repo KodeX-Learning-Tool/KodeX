@@ -1,7 +1,6 @@
 package kodex.pluginutils.presenter.header;
 
 import java.util.Map;
-
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -15,9 +14,13 @@ import kodex.plugininterface.Content;
  */
 public class RGBMatrixHeaderPresenter extends ChainLinkHeaderPresenter {
 
-  public RGBMatrixHeaderPresenter(Content content) {
+  /**
+   * Instantiates a new RGB matrix header presenter.
+   *
+   * @param content the RGB matrix
+   */
+  public RGBMatrixHeaderPresenter(Content<?> content) {
     super(content);
-    // TODO Auto-generated constructor stub
   }
 
   @Override

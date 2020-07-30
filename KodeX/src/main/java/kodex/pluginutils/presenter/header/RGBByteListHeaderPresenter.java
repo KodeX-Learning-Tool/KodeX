@@ -1,7 +1,6 @@
 package kodex.pluginutils.presenter.header;
 
 import java.util.Map;
-
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -15,9 +14,13 @@ import kodex.plugininterface.Content;
  */
 public class RGBByteListHeaderPresenter extends ChainLinkHeaderPresenter {
 
-  public RGBByteListHeaderPresenter(Content content) {
+  /**
+   * Instantiates a new RGB byte list header presenter.
+   *
+   * @param content the RGB byte list
+   */
+  public RGBByteListHeaderPresenter(Content<?> content) {
     super(content);
-    // TODO Auto-generated constructor stub
   }
 
   @Override
