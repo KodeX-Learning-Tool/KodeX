@@ -16,12 +16,6 @@ public class RGBList extends AbstractList<Color> {
   }
 
   @Override
-  protected File toFile() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
   public boolean isValid(Object input) {
     RGBList object;
 
@@ -39,4 +33,10 @@ public class RGBList extends AbstractList<Color> {
 
     return true;
   }
+  
+  @Override
+  public void export(File file) {
+    // TODO Auto-generated method stub
+  }
+  
 }
