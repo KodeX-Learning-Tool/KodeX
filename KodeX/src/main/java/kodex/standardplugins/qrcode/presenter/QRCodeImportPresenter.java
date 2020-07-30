@@ -17,9 +17,7 @@ import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
-import kodex.pluginutils.model.content.BinaryString;
 import kodex.pluginutils.model.content.CharacterString;
-import kodex.pluginutils.model.content.ColorImage;
 
 /**
  * This class imports an image for encoding or a binary string for decoding. Afterwards it prepares
@@ -135,7 +133,7 @@ public class QRCodeImportPresenter extends ImportPresenter {
         e.printStackTrace();
       }
       if (validateEncodeImport()) {
-        //procedureLayoutPresenter.switchToChainPresenter(true);
+        procedureLayoutPresenter.switchToChainPresenter(true);
       } else {
         System.err.println("File content not valid.");
       }

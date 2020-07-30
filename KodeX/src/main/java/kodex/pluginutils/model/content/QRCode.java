@@ -1,7 +1,9 @@
 package kodex.pluginutils.model.content;
 
 import java.io.File;
+import java.io.IOException;
 
+import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 
 import javafx.scene.image.WritableImage;
@@ -11,6 +13,7 @@ import kodex.plugininterface.Content;
  * This class holds a QRCode as BitMatrix. A QRCode can be set via a WritableImage.
  * 
  * @author Yannick Neubert
+ * @version 1.0
  */
 public class QRCode extends Content<WritableImage> {
   
@@ -18,7 +21,7 @@ public class QRCode extends Content<WritableImage> {
   private BitMatrix matrix;
   
   public QRCode() {
-    this.matrix = new BitMatrix(0);
+    this.matrix = new BitMatrix(1);
   }
   
   public BitMatrix getData() {
@@ -45,8 +48,12 @@ public class QRCode extends Content<WritableImage> {
 
   @Override
   public void export(File file) {
-    // TODO Auto-generated method stub
-    
+    try {
+      MatrixToImageWriter.writeToPath(matrix, "PNG", file.toPath());
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
 }
