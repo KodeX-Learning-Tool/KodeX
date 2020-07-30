@@ -51,8 +51,8 @@ public class RGBListToRGBByteList implements ChainStep {
     for (int i = 0; i < inputlist.size(); i++) {
       Color color = inputlist.get(i);
       rgblist.add(percentToByteString(color.getRed()));
-      rgblist.add(percentToByteString(color.getBlue()));
       rgblist.add(percentToByteString(color.getGreen()));
+      rgblist.add(percentToByteString(color.getBlue()));
     }
     outputlist.setList(rgblist);
 
