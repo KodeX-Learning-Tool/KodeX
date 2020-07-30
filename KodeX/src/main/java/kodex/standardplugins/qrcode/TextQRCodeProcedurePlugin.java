@@ -1,12 +1,5 @@
 package kodex.standardplugins.qrcode;
 
-
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.WriterException;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import kodex.plugininterface.ChainLinkPresenter;
@@ -31,16 +24,9 @@ public class TextQRCodeProcedurePlugin extends ProcedurePlugin {
 
   /** Creates a new instance of the QRCodeProcedurePlugin. */
   public TextQRCodeProcedurePlugin() {
-    QRCodeWriter writer = new QRCodeWriter();
-    try {
-      BitMatrix mtx = writer.encode("yo waddup dog", BarcodeFormat.QR_CODE, 100, 100);
-      MatrixToImageWriter;
-    } catch (WriterException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
+    
   }
-
+  
   @Override
   public ImportPresenter createImportPresenter() {
     return new QRCodeImportPresenter(this);

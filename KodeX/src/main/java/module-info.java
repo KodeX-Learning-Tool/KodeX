@@ -13,6 +13,9 @@ module kodex.KodeX {
   requires javafx.base;
   requires org.kordamp.ikonli.javafx;
   requires org.controlsfx.controls;
+  requires java.desktop;
+  requires com.google.zxing;
+  requires com.google.zxing.javase;
   
 
   uses kodex.plugininterface.ProcedurePlugin;
