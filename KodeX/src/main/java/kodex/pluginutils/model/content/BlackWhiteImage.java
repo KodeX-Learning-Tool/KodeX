@@ -44,6 +44,7 @@ public class BlackWhiteImage extends AbstractImage {
       for (int y = 0; y < input.getHeight(); y++) {
         if (input.getPixelReader().getColor(x, y) != Color.BLACK
             && input.getPixelReader().getColor(x, y) != Color.WHITE) {
+          System.out.println(x + " : " + y);
           return false;
         }
       }

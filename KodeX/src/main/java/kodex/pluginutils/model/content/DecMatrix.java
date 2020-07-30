@@ -5,9 +5,9 @@ import javafx.scene.paint.Color;
 
 /**
  * This class holds data in Matrix format. An DecMatrix consists of a 2D array [rows][cols]
- * containing elements of the type Color.
+ * containing elements of the type Integer.
  */
-public class DecMatrix extends AbstractMatrix<Color> {
+public class DecMatrix extends AbstractMatrix<Integer> {
 
   /**
    * Creates a new DecMatrix with the given dimensions.
@@ -20,7 +20,7 @@ public class DecMatrix extends AbstractMatrix<Color> {
     if (width <= 0 || height <= 0) {
       throw new IllegalArgumentException();
     }
-    super.matrix = new Color[height][width];
+    super.matrix = new Integer[height][width];
   }
 
   @Override
@@ -30,15 +30,15 @@ public class DecMatrix extends AbstractMatrix<Color> {
   }
 
   @Override
-  public boolean isValid(Color input) {
+  public boolean isValid(Integer input) {
     if (input == null) {
       return false;
     }
     
-    if (input.getRed() != input.getGreen() || input.getGreen() != input.getBlue()) {
-      return false;
+    if (input >= 0 && input <= 256) {
+      return true;
     }
     
-    return true;
+    return false;
   }
 }

@@ -13,11 +13,12 @@ public class ByteListToBinaryString implements ChainStep {
   public void decode(Content<?> right, Content<?> left) {
     ByteList leftlist = (ByteList) left;
     BinaryString rightstring = (BinaryString) right;
+    String sequence = "";
 
     String input = rightstring.getString();
     for (int i = 0; i < input.length() / 8; i++) {
-      byte[] value = input.substring(i * 8, i * 8 + 8).getBytes();
-      leftlist.add(value[0]);
+      sequence = input.substring(i * 8, i * 8 + 8);
+      leftlist.add(sequence);
     }
 
     leftlist.setHeader(rightstring.getHeader());
@@ -32,6 +33,8 @@ public class ByteListToBinaryString implements ChainStep {
     for (int i = 0; i < leftlist.getList().size(); i++) {
       result += leftlist.get(i);
     }
+    System.out.println("Result: " +  result);
+    
     rightstring.setString(result);
 
     HashMap<String, Object> map = new HashMap<>();

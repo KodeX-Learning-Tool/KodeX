@@ -2,6 +2,7 @@ package kodex.pluginutils.model.steps;
 
 import java.util.HashMap;
 
+import javafx.scene.paint.Color;
 import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.ColorImage;
@@ -21,7 +22,7 @@ public class GreyScaleImageToDecMatrix implements ChainStep {
     leftimg.setSize(width, height);
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
-        leftimg.setColor(x, y, rightmtx.get(x, y));
+        leftimg.setColor(x, y, new Color(rightmtx.get(x, y), rightmtx.get(x, y), rightmtx.get(x, y), 1));
       }
     }
 
@@ -31,12 +32,12 @@ public class GreyScaleImageToDecMatrix implements ChainStep {
   @Override
   public void encode(Content<?> left, Content<?> right) {
     ColorImage leftimg = (ColorImage) left;
-    RGBMatrix rightmtx = (RGBMatrix) right;
+    DecMatrix rightmtx = (DecMatrix) right;
 
     rightmtx.setSize(leftimg.getWidth(), leftimg.getHeight());
     for (int y = 0; y < leftimg.getHeight(); y++) {
       for (int x = 0; x < leftimg.getWidth(); x++) {
-        rightmtx.set(x, y, leftimg.getColor(x, y).grayscale());
+        rightmtx.set(x, y, (int) leftimg.getColor(x, y).getGreen());
       }
     }
 

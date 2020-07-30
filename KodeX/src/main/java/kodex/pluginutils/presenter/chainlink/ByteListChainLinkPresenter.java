@@ -1,6 +1,5 @@
 package kodex.pluginutils.presenter.chainlink;
 
-import java.util.LinkedList;
 import java.util.List;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -48,15 +47,9 @@ public class ByteListChainLinkPresenter extends ChainLinkPresenter {
   public AnchorPane getView() {
     byteListView = new ListView<>();
 
-    List<Byte> list = ((ByteList) getContent()).getList();
+    List<String> list = ((ByteList) getContent()).getList();
 
-    List<String> byteStringList = new LinkedList<>();
-
-    for (int j = 0; j < list.size(); j++) {
-      byteStringList.add(String.valueOf(list.get(j)));
-    }
-
-    byteListView.setItems(FXCollections.observableArrayList(byteStringList));
+    byteListView.setItems(FXCollections.observableArrayList(list));
 
     // adds listener to list view items
     byteListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {

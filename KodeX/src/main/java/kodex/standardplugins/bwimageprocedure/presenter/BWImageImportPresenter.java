@@ -109,7 +109,6 @@ public class BWImageImportPresenter extends ImportPresenter {
    */
   private File importFile(String type) {
     FileChooser fc = new FileChooser();
-    System.out.println("Test");
     fc.setTitle("Datei zum " + type + " auswählen.");
     return fc.showOpenDialog(null);
   }

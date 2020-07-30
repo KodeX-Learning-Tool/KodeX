@@ -19,8 +19,7 @@ public class DecMatrixToByteList implements ChainStep {
     leftmtx.setSize(width, height);
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
-        double colorValue = rightlist.get(y * width + x);
-        leftmtx.set(x, y, new Color(colorValue, colorValue, colorValue, 1));
+        leftmtx.set(x, y, Integer.parseInt(rightlist.get(y * width + x)));
       }
     }
 
@@ -34,7 +33,7 @@ public class DecMatrixToByteList implements ChainStep {
 
     for (int y = 0; y < leftmtx.getHeight(); y++) {
       for (int x = 0; x < leftmtx.getWidth(); x++) {
-        rightlist.add((byte) leftmtx.get(x, y).getGreen());
+        rightlist.add(String.valueOf(leftmtx.get(x, y)));
       }
     }
 

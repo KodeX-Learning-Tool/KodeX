@@ -98,7 +98,7 @@ public class DecMatrixChainLinkPresenter extends ChainLinkPresenter {
     for (int j = 0; j < matrix.getHeight(); j++) {
       for (int i = 0; i < matrix.getWidth(); i++) {
         matrixPane.add(
-            new MatrixButton(String.valueOf(matrix.get(i, j).getGreen()), i + j * matrix.getWidth()), i, j);
+            new MatrixButton(String.valueOf(matrix.get(i, j)), i + j * matrix.getWidth()), i, j);
       }
     }
 
