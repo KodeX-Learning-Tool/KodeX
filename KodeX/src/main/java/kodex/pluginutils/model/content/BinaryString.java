@@ -6,7 +6,7 @@ import java.io.IOException;
 
 /**
  * This class holds data in string format. A BinaryString consists of only 1's and 0's. Extending
- * AbstractString, it adds validation and exporting capabilities to Javas String.
+ * AbstractString, it adds validation and exporting capabilities to Java's String.
  */
 public class BinaryString extends AbstractString {
 

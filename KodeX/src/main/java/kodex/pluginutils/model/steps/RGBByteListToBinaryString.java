@@ -1,6 +1,5 @@
 package kodex.pluginutils.model.steps;
 
-import java.util.HashMap;
 import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.BinaryString;
@@ -33,10 +32,6 @@ public class RGBByteListToBinaryString implements ChainStep {
       result += leftlist.get(i);
     }
     rightstring.setString(result);
-
-    HashMap<String, Object> map = new HashMap<>();
-    map.put("length", rightstring.length());
-    rightstring.setHeader(map);
 
     rightstring.setHeader(leftlist.getHeader());
   }

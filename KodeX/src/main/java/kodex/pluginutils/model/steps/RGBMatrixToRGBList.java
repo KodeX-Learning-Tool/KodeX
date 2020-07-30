@@ -1,5 +1,6 @@
 package kodex.pluginutils.model.steps;
 
+import javafx.scene.paint.Color;
 import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.RGBList;
@@ -18,7 +19,8 @@ public class RGBMatrixToRGBList implements ChainStep {
     leftmtx.setSize(width, height);
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
-        leftmtx.set(x, y, rightlist.get(y * width + x));
+        Color color = rightlist.get(y * width + x);
+        leftmtx.set(x, y, color);
       }
     }
 
