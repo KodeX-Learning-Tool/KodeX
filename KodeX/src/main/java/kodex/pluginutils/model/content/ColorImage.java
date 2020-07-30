@@ -1,6 +1,10 @@
 package kodex.pluginutils.model.content;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.HashMap;
+
 import javafx.scene.image.WritableImage;
 
 /**
@@ -45,10 +49,47 @@ public class ColorImage extends AbstractImage {
     return true;
 
   }
-
+  
   @Override
   public void export(File file) {
-    // TODO Auto-generated method stub
+    try {
+      FileWriter writer = new FileWriter(file);
+
+      //header
+      writer.write("HEADER\n");
+      HashMap<String, Object> map = (HashMap<String, Object>) header;
+      map.forEach((key, value) -> { 
+        try {
+          writer.write(key + " " + value + "\n");
+        } catch (IOException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+      });
+
+      //content
+      writer.write("CONTENT\n");
+      String row = "";
+      for (int y = 0; y < getHeight(); y++) {
+        row = "";
+        for (int x = 0; x < getWidth(); x++) {
+          row += getColor(x, y).toString().substring(0, 8) + " ";
+        }
+        row = row.substring(0, row.length() - 1);
+
+        if (y != getHeight() - 1)  {
+          writer.write(row + "\n");
+        } else {
+          writer.write(row);
+        }
+
+      }
+      writer.close();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
   }
   
 }

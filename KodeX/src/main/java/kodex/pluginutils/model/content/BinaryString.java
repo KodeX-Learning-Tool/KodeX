@@ -1,6 +1,8 @@
 package kodex.pluginutils.model.content;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  * This class holds data in string format. A BinaryString consists of only 1's and 0's. Extending
@@ -33,7 +35,29 @@ public class BinaryString extends AbstractString {
 
   @Override
   public void export(File file) {
-    // TODO Auto-generated method stub
+    try {
+      //    file = new File(file.getAbsoluteFile() + ".txt");
+      FileWriter writer = new FileWriter(file);
+
+      //header
+      writer.write("HEADER\n");
+      header.forEach((key, value) -> { 
+        try {
+          writer.write(key + " " + value + "\n");
+        } catch (IOException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+      });
+
+      //content
+      writer.write("CONTENT\n");
+      writer.write(data);
+      writer.close();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
 }
