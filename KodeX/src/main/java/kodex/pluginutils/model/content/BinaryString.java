@@ -36,7 +36,10 @@ public class BinaryString extends AbstractString {
   @Override
   public void export(File file) {
     try {
-      //    file = new File(file.getAbsoluteFile() + ".txt");
+//      if (!file.getAbsolutePath().endsWith(".txt")) {
+//        file = new File(file.getAbsoluteFile() + ".txt");
+//      }
+      
       FileWriter writer = new FileWriter(file);
 
       //header

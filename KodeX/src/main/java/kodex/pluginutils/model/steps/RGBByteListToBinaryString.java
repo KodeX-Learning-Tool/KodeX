@@ -5,7 +5,15 @@ import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.BinaryString;
 import kodex.pluginutils.model.content.RGBByteList;
 
-/** */
+/**
+ * This class represents the bidirectional step between RGBByteList and BinaryString.
+ * It contains the functionality to decode and encode the content between
+ * these explicitly defined levels.
+ * 
+ * @author Yannick Neubert
+ * @version 1.0
+ */
+
 public class RGBByteListToBinaryString implements ChainStep {
 
   @Override
