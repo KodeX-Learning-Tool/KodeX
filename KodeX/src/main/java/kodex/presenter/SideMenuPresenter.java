@@ -62,7 +62,7 @@ public class SideMenuPresenter extends Presenter {
     if (type.equals(currentType)) {
       return;
     }
-
+    
     super.loadFXML(type.toString());
     this.currentType = type;
   }
@@ -74,17 +74,11 @@ public class SideMenuPresenter extends Presenter {
    */
   private void pageSelect(Button pressed) {
     changeSelectedPage(pressed);
-    changeToExtendedMenu();
   }
   
   private void changeSelectedPage(Button selected) {
     
     if (selected == null) {
-      /*
-       * Null is used to reset the selected buttons and have no button selected.
-       */
-      selectedPage.getStyleClass().remove(SELECTED_STYLE_CLASS);
-      selectedPage = null;
       return;
     }
     
@@ -110,6 +104,7 @@ public class SideMenuPresenter extends Presenter {
    */
   public void handleHelp() {
     this.presenterManager.updatePresenter(this.presenterFactroy.createHelpPresenter());
+    changeToExtendedMenu();
     pageSelect(helpPageButton);
   }
 
@@ -119,6 +114,7 @@ public class SideMenuPresenter extends Presenter {
    */
   public void handleIndexPage() {
     this.presenterManager.updatePresenter(this.presenterFactroy.createIndexPagePresenter());
+    changeToExtendedMenu();
     pageSelect(indexPageButton);
   }
 
@@ -128,6 +124,7 @@ public class SideMenuPresenter extends Presenter {
    */
   public void handleNetwork() {
     this.presenterManager.updatePresenter(this.presenterFactroy.createNetworkPresenter());
+    changeToExtendedMenu();
     pageSelect(networkPageButton);
   }
 
@@ -137,6 +134,7 @@ public class SideMenuPresenter extends Presenter {
    */
   public void handlePlugins() {
     this.presenterManager.updatePresenter(this.presenterFactroy.createPluginMenuPresenter());
+    changeToExtendedMenu();
     pageSelect(pluginPageButton);
   }
 
@@ -146,6 +144,7 @@ public class SideMenuPresenter extends Presenter {
    */
   public void handleSettings() {
     this.presenterManager.updatePresenter(this.presenterFactroy.createSettingsPresenter());
+    changeToExtendedMenu();
     pageSelect(settingsPageButton);
   }
 

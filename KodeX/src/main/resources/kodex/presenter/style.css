@@ -160,7 +160,7 @@
 }
 
 .side-menu__button--selected {
-	-fx-background-color: rgba(255, 255, 255 , 0.2);
+	-fx-background-color: rgba(255, 255, 255 , 0.3);
 }
 
 .side-menu__button.side-menu--mini {
