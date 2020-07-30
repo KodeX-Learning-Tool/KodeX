@@ -15,6 +15,7 @@ public class CharacterStringToQRCode implements ChainStep {
   @Override
   public void encode(Content<?> left, Content<?> right) {
     // TODO Auto-generated method stub
+    System.out.println("heyo");
 
   }
 }

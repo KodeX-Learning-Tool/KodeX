@@ -131,12 +131,11 @@ public class QRCodeImportPresenter extends ImportPresenter {
       // reads the string from the file
       try {
         string = Files.readString(file.toPath());
-        System.out.println(string);
       } catch (IOException e) {
         e.printStackTrace();
       }
       if (validateEncodeImport()) {
-        procedureLayoutPresenter.switchToChainPresenter(true);
+        //procedureLayoutPresenter.switchToChainPresenter(true);
       } else {
         System.err.println("File content not valid.");
       }
@@ -174,10 +173,12 @@ public class QRCodeImportPresenter extends ImportPresenter {
 
   @Override
   public boolean validateEncodeImport() {
-    CharacterString content = (CharacterString) plugin.getChainHead().getContent();
+    ChainLinkPresenter clp = plugin.getChainHead();
+    CharacterString content = new CharacterString();
     
     if (content.isValid(string)) {
-      plugin.getChainHead().setContent(content);
+      content.setString(string);
+      clp.setContent(content);
       return true;
     }
     return false;

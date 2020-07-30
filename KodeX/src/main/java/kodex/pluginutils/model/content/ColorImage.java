@@ -4,7 +4,7 @@ import java.io.File;
 import javafx.scene.image.WritableImage;
 
 /**
- * This class holds data in Image format. An ColorImage consists of a Writable RGB Image. Extending
+ * This class holds data in Image format. A ColorImage consists of a Writable RGB Image. Extending
  * AbstractImage, it adds validation and exporting capabilities to JavaFX's WritableImage.
  *
  * @author Raimon Gramlich
