@@ -160,11 +160,7 @@ public class ColorImageImportPresenter extends ImportPresenter {
 
   @Override
   public boolean validateDecodeImport() {
-    ChainLinkPresenter clp = plugin.getChainHead();
-
-    while (clp.getNext() != null) {
-      clp = clp.getNext();
-    }
+    ChainLinkPresenter clp = plugin.getChainTail();
 
     BinaryString content = new BinaryString();
     
@@ -193,24 +189,26 @@ public class ColorImageImportPresenter extends ImportPresenter {
       Scanner in = new Scanner(file);
       
       //header
+      header = new HashMap<String, Object>();
       in.next("HEADER");
       in.next("width");
       int width = in.nextInt();
+      header.put("width", width);
+      in.next("unit-length");
+      int unitLength = in.nextInt();
+      header.put("unit-Length", unitLength);
       in.next("height");
       int height = in.nextInt();
-      header = new HashMap<String, Object>();
-      header.put("width", width);
       header.put("height", height);
 
       //content
       in.next("CONTENT");
-      in.nextLine();
+      System.out.println(in.nextLine());
       binaryString = in.nextLine();
 
       in.close();
 
     } catch (FileNotFoundException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
   }
