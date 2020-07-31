@@ -82,6 +82,11 @@
 			<version>0.0.4</version>
 			<type>maven-plugin</type>
 		</dependency>
+    	<dependency>
+        	<groupId>com.google.zxing</groupId>
+        	<artifactId>javase</artifactId>
+        	<version>3.4.0</version>
+    	</dependency>
 		<dependency>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-surefire-plugin</artifactId>
@@ -163,7 +168,7 @@
 					<jlinkZipName>kodexzip</jlinkZipName>
 					<stripDebug>true</stripDebug>
 				</configuration>
-				<executions>
+				<!--  <executions>
 					<execution>
 						<id>jlink-compile</id>
 						<phase>compile</phase>
@@ -171,7 +176,7 @@
 							<goal>jlink</goal>
 						</goals>
 					</execution>
-				</executions>
+				</executions> -->
 			</plugin>
 			<plugin> <!--Only builds when all checkstyle rules are followed. -->
 				<groupId>org.apache.maven.plugins</groupId>

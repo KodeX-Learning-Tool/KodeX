@@ -13,6 +13,9 @@ module kodex.KodeX {
   requires javafx.base;
   requires org.kordamp.ikonli.javafx;
   requires org.controlsfx.controls;
+  requires java.desktop;
+  requires com.google.zxing;
+  requires com.google.zxing.javase;
   
 
   uses kodex.plugininterface.ProcedurePlugin;
@@ -22,6 +25,7 @@ module kodex.KodeX {
   opens kodex.presenter to javafx.fxml;
   opens kodex.standardplugins.colorimageprocedure.presenter to javafx.fxml;
   opens kodex.standardplugins.rle.presenter to javafx.fxml;
+  opens kodex.standardplugins.qrcode.presenter to javafx.fxml;
   opens kodex.standardplugins.greyscaleimageprocedure.presenter to javafx.fxml;
   opens kodex.standardplugins.bwimageprocedure.presenter to javafx.fxml;
   exports kodex;

@@ -7,19 +7,39 @@ import kodex.plugininterface.Content;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedureInformation;
 import kodex.plugininterface.ProcedurePlugin;
+import kodex.pluginutils.model.steps.CharacterStringToQRCode;
+import kodex.pluginutils.presenter.chainlink.CharacterStringPresenter;
+import kodex.pluginutils.presenter.chainlink.QRCodeChainLinkPresenter;
+import kodex.standardplugins.qrcode.presenter.QRCodeImportPresenter;
 
-/** */
+/**
+ * This class is the entry point to the QRCode procedure plugin.
+ * This class holds the ChainLinkPresenters that make up the QRCode coding chain
+ * and controls the access to procedure information, the import presenter 
+ * and the encode/decode methods.
+ *
+ * @author Yannick Neubert
+ * @version 1.0
+ */
 public class TextQRCodeProcedurePlugin extends ProcedurePlugin {
 
   private ChainLinkPresenter[] chainLinks; // [2..*]
 
-  /** Default constructor. */
-  public TextQRCodeProcedurePlugin() {}
-
+  /** Creates a new instance of the QRCodeProcedurePlugin. */
+  public TextQRCodeProcedurePlugin() {
+    this.chainLinks = new ChainLinkPresenter[2];
+    
+    CharacterStringToQRCode charStringToQRCode = new CharacterStringToQRCode();
+    
+    chainLinks[0] = new CharacterStringPresenter(null, null, charStringToQRCode);
+    chainLinks[1] = new QRCodeChainLinkPresenter(chainLinks[0], charStringToQRCode, null);
+    
+    chainLinks[0].setNext(chainLinks[1]);
+  }
+  
   @Override
   public ImportPresenter createImportPresenter() {
-    // TODO Auto-generated method stub
-    return null;
+    return new QRCodeImportPresenter(this);
   }
 
   @Override
@@ -29,10 +49,9 @@ public class TextQRCodeProcedurePlugin extends ProcedurePlugin {
 
   @Override
   public ChainLinkPresenter getChainHead() {
-    // TODO Auto-generated method stub
-    return null;
+    return chainLinks[0];
   }
-
+  
   @Override
   public ChainLinkPresenter getChainTail() {
     return chainLinks[chainLinks.length - 1];
@@ -40,19 +59,17 @@ public class TextQRCodeProcedurePlugin extends ProcedurePlugin {
 
   @Override
   public void initDecodeProcedure(Content<?> content) {
-    // TODO Auto-generated method stub
-
+    chainLinks[chainLinks.length - 1].setContent(content);
   }
 
   @Override
   public void initEncodeProcedure(Content<?> content) {
-    // TODO Auto-generated method stub
-
+    chainLinks[0].setContent(content);
   }
 
   @Override
   public StringProperty pluginDescriptionProperty() {
-    return new SimpleStringProperty("Verfahren");
+    return new SimpleStringProperty("Das Kodierungs-Verfahren zum Generieren eines QRCodes");
   }
 
   @Override

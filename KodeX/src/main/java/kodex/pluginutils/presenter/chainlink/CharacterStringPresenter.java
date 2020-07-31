@@ -1,10 +1,11 @@
 package kodex.pluginutils.presenter.chainlink;
 
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
+import kodex.pluginutils.model.content.CharacterString;
 
-/** The Class CharacterStringPresenter manages the view for the character string. */
 public class CharacterStringPresenter extends ChainLinkPresenter {
 
   /** The chain link name. */
@@ -13,13 +14,18 @@ public class CharacterStringPresenter extends ChainLinkPresenter {
   public CharacterStringPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
-    // TODO Auto-generated constructor stub
+    this.content = new CharacterString();
   }
 
   @Override
   public AnchorPane getView() {
-    // TODO Auto-generated method stub
-    return null;
+
+    AnchorPane ap = new AnchorPane();
+    Label displaytext = new Label();
+
+    displaytext.setText(((CharacterString) content).getString());
+    ap.getChildren().add(displaytext);
+    return ap;
   }
 
   @Override
