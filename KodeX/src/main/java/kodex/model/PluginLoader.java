@@ -1,10 +1,13 @@
 package kodex.model;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -158,6 +161,9 @@ public class PluginLoader {
     for (ProcedurePlugin plugin : procedureLoader) {
       allProcedurePlugins.add(plugin);
     }
+    
+    // enables the plugins according to the enabled_plugins.txt
+    loadEnabledPluginList();
   }
 
   /**
@@ -235,6 +241,38 @@ public class PluginLoader {
           && !enabledProcedurePlugins.contains(p)) {
         allProcedurePlugins.remove(p);
         enabledProcedurePlugins.remove(p);
+  
+  /**
+   * Loads the list of enabled plugins and activates them.
+   * It also adds the default plugins to the default plugin list.
+   */
+  private void loadEnabledPluginList() {      
+    try (BufferedReader reader = Files.newBufferedReader(pluginListPath)) {
+      String line;
+      
+      while ((line = reader.readLine()) != null) {        
+        // add the default plugins to a separate list and remove escape character if necessary
+        if (line.startsWith(PROTECTED_SYMBOL)) {
+          line = line.replaceFirst(PROTECTED_SYMBOL, "");
+          defaultPluginNameList.add(line);
+        } else if (line.startsWith(ESCAPE_CHARACTER.concat(PROTECTED_SYMBOL))) {
+          line = line.replaceFirst(ESCAPE_CHARACTER.concat(PROTECTED_SYMBOL), PROTECTED_SYMBOL);
+        }
+        
+        // activates each plugin in the list
+        for (Pluginable plugin : allPlugins) {
+          if (plugin.pluginNameProperty().get().equals(line)) {
+            plugin.activatedProperty().set(true);
+            activatePlugin(plugin);
+          }
+        }
+      }
+      
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+  
       }
     }
   }
