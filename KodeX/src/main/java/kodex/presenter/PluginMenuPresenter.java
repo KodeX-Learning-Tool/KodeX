@@ -1,6 +1,7 @@
 package kodex.presenter;
 
 import java.io.File;
+import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -43,6 +44,9 @@ public class PluginMenuPresenter extends Presenter {
 
   /** The instance of the PluginLoader class which you can use to work with the loaded plugins. */
   private PluginLoader pluginLoader;
+  
+  /** The list of default-plugin names. */
+  private List<String> defaultPlugins;
 
   /**
    * Creates a new PluginPresenter with a reference to a PresenterManger.
@@ -114,6 +118,8 @@ public class PluginMenuPresenter extends Presenter {
 
     // get a PluginLoader instance this way since PluginLoader uses the singleton pattern
     pluginLoader = PluginLoader.getInstance();
+    
+    defaultPlugins = pluginLoader.getDefaultPluginNames();
 
     // defines the check box column
     checkBoxColumn.setCellValueFactory(
