@@ -13,7 +13,12 @@ import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.content.LetterString;
 import kodex.pluginutils.model.content.TupleString;
 
-/** */
+/**
+ * This class is the presenter for the import of the run length encoding procedure (RLE).
+ * 
+ * @author Leonhard Kraft
+ * @version 1.0
+ */
 public class RLEImportPresenter extends ImportPresenter {
 
   private String letterString;

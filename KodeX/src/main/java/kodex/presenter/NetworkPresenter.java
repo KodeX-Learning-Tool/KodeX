@@ -127,17 +127,17 @@ public class NetworkPresenter extends Presenter {
              */
             File saveFile =
                 CompletableFuture.supplyAsync(
-                        () -> {
-                          FileChooser fileChooser = new FileChooser();
+                    () -> {
+                      FileChooser fileChooser = new FileChooser();
 
-                          if (defaultDirectory.exists()) {
-                            // set default directory if it exists
-                            fileChooser.setInitialDirectory(defaultDirectory);
-                          }
+                      if (defaultDirectory.exists()) {
+                        // set default directory if it exists
+                        fileChooser.setInitialDirectory(defaultDirectory);
+                      }
 
-                          fileChooser.setInitialFileName(fileName);
-                          return fileChooser.showSaveDialog(null);
-                        },
+                      fileChooser.setInitialFileName(fileName);
+                      return fileChooser.showSaveDialog(null);
+                    },
                         Platform::runLater)
                     .join(); // runs on FX thread and waits for result
 

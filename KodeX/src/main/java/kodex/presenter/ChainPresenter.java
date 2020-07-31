@@ -232,9 +232,6 @@ public class ChainPresenter implements IPresenter {
   /** The dividers of the SplitPane chainSplitPane. */
   private ObservableList<Divider> dividers;
 
-  /** This Boolean stores whether the dividers are programmatically moved at the moment. */
-  private boolean isMoving = false;
-
   /**
    * Creates a new ChainPresenter with a reference to the first ChainLinkPresenter and a
    * ProcedureLayoutPresenter.
@@ -276,14 +273,14 @@ public class ChainPresenter implements IPresenter {
 
     dividers = chainSplitPane.getDividers();
     
-    double positionDelta = 1d / (dividers.size() + 1d );
+    double positionDelta = 1d / (dividers.size() + 1d);
     
     //set initial divider position, to be evenly distributed
     for (int i = 0; i < dividers.size(); i++) {
 
       Divider divider = dividers.get(i);
       
-      divider.setPosition(positionDelta * (double)(i + 1));
+      divider.setPosition(positionDelta * (double) (i + 1));
       
     }
   }
