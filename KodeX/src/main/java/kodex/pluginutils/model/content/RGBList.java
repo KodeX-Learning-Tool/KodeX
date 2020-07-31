@@ -53,7 +53,6 @@ public class RGBList extends AbstractList<Color> {
         try {
           writer.write(key + " " + value + "\n");
         } catch (IOException e) {
-          // TODO Auto-generated catch block
           e.printStackTrace();
         }
       });
@@ -73,7 +72,6 @@ public class RGBList extends AbstractList<Color> {
 
       writer.close();
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
   }
