@@ -16,22 +16,24 @@ public class ByteList extends AbstractList<String> {
   }
 
   @Override
-  protected File toFile() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public boolean isValid(String input) {
+  public boolean isValid(Object input) {    
     if (input == null) {
       return false;
     }
-    if (input.length() != 8) {
+    String byteValue = (String) input;
+    
+    if (byteValue.length() != 8) {
       return false;
     }
-    if (!input.matches("[01]+")) {
+    if (!byteValue.matches("[01]+")) {
       return false;
     }
     return true;
+  }
+
+  @Override
+  public void export(File file) {
+    // TODO Auto-generated method stub
+    
   }
 }

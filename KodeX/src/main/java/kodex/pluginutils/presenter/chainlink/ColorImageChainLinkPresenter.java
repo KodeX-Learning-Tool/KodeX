@@ -13,6 +13,7 @@ import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.ColorImage;
 import kodex.pluginutils.presenter.edit.ColorImageEditPresenter;
+import kodex.pluginutils.presenter.header.ColorImageHeaderPresenter;
 
 /** @author Raimon Gramlich */
 public class ColorImageChainLinkPresenter extends ChainLinkPresenter {

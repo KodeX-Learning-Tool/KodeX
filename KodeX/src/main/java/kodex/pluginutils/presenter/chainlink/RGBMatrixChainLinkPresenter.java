@@ -10,6 +10,7 @@ import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.RGBMatrix;
 import kodex.pluginutils.presenter.edit.RGBMatrixEditPresenter;
+import kodex.pluginutils.presenter.header.RGBMatrixHeaderPresenter;
 
 /** @author Raimon Gramlich */
 public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {

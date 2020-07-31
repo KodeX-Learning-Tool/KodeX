@@ -23,22 +23,26 @@ public class DecMatrix extends AbstractMatrix<Integer> {
     super.matrix = new Integer[height][width];
   }
 
-  @Override
-  protected File toFile() {
-    // TODO Auto-generated method stub
-    return null;
-  }
 
   @Override
-  public boolean isValid(Integer input) {
+  public boolean isValid(Object input) {
     if (input == null) {
       return false;
     }
     
-    if (input >= 0 && input <= 256) {
+    int value = (Integer) input;
+    
+    if (value >= 0 && value <= 256) {
       return true;
     }
     
     return false;
+  }
+
+
+  @Override
+  public void export(File file) {
+    // TODO Auto-generated method stub
+    
   }
 }

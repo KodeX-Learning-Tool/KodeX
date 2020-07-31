@@ -6,6 +6,7 @@ import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.BinaryString;
 import kodex.pluginutils.presenter.edit.BinaryStringEditPresenter;
+import kodex.pluginutils.presenter.header.BinaryStringHeaderPresenter;
 
 /**
  * The Class BinaryStringChainLinkPresenter.

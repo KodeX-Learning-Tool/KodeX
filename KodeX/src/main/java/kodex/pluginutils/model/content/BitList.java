@@ -15,18 +15,20 @@ public class BitList extends AbstractList<Integer> {
     super.list = new LinkedList<Integer>();
   }
 
-  @Override
-  protected File toFile() {
-    // TODO Auto-generated method stub
-    return null;
-  }
 
   @Override
-  public boolean isValid(Integer input) {
+  public boolean isValid(Object input) {
     if (input == null) {
       return false;
     }
+    int bit = (Integer) input;
+    return (bit == 0 || bit == 1);
+  }
 
-    return (input == 0 || input == 1);
+
+  @Override
+  public void export(File file) {
+    // TODO Auto-generated method stub
+    
   }
 }
