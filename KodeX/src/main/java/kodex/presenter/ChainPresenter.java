@@ -173,7 +173,7 @@ public class ChainPresenter implements IPresenter {
 
       // display the header if available
       if (header != null) {
-        informationBox.getChildren().set(0, header.getView());
+        informationBox.setCenter(header.getView());
       }
 
       // display the chain link content

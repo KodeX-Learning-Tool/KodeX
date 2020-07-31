@@ -18,6 +18,7 @@ public class ColorImage extends AbstractImage {
   /** Creates a new ColorImage. */
   public ColorImage() {
     super.image = new WritableImage(1, 1);
+    header = new HashMap<>();
   }
 
   /**
