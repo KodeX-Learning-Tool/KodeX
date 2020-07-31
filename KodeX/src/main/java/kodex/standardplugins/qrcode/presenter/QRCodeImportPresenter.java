@@ -18,12 +18,13 @@ import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.content.CharacterString;
+import kodex.pluginutils.model.content.QRCode;
 
 /**
- * This class imports an image for encoding or a binary string for decoding. Afterwards it prepares
+ * This class imports an image for encoding or a string for decoding. Afterwards it prepares
  * the view for the chain view.
  *
- * @author Raimon Gramlich
+ * @author Yannick Neubert
  * @version 1.0
  */
 public class QRCodeImportPresenter extends ImportPresenter {
@@ -37,10 +38,12 @@ public class QRCodeImportPresenter extends ImportPresenter {
   private Button decodeImportButton;
 
   /** The image which is imported for decoding. */
-  private WritableImage qrcode;
+  private File qrcode;
 
   /** The string which is imported for encoding. */
   private String string;
+  
+  private static final int MAX_CHAR_ALPHANUMERICAL = 4296;
 
   /**
    * Instantiates a new color image import presenter.
@@ -79,40 +82,8 @@ public class QRCodeImportPresenter extends ImportPresenter {
 
   @Override
   public void handleDecodeImport() {
-    File file = importFile();
-
-    if (file != null) {
-      // Creating an image
-      Image image = new Image(file.toURI().toString());
-      int width = (int) image.getWidth();
-      int height = (int) image.getHeight();
-
-      if (width == 0 || height == 0) {
-        //TODO error handling
-        System.out.println("mistakes were made");
-        return;
-      }
-      
-      // Creating a writable image
-      qrcode = new WritableImage(width, height);
-
-      // Reading color from the loaded image
-      PixelReader pixelReader = qrcode.getPixelReader();
-
-      // getting the pixel writer
-      PixelWriter writer = qrcode.getPixelWriter();
-
-      // Reading the color of the image
-      for (int y = 0; y < height; y++) {
-        for (int x = 0; x < width; x++) {
-          // Retrieving the color of the pixel of the loaded image
-          Color color = pixelReader.getColor(x, y);
-
-          // Setting the color to the writable image
-          writer.setColor(x, y, color);
-        }
-      }
-      
+    qrcode = importFile();
+    if (qrcode != null) {
       if (validateDecodeImport()) {
         procedureLayoutPresenter.switchToChainPresenter(false);
       } else {
@@ -154,18 +125,14 @@ public class QRCodeImportPresenter extends ImportPresenter {
 
   @Override
   public boolean validateDecodeImport() {
-    //    ChainLinkPresenter clp = plugin.getChainHead();
-    //
-    //    while (clp.getNext() != null) {
-    //      clp = clp.getNext();
-    //    }
-    //
-    //    BinaryString content = (BinaryString) clp.getContent();
-    //
-    //    if (content.isValid(binaryString)) {
-    //      clp.updateChain();
-    //      return true;
-    //    }
+    ChainLinkPresenter clp = plugin.getChainTail();
+
+    QRCode content = new QRCode();
+
+    if (content.isValid(qrcode)) {
+      clp.setContent(content);
+      return true;
+    }
     return false;
   }
 
@@ -174,7 +141,8 @@ public class QRCodeImportPresenter extends ImportPresenter {
     ChainLinkPresenter clp = plugin.getChainHead();
     CharacterString content = new CharacterString();
     
-    if (content.isValid(string)) {
+    if (string.length() <= MAX_CHAR_ALPHANUMERICAL
+        && content.isValid(string)) {
       content.setString(string);
       clp.setContent(content);
       return true;

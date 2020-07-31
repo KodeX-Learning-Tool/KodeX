@@ -1,8 +1,8 @@
 package kodex.pluginutils.model.steps;
 
-import java.io.File;
-
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatReader;
+import com.google.zxing.NotFoundException;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
@@ -24,8 +24,16 @@ public class CharacterStringToQRCode implements ChainStep {
 
   @Override
   public void decode(Content<?> input, Content<?> output) {
-    // TODO Auto-generated method stub
-
+    CharacterString string = (CharacterString) output;
+    QRCode qrcode = (QRCode) input;
+    
+    MultiFormatReader reader = new MultiFormatReader();
+    try {
+      string.setString(reader.decode(qrcode.getBinaryBitmap()).getText());
+    } catch (NotFoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
   @Override
@@ -39,7 +47,7 @@ public class CharacterStringToQRCode implements ChainStep {
     try {
       BitMatrix bitMatrix = qrCodeWriter.encode(
           string.getString(), BarcodeFormat.QR_CODE, size, size);
-      qrcode.setData(bitMatrix);
+      qrcode.setBitMatrix(bitMatrix);
     } catch (WriterException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
