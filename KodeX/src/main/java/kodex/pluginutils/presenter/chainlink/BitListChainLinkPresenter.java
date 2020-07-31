@@ -6,11 +6,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.BitList;
-import kodex.pluginutils.model.content.RGBList;
 import kodex.pluginutils.presenter.edit.RGBListEditPresenter;
 
 /** 

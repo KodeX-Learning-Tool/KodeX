@@ -7,11 +7,11 @@ import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.ColorImage;
 import kodex.pluginutils.model.content.DecMatrix;
-import kodex.pluginutils.model.content.RGBMatrix;
 
 /** */
 public class GreyScaleImageToDecMatrix implements ChainStep {
 
+  @SuppressWarnings("unchecked")
   @Override
   public void decode(Content<?> right, Content<?> left) {
     ColorImage leftimg = (ColorImage) left;
@@ -29,6 +29,7 @@ public class GreyScaleImageToDecMatrix implements ChainStep {
     leftimg.setHeader(rightmtx.getHeader());
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public void encode(Content<?> left, Content<?> right) {
     ColorImage leftimg = (ColorImage) left;

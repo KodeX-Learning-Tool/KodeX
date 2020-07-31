@@ -8,6 +8,7 @@ import kodex.pluginutils.model.content.BitList;
 /** */
 public class MatrixToBitList implements ChainStep {
 
+  @SuppressWarnings("unchecked")
   @Override
   public void decode(Content<?> right, Content<?> left) {
     BinaryMatrix leftmtx = (BinaryMatrix) left;
@@ -25,6 +26,7 @@ public class MatrixToBitList implements ChainStep {
     leftmtx.setHeader(rightlist.getHeader());
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public void encode(Content<?> left, Content<?> right) {
     BinaryMatrix leftmtx = (BinaryMatrix) left;

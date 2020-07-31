@@ -9,6 +9,7 @@ import kodex.pluginutils.model.content.DecMatrix;
 /** */
 public class DecMatrixToByteList implements ChainStep {
 
+  @SuppressWarnings("unchecked")
   @Override
   public void decode(Content<?> right, Content<?> left) {
     DecMatrix leftmtx = (DecMatrix) left;
@@ -26,6 +27,7 @@ public class DecMatrixToByteList implements ChainStep {
     leftmtx.setHeader(rightlist.getHeader());
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public void encode(Content<?> left, Content<?> right) {
     DecMatrix leftmtx = (DecMatrix) left;

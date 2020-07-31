@@ -11,6 +11,7 @@ import kodex.pluginutils.model.content.ColorImage;
 /** */
 public class BWImageToMatrix implements ChainStep {
 
+  @SuppressWarnings("unchecked")
   @Override
   public void decode(Content<?> right, Content<?> left) {
     ColorImage leftimg = (ColorImage) left;
@@ -33,6 +34,7 @@ public class BWImageToMatrix implements ChainStep {
     leftimg.setHeader(rightmtx.getHeader());
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public void encode(Content<?> left, Content<?> right) {
     ColorImage leftimg = (ColorImage) left;

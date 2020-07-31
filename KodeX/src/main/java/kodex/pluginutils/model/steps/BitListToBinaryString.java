@@ -9,6 +9,7 @@ import kodex.pluginutils.model.content.BitList;
 /** */
 public class BitListToBinaryString implements ChainStep {
 
+  @SuppressWarnings("unchecked")
   @Override
   public void decode(Content<?> right, Content<?> left) {
     BitList leftlist = (BitList) left;
@@ -23,6 +24,7 @@ public class BitListToBinaryString implements ChainStep {
     leftlist.setHeader(rightstring.getHeader());
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public void encode(Content<?> left, Content<?> right) {
     BitList leftlist = (BitList) left;

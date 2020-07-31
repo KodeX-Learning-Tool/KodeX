@@ -26,6 +26,7 @@ public class RGBListToRGBByteList implements ChainStep {
     return bytes;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public void decode(Content<?> input, Content<?> output) {
     RGBList outputlist = (RGBList) output;
@@ -42,6 +43,7 @@ public class RGBListToRGBByteList implements ChainStep {
     outputlist.setHeader(inputlist.getHeader());
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public void encode(Content<?> input, Content<?> output) {
     RGBList inputlist = (RGBList) input;

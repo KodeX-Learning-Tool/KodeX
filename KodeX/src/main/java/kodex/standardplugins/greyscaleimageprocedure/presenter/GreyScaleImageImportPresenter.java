@@ -14,7 +14,6 @@ import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.content.CharacterString;
 import kodex.pluginutils.model.content.ColorImage;
-import kodex.pluginutils.model.content.GreyScaleImage;
 
 /**
  * This class is responsible for managing the import of the greyscale image or a binary sequence.

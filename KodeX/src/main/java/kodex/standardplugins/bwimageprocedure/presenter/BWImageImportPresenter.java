@@ -13,8 +13,6 @@ import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.content.BinaryString;
-import kodex.pluginutils.model.content.BlackWhiteImage;
-import kodex.pluginutils.model.content.CharacterString;
 import kodex.pluginutils.model.content.ColorImage;
 
 /**

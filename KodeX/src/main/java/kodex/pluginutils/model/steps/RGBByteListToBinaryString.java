@@ -16,6 +16,7 @@ import kodex.pluginutils.model.content.RGBByteList;
 
 public class RGBByteListToBinaryString implements ChainStep {
 
+  @SuppressWarnings("unchecked")
   @Override
   public void decode(Content<?> input, Content<?> output) {
     RGBByteList list = (RGBByteList) output;
@@ -30,6 +31,7 @@ public class RGBByteListToBinaryString implements ChainStep {
     list.setHeader(string.getHeader());
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public void encode(Content<?> input, Content<?> output) {
     RGBByteList list = (RGBByteList) input;
