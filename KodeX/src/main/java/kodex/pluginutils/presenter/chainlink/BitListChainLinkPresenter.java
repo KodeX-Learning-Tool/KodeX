@@ -10,6 +10,7 @@ import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.BitList;
 import kodex.pluginutils.presenter.edit.RGBListEditPresenter;
+import kodex.pluginutils.presenter.header.RGBListHeaderPresenter;
 
 /** 
  * @author Raimon Gramlich 
@@ -35,8 +36,8 @@ public class BitListChainLinkPresenter extends ChainLinkPresenter {
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
     chainLinkEditPresenter = new RGBListEditPresenter(this); //TODO: anpassen
-    // chainLinkHeaderPresenter = new RGBListHeaderPresenter(this.getContent());
     content = new BitList();
+    chainLinkHeaderPresenter = new RGBListHeaderPresenter(this.getContent());
   }
 
   @Override

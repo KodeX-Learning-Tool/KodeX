@@ -10,6 +10,7 @@ import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.ByteList;
 import kodex.pluginutils.presenter.edit.RGBByteListEditPresenter;
+import kodex.pluginutils.presenter.header.RGBByteListHeaderPresenter;
 
 /**
  * The Class RGBByteListChainLinkPresenter.
@@ -34,8 +35,8 @@ public class ByteListChainLinkPresenter extends ChainLinkPresenter {
   public ByteListChainLinkPresenter(ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
     chainLinkEditPresenter = new RGBByteListEditPresenter(this);
-    // chainLinkHeaderPresenter = new RGBByteListHeaderPresenter(this.getContent());
     content = new ByteList();
+    chainLinkHeaderPresenter = new RGBByteListHeaderPresenter(this.getContent());
   }
 
   @Override
