@@ -38,11 +38,11 @@ public class RGBByteListToBinaryString implements ChainStep {
     RGBByteList list = (RGBByteList) input;
     BinaryString string = (BinaryString) output;
 
-    String result = "";
+    StringBuilder builder = new StringBuilder();
     for (int i = 0; i < list.getList().size(); i++) {
-      result += list.get(i);
+      builder.append(list.get(i));
     }
-    string.setString(result);
+    string.setString(builder.toString());
 
     string.setHeader(list.getHeader());
   }

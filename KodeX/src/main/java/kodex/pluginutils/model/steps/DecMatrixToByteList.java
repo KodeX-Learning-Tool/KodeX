@@ -7,7 +7,7 @@ import kodex.pluginutils.model.content.ByteList;
 import kodex.pluginutils.model.content.DecMatrix;
 
 /**
- * Step from Matrix (decimal) to List (byte) bidirectional
+ * Step from Matrix (decimal) to List (byte) bidirectional.
  * 
  * @author Patrick Spiesberger
  * 
@@ -42,7 +42,7 @@ public class DecMatrixToByteList implements ChainStep {
     for (int y = 0; y < leftmtx.getHeight(); y++) {
       for (int x = 0; x < leftmtx.getWidth(); x++) {
         String num = String.format("%8s", Integer.toBinaryString(leftmtx.get(x, y)));
-        rightlist.add(num.replace(' ','0'));
+        rightlist.add(num.replace(' ', '0'));
       }
     }
     rightlist.setHeader(leftmtx.getHeader());

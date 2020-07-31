@@ -7,7 +7,7 @@ import kodex.pluginutils.model.content.BinaryString;
 import kodex.pluginutils.model.content.BitList;
 
 /**
- * Step from List (bit) to String (binary) bidirectional
+ * Step from List (bit) to String (binary) bidirectional.
  * 
  * @author Patrick Spiesberger
  * 
@@ -36,11 +36,11 @@ public class BitListToBinaryString implements ChainStep {
     BitList leftlist = (BitList) left;
     BinaryString rightstring = (BinaryString) right;
 
-    String result = "";
+    StringBuilder builder = new StringBuilder();
     for (int i = 0; i < leftlist.getList().size(); i++) {
-      result += leftlist.get(i);
+      builder.append(leftlist.get(i));
     }
-    rightstring.setString(result);
+    rightstring.setString(builder.toString());
 
     HashMap<String, Object> map = new HashMap<>();
     map.put("length", rightstring.length());
