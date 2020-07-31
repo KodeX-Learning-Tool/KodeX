@@ -44,9 +44,6 @@ public class HelpPresenter extends Presenter {
   /** The List of questions. */
   private List<String> answers = new ArrayList<>();
 
-  /** The information text. */
-  private String text;
-
   /**
    * The instance of the Help class which loads the information as well as the questions and
    * answers.
