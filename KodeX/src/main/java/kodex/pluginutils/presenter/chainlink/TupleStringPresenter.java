@@ -35,7 +35,6 @@ public class TupleStringPresenter extends ChainLinkPresenter {
 
     List<String> tupleStrings = new LinkedList<>();
     Arrays.stream(((TupleString) content).getTuples()).forEach(t -> tupleStrings.add(t.toString()));
-    ;
 
     displaytext.setText(String.join(" ", tupleStrings));
     ap.getChildren().add(displaytext);

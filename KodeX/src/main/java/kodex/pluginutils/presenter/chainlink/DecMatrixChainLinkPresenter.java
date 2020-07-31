@@ -1,7 +1,5 @@
 package kodex.pluginutils.presenter.chainlink;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -34,14 +32,10 @@ public class DecMatrixChainLinkPresenter extends ChainLinkPresenter {
      */
     MatrixButton(String text, int id) {
       this.setText(text);
-      this.setOnAction(
-          new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-              selectedElementID = id;
-              handleMark();
-            }
-          });
+      this.setOnAction(e -> {
+        selectedElementID = id;
+        handleMark();
+      });
     }
   }
 

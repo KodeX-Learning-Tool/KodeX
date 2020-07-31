@@ -1,8 +1,6 @@
 package kodex.pluginutils.presenter.chainlink;
 
 import java.util.List;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
@@ -32,7 +30,8 @@ public class ByteListChainLinkPresenter extends ChainLinkPresenter {
    * @param previousStep the previous step
    * @param nextStep     the next step
    */
-  public ByteListChainLinkPresenter(ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
+  public ByteListChainLinkPresenter(
+      ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
     chainLinkEditPresenter = new RGBByteListEditPresenter(this);
     content = new ByteList();
@@ -53,13 +52,8 @@ public class ByteListChainLinkPresenter extends ChainLinkPresenter {
     byteListView.setItems(FXCollections.observableArrayList(list));
 
     // adds listener to list view items
-    byteListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-
-      @Override
-      public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-        handleMark();
-      }
-    });
+    byteListView.getSelectionModel()
+          .selectedItemProperty().addListener((obs, old, newV) -> handleMark());
 
     AnchorPane chainLinkPane = new AnchorPane();
 
