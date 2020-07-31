@@ -39,13 +39,13 @@ public class TextQRCodeProcedurePlugin extends ProcedurePlugin {
   }
 
   @Override
-  public void initDecodeProcedure(Content content) {
+  public void initDecodeProcedure(Content<?> content) {
     // TODO Auto-generated method stub
 
   }
 
   @Override
-  public void initEncodeProcedure(Content content) {
+  public void initEncodeProcedure(Content<?> content) {
     // TODO Auto-generated method stub
 
   }

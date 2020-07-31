@@ -2,8 +2,6 @@ package kodex;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import kodex.model.DefaultSettings;
-import kodex.model.PluginLoader;
 import kodex.presenter.PresenterFactory;
 import kodex.presenter.PresenterManager;
 
