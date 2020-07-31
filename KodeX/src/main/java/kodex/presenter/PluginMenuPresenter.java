@@ -94,10 +94,12 @@ public class PluginMenuPresenter extends Presenter {
   private void handleRemovePlugin() {
     // get selected table row
     Pluginable plugin = pluginTable.getSelectionModel().getSelectedItem();
-    if (plugin != null) {
-      pluginLoader.removePlugin(plugin);
-    } else {
+    if (plugin == null) {
       System.out.println("No plugin selected.");
+    } else if (!defaultPlugins.contains(plugin.pluginNameProperty().get())) {
+      System.out.println("Default Plugins can't be removed.");
+    } else {
+      pluginLoader.removePlugin(plugin);
     }
   }
 
