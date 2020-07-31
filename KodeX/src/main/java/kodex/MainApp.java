@@ -25,19 +25,6 @@ public class MainApp extends Application {
   }
 
   /**
-   * Overrides the method of its superclass. This method is called before the start of the JavaFX
-   * application. It initializes the PluginLoader and Settings.
-   */
-  @Override
-  public void init() {
-
-    // creates a unused instance of the PluginLoader to initiate the loading of the
-    // plugins.
-    PluginLoader.getInstance();
-    DefaultSettings.getInstance();
-  }
-
-  /**
    * Overrides the method in its superclass. The entry point for the execution of a
    * JavaFX-Application.
    *
