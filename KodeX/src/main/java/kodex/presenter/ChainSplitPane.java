@@ -6,7 +6,9 @@ import javafx.scene.control.SplitPane;
 public class ChainSplitPane extends SplitPane {
   
   
-  /** {@inheritDoc} */
+  /** 
+   * {@inheritDoc}
+   */
   @Override
   protected Skin<?> createDefaultSkin() {
     return new ChainSplitPaneSkin(this);

@@ -7,21 +7,19 @@ import kodex.plugininterface.Content;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedureInformation;
 import kodex.plugininterface.ProcedurePlugin;
-import kodex.pluginutils.model.steps.ColorImageToRGBMatrix;
-import kodex.pluginutils.model.steps.RGBByteListToBinaryString;
-import kodex.pluginutils.model.steps.RGBListToRGBByteList;
-import kodex.pluginutils.model.steps.RGBMatrixToRGBList;
-import kodex.pluginutils.presenter.chainlink.BinaryStringChainLinkPresenter;
+import kodex.pluginutils.model.steps.BWImageToMatrix;
+import kodex.pluginutils.model.steps.BitListToBinaryString;
+import kodex.pluginutils.model.steps.MatrixToBitList;
+import kodex.pluginutils.presenter.chainlink.BWMatrixChainLinkPresenter;
+import kodex.pluginutils.presenter.chainlink.BinaryStringPresenter;
+import kodex.pluginutils.presenter.chainlink.BitListChainLinkPresenter;
 import kodex.pluginutils.presenter.chainlink.ColorImageChainLinkPresenter;
-import kodex.pluginutils.presenter.chainlink.RGBByteListChainLinkPresenter;
-import kodex.pluginutils.presenter.chainlink.RGBListChainLinkPresenter;
-import kodex.pluginutils.presenter.chainlink.RGBMatrixChainLinkPresenter;
 import kodex.standardplugins.bwimageprocedure.presenter.BWImageImportPresenter;
 
 /**
- * This class is responsible for the administration of the specific procedure "black and white image
- * to binary sequence". This class holds a list of ChainLinks as attributes, i.e. the different
- * steps of this coding chain.
+ * This class is responsible for the administration of the specific procedure
+ * "black and white image to binary sequence". This class holds a list of
+ * ChainLinks as attributes, i.e. the different steps of this coding chain.
  *
  * @author Patrick Spiesberger
  * @version 1.0
@@ -33,22 +31,16 @@ public class BWImageProcedurePlugin extends ProcedurePlugin {
 
   /** Constructor of class BWImageProecedure. Sets all chainLinks */
   public BWImageProcedurePlugin() {
-    chainLinks = new ChainLinkPresenter[5];
-    ColorImageToRGBMatrix colorImageToRGBMatrix = new ColorImageToRGBMatrix();
-    RGBMatrixToRGBList rgbMatrixToRGBList = new RGBMatrixToRGBList();
-    RGBListToRGBByteList rgbListToRGBByteList = new RGBListToRGBByteList();
-    RGBByteListToBinaryString rgbByteListToBinaryString = new RGBByteListToBinaryString();
+    chainLinks = new ChainLinkPresenter[4];
+    BWImageToMatrix bwImageToMatrix = new BWImageToMatrix();
+    MatrixToBitList matrixToBitList = new MatrixToBitList();
+    BitListToBinaryString bitListToBinaryString = new BitListToBinaryString();
 
-    chainLinks[0] = new ColorImageChainLinkPresenter(null, null, colorImageToRGBMatrix);
-    chainLinks[1] =
-        new RGBMatrixChainLinkPresenter(chainLinks[0], colorImageToRGBMatrix, rgbMatrixToRGBList);
-    chainLinks[2] =
-        new RGBListChainLinkPresenter(chainLinks[1], rgbMatrixToRGBList, rgbListToRGBByteList);
-    chainLinks[3] =
-        new RGBByteListChainLinkPresenter(
-            chainLinks[2], rgbListToRGBByteList, rgbByteListToBinaryString);
-    chainLinks[4] =
-        new BinaryStringChainLinkPresenter(chainLinks[3], rgbByteListToBinaryString, null);
+    chainLinks[0] = new ColorImageChainLinkPresenter(null, null, bwImageToMatrix);
+    chainLinks[1] = new BWMatrixChainLinkPresenter(chainLinks[0], bwImageToMatrix, matrixToBitList);
+    chainLinks[2] = 
+        new BitListChainLinkPresenter(chainLinks[1], matrixToBitList, bitListToBinaryString);
+    chainLinks[3] = new BinaryStringPresenter(chainLinks[2], bitListToBinaryString, null);
 
     // set next for chain links
     for (int i = 0; i < chainLinks.length - 1; i++) {

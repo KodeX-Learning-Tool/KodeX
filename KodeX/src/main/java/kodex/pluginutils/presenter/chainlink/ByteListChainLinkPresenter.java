@@ -1,73 +1,64 @@
 package kodex.pluginutils.presenter.chainlink;
 
-import java.util.LinkedList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
-import kodex.pluginutils.model.content.RGBByteList;
+import kodex.pluginutils.model.content.ByteList;
 import kodex.pluginutils.presenter.edit.RGBByteListEditPresenter;
 import kodex.pluginutils.presenter.header.RGBByteListHeaderPresenter;
 
 /**
- * The Class RGBByteListChainLinkPresenter manages the view for the RGB byte list.
+ * The Class RGBByteListChainLinkPresenter.
  *
  * @author Raimon Gramlich
  */
-public class RGBByteListChainLinkPresenter extends ChainLinkPresenter {
+public class ByteListChainLinkPresenter extends ChainLinkPresenter {
 
   /** The chain link name. */
-  private static final String CHAIN_LINK_NAME = "RGB-Byte-Liste";
+  private static final String CHAIN_LINK_NAME = "Byte-Liste";
 
   /** The rgb byte list view. */
-  private ListView<String> rgbByteListView;
+  private ListView<String> byteListView;
 
   /**
    * Instantiates a new RGB byte list chain link presenter.
    *
-   * @param previous the previous ChainLinkPresenter
+   * @param previous     the previous ChainLinkPresenter
    * @param previousStep the previous step
-   * @param nextStep the next step
+   * @param nextStep     the next step
    */
-  public RGBByteListChainLinkPresenter(
+  public ByteListChainLinkPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
     chainLinkEditPresenter = new RGBByteListEditPresenter(this);
-    content = new RGBByteList();
+    content = new ByteList();
     chainLinkHeaderPresenter = new RGBByteListHeaderPresenter(this.getContent());
   }
 
   @Override
   protected int calculateID() {
-    return rgbByteListView.getSelectionModel().getSelectedIndex();
+    return byteListView.getSelectionModel().getSelectedIndex();
   }
 
   @Override
-  public AnchorPane getView() {    
-    rgbByteListView = new ListView<>();
-    
-    List<String> list = ((RGBByteList) getContent()).getList();
-    
-    List<String> tripleList = new LinkedList<>();
-    
-    for (int j = 0; j < list.size(); j += 3) {
-      tripleList.add(list.get(j) + ", " + list.get(j + 1) + ", " + list.get(j + 2));
-    }
+  public AnchorPane getView() {
+    byteListView = new ListView<>();
 
-    rgbByteListView.setItems(FXCollections.observableArrayList(tripleList));
+    List<String> list = ((ByteList) getContent()).getList();
+
+    byteListView.setItems(FXCollections.observableArrayList(list));
 
     // adds listener to list view items
-    rgbByteListView
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener((obs, old, newV) -> handleMark());
+    byteListView.getSelectionModel()
+          .selectedItemProperty().addListener((obs, old, newV) -> handleMark());
 
     AnchorPane chainLinkPane = new AnchorPane();
 
     // add list view to chain link view
-    chainLinkPane.getChildren().add(rgbByteListView);
+    chainLinkPane.getChildren().add(byteListView);
 
     return chainLinkPane;
   }
@@ -79,7 +70,7 @@ public class RGBByteListChainLinkPresenter extends ChainLinkPresenter {
 
   @Override
   protected void mark(int id) {
-    rgbByteListView.getSelectionModel().select(id);
+    byteListView.getSelectionModel().select(id);
     chainLinkEditPresenter.setMarkID(id);
   }
 }

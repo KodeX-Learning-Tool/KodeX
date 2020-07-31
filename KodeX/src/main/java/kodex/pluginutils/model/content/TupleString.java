@@ -17,11 +17,12 @@ public class TupleString extends Content<String> {
     return tuples;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public boolean isValid(String input) {
 
     String[] inputStrings = input.split(" ");
-
+    
     tuples = new Tuple[inputStrings.length];
 
     for (int i = 0; i < inputStrings.length; i++) {

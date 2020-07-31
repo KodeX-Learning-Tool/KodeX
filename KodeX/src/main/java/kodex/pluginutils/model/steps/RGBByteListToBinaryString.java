@@ -11,11 +11,13 @@ import kodex.pluginutils.model.content.RGBByteList;
  * these explicitly defined levels.
  * 
  * @author Yannick Neubert
+ * 
  * @version 1.0
  */
 
 public class RGBByteListToBinaryString implements ChainStep {
 
+  @SuppressWarnings("unchecked")
   @Override
   public void decode(Content<?> input, Content<?> output) {
     RGBByteList list = (RGBByteList) output;
@@ -30,16 +32,17 @@ public class RGBByteListToBinaryString implements ChainStep {
     list.setHeader(string.getHeader());
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public void encode(Content<?> input, Content<?> output) {
     RGBByteList list = (RGBByteList) input;
     BinaryString string = (BinaryString) output;
 
-    String result = "";
+    StringBuilder builder = new StringBuilder();
     for (int i = 0; i < list.getList().size(); i++) {
-      result += list.get(i);
+      builder.append(list.get(i));
     }
-    string.setString(result);
+    string.setString(builder.toString());
 
     string.setHeader(list.getHeader());
   }

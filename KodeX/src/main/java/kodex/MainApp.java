@@ -2,8 +2,6 @@ package kodex;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import kodex.model.DefaultSettings;
-import kodex.model.PluginLoader;
 import kodex.presenter.PresenterFactory;
 import kodex.presenter.PresenterManager;
 
@@ -22,19 +20,6 @@ public class MainApp extends Application {
    */
   public static void main(String[] args) {
     launch();
-  }
-
-  /**
-   * Overrides the method of its superclass. This method is called before the start of the JavaFX
-   * application. It initializes the PluginLoader and Settings.
-   */
-  @Override
-  public void init() {
-
-    // creates a unused instance of the PluginLoader to initiate the loading of the
-    // plugins.
-    PluginLoader.getInstance();
-    DefaultSettings.getInstance();
   }
 
   /**

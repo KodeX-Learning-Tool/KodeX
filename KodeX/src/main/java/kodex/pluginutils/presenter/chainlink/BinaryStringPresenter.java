@@ -9,21 +9,28 @@ import kodex.pluginutils.presenter.edit.BinaryStringEditPresenter;
 import kodex.pluginutils.presenter.header.BinaryStringHeaderPresenter;
 
 /**
- * The Class BinaryStringChainLinkPresenter.
+ * The Class BinaryStringChainLinkPresenter manages the view for the binary string.
  *
  * @author Raimon Gramlich
  */
-public class BinaryStringChainLinkPresenter extends ChainLinkPresenter {
+public class BinaryStringPresenter extends ChainLinkPresenter {
 
   /** The chain link name. */
   private static final String CHAIN_LINK_NAME = "Binärkette";
 
-  public BinaryStringChainLinkPresenter(
+  /**
+   * Instantiates a new binary string presenter.
+   *
+   * @param previous the previous ChainLinkPresenter
+   * @param previousStep the previous step
+   * @param nextStep the next step
+   */
+  public BinaryStringPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
     chainLinkEditPresenter = new BinaryStringEditPresenter(this);
-    // chainLinkHeaderPresenter = new BinaryStringHeaderPresenter(this.getContent());
     content = new BinaryString();
+    chainLinkHeaderPresenter = new BinaryStringHeaderPresenter(this.getContent());
   }
 
   @Override

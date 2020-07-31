@@ -9,10 +9,11 @@ import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.content.BinaryString;
-import kodex.pluginutils.model.content.BlackWhiteImage;
+import kodex.pluginutils.model.content.ColorImage;
 
 /**
  * This class is responsible for managing the import of the black-and-white image or a binary
@@ -109,14 +110,19 @@ public class BWImageImportPresenter extends ImportPresenter {
    */
   private File importFile(String type) {
     FileChooser fc = new FileChooser();
-    System.out.println("Test");
     fc.setTitle("Datei zum " + type + " auswählen.");
     return fc.showOpenDialog(null);
   }
 
   @Override
   public boolean validateDecodeImport() {
-    BinaryString content = new BinaryString();
+    ChainLinkPresenter clp = plugin.getChainHead();
+    
+    while (clp.getNext() != null) {
+      clp = clp.getNext();
+    }
+
+    BinaryString content = (BinaryString) clp.getContent();
 
     if (content.isValid(binaryChain)) {
       plugin.getChainHead().updateChain();
@@ -127,7 +133,7 @@ public class BWImageImportPresenter extends ImportPresenter {
 
   @Override
   public boolean validateEncodeImport() {
-    BlackWhiteImage content = new BlackWhiteImage();
+    ColorImage content = (ColorImage) plugin.getChainHead().getContent();
 
     if (content.isValid(img)) {
       plugin.getChainHead().updateChain();

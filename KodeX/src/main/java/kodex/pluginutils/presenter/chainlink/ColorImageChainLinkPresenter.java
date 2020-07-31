@@ -15,7 +15,10 @@ import kodex.pluginutils.model.content.ColorImage;
 import kodex.pluginutils.presenter.edit.ColorImageEditPresenter;
 import kodex.pluginutils.presenter.header.ColorImageHeaderPresenter;
 
-/** @author Raimon Gramlich */
+/** The Class ColorImageChainLinkPresenter manages the view for the color image.
+ * 
+ *  @author Raimon Gramlich
+ */
 public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
 
   /** The chain link name. */
@@ -28,7 +31,7 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
    * The Constant PREFFERED_IMAGE_SIZE. Scales the image if it smaller than this
    * value.
    */
-  private static final int PREFFERED_IMAGE_SIZE = 90;
+  private static final int PREFFERED_IMAGE_SIZE = 360;
 
   /** The selected X coordinate. */
   private double selectedX;
@@ -59,8 +62,8 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
     chainLinkEditPresenter = new ColorImageEditPresenter(this);
-    // chainLinkHeaderPresenter = new ColorImageHeaderPresenter(this.getContent());
     content = new ColorImage();
+    chainLinkHeaderPresenter = new ColorImageHeaderPresenter(this.getContent());
   }
 
   @Override

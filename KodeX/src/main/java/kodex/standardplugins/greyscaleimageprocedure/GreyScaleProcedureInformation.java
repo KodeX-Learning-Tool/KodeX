@@ -12,7 +12,7 @@ import kodex.plugininterface.ProcedureInformation;
  */
 public class GreyScaleProcedureInformation extends ProcedureInformation {
 
-  /** Default Constructor of class BWImageProcedureInformation. */
+  /** Default Constructor of class GreyScaleProcedureInformation. */
   public GreyScaleProcedureInformation() {
     icon = new Image(getClass().getResourceAsStream("img/mario_grey.png"));
 
@@ -21,8 +21,6 @@ public class GreyScaleProcedureInformation extends ProcedureInformation {
     description =
         "Dieses Plugin zeigt den Weg von einem Bild in verschieden"
             + " Graustufen bis zu der binären Zeichenkette";
-
-    // TODO: Set image
   }
 
   @Override

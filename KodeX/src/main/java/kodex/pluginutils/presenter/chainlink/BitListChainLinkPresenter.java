@@ -4,25 +4,26 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
-import kodex.pluginutils.model.content.RGBList;
+import kodex.pluginutils.model.content.BitList;
 import kodex.pluginutils.presenter.edit.RGBListEditPresenter;
 import kodex.pluginutils.presenter.header.RGBListHeaderPresenter;
 
 /** 
- * The Class RGBListChainLinkPresenter manages the view for the RGB list.
+ * The Class BitListChainLinkPresenter manages the view for the bit list.
  * 
- * @author Raimon Gramlich
+ * @author Raimon Gramlich 
+ * @author Patrick Spiesberger
+ * 
  */
-public class RGBListChainLinkPresenter extends ChainLinkPresenter {
+public class BitListChainLinkPresenter extends ChainLinkPresenter {
 
   /** The chain link name. */
-  private static final String CHAIN_LINK_NAME = "RGB-Liste";
+  private static final String CHAIN_LINK_NAME = "Bit-Liste";
 
   /** The rgb list view. */
-  private ListView<String> rgbListView;
+  private ListView<Integer> bitListView;
 
   /**
    * Instantiates a new RGB list chain link presenter.
@@ -31,56 +32,40 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
    * @param previousStep the previous step
    * @param nextStep the next step
    */
-  public RGBListChainLinkPresenter(
+  public BitListChainLinkPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
-    chainLinkEditPresenter = new RGBListEditPresenter(this);
-    content = new RGBList();
+    chainLinkEditPresenter = new RGBListEditPresenter(this); //TODO: anpassen
+    content = new BitList();
     chainLinkHeaderPresenter = new RGBListHeaderPresenter(this.getContent());
   }
 
   @Override
   protected int calculateID() {
-    return rgbListView.getSelectionModel().getSelectedIndex();
-  }
-
-  /**
-   * Gets the RGB string of the given color.
-   *
-   * @param color the color
-   * @return the rgb string
-   */
-  private String colorToRGBString(Color color) {
-    return "("
-        + String.valueOf((int) Math.round(color.getRed() * 255))
-        + ", "
-        + String.valueOf((int) Math.round(color.getGreen() * 255))
-        + ", "
-        + String.valueOf((int) Math.round(color.getBlue() * 255))
-        + ")";
+    return bitListView.getSelectionModel().getSelectedIndex();
   }
 
   @Override
   public AnchorPane getView() {
-    rgbListView = new ListView<>();
+    bitListView = new ListView<>();
 
-    ObservableList<String> list = FXCollections.observableArrayList();
+    ObservableList<Integer> list = FXCollections.observableArrayList();
 
-    for (Color color : ((RGBList) getContent()).getList()) {
-      list.add(colorToRGBString(color));
+    for (Integer color : ((BitList) getContent()).getList()) {
+      list.add(color);
     }
 
-    rgbListView.setItems(list);
+    bitListView.setItems(list);
 
     // adds listener to list view items
-    rgbListView
+    bitListView
         .getSelectionModel()
         .selectedItemProperty()
         .addListener((obs, old, newV) -> handleMark());
 
     AnchorPane chainLinkPane = new AnchorPane();
     
-    chainLinkPane.getChildren().add(rgbListView);
+    chainLinkPane.getChildren().add(bitListView);
 
     return chainLinkPane;
   }
@@ -92,7 +77,7 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
 
   @Override
   protected void mark(int id) {
-    rgbListView.getSelectionModel().select(id);
+    bitListView.getSelectionModel().select(id);
     chainLinkEditPresenter.setMarkID(id);
   }
 }
