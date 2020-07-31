@@ -117,7 +117,7 @@ public class QRCode extends Content<File> {
   public void export(File file) {
     try {
       MatrixToImageWriter.writeToPath(matrix, "PNG", file.toPath());
-    } catch (IOException e) {
+    } catch (IOException | NullPointerException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }

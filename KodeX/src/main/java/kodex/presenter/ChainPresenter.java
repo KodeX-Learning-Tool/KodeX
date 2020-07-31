@@ -3,6 +3,8 @@ package kodex.presenter;
 import java.io.File;
 import java.io.IOException;
 
+import javax.sound.midi.SysexMessage;
+
 import org.kordamp.ikonli.javafx.FontIcon;
 
 import javafx.collections.ObservableList;
@@ -125,7 +127,9 @@ public class ChainPresenter implements IPresenter {
       FileChooser chooser = new FileChooser();
       chooser.setTitle("Choose export location");
       File exportLocation = chooser.showSaveDialog(null);
-
+      if (exportLocation == null) {
+        return;
+      }
       // initiates exporting the chain link content
       chainLinkPresenter.export(exportLocation);
     }

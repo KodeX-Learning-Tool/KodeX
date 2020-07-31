@@ -64,6 +64,7 @@ public class QRCodeChainLinkPresenter extends ChainLinkPresenter {
     if (image == null) {
       return null;
     }
+    file.delete();
     scaleFactor = (int) (PREFFERED_IMAGE_SIZE / Math.max(image.getWidth(), image.getHeight()));
     
     // scale if smaller than preferred size
