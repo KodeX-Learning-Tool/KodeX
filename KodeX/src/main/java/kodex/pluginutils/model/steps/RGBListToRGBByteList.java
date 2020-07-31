@@ -13,6 +13,7 @@ import kodex.pluginutils.model.content.RGBList;
  * these explicitly defined levels.
  * 
  * @author Yannick Neubert
+ * 
  * @version 1.0
  */
 

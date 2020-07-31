@@ -11,6 +11,7 @@ import kodex.pluginutils.model.content.RGBByteList;
  * these explicitly defined levels.
  * 
  * @author Yannick Neubert
+ * 
  * @version 1.0
  */
 

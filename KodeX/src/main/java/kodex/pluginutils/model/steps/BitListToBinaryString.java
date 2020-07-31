@@ -6,7 +6,13 @@ import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.BinaryString;
 import kodex.pluginutils.model.content.BitList;
 
-/** */
+/**
+ * Step from List (bit) to String (binary) bidirectional
+ * 
+ * @author Patrick Spiesberger
+ * 
+ * @version 1.0
+ */
 public class BitListToBinaryString implements ChainStep {
 
   @SuppressWarnings("unchecked")

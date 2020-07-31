@@ -6,7 +6,13 @@ import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.BinaryString;
 import kodex.pluginutils.model.content.ByteList;
 
-/** */
+/**
+ * Step from List (byte) to String (binary) bidirectional
+ * 
+ * @author Patrick Spiesberger
+ * 
+ * @version 1.0
+ */
 public class ByteListToBinaryString implements ChainStep {
 
   @SuppressWarnings("unchecked")

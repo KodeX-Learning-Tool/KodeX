@@ -8,7 +8,13 @@ import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.BinaryMatrix;
 import kodex.pluginutils.model.content.ColorImage;
 
-/** */
+/**
+ * Step from Image (black & white) to Matrix (bit) bidirectional
+ * 
+ * @author Patrick Spiesberger
+ * 
+ * @version 1.0
+ */
 public class BWImageToMatrix implements ChainStep {
 
   @SuppressWarnings("unchecked")

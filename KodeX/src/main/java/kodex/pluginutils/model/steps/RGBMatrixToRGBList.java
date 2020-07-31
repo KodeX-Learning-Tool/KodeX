@@ -12,6 +12,7 @@ import kodex.pluginutils.model.content.RGBMatrix;
  * these explicitly defined levels.
  * 
  * @author Yannick Neubert
+ * 
  * @version 1.0
  */
 

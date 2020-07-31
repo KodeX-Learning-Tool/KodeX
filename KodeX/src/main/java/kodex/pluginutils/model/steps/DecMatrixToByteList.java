@@ -6,7 +6,13 @@ import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.ByteList;
 import kodex.pluginutils.model.content.DecMatrix;
 
-/** */
+/**
+ * Step from Matrix (decimal) to List (byte) bidirectional
+ * 
+ * @author Patrick Spiesberger
+ * 
+ * @version 1.0
+ */
 public class DecMatrixToByteList implements ChainStep {
 
   @SuppressWarnings("unchecked")

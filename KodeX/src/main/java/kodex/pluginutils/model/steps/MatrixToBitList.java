@@ -5,7 +5,13 @@ import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.BinaryMatrix;
 import kodex.pluginutils.model.content.BitList;
 
-/** */
+/**
+ * Step from Matrix (bit) to List (bit) bidirectional
+ * 
+ * @author Patrick Spiesberger
+ * 
+ * @version 1.0
+ */
 public class MatrixToBitList implements ChainStep {
 
   @SuppressWarnings("unchecked")
