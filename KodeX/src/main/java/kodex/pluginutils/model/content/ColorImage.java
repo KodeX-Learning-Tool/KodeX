@@ -63,7 +63,6 @@ public class ColorImage extends AbstractImage {
         try {
           writer.write(key + " " + value + "\n");
         } catch (IOException e) {
-          // TODO Auto-generated catch block
           e.printStackTrace();
         }
       });
@@ -87,7 +86,6 @@ public class ColorImage extends AbstractImage {
       }
       writer.close();
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
 
