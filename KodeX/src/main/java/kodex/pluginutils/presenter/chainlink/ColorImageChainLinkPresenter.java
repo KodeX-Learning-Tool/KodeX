@@ -191,7 +191,7 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
     colorImageView.setImage(writableImage);
 
     // sets the mark id for editing
-    chainLinkEditPresenter.setMarkID(id);
+    chainLinkEditPresenter.setMarkID(id / scaleFactor);
   }
 
   /**
