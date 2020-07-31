@@ -69,6 +69,8 @@ public class ProcedureLayoutPresenter extends Presenter {
 
     /** Whether the editor is moving at the moment. */
     private boolean moving = false;
+    
+    private ChainLinkEditPresenter editPresenter;
 
     /**
      * Creates a new Editor with a reference to a ChainLinkEditPresenter.
@@ -94,6 +96,14 @@ public class ProcedureLayoutPresenter extends Presenter {
     @FXML
     private void handleCloseEditor() {
       hideEditor();
+    }
+    
+    /**
+     * This method is executed if the user clicks on the button to submit the changes.
+     */
+    @FXML
+    private void handleSubmit() {
+      editPresenter.handleSubmit();
     }
 
     /** Plays the slide in animation at a normal rate in reverse. */
@@ -146,9 +156,11 @@ public class ProcedureLayoutPresenter extends Presenter {
      *
      * @param editorView the new editor view
      */
-    private void setEditorView(AnchorPane editorView) {
+    private void setEditorPresenter(ChainLinkEditPresenter editorPresenter) {
+      editPresenter = editorPresenter;
+      
       // gets and adds the concrete editor items for the chain link
-      editItemsBox.getChildren().set(EDITOR_VIEW_INDEX, editorView);
+      editItemsBox.getChildren().set(EDITOR_VIEW_INDEX, editorPresenter.getView());
     }
   }
 
@@ -311,7 +323,7 @@ public class ProcedureLayoutPresenter extends Presenter {
         overlayPane.getChildren().add(editor);
       }
 
-      editor.setEditorView(editPresenter.getView());
+      editor.setEditorPresenter(editPresenter);
       editor.showEditor();
     }
   }
