@@ -25,6 +25,7 @@
 /*
  * The code has been modified to fit the needs of our UI.
  */
+
 package kodex.presenter;
 
 import java.util.ArrayList;
@@ -50,20 +51,16 @@ import javafx.scene.shape.Rectangle;
 
 public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
 
-  /**
-   * ************************************************************************* * Private fields * *
-   * ************************************************************************
+  /*
+   * Private fields.
    */
   private ObservableList<Content> contentRegions;
 
   private ObservableList<ContentDivider> contentDividers;
   private boolean horizontal;
-  
-  private ChainSplitPane control;
 
-  /**
-   * ************************************************************************* * Constructors * *
-   * ************************************************************************
+  /*
+   * Constructors.
    */
 
   /**
@@ -75,7 +72,6 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
    */
   public ChainSplitPaneSkin(final ChainSplitPane control) {
     super(control);
-    this.control = control;
     //      control.setManaged(false);
     horizontal = getSkinnable().getOrientation() == Orientation.HORIZONTAL;
 
@@ -106,12 +102,13 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
     registerChangeListener(control.heightProperty(), e -> getSkinnable().requestLayout());
   }
 
-  /**
-   * ************************************************************************* * Public API * *
-   * ************************************************************************
+  /*
+   * Public API
    */
 
-  /** {@inheritDoc} */
+  /** 
+   * {@inheritDoc}
+   */
   @Override
   protected void layoutChildren(final double x, final double y, final double w, final double h) {
     final ChainSplitPane s = getSkinnable();
@@ -243,7 +240,7 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
           if (divider.posExplicit) {
             checkDividerPosition(
                 divider,
-                posToDividerPos(divider, divider.d.getPosition()),
+                posToDividerPos(divider, divider.divider.getPosition()),
                 divider.getDividerPos());
           }
           if (i == 0) {
@@ -282,7 +279,9 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
       double spaceRequested = 0;
       double extraSpace = 0;
       for (Content c : contentRegions) {
-        if (c == null) continue;
+        if (c == null) {
+          continue;
+        }
 
         double max = horizontal ? c.maxWidth(-1) : c.maxHeight(-1);
         double min = horizontal ? c.minWidth(-1) : c.minHeight(-1);
@@ -414,7 +413,9 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
     resize = false;
   }
 
-  /** {@inheritDoc} */
+  /** 
+   * {@inheritDoc}
+   */
   @Override
   protected double computeMinWidth(
       double height, double topInset, double rightInset, double bottomInset, double leftInset) {
@@ -434,7 +435,9 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
     }
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   protected double computeMinHeight(
       double width, double topInset, double rightInset, double bottomInset, double leftInset) {
@@ -454,7 +457,9 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
     }
   }
 
-  /** {@inheritDoc} */
+  /** 
+   * {@inheritDoc} 
+   */
   @Override
   protected double computePrefWidth(
       double height, double topInset, double rightInset, double bottomInset, double leftInset) {
@@ -474,7 +479,9 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
     }
   }
 
-  /** {@inheritDoc} */
+  /** 
+   * {@inheritDoc}
+   */
   @Override
   protected double computePrefHeight(
       double width, double topInset, double rightInset, double bottomInset, double leftInset) {
@@ -494,9 +501,8 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
     }
   }
 
-  /**
-   * ************************************************************************* * Private
-   * implementation * * ************************************************************************
+  /*
+   * Private implementation
    */
   private void addContent(int index, Node n) {
     Content c = new Content(n);
@@ -520,37 +526,37 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
         .getItems()
         .addListener(
             (ListChangeListener<Node>)
-                c -> {
-                  while (c.next()) {
-                    if (c.wasPermutated() || c.wasUpdated()) {
-                      /**
-                       * the contents were either moved, or updated. rebuild the contents to re-sync
-                       */
-                      getChildren().clear();
-                      contentRegions.clear();
-                      int index = 0;
-                      for (Node n : c.getList()) {
-                        addContent(index++, n);
-                      }
-
-                    } else {
-                      for (Node n : c.getRemoved()) {
-                        removeContent(n);
-                      }
-
-                      int index = c.getFrom();
-                      for (Node n : c.getAddedSubList()) {
-                        addContent(index++, n);
-                      }
-                    }
+            c -> {
+              while (c.next()) {
+                if (c.wasPermutated() || c.wasUpdated()) {
+                  /*
+                   * the contents were either moved, or updated. rebuild the contents to re-sync
+                   */
+                  getChildren().clear();
+                  contentRegions.clear();
+                  int index = 0;
+                  for (Node n : c.getList()) {
+                    addContent(index++, n);
                   }
-                  // TODO there may be a more efficient way than rebuilding all the dividers
-                  // everytime the list changes.
-                  removeAllDividers();
-                  for (ChainSplitPane.Divider d : getSkinnable().getDividers()) {
-                    addDivider(d);
+
+                } else {
+                  for (Node n : c.getRemoved()) {
+                    removeContent(n);
                   }
-                });
+
+                  int index = c.getFrom();
+                  for (Node n : c.getAddedSubList()) {
+                    addContent(index++, n);
+                  }
+                }
+              }
+              // TODO there may be a more efficient way than rebuilding all the dividers
+              // everytime the list changes.
+              removeAllDividers();
+              for (ChainSplitPane.Divider d : getSkinnable().getDividers()) {
+                addDivider(d);
+              }
+            });
   }
 
   private void checkDividerPosition(ContentDivider divider, double newPos, double oldPos) {
@@ -677,27 +683,29 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
           moverDivider(id, delta);
 
           /*
-           * Checks whether the divider has been moved 
+           * Checks whether the divider has been moved
            * and therefore the neighbor dividers should be moved
            */
           if (divider.getOldPos() == -1) {
             divider.setOldPos(divider.getDividerPos());
-            
+
           } else if (divider.getOldPos() == divider.getDividerPos()) {
             e.consume();
             return;
           }
-          
+
           divider.setOldPos(divider.getDividerPos());
-          
-          //TODO: how do you resize the last chainlink?
-          //TODO: What about resizing the splitpane?
-          
-          /* 
-           * TODO: When resizing the splitpane the dividers are moved because they are positioned in percentages of the width,
-           * keep them positioned by reseting all dividers left of the moved (right is already being repositioned)
+
+          // TODO: how do you resize the last chainlink?
+          // TODO: What about resizing the splitpane?
+
+          /*
+           * TODO: When resizing the splitpane the dividers are moved
+           * because they are positioned in percentages of the width,
+           * keep them positioned by reseting all dividers left of the moved
+           * (right is already being repositioned)
            */
-          
+
           /*
            * Move all dividers when right of the clicked divider.
            * The order depends on the delta sign to avoid non movable dividers that occur,
@@ -1025,9 +1033,8 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
     checkDividerPosition(divider, value, oldPos);
   }
 
-  /**
-   * ************************************************************************* * Support classes * *
-   * ************************************************************************
+  /*
+   * Support classes
    */
 
   // This listener is to be removed from 'removed' dividers and added to 'added' dividers
@@ -1054,17 +1061,17 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
     private double initialPos;
     private double dividerPos;
     private double pressPos;
-    private ChainSplitPane.Divider d;
+    private ChainSplitPane.Divider divider;
     private StackPane grabber;
-    private double x;
-    private double y;
+    private double xpos;
+    private double ypos;
     private boolean posExplicit;
     private ChangeListener<Number> listener;
 
     public ContentDivider(ChainSplitPane.Divider d) {
       getStyleClass().setAll("split-pane-divider");
 
-      this.d = d;
+      this.divider = d;
       this.initialPos = 0;
       this.dividerPos = 0;
       this.pressPos = 0;
@@ -1108,13 +1115,13 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
     }
 
     public ChainSplitPane.Divider getDivider() {
-      return this.d;
+      return this.divider;
     }
-    
+
     public double getOldPos() {
       return oldPos;
     }
-    
+
     public void setOldPos(double newOldPos) {
       oldPos = newOldPos;
     }
@@ -1159,19 +1166,19 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
 
     // TODO remove x and y and replace with dividerpos.
     public double getX() {
-      return x;
+      return xpos;
     }
 
     public void setX(double x) {
-      this.x = x;
+      this.xpos = x;
     }
 
     public double getY() {
-      return y;
+      return ypos;
     }
 
     public void setY(double y) {
-      this.y = y;
+      this.ypos = y;
     }
 
     public ChangeListener<Number> getPosPropertyListener() {
@@ -1234,8 +1241,8 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
   static class Content extends StackPane {
     private Node content;
     private Rectangle clipRect;
-    private double x;
-    private double y;
+    private double xpos;
+    private double ypos;
     private double area;
     private double resizableWithParentArea;
     private double available;
@@ -1247,8 +1254,8 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
       if (n != null) {
         getChildren().add(n);
       }
-      this.x = 0;
-      this.y = 0;
+      this.xpos = 0;
+      this.ypos = 0;
     }
 
     public Node getContent() {
@@ -1256,19 +1263,19 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
     }
 
     public double getX() {
-      return x;
+      return xpos;
     }
 
     public void setX(double x) {
-      this.x = x;
+      this.xpos = x;
     }
 
     public double getY() {
-      return y;
+      return ypos;
     }
 
     public void setY(double y) {
-      this.y = y;
+      this.ypos = y;
     }
 
     // This is the area of the panel.  This will be used as the
