@@ -3,6 +3,7 @@ package kodex.presenter;
 import java.io.File;
 import java.util.List;
 import javafx.fxml.FXML;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -137,9 +138,26 @@ public class PluginMenuPresenter extends Presenter {
                     }
                   });
           return c.getValue().activatedProperty();
-        });
+        });  
 
-    checkBoxColumn.setCellFactory(CheckBoxTableCell.forTableColumn(checkBoxColumn));
+    checkBoxColumn.setCellFactory(column -> {
+      return new CheckBoxTableCell<Pluginable, Boolean>() {
+
+        @Override
+        public void updateItem(Boolean item, boolean empty) {
+          super.updateItem(item, empty);
+
+          // disables check-boxes for default / protected plugins
+          TableRow<Pluginable> currentRow = getTableRow();
+          this.setDisable(false); // it is required to fit default state
+          if (currentRow != null && currentRow.getItem() != null && !empty
+              && defaultPlugins.contains(currentRow.getItem().pluginNameProperty().get())) {
+            this.setDisable(true);
+            this.getStyleClass().add("plugin__check-box-cell");
+          }
+        }
+      };
+    });
 
     // defines the name and description column
     nameColumn.setCellValueFactory(cellData -> cellData.getValue().pluginNameProperty());
