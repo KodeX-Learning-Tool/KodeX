@@ -1,13 +1,23 @@
 package kodex.pluginutils.model.content;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.HashMap;
+
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 
 /**
- * This class holds data in Image format. An BlackWhitImage consists of a WritableImage using only
- * the RGB values 0x000000 and 0xFFFFFF. Extending AbstractImage, it adds validation and exporting
- * capabilities to JavaFX's WritableImage.
+ * This class holds data in Image format. An BlackWhitImage consists of a
+ * WritableImage using only the RGB values 0x000000 and 0xFFFFFF. Extending
+ * AbstractImage, it adds validation and exporting capabilities to JavaFX's
+ * WritableImage.
+ * 
+ * @author Patrick Siesberger
+ * @author Raimon Gramlich
+ * 
+ * @version 1.0
  */
 public class BlackWhiteImage extends AbstractImage {
 
@@ -17,9 +27,10 @@ public class BlackWhiteImage extends AbstractImage {
   }
 
   /**
-   * Creates a new BlackWhiteImage and sets its data to the image passed in the arguments.
+   * Creates a new BlackWhiteImage and sets its data to the image passed in the
+   * arguments.
    *
-   * @param image The WritableImage to be used as data
+   * @param image : The WritableImage to be used as data
    */
   public BlackWhiteImage(WritableImage image) {
     this.image = image;
@@ -45,19 +56,54 @@ public class BlackWhiteImage extends AbstractImage {
     // Check if every pixel is black or white
     for (int x = 0; x < input.getWidth(); x++) {
       for (int y = 0; y < input.getHeight(); y++) {
-        if (input.getPixelReader().getColor(x, y) != Color.BLACK
-            && input.getPixelReader().getColor(x, y) != Color.WHITE) {
+        if (!input.getPixelReader().getColor(x, y).toString().equals(Color.BLACK.toString())
+            && !input.getPixelReader().getColor(x, y).toString().equals(Color.WHITE.toString())
+            && !input.getPixelReader().getColor(x, y).toString().equals("0x00000000")) { // for .png images
           return false;
         }
       }
     }
-    
+
     return true;
   }
 
   @Override
   public void export(File file) {
-    // TODO Auto-generated method stub
+    try {
+      FileWriter writer = new FileWriter(file);
+
+      //header
+      writer.write("HEADER\n");
+      HashMap<String, Object> map = (HashMap<String, Object>) header;
+      map.forEach((key, value) -> { 
+        try {
+          writer.write(key + " " + value + "\n");
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      });
+
+      //content
+      writer.write("CONTENT\n");
+      String row = "";
+      for (int y = 0; y < getHeight(); y++) {
+        row = "";
+        for (int x = 0; x < getWidth(); x++) {
+          row += getColor(x, y).toString().substring(0, 8) + " ";
+        }
+        row = row.substring(0, row.length() - 1);
+
+        if (y != getHeight() - 1)  {
+          writer.write(row + "\n");
+        } else {
+          writer.write(row);
+        }
+
+      }
+      writer.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
-  
+
 }

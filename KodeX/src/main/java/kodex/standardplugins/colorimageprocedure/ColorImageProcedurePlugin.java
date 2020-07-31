@@ -9,7 +9,7 @@ import kodex.pluginutils.model.steps.ColorImageToRGBMatrix;
 import kodex.pluginutils.model.steps.RGBByteListToBinaryString;
 import kodex.pluginutils.model.steps.RGBListToRGBByteList;
 import kodex.pluginutils.model.steps.RGBMatrixToRGBList;
-import kodex.pluginutils.presenter.chainlink.BinaryStringChainLinkPresenter;
+import kodex.pluginutils.presenter.chainlink.BinaryStringPresenter;
 import kodex.pluginutils.presenter.chainlink.ColorImageChainLinkPresenter;
 import kodex.pluginutils.presenter.chainlink.RGBByteListChainLinkPresenter;
 import kodex.pluginutils.presenter.chainlink.RGBListChainLinkPresenter;
@@ -36,15 +36,10 @@ public class ColorImageProcedurePlugin extends ProcedurePlugin {
     RGBByteListToBinaryString rgbByteListToBinaryString = new RGBByteListToBinaryString();
 
     chainLinks[0] = new ColorImageChainLinkPresenter(null, null, colorImageToRGBMatrix);
-    chainLinks[1] =
-        new RGBMatrixChainLinkPresenter(chainLinks[0], colorImageToRGBMatrix, rgbMatrixToRGBList);
-    chainLinks[2] =
-        new RGBListChainLinkPresenter(chainLinks[1], rgbMatrixToRGBList, rgbListToRGBByteList);
-    chainLinks[3] =
-        new RGBByteListChainLinkPresenter(
-            chainLinks[2], rgbListToRGBByteList, rgbByteListToBinaryString);
-    chainLinks[4] =
-        new BinaryStringChainLinkPresenter(chainLinks[3], rgbByteListToBinaryString, null);
+    chainLinks[1] = new RGBMatrixChainLinkPresenter(chainLinks[0], colorImageToRGBMatrix, rgbMatrixToRGBList);
+    chainLinks[2] = new RGBListChainLinkPresenter(chainLinks[1], rgbMatrixToRGBList, rgbListToRGBByteList);
+    chainLinks[3] = new RGBByteListChainLinkPresenter(chainLinks[2], rgbListToRGBByteList, rgbByteListToBinaryString);
+    chainLinks[4] = new BinaryStringPresenter(chainLinks[3], rgbByteListToBinaryString, null);
 
     // set next for chain links
     for (int i = 0; i < chainLinks.length - 1; i++) {
@@ -66,7 +61,7 @@ public class ColorImageProcedurePlugin extends ProcedurePlugin {
   public ChainLinkPresenter getChainHead() {
     return chainLinks[0];
   }
-  
+
   @Override
   public ChainLinkPresenter getChainTail() {
     return chainLinks[chainLinks.length - 1];

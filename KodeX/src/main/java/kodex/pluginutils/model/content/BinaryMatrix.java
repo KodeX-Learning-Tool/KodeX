@@ -5,52 +5,40 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
-import javafx.scene.image.WritableImage;
-
 /**
- * This class holds data in Image format. An ColorImage consists of a Writable RGB Image. Extending
- * AbstractImage, it adds validation and exporting capabilities to JavaFX's WritableImage.
- *
+ * This class holds data in Matrix format. An BinaryMatrix consists of a 2D array [rows][cols]
+ * containing elements of the type Integer.
+ * 
+ * @author Patrick Spiesberger
  * @author Raimon Gramlich
+ * 
+ * @version 1.0
  */
-public class ColorImage extends AbstractImage {
-
-  /** Creates a new ColorImage. */
-  public ColorImage() {
-    super.image = new WritableImage(1, 1);
-    header = new HashMap<>();
-  }
+public class BinaryMatrix extends AbstractMatrix<Integer> {
 
   /**
-   * Creates a new ColorImage and sets its data to the image passed in the arguments.
+   * Creates a new BinaryMatrix with the given dimensions.
    *
-   * @param image The WritableImage to be used as data
+   * @param width The matrix's width
+   * @param height The matrix's height
+   * @throws IllegalArgumentException If either argument is less than or equal to 0
    */
-  public ColorImage(WritableImage image) {
-    this.image = image;
+  public BinaryMatrix(int width, int height) throws IllegalArgumentException {
+    if (width <= 0 || height <= 0) {
+      throw new IllegalArgumentException();
+    }
+    super.matrix = new Integer[height][width];
   }
 
   @Override
-  public boolean isValid(WritableImage input) {
+  public boolean isValid(Object input) {
     if (input == null) {
-      System.out.println("Invalid import, no import to validate");
       return false;
     }
-
-    if (input.getWidth() > MAX_IMAGE_WIDTH || MIN_IMAGE_WIDTH > input.getWidth()) {
-      return false;
-    }
-
-    if (input.getHeight() > MAX_IMAGE_HEIGHT || MIN_IMAGE_HEIGHT > input.getHeight()) {
-      return false;
-    }
-
-    image = input;
-
-    return true;
-
+    int bit = (Integer) input;
+    return (bit == 0 || bit == 1);
   }
-  
+
   @Override
   public void export(File file) {
     try {
@@ -58,6 +46,7 @@ public class ColorImage extends AbstractImage {
 
       //header
       writer.write("HEADER\n");
+      @SuppressWarnings("unchecked")
       HashMap<String, Object> map = (HashMap<String, Object>) header;
       map.forEach((key, value) -> { 
         try {
@@ -73,7 +62,7 @@ public class ColorImage extends AbstractImage {
       for (int y = 0; y < getHeight(); y++) {
         row = "";
         for (int x = 0; x < getWidth(); x++) {
-          row += getColor(x, y).toString().substring(0, 8) + " ";
+          row += get(x, y).toString() + " ";
         }
         row = row.substring(0, row.length() - 1);
 
@@ -88,7 +77,5 @@ public class ColorImage extends AbstractImage {
     } catch (IOException e) {
       e.printStackTrace();
     }
-
   }
-  
 }

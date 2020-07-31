@@ -13,6 +13,7 @@ import kodex.pluginutils.model.content.RGBList;
  * these explicitly defined levels.
  * 
  * @author Yannick Neubert
+ * 
  * @version 1.0
  */
 
@@ -26,6 +27,7 @@ public class RGBListToRGBByteList implements ChainStep {
     return bytes;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public void decode(Content<?> input, Content<?> output) {
     RGBList outputlist = (RGBList) output;
@@ -42,6 +44,7 @@ public class RGBListToRGBByteList implements ChainStep {
     outputlist.setHeader(inputlist.getHeader());
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public void encode(Content<?> input, Content<?> output) {
     RGBList inputlist = (RGBList) input;

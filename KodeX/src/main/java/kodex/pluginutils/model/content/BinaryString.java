@@ -36,10 +36,6 @@ public class BinaryString extends AbstractString {
   @Override
   public void export(File file) {
     try {
-//      if (!file.getAbsolutePath().endsWith(".txt")) {
-//        file = new File(file.getAbsoluteFile() + ".txt");
-//      }
-      
       FileWriter writer = new FileWriter(file);
 
       //header
@@ -48,7 +44,6 @@ public class BinaryString extends AbstractString {
         try {
           writer.write(key + " " + value + "\n");
         } catch (IOException e) {
-          // TODO Auto-generated catch block
           e.printStackTrace();
         }
       });
@@ -58,7 +53,6 @@ public class BinaryString extends AbstractString {
       writer.write(data);
       writer.close();
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
   }

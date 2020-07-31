@@ -10,14 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
@@ -31,7 +25,7 @@ import kodex.plugininterface.ProcedurePlugin;
  * each responsible for a unique part in creating a Coding Procedure.
  *
  * @author Yannick Neubert
- * @author RaimoN Gramlich
+ * @author Raimon Gramlich
  * @version 1.0
  */
 public class ProcedureLayoutPresenter extends Presenter {

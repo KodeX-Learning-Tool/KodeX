@@ -8,17 +8,21 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
-import kodex.pluginutils.model.content.RGBMatrix;
+import kodex.pluginutils.model.content.DecMatrix;
 import kodex.pluginutils.presenter.edit.RGBMatrixEditPresenter;
 import kodex.pluginutils.presenter.header.RGBMatrixHeaderPresenter;
 
-/** @author Raimon Gramlich */
-public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
+/**
+ *  @author Raimon Gramlich
+ *  @author Patrick Spiesberger
+ */
+public class DecMatrixChainLinkPresenter extends ChainLinkPresenter {
 
   /**
    * The Class MatrixButton.
    *
    * @author Raimon Gramlich
+   * @author Patrick Spiesberger
    */
   private class MatrixButton extends Button {
 
@@ -26,22 +30,23 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
      * Instantiates a new matrix button.
      *
      * @param text the text to be set
-     * @param id   the id of the button
+     * @param id the id of the button
      */
     MatrixButton(String text, int id) {
       this.setText(text);
-      this.setOnAction(new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent e) {
-          selectedElementID = id;
-          handleMark();
-        }
-      });
+      this.setOnAction(
+          new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+              selectedElementID = id;
+              handleMark();
+            }
+          });
     }
   }
 
   /** The chain link name. */
-  private static final String CHAIN_LINK_NAME = "RGB-Matrix";
+  private static final String CHAIN_LINK_NAME = "Dezimal-Matrix";
 
   /** The Constant NOT_MARKED. */
   private static final int NOT_MARKED = -1;
@@ -58,14 +63,15 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
   /**
    * Instantiates a new RGB matrix chain link presenter.
    *
-   * @param previous     the previous ChainLinkPresenter
+   * @param previous the previous ChainLinkPresenter
    * @param previousStep the previous step
-   * @param nextStep     the next step
+   * @param nextStep the next step
    */
-  public RGBMatrixChainLinkPresenter(ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
+  public DecMatrixChainLinkPresenter(
+      ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
-    chainLinkEditPresenter = new RGBMatrixEditPresenter(this);
-    content = new RGBMatrix(3, 3);
+    chainLinkEditPresenter = new RGBMatrixEditPresenter(this); //TODO: anpassen
+    content = new DecMatrix(3, 3);
     chainLinkHeaderPresenter = new RGBMatrixHeaderPresenter(this.getContent());
   }
 
@@ -75,24 +81,12 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
   }
 
   /**
-   * Gets the RGB string of the given color.
-   *
-   * @param color the color
-   * @return the rgb string
-   */
-  private String colorToRGBString(Color color) {
-    return "(" + String.valueOf((int) Math.round(color.getRed() * 255)) + ", "
-        + String.valueOf((int) Math.round(color.getGreen() * 255)) + ", "
-        + String.valueOf((int) Math.round(color.getBlue() * 255)) + ")";
-  }
-
-  /**
    * Edits the font color of the button.
    *
-   * @param id    the universal id
+   * @param id the universal id
    * @param color the color to be set
    */
-  private void editMatrixElementColor(int id, Color color) {
+  private void editMatrixElementColor(int id, Color color) {    
     MatrixButton element = (MatrixButton) matrixPane.getChildren().get(id);
     element.setTextFill(color);
   }
@@ -100,12 +94,13 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
   @Override
   public AnchorPane getView() {
     AnchorPane chainLinkPane = new AnchorPane();
-    RGBMatrix matrix = (RGBMatrix) content;
-
+    DecMatrix matrix = (DecMatrix) content;
+    
     // create buttons for each element in the 2d array
     for (int j = 0; j < matrix.getHeight(); j++) {
       for (int i = 0; i < matrix.getWidth(); i++) {
-        matrixPane.add(new MatrixButton(colorToRGBString(matrix.get(i, j)), i + j * matrix.getWidth()), i, j);
+        matrixPane.add(
+            new MatrixButton(String.valueOf(matrix.get(i, j)), i + j * matrix.getWidth()), i, j);
       }
     }
 

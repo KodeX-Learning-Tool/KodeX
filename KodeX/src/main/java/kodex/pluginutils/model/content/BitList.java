@@ -5,37 +5,34 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
-import javafx.scene.paint.Color;
 
 /**
- * This class holds data in LinkedList format. An RGBList consists of colors. Extending
- * AbstractList, it adds validation and exporting capabilities to Java's List.
+ * This class holds data in LinkedList format. An BitList consists of Intergers.
+ * Extending AbstractList, it adds validation and exporting capabilities to
+ * Javas List.
+ * 
+ * @author Patrick Spiesberger
+ * @author Raimon Gramlich
+ * 
+ * @version 1.0
  */
-public class RGBList extends AbstractList<Color> {
+public class BitList extends AbstractList<Integer> {
 
   /** Creates a new RGBList. */
-  public RGBList() {
-    super.list = new LinkedList<Color>();
+  public BitList() {
+    super.list = new LinkedList<Integer>();
   }
+
 
   @Override
   public boolean isValid(Object input) {
-    RGBList object;
-
     if (input == null) {
-      System.out.println("Invalid import, no import to validate");
       return false;
     }
-
-    try {
-      object = ((RGBList) input);
-    } catch (ClassCastException e) {
-      System.out.println("Invalid import, import is of wrong type");
-      return false;
-    }
-
-    return true;
+    int bit = (Integer) input;
+    return (bit == 0 || bit == 1);
   }
+
 
   @Override
   public void export(File file) {
@@ -45,9 +42,6 @@ public class RGBList extends AbstractList<Color> {
       //header
       writer.write("HEADER\n");
       @SuppressWarnings("unchecked")
-      //the unchecked warning is suppressed since it has no negative effects
-      //it's caused by the lambda expression used in writing the header in combination with
-      //this class extending a generic superclass. There appears to be no way of avoiding this.
       HashMap<String, Object> map = (HashMap<String, Object>) header;
       map.forEach((key, value) -> { 
         try {
@@ -61,7 +55,7 @@ public class RGBList extends AbstractList<Color> {
       writer.write("CONTENT\n");
       for (int y = 0; y < size(); y++) {
 
-        String row = get(y).toString().substring(0, 8);
+        String row = get(y).toString().substring(0, 1);
 
         if (y != size() - 1)  {
           writer.write(row + "\n");
@@ -74,6 +68,6 @@ public class RGBList extends AbstractList<Color> {
     } catch (IOException e) {
       e.printStackTrace();
     }
+    
   }
-
 }
