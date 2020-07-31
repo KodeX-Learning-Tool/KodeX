@@ -156,7 +156,7 @@
 					<jlinkZipName>kodexzip</jlinkZipName>
 					<stripDebug>true</stripDebug>
 				</configuration>
-				<executions>
+				<!--  <executions>
 					<execution>
 						<id>jlink-compile</id>
 						<phase>compile</phase>
@@ -164,7 +164,7 @@
 							<goal>jlink</goal>
 						</goals>
 					</execution>
-				</executions>
+				</executions> -->
 			</plugin>
 			<plugin> <!--Only builds when all checkstyle rules are followed. -->
 				<groupId>org.apache.maven.plugins</groupId>
