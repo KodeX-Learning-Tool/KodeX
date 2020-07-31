@@ -86,6 +86,7 @@ public class PluginLoader {
   public void activatePlugin(Pluginable plugin) {
     if (!enabledPlugins.contains(plugin)) {
       enabledPlugins.add(plugin);
+      addToPluginList(plugin);
     }
 
     // add the equivalent procedure plugin if it exists
@@ -305,6 +306,25 @@ public class PluginLoader {
     }
     
     return pluginList;
+  }
+  
+  private void addToPluginList(Pluginable plugin) {
+    // adds the plugin to the enabled_plugins.txt
+    List<String> pluginList = readPluginList();
+    String pluginName = plugin.pluginNameProperty().get();
+    
+    // add escape character if necessary
+    if (!defaultPluginNameList.contains(pluginName) && pluginName.startsWith(PROTECTED_SYMBOL)) {
+      pluginName = ESCAPE_CHARACTER.concat(pluginName);
+    }
+    
+    // check if list already contains entry
+    if (!pluginList.contains(pluginName) 
+        && !defaultPluginNameList.contains(pluginName)) {
+      pluginList.add(pluginName);
+    }
+    
+    writeToPluginList(pluginList);
   }
   
     }
