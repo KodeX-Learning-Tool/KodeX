@@ -105,7 +105,10 @@ public class PluginLoader {
    */
   public void deactivatePlugin(Pluginable plugin) {
     enabledPlugins.remove(plugin);
-
+    
+    // removes the plugin from enabled_plugins.txt
+    removeFromPluginList(plugin);  
+    
     // removes the equivalent procedure plugin if it exists
     for (ProcedurePlugin p : allProcedurePlugins) {
       if (p.pluginNameProperty().get().equals(plugin.pluginNameProperty().get())) {
@@ -243,6 +246,10 @@ public class PluginLoader {
           && !enabledProcedurePlugins.contains(p)) {
         allProcedurePlugins.remove(p);
         enabledProcedurePlugins.remove(p);
+        removeFromPluginList(p);
+      }
+    }
+  }
   
   /**
    * Loads the list of enabled plugins and activates them.
@@ -327,6 +334,18 @@ public class PluginLoader {
     writeToPluginList(pluginList);
   }
   
+  /**
+   * Delete the plugin entry from the plugin list text file.
+   *
+   * @param plugin the plugin to be deleted
+   */
+  private void removeFromPluginList(Pluginable plugin) {
+    List<String> pluginList = readPluginList();
+    String pluginName = plugin.pluginNameProperty().get();
+    if (pluginName.startsWith(PROTECTED_SYMBOL)) {
+      pluginName = ESCAPE_CHARACTER.concat(pluginName);
     }
+    pluginList.remove(pluginName);
+    writeToPluginList(pluginList);
   }
 }
