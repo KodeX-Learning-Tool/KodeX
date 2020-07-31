@@ -4,7 +4,7 @@ import javafx.scene.layout.AnchorPane;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
 
-/** */
+/** The Class CharacterStringPresenter manages the view for the character string. */
 public class CharacterStringPresenter extends ChainLinkPresenter {
 
   /** The chain link name. */

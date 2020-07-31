@@ -10,7 +10,9 @@ import kodex.pluginutils.model.content.BinaryMatrix;
 import kodex.pluginutils.presenter.edit.RGBMatrixEditPresenter;
 import kodex.pluginutils.presenter.header.RGBMatrixHeaderPresenter;
 
-/**
+/** 
+ *  The Class BWMatrixChainLinkPresenter manages the view for the black & white matrix.
+ * 
  *  @author Raimon Gramlich
  *  @author Patrick Spiesberger
  */

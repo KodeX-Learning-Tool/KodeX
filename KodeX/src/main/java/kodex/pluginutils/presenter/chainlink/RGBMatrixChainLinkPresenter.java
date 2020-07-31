@@ -10,7 +10,10 @@ import kodex.pluginutils.model.content.RGBMatrix;
 import kodex.pluginutils.presenter.edit.RGBMatrixEditPresenter;
 import kodex.pluginutils.presenter.header.RGBMatrixHeaderPresenter;
 
-/** @author Raimon Gramlich */
+/** The Class RGBMatrixChainLinkPresenter manages the view for the RGB matrix.
+ * 
+ * @author Raimon Gramlich
+ */
 public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
 
   /**

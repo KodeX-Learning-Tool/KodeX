@@ -15,7 +15,10 @@ import kodex.pluginutils.model.content.ColorImage;
 import kodex.pluginutils.presenter.edit.ColorImageEditPresenter;
 import kodex.pluginutils.presenter.header.ColorImageHeaderPresenter;
 
-/** @author Raimon Gramlich */
+/** The Class ColorImageChainLinkPresenter manages the view for the color image.
+ * 
+ *  @author Raimon Gramlich
+ */
 public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
 
   /** The chain link name. */

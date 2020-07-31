@@ -11,6 +11,8 @@ import kodex.pluginutils.presenter.edit.RGBListEditPresenter;
 import kodex.pluginutils.presenter.header.RGBListHeaderPresenter;
 
 /** 
+ * The Class BitListChainLinkPresenter manages the view for the bit list.
+ * 
  * @author Raimon Gramlich 
  * @author Patrick Spiesberger
  * 

@@ -12,7 +12,7 @@ import kodex.pluginutils.presenter.edit.RGBByteListEditPresenter;
 import kodex.pluginutils.presenter.header.RGBByteListHeaderPresenter;
 
 /**
- * The Class RGBByteListChainLinkPresenter.
+ * The Class RGBByteListChainLinkPresenter manages the view for the RGB byte list.
  *
  * @author Raimon Gramlich
  */

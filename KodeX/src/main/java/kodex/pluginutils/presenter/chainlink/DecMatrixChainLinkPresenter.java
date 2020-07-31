@@ -10,7 +10,8 @@ import kodex.pluginutils.model.content.DecMatrix;
 import kodex.pluginutils.presenter.edit.RGBMatrixEditPresenter;
 import kodex.pluginutils.presenter.header.RGBMatrixHeaderPresenter;
 
-/**
+/** The Class DecMatrixChainLinkPresenter manages the view for the dec matrix.
+ * 
  *  @author Raimon Gramlich
  *  @author Patrick Spiesberger
  */
