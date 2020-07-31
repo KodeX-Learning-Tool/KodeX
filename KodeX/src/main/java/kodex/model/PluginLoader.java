@@ -1,6 +1,7 @@
 package kodex.model;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -273,7 +274,39 @@ public class PluginLoader {
     }
   }
   
+  /**
+   * Write to the plugin list text file.
+   *
+   * @param pluginList the plugin list to be written
+   */
+  private void writeToPluginList(List<String> pluginList) {
+    try (BufferedWriter writer = Files.newBufferedWriter(pluginListPath)) {
+      for (String pluginName: pluginList) {
+        writer.write(pluginName);
+        writer.newLine();
       }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+    
+  /**
+   * Reads the plugin list text file.
+   *
+   * @return the list of enabled plugins
+   */
+  private List<String> readPluginList() {    
+    List<String> pluginList = new ArrayList<>();
+   
+    try {
+      pluginList = Files.readAllLines(pluginListPath);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    
+    return pluginList;
+  }
+  
     }
   }
 }
