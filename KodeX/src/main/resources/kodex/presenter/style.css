@@ -3,6 +3,7 @@
 	-fx-base-color: #FFFFFF; /* Default Background Color */
 	-fx-root-color: #F0F3F7;
 	-fx-base-icon-color: #757575;
+	-fx-disabled-opacity: 0.4;
 }
 
 .ikonli-font-icon {
@@ -443,6 +444,10 @@
 
 .plugin__content .table-view .column-header, .plugin__content .table-view .filler {
     -fx-background-color: #FBFBFB;
+}
+
+.plugin__check-box-cell:disabled .box {
+    -fx-opacity: -fx-disabled-opacity;
 }
 
 /* Help-Menu */

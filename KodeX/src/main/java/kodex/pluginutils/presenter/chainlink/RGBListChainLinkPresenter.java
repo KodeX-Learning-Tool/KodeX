@@ -32,8 +32,8 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
     chainLinkEditPresenter = new RGBListEditPresenter(this);
-    // chainLinkHeaderPresenter = new RGBListHeaderPresenter(this.getContent());
     content = new RGBList();
+    chainLinkHeaderPresenter = new RGBListHeaderPresenter(this.getContent());
   }
 
   @Override

@@ -36,8 +36,8 @@ public class RGBByteListChainLinkPresenter extends ChainLinkPresenter {
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
     chainLinkEditPresenter = new RGBByteListEditPresenter(this);
-    // chainLinkHeaderPresenter = new RGBByteListHeaderPresenter(this.getContent());
     content = new RGBByteList();
+    chainLinkHeaderPresenter = new RGBByteListHeaderPresenter(this.getContent());
   }
 
   @Override

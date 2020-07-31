@@ -1,7 +1,9 @@
 package kodex.presenter;
 
 import java.io.File;
+import java.util.List;
 import javafx.fxml.FXML;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -43,6 +45,9 @@ public class PluginMenuPresenter extends Presenter {
 
   /** The instance of the PluginLoader class which you can use to work with the loaded plugins. */
   private PluginLoader pluginLoader;
+  
+  /** The list of default-plugin names. */
+  private List<String> defaultPlugins;
 
   /**
    * Creates a new PluginPresenter with a reference to a PresenterManger.
@@ -90,10 +95,12 @@ public class PluginMenuPresenter extends Presenter {
   private void handleRemovePlugin() {
     // get selected table row
     Pluginable plugin = pluginTable.getSelectionModel().getSelectedItem();
-    if (plugin != null) {
-      pluginLoader.removePlugin(plugin);
-    } else {
+    if (plugin == null) {
       System.out.println("No plugin selected.");
+    } else if (!defaultPlugins.contains(plugin.pluginNameProperty().get())) {
+      System.out.println("Default Plugins can't be removed.");
+    } else {
+      pluginLoader.removePlugin(plugin);
     }
   }
 
@@ -114,6 +121,8 @@ public class PluginMenuPresenter extends Presenter {
 
     // get a PluginLoader instance this way since PluginLoader uses the singleton pattern
     pluginLoader = PluginLoader.getInstance();
+    
+    defaultPlugins = pluginLoader.getDefaultPluginNames();
 
     // defines the check box column
     checkBoxColumn.setCellValueFactory(
@@ -129,9 +138,26 @@ public class PluginMenuPresenter extends Presenter {
                     }
                   });
           return c.getValue().activatedProperty();
-        });
+        });  
 
-    checkBoxColumn.setCellFactory(CheckBoxTableCell.forTableColumn(checkBoxColumn));
+    checkBoxColumn.setCellFactory(column -> {
+      return new CheckBoxTableCell<Pluginable, Boolean>() {
+
+        @Override
+        public void updateItem(Boolean item, boolean empty) {
+          super.updateItem(item, empty);
+
+          // disables check-boxes for default / protected plugins
+          TableRow<Pluginable> currentRow = getTableRow();
+          this.setDisable(false); // it is required to fit default state
+          if (currentRow != null && currentRow.getItem() != null && !empty
+              && defaultPlugins.contains(currentRow.getItem().pluginNameProperty().get())) {
+            this.setDisable(true);
+            this.getStyleClass().add("plugin__check-box-cell");
+          }
+        }
+      };
+    });
 
     // defines the name and description column
     nameColumn.setCellValueFactory(cellData -> cellData.getValue().pluginNameProperty());
