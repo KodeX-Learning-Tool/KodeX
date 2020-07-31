@@ -108,7 +108,7 @@ public class ProcedureLayoutPresenter extends Presenter {
 
     /** Plays the slide in animation at a normal rate in reverse. */
     public void hideEditor() {
-      if (!moving && !editorShown) {
+      if (!moving && editorShown) {
         moving = true;
         editorTranslation.setRate(REVERSE_TRANSITION_RATE);
         editorTranslation.play();
