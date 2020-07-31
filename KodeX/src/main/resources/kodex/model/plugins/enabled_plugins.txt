@@ -1,0 +1,5 @@
+#Farbbildverfahrensplugin
+#Graustufen Bild
+#Lauflängencodierung
+Schwarz & Weiß Bild
+QR-Code
