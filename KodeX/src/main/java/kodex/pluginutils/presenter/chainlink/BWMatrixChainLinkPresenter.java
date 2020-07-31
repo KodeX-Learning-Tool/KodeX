@@ -1,7 +1,5 @@
 package kodex.pluginutils.presenter.chainlink;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -12,7 +10,9 @@ import kodex.pluginutils.model.content.BinaryMatrix;
 import kodex.pluginutils.presenter.edit.RGBMatrixEditPresenter;
 import kodex.pluginutils.presenter.header.RGBMatrixHeaderPresenter;
 
-/**
+/** 
+ *  The Class BWMatrixChainLinkPresenter manages the view for the black & white matrix.
+ * 
  *  @author Raimon Gramlich
  *  @author Patrick Spiesberger
  */
@@ -34,14 +34,10 @@ public class BWMatrixChainLinkPresenter extends ChainLinkPresenter {
      */
     MatrixButton(String text, int id) {
       this.setText(text);
-      this.setOnAction(
-          new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-              selectedElementID = id;
-              handleMark();
-            }
-          });
+      this.setOnAction(e -> {
+        selectedElementID = id;
+        handleMark();
+      });
     }
   }
 

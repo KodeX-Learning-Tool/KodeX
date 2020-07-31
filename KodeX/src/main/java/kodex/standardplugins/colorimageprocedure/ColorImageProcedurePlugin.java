@@ -31,14 +31,20 @@ public class ColorImageProcedurePlugin extends ProcedurePlugin {
     this.chainLinks = new ChainLinkPresenter[5];
 
     ColorImageToRGBMatrix colorImageToRGBMatrix = new ColorImageToRGBMatrix();
-    RGBMatrixToRGBList rgbMatrixToRGBList = new RGBMatrixToRGBList();
-    RGBListToRGBByteList rgbListToRGBByteList = new RGBListToRGBByteList();
-    RGBByteListToBinaryString rgbByteListToBinaryString = new RGBByteListToBinaryString();
-
     chainLinks[0] = new ColorImageChainLinkPresenter(null, null, colorImageToRGBMatrix);
-    chainLinks[1] = new RGBMatrixChainLinkPresenter(chainLinks[0], colorImageToRGBMatrix, rgbMatrixToRGBList);
-    chainLinks[2] = new RGBListChainLinkPresenter(chainLinks[1], rgbMatrixToRGBList, rgbListToRGBByteList);
-    chainLinks[3] = new RGBByteListChainLinkPresenter(chainLinks[2], rgbListToRGBByteList, rgbByteListToBinaryString);
+    
+    RGBMatrixToRGBList rgbMatrixToRGBList = new RGBMatrixToRGBList();
+    chainLinks[1] = 
+        new RGBMatrixChainLinkPresenter(chainLinks[0], colorImageToRGBMatrix, rgbMatrixToRGBList);
+    
+    RGBListToRGBByteList rgbListToRGBByteList = new RGBListToRGBByteList();
+    chainLinks[2] =
+        new RGBListChainLinkPresenter(chainLinks[1], rgbMatrixToRGBList, rgbListToRGBByteList);
+    
+    RGBByteListToBinaryString rgbByteListToBinaryString = new RGBByteListToBinaryString();
+    chainLinks[3] = new RGBByteListChainLinkPresenter(chainLinks[2], 
+        rgbListToRGBByteList, rgbByteListToBinaryString);
+    
     chainLinks[4] = new BinaryStringPresenter(chainLinks[3], rgbByteListToBinaryString, null);
 
     // set next for chain links

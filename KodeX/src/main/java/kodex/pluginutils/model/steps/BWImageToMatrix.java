@@ -9,7 +9,7 @@ import kodex.pluginutils.model.content.BinaryMatrix;
 import kodex.pluginutils.model.content.ColorImage;
 
 /**
- * Step from Image (black & white) to Matrix (bit) bidirectional
+ * Step from Image (black & white) to Matrix (bit) bidirectional.
  * 
  * @author Patrick Spiesberger
  * 

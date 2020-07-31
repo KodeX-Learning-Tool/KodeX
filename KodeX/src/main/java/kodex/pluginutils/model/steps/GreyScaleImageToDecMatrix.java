@@ -8,7 +8,7 @@ import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.ColorImage;
 import kodex.pluginutils.model.content.DecMatrix;
 
-/**
+/*
  * Step from Image (GreyScale) to Matrix (decimal) bidirectional
  * 
  * @author Patrick Spiesberger
@@ -28,7 +28,8 @@ public class GreyScaleImageToDecMatrix implements ChainStep {
     leftimg.setSize(width, height);
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
-        leftimg.setColor(x, y, new Color(rightmtx.get(x, y), rightmtx.get(x, y), rightmtx.get(x, y), 1));
+        leftimg
+        .setColor(x, y, new Color(rightmtx.get(x, y), rightmtx.get(x, y), rightmtx.get(x, y), 1));
       }
     }
 

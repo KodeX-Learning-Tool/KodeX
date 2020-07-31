@@ -38,8 +38,10 @@ public class GreyScaleImageProcedurePlugin extends ProcedurePlugin {
     ByteListToBinaryString byteListToBinaryString = new ByteListToBinaryString();
 
     chainLinks[0] = new ColorImageChainLinkPresenter(null, null, greyScaleImageToDecMatrix);
-    chainLinks[1] = new DecMatrixChainLinkPresenter(chainLinks[0], greyScaleImageToDecMatrix, decMatrixToByteList);
-    chainLinks[2] = new ByteListChainLinkPresenter(chainLinks[1], decMatrixToByteList, byteListToBinaryString);
+    chainLinks[1] = new DecMatrixChainLinkPresenter(chainLinks[0], 
+        greyScaleImageToDecMatrix, decMatrixToByteList);
+    chainLinks[2] = new ByteListChainLinkPresenter(chainLinks[1], 
+        decMatrixToByteList, byteListToBinaryString);
     chainLinks[3] = new BinaryStringPresenter(chainLinks[2], byteListToBinaryString, null);
 
     // set next for chain links

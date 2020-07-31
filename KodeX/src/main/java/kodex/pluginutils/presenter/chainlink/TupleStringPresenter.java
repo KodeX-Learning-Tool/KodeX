@@ -11,7 +11,7 @@ import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.TupleString;
 
 /**
- * This class provides a chain link presenter for an array of string tuples thta should be
+ * This class provides a chain link presenter for an array of string tuples that should be
  * represented as a string.
  *
  * @author Leonhard Kraft
@@ -35,7 +35,6 @@ public class TupleStringPresenter extends ChainLinkPresenter {
 
     List<String> tupleStrings = new LinkedList<>();
     Arrays.stream(((TupleString) content).getTuples()).forEach(t -> tupleStrings.add(t.toString()));
-    ;
 
     displaytext.setText(String.join(" ", tupleStrings));
     ap.getChildren().add(displaytext);

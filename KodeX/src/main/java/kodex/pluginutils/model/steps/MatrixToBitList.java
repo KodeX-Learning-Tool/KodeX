@@ -6,7 +6,7 @@ import kodex.pluginutils.model.content.BinaryMatrix;
 import kodex.pluginutils.model.content.BitList;
 
 /**
- * Step from Matrix (bit) to List (bit) bidirectional
+ * Step from Matrix (bit) to List (bit) bidirectional.
  * 
  * @author Patrick Spiesberger
  * 

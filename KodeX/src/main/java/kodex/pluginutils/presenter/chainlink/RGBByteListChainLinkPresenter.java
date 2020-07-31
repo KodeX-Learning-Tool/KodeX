@@ -2,8 +2,6 @@ package kodex.pluginutils.presenter.chainlink;
 
 import java.util.LinkedList;
 import java.util.List;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
@@ -14,7 +12,7 @@ import kodex.pluginutils.presenter.edit.RGBByteListEditPresenter;
 import kodex.pluginutils.presenter.header.RGBByteListHeaderPresenter;
 
 /**
- * The Class RGBByteListChainLinkPresenter.
+ * The Class RGBByteListChainLinkPresenter manages the view for the RGB byte list.
  *
  * @author Raimon Gramlich
  */
@@ -64,15 +62,7 @@ public class RGBByteListChainLinkPresenter extends ChainLinkPresenter {
     rgbByteListView
         .getSelectionModel()
         .selectedItemProperty()
-        .addListener(
-            new ChangeListener<String>() {
-
-              @Override
-              public void changed(
-                  ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                handleMark();
-              }
-            });
+        .addListener((obs, old, newV) -> handleMark());
 
     AnchorPane chainLinkPane = new AnchorPane();
 

@@ -1,7 +1,5 @@
 package kodex.pluginutils.presenter.chainlink;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
@@ -13,7 +11,11 @@ import kodex.pluginutils.model.content.RGBList;
 import kodex.pluginutils.presenter.edit.RGBListEditPresenter;
 import kodex.pluginutils.presenter.header.RGBListHeaderPresenter;
 
-/** @author Raimon Gramlich */
+/** 
+ * The Class RGBListChainLinkPresenter manages the view for the RGB list.
+ * 
+ * @author Raimon Gramlich
+ */
 public class RGBListChainLinkPresenter extends ChainLinkPresenter {
 
   /** The chain link name. */
@@ -74,16 +76,7 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
     rgbListView
         .getSelectionModel()
         .selectedItemProperty()
-        .addListener(
-            new ChangeListener<String>() {
-
-              @Override
-              public void changed(
-                  ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                // executes handleMark on selected
-                handleMark();
-              }
-            });
+        .addListener((obs, old, newV) -> handleMark());
 
     AnchorPane chainLinkPane = new AnchorPane();
     
@@ -92,10 +85,10 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
     return chainLinkPane;
   }
 
-	@Override
-	public String getName() {
-		return CHAIN_LINK_NAME;
-	}
+  @Override
+  public String getName() {
+    return CHAIN_LINK_NAME;
+  }
 
   @Override
   protected void mark(int id) {

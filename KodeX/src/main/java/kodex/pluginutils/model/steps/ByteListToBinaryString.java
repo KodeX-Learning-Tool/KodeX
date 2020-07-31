@@ -7,7 +7,7 @@ import kodex.pluginutils.model.content.BinaryString;
 import kodex.pluginutils.model.content.ByteList;
 
 /**
- * Step from List (byte) to String (binary) bidirectional
+ * Step from List (byte) to String (binary) bidirectional.
  * 
  * @author Patrick Spiesberger
  * 

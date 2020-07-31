@@ -1,7 +1,5 @@
 package kodex.pluginutils.presenter.chainlink;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -12,7 +10,10 @@ import kodex.pluginutils.model.content.RGBMatrix;
 import kodex.pluginutils.presenter.edit.RGBMatrixEditPresenter;
 import kodex.pluginutils.presenter.header.RGBMatrixHeaderPresenter;
 
-/** @author Raimon Gramlich */
+/** The Class RGBMatrixChainLinkPresenter manages the view for the RGB matrix.
+ * 
+ * @author Raimon Gramlich
+ */
 public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
 
   /**
@@ -30,12 +31,9 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
      */
     MatrixButton(String text, int id) {
       this.setText(text);
-      this.setOnAction(new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent e) {
-          selectedElementID = id;
-          handleMark();
-        }
+      this.setOnAction(e -> {
+        selectedElementID = id;
+        handleMark();
       });
     }
   }
@@ -62,7 +60,8 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
    * @param previousStep the previous step
    * @param nextStep     the next step
    */
-  public RGBMatrixChainLinkPresenter(ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
+  public RGBMatrixChainLinkPresenter(ChainLinkPresenter previous, 
+      ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
     chainLinkEditPresenter = new RGBMatrixEditPresenter(this);
     content = new RGBMatrix(3, 3);
@@ -81,9 +80,9 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
    * @return the rgb string
    */
   private String colorToRGBString(Color color) {
-    return "(" + String.valueOf((int) Math.round(color.getRed() * 255)) + ", "
-        + String.valueOf((int) Math.round(color.getGreen() * 255)) + ", "
-        + String.valueOf((int) Math.round(color.getBlue() * 255)) + ")";
+    return "(" + (int) Math.round(color.getRed() * 255) + ", "
+        + (int) Math.round(color.getGreen() * 255) + ", "
+        + (int) Math.round(color.getBlue() * 255) + ")";
   }
 
   /**
@@ -105,7 +104,8 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
     // create buttons for each element in the 2d array
     for (int j = 0; j < matrix.getHeight(); j++) {
       for (int i = 0; i < matrix.getWidth(); i++) {
-        matrixPane.add(new MatrixButton(colorToRGBString(matrix.get(i, j)), i + j * matrix.getWidth()), i, j);
+        matrixPane
+        .add(new MatrixButton(colorToRGBString(matrix.get(i, j)), i + j * matrix.getWidth()), i, j);
       }
     }
 

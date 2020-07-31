@@ -125,21 +125,17 @@ public class NetworkPresenter extends Presenter {
              * from a different Thread than the application thread. Therefore we have to
              * delegate the opening of the FileChooser to the main thread.
              */
-            File saveFile =
-                CompletableFuture.supplyAsync(
-                    () -> {
-                      FileChooser fileChooser = new FileChooser();
+            File saveFile = CompletableFuture.supplyAsync(() -> {
+              FileChooser fileChooser = new FileChooser();
 
-                      if (defaultDirectory.exists()) {
-                        // set default directory if it exists
-                        fileChooser.setInitialDirectory(defaultDirectory);
-                      }
+              if (defaultDirectory.exists()) {
+                // set default directory if it exists
+                fileChooser.setInitialDirectory(defaultDirectory);
+              }
 
-                      fileChooser.setInitialFileName(fileName);
-                      return fileChooser.showSaveDialog(null);
-                    },
-                        Platform::runLater)
-                    .join(); // runs on FX thread and waits for result
+              fileChooser.setInitialFileName(fileName);
+              return fileChooser.showSaveDialog(null);
+            }, Platform::runLater).join(); // runs on FX thread and waits for result
 
             if (saveFile == null) {
 
