@@ -138,6 +138,11 @@ public abstract class ChainLinkPresenter implements IPresenter {
   public abstract AnchorPane getView();
   
   /**
+   * Updates the view.
+   */
+  public abstract void updateView();
+  
+  /**
    * Gets the name of the chain link.
    *
    * @return the name of the chain link
@@ -229,6 +234,7 @@ public abstract class ChainLinkPresenter implements IPresenter {
    * be called when the content of the link has been edited.
    */
   public void updateChain() {
+    updateView();
     updateNextChainLink();
     updatePrevChainLink();
   }
@@ -237,6 +243,7 @@ public abstract class ChainLinkPresenter implements IPresenter {
   public void updateNextChainLink() {
     if (next != null) {
       nextStep.encode(content, next.getContent());
+      next.updateView();
       next.updateNextChainLink();
     }
   }
@@ -245,6 +252,7 @@ public abstract class ChainLinkPresenter implements IPresenter {
   public void updatePrevChainLink() {
     if (previous != null) {
       previousStep.decode(content, previous.getContent());
+      previous.updateView();
       previous.updatePrevChainLink();
     }
   }
