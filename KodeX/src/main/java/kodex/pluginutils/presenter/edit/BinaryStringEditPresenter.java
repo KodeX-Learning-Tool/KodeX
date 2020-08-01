@@ -45,7 +45,7 @@ public class BinaryStringEditPresenter extends ChainLinkEditPresenter {
     
     // only allows 0 or 1 as input
     UnaryOperator<TextFormatter.Change> filter = change -> {
-      if (change.getControlNewText().matches("[0-1]+")) {
+      if (change.getControlNewText().matches("[0-1]*")) {
         return change;
       } else {
         return null;
@@ -73,28 +73,36 @@ public class BinaryStringEditPresenter extends ChainLinkEditPresenter {
 
   @Override
   public void handleSubmit() {
+    String input = binaryStringArea.getText();
+    // strip leading zeros to verify whether the number is in range
+    input = input.replaceFirst("^0+(?!$)", "");
     
-    if (binaryStringArea.getText().length() == unitLength) {
-      
-      // replace and concatenate each part 
-
-      String binaryString = content.getString();
-      String prefix = binaryString.substring(0, unitLength * markID);
-      String suffix = binaryString.substring((markID + 1) * 24);
-      
-      binaryString = prefix.concat(binaryStringArea.getText().concat(suffix));
-      
-      content.setString(binaryString);
-      
-      chainLinkPresenter.updateChain();
-      
+    if (input.length() < unitLength) {
+      // add leading zeros
+      while (input.length() < unitLength) {
+        input = "0".concat(input);
+      }
     } else {
       Alert alert = new Alert(AlertType.ERROR);
       alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
       alert.setContentText("This binary string has to have the length " + unitLength);
       PresenterManager.showAlertDialog(alert);
+      
+      return;
     }
+    
+    // replace and concatenate each part 
+
+    String binaryString = content.getString();
+    String prefix = binaryString.substring(0, unitLength * markID);
+    String suffix = binaryString.substring((markID + 1) * 24);
+    
+    binaryString = prefix.concat(input.concat(suffix));
+    
+    content.setString(binaryString);
+    
+    chainLinkPresenter.updateChain();
   }
 
   @Override
