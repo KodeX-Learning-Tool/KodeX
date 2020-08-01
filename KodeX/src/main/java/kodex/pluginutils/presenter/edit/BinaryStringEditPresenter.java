@@ -1,12 +1,17 @@
 package kodex.pluginutils.presenter.edit;
 
 import java.util.function.UnaryOperator;
+
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.AnchorPane;
+import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.pluginutils.model.content.BinaryString;
+import kodex.presenter.PresenterManager;
 
 /**
  * This class manages the edit view and is responsible for editing a binary string.
@@ -53,6 +58,8 @@ public class BinaryStringEditPresenter extends ChainLinkEditPresenter {
     binaryStringArea.setTextFormatter(binaryFormatter);
     
     view = new AnchorPane(binaryStringArea);
+
+    content = (BinaryString) chainLinkPresenter.getContent();
   }
 
   @Override
@@ -79,12 +86,14 @@ public class BinaryStringEditPresenter extends ChainLinkEditPresenter {
       
       content.setString(binaryString);
       
-      System.out.println(content.getString());
-      
       chainLinkPresenter.updateChain();
       
     } else {
-      System.err.println("This binary sub string has to be " + unitLength + " digits long.");
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("This binary string has to have the length " + unitLength);
+      PresenterManager.showAlertDialog(alert);
     }
   }
 
