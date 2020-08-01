@@ -5,26 +5,41 @@ import javafx.scene.layout.AnchorPane;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.CharacterString;
+import kodex.pluginutils.presenter.edit.CharacterStringEditPresenter;
 
-public class CharacterStringPresenter extends ChainLinkPresenter {
+/**
+ * This class is the ChainLinkPresenter for a CharacterString. It's main purpose is to 
+ * generate the view for a CharacterString.
+ * 
+ * @author Yannick Neubert 
+ */
+public class CharacterStringChainLinkPresenter extends ChainLinkPresenter {
 
   /** The chain link name. */
   private static final String CHAIN_LINK_NAME = "Zeichenkette";
+  
+  private Label displayText = new Label();
 
-  public CharacterStringPresenter(
+  /**
+   * Instantiates a new CharacterStringChainLink presenter.
+   *
+   * @param previous the previous ChainLinkPresenter
+   * @param previousStep the previous step
+   * @param nextStep the next step
+   */
+  public CharacterStringChainLinkPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
     this.content = new CharacterString();
+    this.chainLinkEditPresenter = new CharacterStringEditPresenter(this);
   }
 
   @Override
   public AnchorPane getView() {
-
+    updateView();
+    
     AnchorPane ap = new AnchorPane();
-    Label displaytext = new Label();
-
-    displaytext.setText(((CharacterString) content).getString());
-    ap.getChildren().add(displaytext);
+    ap.getChildren().add(displayText);
     return ap;
   }
 
@@ -41,7 +56,6 @@ public class CharacterStringPresenter extends ChainLinkPresenter {
 
   @Override
   public void updateView() {
-    // TODO Auto-generated method stub
-    
+    displayText.setText(((CharacterString) content).getString());
   }
 }

@@ -4,15 +4,21 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import kodex.model.I18N;
+import kodex.presenter.PresenterManager;
+
 /**
  * This class holds data in string format. A CharacterString consists of characters. 
  * Extending AbstractString, it adds validation and exporting capabilities to Java's
  * String.
  * 
+ * @author Yannick Neubert
  * @author Raimon Gramlich
  * @author Parick Spiesberger
  * 
- * @version 1.0
+ * @version 2.0
  */
 public class CharacterString extends AbstractString {
 
@@ -57,7 +63,12 @@ public class CharacterString extends AbstractString {
       writer.write(data);
       writer.close();
     } catch (IOException e) {
-      e.printStackTrace();
+      Alert alert = new Alert(AlertType.ERROR);
+      
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("Something went wrong creating this file");
+      PresenterManager.showAlertDialog(alert);
     }
   }
   
