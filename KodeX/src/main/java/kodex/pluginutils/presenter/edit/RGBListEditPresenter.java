@@ -53,9 +53,6 @@ public class RGBListEditPresenter extends ChainLinkEditPresenter {
     UnaryOperator<TextFormatter.Change> filter = change -> {
       if (change.getControlNewText().matches("\\d*")) {
         return change;
-      } else if (change.getControlNewText().isEmpty()) {
-        change.setText("0");
-        return change;
       } else {
         return null;
       }
