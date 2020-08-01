@@ -16,7 +16,7 @@ import kodex.model.SideMenuTypes;
 public class PresenterManager {
 
   /** The root stage of the application. */
-  private Stage rootStage;
+  private static Stage rootStage;
 
   /** The current, active main presenter. */
   private Presenter currentPresenter;
@@ -30,11 +30,8 @@ public class PresenterManager {
   /**
    * Creates a new PresenterManaegr with a reference to the root stage.
    *
-   * @param rootStage The root stage of the application.
    */
-  public PresenterManager(Stage rootStage) {
-
-    this.rootStage = rootStage;
+  public PresenterManager() {
 
     // BorderPane is used, because it allowes to set the center (main page) and left
     // (side menu)
@@ -95,5 +92,14 @@ public class PresenterManager {
 
     this.sideMenuPresenter.changeSideMenuType(type);
     updateSideMenuView();
+  }
+
+  /**
+   * Sets the static root stage.
+   *
+   * @param rootStage The root stage of the application.
+   */
+  public static void setRootStage(Stage rootStage) {
+    PresenterManager.rootStage = rootStage;
   }
 }
