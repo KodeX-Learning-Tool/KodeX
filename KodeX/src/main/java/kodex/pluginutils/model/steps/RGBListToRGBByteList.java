@@ -1,6 +1,8 @@
 package kodex.pluginutils.model.steps;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import javafx.scene.paint.Color;
 import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
@@ -13,11 +15,15 @@ import kodex.pluginutils.model.content.RGBList;
  * these explicitly defined levels.
  * 
  * @author Yannick Neubert
+ * @author Raimon Gramlich
  * 
  * @version 1.0
  */
 
 public class RGBListToRGBByteList implements ChainStep {
+  
+  /** The Constant defines how many elements belong together in a RGB byte list. */
+  private static final int RGB_BYTE_LIST_UNIT_LENGTH = 3;
 
   private static String percentToByteString(double input) {
     int value = ((int) (input * 255));
@@ -32,16 +38,31 @@ public class RGBListToRGBByteList implements ChainStep {
   public void decode(Content<?> input, Content<?> output) {
     RGBList outputlist = (RGBList) output;
     RGBByteList inputlist = (RGBByteList) input;
+    
+    outputlist.getList().clear();
 
-    for (int i = 0; i < inputlist.size() / 3; i++) {
-      int red = Integer.parseInt(inputlist.get(i * 3), 2);
-      int green = Integer.parseInt(inputlist.get(i * 3 + 1), 2);
-      int blue = Integer.parseInt(inputlist.get(i * 3 + 2), 2);
+    for (int i = 0; i < inputlist.size() / RGB_BYTE_LIST_UNIT_LENGTH; i++) {
+      int red = Integer.parseInt(inputlist.get(i * RGB_BYTE_LIST_UNIT_LENGTH), 2);
+      int green = Integer.parseInt(inputlist.get(i * RGB_BYTE_LIST_UNIT_LENGTH + 1), 2);
+      int blue = Integer.parseInt(inputlist.get(i * RGB_BYTE_LIST_UNIT_LENGTH + 2), 2);
       Color color = Color.rgb(red, green, blue);
       outputlist.add(color);
     }
-
-    outputlist.setHeader(inputlist.getHeader());
+    
+    
+    if (outputlist.getHeader() == null || outputlist.getHeader().isEmpty()) {  
+      Map<String, Object> header = new HashMap<>();
+      Map<String, Object> map =  inputlist.getHeader();
+      
+      for (Map.Entry<String, Object> entry: map.entrySet()) {
+        header.put(entry.getKey(), entry.getValue());
+      }
+      
+      // not needed for RGBList
+      header.remove("unit-length");
+      
+      outputlist.setHeader(header);
+    }
   }
 
   @SuppressWarnings("unchecked")
@@ -54,11 +75,23 @@ public class RGBListToRGBByteList implements ChainStep {
     for (int i = 0; i < inputlist.size(); i++) {
       Color color = inputlist.get(i);
       rgblist.add(percentToByteString(color.getRed()));
-      rgblist.add(percentToByteString(color.getBlue()));
       rgblist.add(percentToByteString(color.getGreen()));
+      rgblist.add(percentToByteString(color.getBlue()));
     }
     outputlist.setList(rgblist);
+    
+    if (outputlist.getHeader() == null || outputlist.getHeader().isEmpty()) {
+      Map<String, Object> header = new HashMap<>();
+      Map<String, Object> map = inputlist.getHeader();
 
-    outputlist.setHeader(inputlist.getHeader());
+      for (Map.Entry<String, Object> entry : map.entrySet()) {
+        header.put(entry.getKey(), entry.getValue());
+      }
+
+      // RGB byte list needs this key since it's value is not 1
+      header.put("unit-length", RGB_BYTE_LIST_UNIT_LENGTH);
+      
+      outputlist.setHeader(header);
+    }
   }
 }

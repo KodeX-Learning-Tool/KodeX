@@ -23,6 +23,12 @@ public class RGBByteListChainLinkPresenter extends ChainLinkPresenter {
 
   /** The rgb byte list view. */
   private ListView<String> rgbByteListView;
+  
+  /** The Constant NOT_MARKED. */
+  private static final int NOT_MARKED = -1;
+
+  /** The ID of the last element marked. */
+  private int lastElementMarked = NOT_MARKED;
 
   /**
    * Instantiates a new RGB byte list chain link presenter.
@@ -37,6 +43,14 @@ public class RGBByteListChainLinkPresenter extends ChainLinkPresenter {
     chainLinkEditPresenter = new RGBByteListEditPresenter(this);
     content = new RGBByteList();
     chainLinkHeaderPresenter = new RGBByteListHeaderPresenter(this.getContent());
+    
+    rgbByteListView = new ListView<>();
+    
+    // adds listener to list view items
+    rgbByteListView
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener((obs, old, newV) -> handleMark());
   }
 
   @Override
@@ -45,31 +59,10 @@ public class RGBByteListChainLinkPresenter extends ChainLinkPresenter {
   }
 
   @Override
-  public AnchorPane getView() {    
-    rgbByteListView = new ListView<>();
-    
-    List<String> list = ((RGBByteList) getContent()).getList();
-    
-    List<String> tripleList = new LinkedList<>();
-    
-    for (int j = 0; j < list.size(); j += 3) {
-      tripleList.add(list.get(j) + ", " + list.get(j + 1) + ", " + list.get(j + 2));
-    }
+  public AnchorPane getView() {
+    updateView();
 
-    rgbByteListView.setItems(FXCollections.observableArrayList(tripleList));
-
-    // adds listener to list view items
-    rgbByteListView
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener((obs, old, newV) -> handleMark());
-
-    AnchorPane chainLinkPane = new AnchorPane();
-
-    // add list view to chain link view
-    chainLinkPane.getChildren().add(rgbByteListView);
-
-    return chainLinkPane;
+    return new AnchorPane(rgbByteListView);
   }
 
   @Override
@@ -79,7 +72,26 @@ public class RGBByteListChainLinkPresenter extends ChainLinkPresenter {
 
   @Override
   protected void mark(int id) {
+    lastElementMarked = id;
     rgbByteListView.getSelectionModel().select(id);
     chainLinkEditPresenter.setMarkID(id);
+  }
+
+  @Override
+  public void updateView() {    
+    List<String> list = ((RGBByteList) getContent()).getList();
+    
+    List<String> tripleList = new LinkedList<>();
+    
+    for (int j = 0; j < list.size(); j += 3) {
+      tripleList.add(list.get(j) + ", " + list.get(j + 1) + ", " + list.get(j + 2));
+    }
+    
+    rgbByteListView.setItems(FXCollections.observableArrayList(tripleList));
+    
+    // remarks the view
+    if (lastElementMarked !=  NOT_MARKED) {
+      mark(lastElementMarked);
+    }
   }
 }

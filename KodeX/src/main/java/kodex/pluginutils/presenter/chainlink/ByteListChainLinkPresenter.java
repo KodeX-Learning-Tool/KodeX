@@ -73,4 +73,10 @@ public class ByteListChainLinkPresenter extends ChainLinkPresenter {
     byteListView.getSelectionModel().select(id);
     chainLinkEditPresenter.setMarkID(id);
   }
+
+  @Override
+  public void updateView() {
+    // TODO Auto-generated method stub
+    
+  }
 }

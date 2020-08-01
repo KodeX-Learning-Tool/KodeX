@@ -1,7 +1,7 @@
 package kodex.pluginutils.model.steps;
 
 import java.util.HashMap;
-
+import java.util.Map;
 import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.ColorImage;
@@ -32,8 +32,17 @@ public class ColorImageToRGBMatrix implements ChainStep {
         img.setColor(x, y, mtx.get(x, y));
       }
     }
+    
+    if (img.getHeader() == null || img.getHeader().isEmpty()) {  
+      Map<String, Object> header = new HashMap<>();
+      Map<String, Object> map =  mtx.getHeader();
+      
+      for (Map.Entry<String, Object> entry: map.entrySet()) {
+        header.put(entry.getKey(), entry.getValue());
+      }
 
-    img.setHeader(mtx.getHeader());
+      img.setHeader(header);
+    }
   }
 
   @SuppressWarnings("unchecked")
@@ -48,10 +57,16 @@ public class ColorImageToRGBMatrix implements ChainStep {
         mtx.set(x, y, img.getColor(x, y));
       }
     }
+    
+    if (mtx.getHeader() == null || mtx.getHeader().isEmpty()) {  
+      Map<String, Object> header = new HashMap<>();
+      Map<String, Object> map =  img.getHeader();
+      
+      for (Map.Entry<String, Object> entry: map.entrySet()) {
+        header.put(entry.getKey(),  ((int) Math.round((double) entry.getValue())));
+      }
 
-    HashMap<String, Object> map = new HashMap<>();
-    map.put("width", Integer.valueOf(img.getWidth()));
-    map.put("height", Integer.valueOf(img.getHeight()));
-    mtx.setHeader(map);
+      mtx.setHeader(header);
+    }
   }
 }

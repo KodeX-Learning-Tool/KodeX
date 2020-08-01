@@ -48,7 +48,7 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
   private int selectedElementID;
 
   /** The matrix grid pane. */
-  private GridPane matrixPane = new GridPane();
+  private GridPane matrixPane;
 
   /** The ID of the last element marked. */
   private int lastElementMarked = NOT_MARKED;
@@ -66,6 +66,8 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
     chainLinkEditPresenter = new RGBMatrixEditPresenter(this);
     content = new RGBMatrix(3, 3);
     chainLinkHeaderPresenter = new RGBMatrixHeaderPresenter(this.getContent());
+    
+    matrixPane = new GridPane();
   }
 
   @Override
@@ -98,25 +100,14 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
 
   @Override
   public AnchorPane getView() {
-    AnchorPane chainLinkPane = new AnchorPane();
-    RGBMatrix matrix = (RGBMatrix) content;
-
-    // create buttons for each element in the 2d array
-    for (int j = 0; j < matrix.getHeight(); j++) {
-      for (int i = 0; i < matrix.getWidth(); i++) {
-        matrixPane
-        .add(new MatrixButton(colorToRGBString(matrix.get(i, j)), i + j * matrix.getWidth()), i, j);
-      }
-    }
-
-    chainLinkPane.getChildren().add(matrixPane);
+    updateView();
 
     AnchorPane.setTopAnchor(matrixPane, 0d);
     AnchorPane.setRightAnchor(matrixPane, 0d);
     AnchorPane.setBottomAnchor(matrixPane, 0d);
     AnchorPane.setLeftAnchor(matrixPane, 0d);
 
-    return chainLinkPane;
+    return new AnchorPane(matrixPane);
   }
 
   @Override
@@ -125,7 +116,7 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
   }
 
   @Override
-  protected void mark(int id) {
+  protected void mark(int id) {    
     // unmark last element marked
     if (lastElementMarked != NOT_MARKED) {
       editMatrixElementColor(lastElementMarked, Color.BLACK);
@@ -137,5 +128,25 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
 
     // set mark id for editing
     chainLinkEditPresenter.setMarkID(id);
+  }
+  
+  @Override
+  public void updateView() {
+    RGBMatrix matrix = (RGBMatrix) content;
+    
+    matrixPane.getChildren().clear();
+
+    // create buttons for each element in the 2d array
+    for (int j = 0; j < matrix.getHeight(); j++) {
+      for (int i = 0; i < matrix.getWidth(); i++) {
+        matrixPane
+        .add(new MatrixButton(colorToRGBString(matrix.get(i, j)), i + j * matrix.getWidth()), i, j);
+      }
+    }
+    
+    // remarks the view
+    if (lastElementMarked !=  NOT_MARKED) {
+      mark(lastElementMarked);
+    }
   }
 }

@@ -41,14 +41,18 @@ public abstract class ChainLinkEditPresenter implements IPresenter {
 
   /** This method is called when the user changes the Contents of a link and handles this change. */
   public abstract void handleSubmit();
-
+  
+  /** Update the marked element in the edit-view. */
+  protected abstract void updateMarkedElement();
+  
   /**
    * Sets the markID of this edit. This should always happen when something new in the level was
-   * marked to keep the edit always up to date
+   * marked to keep the edit always up to date. Also updates the view accordingly.
    *
    * @param id : the representative ID
    */
   public void setMarkID(int id) {
     this.markID = id;
+    updateMarkedElement();
   }
 }

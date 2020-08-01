@@ -1,5 +1,7 @@
 package kodex.pluginutils.model.steps;
 
+import java.util.HashMap;
+import java.util.Map;
 import javafx.scene.paint.Color;
 import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
@@ -12,6 +14,7 @@ import kodex.pluginutils.model.content.RGBMatrix;
  * these explicitly defined levels.
  * 
  * @author Yannick Neubert
+ * @author Raimon Gramlich
  * 
  * @version 1.0
  */
@@ -33,8 +36,17 @@ public class RGBMatrixToRGBList implements ChainStep {
         mtx.set(x, y, color);
       }
     }
+    
+    if (mtx.getHeader() == null || mtx.getHeader().isEmpty()) {  
+      Map<String, Object> header = new HashMap<>();
+      Map<String, Object> map =  list.getHeader();
+      
+      for (Map.Entry<String, Object> entry: map.entrySet()) {
+        header.put(entry.getKey(), entry.getValue());
+      }
 
-    mtx.setHeader(list.getHeader());
+      mtx.setHeader(header);
+    }
   }
 
   @SuppressWarnings("unchecked")
@@ -42,13 +54,24 @@ public class RGBMatrixToRGBList implements ChainStep {
   public void encode(Content<?> input, Content<?> output) {
     RGBMatrix mtx = (RGBMatrix) input;
     RGBList list = (RGBList) output;
-
+    
+    list.getList().clear();
+    
     for (int y = 0; y < mtx.getHeight(); y++) {
       for (int x = 0; x < mtx.getWidth(); x++) {
         list.add(mtx.get(x, y));
       }
     }
+    
+    if (list.getHeader() == null || list.getHeader().isEmpty()) {  
+      Map<String, Object> header = new HashMap<>();
+      Map<String, Object> map = mtx.getHeader();
 
-    list.setHeader(mtx.getHeader());
+      for (Map.Entry<String, Object> entry : map.entrySet()) {
+        header.put(entry.getKey(), entry.getValue());
+      }
+
+      list.setHeader(header);
+    }
   }
 }

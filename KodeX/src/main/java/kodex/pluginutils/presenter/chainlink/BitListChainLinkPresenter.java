@@ -80,4 +80,10 @@ public class BitListChainLinkPresenter extends ChainLinkPresenter {
     bitListView.getSelectionModel().select(id);
     chainLinkEditPresenter.setMarkID(id);
   }
+
+  @Override
+  public void updateView() {
+    // TODO Auto-generated method stub
+    
+  }
 }

@@ -128,4 +128,10 @@ public class DecMatrixChainLinkPresenter extends ChainLinkPresenter {
     // set mark id for editing
     chainLinkEditPresenter.setMarkID(id);
   }
+
+  @Override
+  public void updateView() {
+    // TODO Auto-generated method stub
+    
+  }
 }

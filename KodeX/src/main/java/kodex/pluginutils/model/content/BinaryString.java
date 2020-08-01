@@ -3,6 +3,7 @@ package kodex.pluginutils.model.content;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * This class holds data in string format. A BinaryString consists of only 1's and 0's. Extending
@@ -13,6 +14,7 @@ public class BinaryString extends AbstractString {
   /** Creates a new BinaryString. */
   public BinaryString() {
     super.data = "";
+    header = new HashMap<>();
   }
 
   /** Creates a new BinaryString with the given input. */
