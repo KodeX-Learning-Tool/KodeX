@@ -10,7 +10,7 @@ import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.steps.CharacterStringToQRCode;
 import kodex.pluginutils.presenter.chainlink.CharacterStringPresenter;
 import kodex.pluginutils.presenter.chainlink.QRCodeChainLinkPresenter;
-import kodex.standardplugins.qrcode.presenter.QRCodeImportPresenter;
+import kodex.standardplugins.qrcode.presenter.TextQRCodeImportPresenter;
 
 /**
  * This class is the entry point to the QRCode procedure plugin.
@@ -39,7 +39,7 @@ public class TextQRCodeProcedurePlugin extends ProcedurePlugin {
   
   @Override
   public ImportPresenter createImportPresenter() {
-    return new QRCodeImportPresenter(this);
+    return new TextQRCodeImportPresenter(this);
   }
 
   @Override

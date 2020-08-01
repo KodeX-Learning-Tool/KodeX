@@ -22,7 +22,7 @@ import kodex.pluginutils.model.content.QRCode;
  * @author Yannick Neubert
  * @version 1.0
  */
-public class QRCodeImportPresenter extends ImportPresenter {
+public class TextQRCodeImportPresenter extends ImportPresenter {
 
   /** The import button for encoding. */
   @FXML
@@ -45,7 +45,7 @@ public class QRCodeImportPresenter extends ImportPresenter {
    *
    * @param plugin the procedure plugin reference
    */
-  public QRCodeImportPresenter(ProcedurePlugin plugin) {
+  public TextQRCodeImportPresenter(ProcedurePlugin plugin) {
     super(plugin);
   }
 

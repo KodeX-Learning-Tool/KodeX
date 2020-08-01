@@ -9,10 +9,11 @@ import java.io.IOException;
  * Extending AbstractString, it adds validation and exporting capabilities to Java's
  * String.
  * 
+ * @author Yannick Neubert
  * @author Raimon Gramlich
  * @author Parick Spiesberger
  * 
- * @version 1.0
+ * @version 2.0
  */
 public class CharacterString extends AbstractString {
 

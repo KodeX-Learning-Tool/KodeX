@@ -7,10 +7,14 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import kodex.model.I18N;
 import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.CharacterString;
 import kodex.pluginutils.model.content.QRCode;
+import kodex.presenter.PresenterManager;
 
 /** 
  * This class represents the bidirectional step between CharacterString and QRCode.
@@ -31,8 +35,12 @@ public class CharacterStringToQRCode implements ChainStep {
     try {
       string.setString(reader.decode(qrcode.getBinaryBitmap()).getText());
     } catch (NotFoundException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      Alert alert = new Alert(AlertType.ERROR);
+      
+      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("Something went wrong decoding the QR-Code");
+      PresenterManager.showAlertDialog(alert);
     }
   }
 
@@ -49,8 +57,12 @@ public class CharacterStringToQRCode implements ChainStep {
           string.getString(), BarcodeFormat.QR_CODE, size, size);
       qrcode.setBitMatrix(bitMatrix);
     } catch (WriterException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      Alert alert = new Alert(AlertType.ERROR);
+      
+      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("Something went wrong encoding the textfile");
+      PresenterManager.showAlertDialog(alert);    
     }
   }
 }
