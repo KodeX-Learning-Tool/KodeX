@@ -18,6 +18,9 @@ import kodex.plugininterface.Content;
 @SuppressWarnings("rawtypes")
 public abstract class AbstractList<E> extends Content {
 
+  /** The Constant MAX_IMAGE_WIDTH. */
+  protected static final int MAX_LIST_LENGTH = 500000;
+  
   /** The LinkedList containing this Contents data. */
   protected List<E> list;
 

@@ -3,8 +3,6 @@ package kodex.presenter;
 import java.io.File;
 import java.io.IOException;
 
-import javax.sound.midi.SysexMessage;
-
 import org.kordamp.ikonli.javafx.FontIcon;
 
 import javafx.collections.ObservableList;

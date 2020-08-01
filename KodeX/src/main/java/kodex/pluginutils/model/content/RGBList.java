@@ -29,6 +29,9 @@ public class RGBList extends AbstractList<Color> {
 
     try {
       object = ((RGBList) input);
+      if (object.size() > MAX_LIST_LENGTH) {
+        return false;
+      }
     } catch (ClassCastException e) {
       System.out.println("Invalid import, import is of wrong type");
       return false;

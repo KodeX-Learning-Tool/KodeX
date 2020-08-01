@@ -69,7 +69,7 @@ public abstract class AbstractImage extends Content<WritableImage> {
    * @param height The height of the new Image
    * @throws IllegalArgumentException If either argument is less than or equal 0
    */
-  public void setSize(int width, int height) throws IllegalArgumentException {
+  public void setSize(int width, int height) {
     image = new WritableImage(width, height);
   }
 }
