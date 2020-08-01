@@ -84,9 +84,9 @@ public class BinaryStringEditPresenter extends ChainLinkEditPresenter {
       }
     } else {
       Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("This binary string has to have the length " + unitLength);
+      alert.setContentText("This binary string has a max length of " + unitLength);
       PresenterManager.showAlertDialog(alert);
       
       return;
