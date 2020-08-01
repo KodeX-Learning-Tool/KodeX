@@ -7,6 +7,7 @@ import javafx.scene.paint.Color;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.BinaryMatrix;
+import kodex.pluginutils.presenter.edit.BWMatrixEditPresenter;
 import kodex.pluginutils.presenter.edit.RGBMatrixEditPresenter;
 import kodex.pluginutils.presenter.header.RGBMatrixHeaderPresenter;
 
@@ -66,7 +67,7 @@ public class BWMatrixChainLinkPresenter extends ChainLinkPresenter {
   public BWMatrixChainLinkPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
-    chainLinkEditPresenter = new RGBMatrixEditPresenter(this); //TODO: anpassen
+    chainLinkEditPresenter = new BWMatrixEditPresenter(this);
     content = new BinaryMatrix(3, 3);
     chainLinkHeaderPresenter = new RGBMatrixHeaderPresenter(this.getContent());
   }

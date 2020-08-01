@@ -65,7 +65,7 @@ public class DecMatrixChainLinkPresenter extends ChainLinkPresenter {
   public DecMatrixChainLinkPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
-    chainLinkEditPresenter = new RGBMatrixEditPresenter(this); //TODO: anpassen
+    //chainLinkEditPresenter = new RGBMatrixEditPresenter(this); //TODO: anpassen
     content = new DecMatrix(3, 3);
     chainLinkHeaderPresenter = new RGBMatrixHeaderPresenter(this.getContent());
   }

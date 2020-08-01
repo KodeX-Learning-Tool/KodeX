@@ -35,7 +35,7 @@ public class BitListChainLinkPresenter extends ChainLinkPresenter {
   public BitListChainLinkPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
-    chainLinkEditPresenter = new RGBListEditPresenter(this); //TODO: anpassen
+    //chainLinkEditPresenter = new RGBListEditPresenter(this); //TODO: anpassen
     content = new BitList();
     chainLinkHeaderPresenter = new RGBListHeaderPresenter(this.getContent());
   }
