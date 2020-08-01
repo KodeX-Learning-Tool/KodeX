@@ -63,8 +63,8 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
   public RGBMatrixChainLinkPresenter(ChainLinkPresenter previous, 
       ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
-    chainLinkEditPresenter = new RGBMatrixEditPresenter(this);
     content = new RGBMatrix(3, 3);
+    chainLinkEditPresenter = new RGBMatrixEditPresenter(this);
     chainLinkHeaderPresenter = new RGBMatrixHeaderPresenter(this.getContent());
     
     matrixPane = new GridPane();
