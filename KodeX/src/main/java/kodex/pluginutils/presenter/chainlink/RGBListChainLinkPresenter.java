@@ -24,6 +24,12 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
   /** The rgb list view. */
   private ListView<String> rgbListView;
 
+  /** The Constant NOT_MARKED. */
+  private static final int NOT_MARKED = -1;
+
+  /** The ID of the last element marked. */
+  private int lastElementMarked = NOT_MARKED;
+
   /**
    * Instantiates a new RGB list chain link presenter.
    *
@@ -37,6 +43,14 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
     chainLinkEditPresenter = new RGBListEditPresenter(this);
     content = new RGBList();
     chainLinkHeaderPresenter = new RGBListHeaderPresenter(this.getContent());
+    
+    rgbListView = new ListView<>();
+    
+    // adds listener to list view items
+    rgbListView
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener((obs, old, newV) -> handleMark());
   }
 
   @Override
@@ -62,27 +76,9 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
 
   @Override
   public AnchorPane getView() {
-    rgbListView = new ListView<>();
+    updateView();
 
-    ObservableList<String> list = FXCollections.observableArrayList();
-
-    for (Color color : ((RGBList) getContent()).getList()) {
-      list.add(colorToRGBString(color));
-    }
-
-    rgbListView.setItems(list);
-
-    // adds listener to list view items
-    rgbListView
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener((obs, old, newV) -> handleMark());
-
-    AnchorPane chainLinkPane = new AnchorPane();
-    
-    chainLinkPane.getChildren().add(rgbListView);
-
-    return chainLinkPane;
+    return new AnchorPane(rgbListView);
   }
 
   @Override
@@ -92,7 +88,29 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
 
   @Override
   protected void mark(int id) {
+    lastElementMarked = id;
     rgbListView.getSelectionModel().select(id);
     chainLinkEditPresenter.setMarkID(id);
+  }
+
+  @Override
+  public void updateView() {
+    ObservableList<String> list = FXCollections.observableArrayList();
+    
+    list.clear();
+    
+    System.out.println("Size: " + list.size());
+    
+    for (Color color : ((RGBList) getContent()).getList()) {
+      list.add(colorToRGBString(color));
+    }
+    System.out.println("Size: " + list.size());
+    
+    rgbListView.setItems(list);
+    
+    // remarks the view
+    if (lastElementMarked !=  NOT_MARKED) {
+      mark(lastElementMarked);
+    }
   }
 }

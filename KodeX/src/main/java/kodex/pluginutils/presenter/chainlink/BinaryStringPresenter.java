@@ -88,5 +88,13 @@ public class BinaryStringPresenter extends ChainLinkPresenter {
     chainLinkEditPresenter.setMarkID(id);
   }
 
+  @Override
+  public void updateView() {
+    binaryString = ((BinaryString) (content)).getString();
+    
+    // remarks the view
+    if (lastElementMarked !=  NOT_MARKED) {
+      mark(lastElementMarked);
+    }
   }
 }

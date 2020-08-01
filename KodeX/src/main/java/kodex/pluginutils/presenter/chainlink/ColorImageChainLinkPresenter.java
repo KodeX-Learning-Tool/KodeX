@@ -51,6 +51,9 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
   /** The last marked color. */
   private Color lastMarkedColor;
 
+  /** The image which is shown. */
+  private Image image;
+
   /**
    * Instantiates a new color image chain link presenter.
    *
@@ -64,6 +67,20 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
     chainLinkEditPresenter = new ColorImageEditPresenter(this);
     content = new ColorImage();
     chainLinkHeaderPresenter = new ColorImageHeaderPresenter(this.getContent());
+    
+    colorImageView = new ImageView();
+    
+    // allows detection of clicks on transparent parts of the image
+    colorImageView.setPickOnBounds(true);
+
+    colorImageView.setOnMouseClicked(
+        e -> {
+          // store selected (marked) pixel
+          selectedX = e.getX();
+          selectedY = e.getY();
+      
+          handleMark();
+        });   
   }
 
   @Override
@@ -103,29 +120,7 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
 
   @Override
   public AnchorPane getView() {
-    Image image = ((ColorImage) this.getContent()).getImage();
-    
-    scaleFactor = (int) (PREFFERED_IMAGE_SIZE / Math.max(image.getWidth(), image.getHeight()));
-    
-    // scale if smaller than preferred size
-    if (scaleFactor > 1) {
-      colorImageView = new ImageView(resample(image, scaleFactor));
-    } else {
-      colorImageView = new ImageView(image);
-      scaleFactor = 1;
-    }
-
-    // allows detection of clicks on transparent parts of the image
-    colorImageView.setPickOnBounds(true);
-
-    colorImageView.setOnMouseClicked(
-        e -> {
-          // store selected (marked) pixel
-          selectedX = e.getX();
-          selectedY = e.getY();
-      
-          handleMark();
-        });   
+    updateView();
 
     StackPane alignmentPane = new StackPane();
     
@@ -139,11 +134,7 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
     alignmentPane.getChildren().add(colorImageView);
     alignmentPane.setAlignment(Pos.CENTER);
     
-    AnchorPane chainLinkPane = new AnchorPane();
-    
-    chainLinkPane.getChildren().add(alignmentPane);
-    
-    return chainLinkPane;
+    return new AnchorPane(alignmentPane);
   }
 
   @Override
@@ -153,9 +144,11 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
 
   @Override
   protected void mark(int id) {
+    // sets the mark id for editing
+    chainLinkEditPresenter.setMarkID(id);
+    
     id = id * scaleFactor;
-    Image image = colorImageView.getImage();
-
+    
     int width = (int) image.getWidth();
     int height = (int) image.getHeight();
 
@@ -189,9 +182,6 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
 
     // show marked image
     colorImageView.setImage(writableImage);
-
-    // sets the mark id for editing
-    chainLinkEditPresenter.setMarkID(id / scaleFactor);
   }
 
   /**
@@ -223,5 +213,33 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
     }
 
     return output;
+  }
+  
+  @Override
+  public void updateView() {
+    image = ((ColorImage) content).getImage();
+    
+    scaleFactor = (int) (PREFFERED_IMAGE_SIZE / Math.max(image.getWidth(), image.getHeight()));
+    
+    // scale if smaller than preferred size
+    if (scaleFactor > 1) {
+      image = resample(image, scaleFactor);
+    } else {
+      scaleFactor = 1;
+    }
+
+    colorImageView.setImage(image);
+    
+    // remarks the view
+    if (lastElementMarked !=  NOT_MARKED) {
+      mark(lastElementMarked / scaleFactor);
+      
+      // remember the new value
+      int x = lastElementMarked % (int) Math.round(colorImageView.getImage().getWidth());
+      int y = (lastElementMarked 
+          / (int) Math.round(colorImageView.getImage().getWidth())) * scaleFactor;
+      
+      lastMarkedColor = image.getPixelReader().getColor(x, y);
+    } 
   }
 }
