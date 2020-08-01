@@ -1,7 +1,6 @@
 package kodex.pluginutils.presenter.edit;
 
 import java.util.function.UnaryOperator;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;

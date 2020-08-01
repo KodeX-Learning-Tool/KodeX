@@ -1,7 +1,6 @@
 package kodex.pluginutils.model.steps;
 
 import java.util.HashMap;
-
 import javafx.scene.paint.Color;
 import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
