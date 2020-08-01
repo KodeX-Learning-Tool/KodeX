@@ -7,7 +7,6 @@ import javafx.scene.layout.AnchorPane;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.ByteList;
-import kodex.pluginutils.presenter.edit.RGBByteListEditPresenter;
 import kodex.pluginutils.presenter.header.RGBByteListHeaderPresenter;
 
 /**

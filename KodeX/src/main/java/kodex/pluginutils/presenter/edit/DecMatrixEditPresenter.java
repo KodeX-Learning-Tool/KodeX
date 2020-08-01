@@ -7,11 +7,9 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.pluginutils.model.content.DecMatrix;
-import kodex.pluginutils.model.content.RGBMatrix;
 
 /**
  * This class manages the edit view and is responsible for editing a RGB matrix.
