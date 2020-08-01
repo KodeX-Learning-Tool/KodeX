@@ -6,12 +6,12 @@ import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.CharacterString;
 
-public class CharacterStringPresenter extends ChainLinkPresenter {
+public class CharacterStringChainLinkPresenter extends ChainLinkPresenter {
 
   /** The chain link name. */
   private static final String CHAIN_LINK_NAME = "Zeichenkette";
 
-  public CharacterStringPresenter(
+  public CharacterStringChainLinkPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
     this.content = new CharacterString();
