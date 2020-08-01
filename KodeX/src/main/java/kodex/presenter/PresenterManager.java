@@ -1,6 +1,10 @@
 package kodex.presenter;
 
+import java.util.Optional;
+
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import kodex.model.SideMenuTypes;
@@ -92,6 +96,17 @@ public class PresenterManager {
 
     this.sideMenuPresenter.changeSideMenuType(type);
     updateSideMenuView();
+  }
+    
+  /**
+   * Shows an alert dialog with the top level stage as the owner.
+   *
+   * @param alert the Alert object
+   * @return the optional user input
+   */
+  public static Optional<ButtonType> showAlertDialog(Alert alert) {
+    alert.initOwner(rootStage);
+    return alert.showAndWait();
   }
 
   /**
