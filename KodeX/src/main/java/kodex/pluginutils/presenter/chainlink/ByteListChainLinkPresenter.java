@@ -7,6 +7,7 @@ import javafx.scene.layout.AnchorPane;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.ByteList;
+import kodex.pluginutils.presenter.edit.ByteListEditPresenter;
 import kodex.pluginutils.presenter.header.RGBByteListHeaderPresenter;
 
 /**
@@ -32,7 +33,7 @@ public class ByteListChainLinkPresenter extends ChainLinkPresenter {
   public ByteListChainLinkPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
-    //chainLinkEditPresenter = new RGBByteListEditPresenter(this);
+    chainLinkEditPresenter = new ByteListEditPresenter(this);
     content = new ByteList();
     chainLinkHeaderPresenter = new RGBByteListHeaderPresenter(this.getContent());
   }
