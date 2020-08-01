@@ -38,8 +38,7 @@ public class BWImageProcedurePlugin extends ProcedurePlugin {
 
     chainLinks[0] = new ColorImageChainLinkPresenter(null, null, bwImageToMatrix);
     chainLinks[1] = new BWMatrixChainLinkPresenter(chainLinks[0], bwImageToMatrix, matrixToBitList);
-    chainLinks[2] = 
-        new BitListChainLinkPresenter(chainLinks[1], matrixToBitList, bitListToBinaryString);
+    chainLinks[2] = new BitListChainLinkPresenter(chainLinks[1], matrixToBitList, bitListToBinaryString);
     chainLinks[3] = new BinaryStringPresenter(chainLinks[2], bitListToBinaryString, null);
 
     // set next for chain links
