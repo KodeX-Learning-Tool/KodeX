@@ -49,7 +49,7 @@ public class RGBListEditPresenter extends ChainLinkEditPresenter {
   public RGBListEditPresenter(ChainLinkPresenter chainLinkPresenter) {
     super(chainLinkPresenter);
     
-    // only allows 0 to 255 as input
+    // only allows numbers as input
     UnaryOperator<TextFormatter.Change> filter = change -> {
       if (change.getControlNewText().matches("\\d*")) {
         return change;
@@ -122,12 +122,19 @@ public class RGBListEditPresenter extends ChainLinkEditPresenter {
     blueField.setText(String.valueOf(Math.round(markedPixel.getBlue() * 255)));
   }
   
+  /**
+   * Verifies whether the value is a RGB color value.
+   *
+   * @param textField the text field with the input
+   * @return true, if successful
+   */
   private boolean validateColorValue(TextField textField) {
     String input = textField.getText();
     
     if (input.isEmpty()) {
       textField.setText("0"); 
     } else if (!input.matches("\\b(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\b")) {
+      // input is not between 0 and 255
       return false;
     }
     
