@@ -1,6 +1,10 @@
 package kodex.presenter;
 
+import java.util.Optional;
+
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import kodex.model.SideMenuTypes;
@@ -16,7 +20,7 @@ import kodex.model.SideMenuTypes;
 public class PresenterManager {
 
   /** The root stage of the application. */
-  private Stage rootStage;
+  private static Stage rootStage;
 
   /** The current, active main presenter. */
   private Presenter currentPresenter;
@@ -30,11 +34,8 @@ public class PresenterManager {
   /**
    * Creates a new PresenterManaegr with a reference to the root stage.
    *
-   * @param rootStage The root stage of the application.
    */
-  public PresenterManager(Stage rootStage) {
-
-    this.rootStage = rootStage;
+  public PresenterManager() {
 
     // BorderPane is used, because it allowes to set the center (main page) and left
     // (side menu)
@@ -95,5 +96,25 @@ public class PresenterManager {
 
     this.sideMenuPresenter.changeSideMenuType(type);
     updateSideMenuView();
+  }
+    
+  /**
+   * Shows an alert dialog with the top level stage as the owner.
+   *
+   * @param alert the Alert object
+   * @return the optional user input
+   */
+  public static Optional<ButtonType> showAlertDialog(Alert alert) {
+    alert.initOwner(rootStage);
+    return alert.showAndWait();
+  }
+
+  /**
+   * Sets the static root stage.
+   *
+   * @param rootStage The root stage of the application.
+   */
+  public static void setRootStage(Stage rootStage) {
+    PresenterManager.rootStage = rootStage;
   }
 }

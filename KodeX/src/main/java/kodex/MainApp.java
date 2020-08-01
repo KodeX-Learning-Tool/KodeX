@@ -48,7 +48,9 @@ public class MainApp extends Application {
     rootStage.setWidth(1280);
     rootStage.setHeight(720);
 
-    PresenterManager presenterManager = new PresenterManager(rootStage);
+    PresenterManager.setRootStage(rootStage);
+    
+    PresenterManager presenterManager = new PresenterManager();
 
     PresenterFactory factory = new PresenterFactory(presenterManager);
 

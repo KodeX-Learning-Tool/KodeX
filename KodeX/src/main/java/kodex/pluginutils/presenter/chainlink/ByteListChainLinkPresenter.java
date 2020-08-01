@@ -53,7 +53,7 @@ public class ByteListChainLinkPresenter extends ChainLinkPresenter {
 
     // adds listener to list view items
     byteListView.getSelectionModel()
-          .selectedItemProperty().addListener((obs, old, newV) -> handleMark());
+          .selectedIndexProperty().addListener((obs, old, newV) -> handleMark());
 
     AnchorPane chainLinkPane = new AnchorPane();
 

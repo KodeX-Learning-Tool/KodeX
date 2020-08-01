@@ -49,7 +49,7 @@ public class RGBByteListChainLinkPresenter extends ChainLinkPresenter {
     // adds listener to list view items
     rgbByteListView
         .getSelectionModel()
-        .selectedItemProperty()
+        .selectedIndexProperty()
         .addListener((obs, old, newV) -> handleMark());
   }
 
