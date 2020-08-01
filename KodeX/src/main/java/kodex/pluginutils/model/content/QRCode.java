@@ -115,7 +115,7 @@ public class QRCode extends Content<File> {
     } catch (IOException | NullPointerException e) {
       Alert alert = new Alert(AlertType.ERROR);
       
-      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
       alert.setContentText("Something went wrong creating this file");
       PresenterManager.showAlertDialog(alert);

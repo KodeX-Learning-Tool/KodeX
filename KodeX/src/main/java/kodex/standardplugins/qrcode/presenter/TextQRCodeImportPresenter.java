@@ -95,7 +95,7 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
       } else {
         Alert alert = new Alert(AlertType.ERROR);
         
-        alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+        alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
         alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
         alert.setContentText("File content not valid");
         PresenterManager.showAlertDialog(alert);
@@ -114,7 +114,7 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
       } catch (IOException e) {
         Alert alert = new Alert(AlertType.ERROR);
         
-        alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+        alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
         alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
         alert.setContentText("File not valid");
         PresenterManager.showAlertDialog(alert);
@@ -124,7 +124,7 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
       } else {
         Alert alert = new Alert(AlertType.ERROR);
         
-        alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+        alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
         alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
         alert.setContentText("File content not valid");
         PresenterManager.showAlertDialog(alert);

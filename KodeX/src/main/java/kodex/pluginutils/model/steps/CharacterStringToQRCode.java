@@ -40,7 +40,7 @@ public class CharacterStringToQRCode implements ChainStep {
     } catch (NotFoundException e) {
       Alert alert = new Alert(AlertType.ERROR);
       
-      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
       alert.setContentText("Something went wrong decoding the QR-Code");
       PresenterManager.showAlertDialog(alert);
@@ -74,7 +74,7 @@ public class CharacterStringToQRCode implements ChainStep {
     } catch (WriterException e) {
       Alert alert = new Alert(AlertType.ERROR);
       
-      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
       alert.setContentText("Something went wrong encoding the textfile");
       PresenterManager.showAlertDialog(alert);    
