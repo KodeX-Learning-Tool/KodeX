@@ -32,4 +32,10 @@ public class CharacterStringPresenter extends ChainLinkPresenter {
     // TODO Auto-generated method stub
 
   }
+
+  @Override
+  public void updateView() {
+    // TODO Auto-generated method stub
+    
+  }
 }
