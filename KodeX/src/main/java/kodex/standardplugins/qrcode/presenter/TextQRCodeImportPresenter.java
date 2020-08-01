@@ -108,7 +108,7 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
         
         alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
         alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-        alert.setContentText("File content not valid");
+        alert.setContentText("File not valid");
         PresenterManager.showAlertDialog(alert);
       }
       if (validateEncodeImport()) {
@@ -139,7 +139,6 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
   @Override
   public boolean validateDecodeImport() {
     ChainLinkPresenter clp = plugin.getChainTail();
-
     QRCode content = new QRCode();
 
     if (content.isValid(qrcode)) {

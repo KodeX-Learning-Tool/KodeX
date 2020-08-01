@@ -40,7 +40,7 @@ public class QRCodeChainLinkPresenter extends ChainLinkPresenter {
    * The constant PREFFERED_IMAGE_SIZE. Scale the image if it smaller than this
    * value.
    */
-  private static final int PREFFERED_IMAGE_SIZE = 90;
+  private static final int PREFFERED_IMAGE_SIZE = 200;
 
   public QRCodeChainLinkPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
