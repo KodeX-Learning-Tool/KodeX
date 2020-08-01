@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import kodex.model.I18N;
@@ -14,6 +16,7 @@ import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.content.CharacterString;
 import kodex.pluginutils.model.content.QRCode;
+import kodex.presenter.PresenterManager;
 
 /**
  * This class imports an image for encoding or a string for decoding. Afterwards it prepares
@@ -82,7 +85,12 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
       if (validateDecodeImport()) {
         procedureLayoutPresenter.switchToChainPresenter(false);
       } else {
-        System.err.println("File content not valid.");
+        Alert alert = new Alert(AlertType.ERROR);
+        
+        alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+        alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+        alert.setContentText("File content not valid");
+        PresenterManager.showAlertDialog(alert);
       }
     }
   }
@@ -96,12 +104,22 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
       try {
         string = Files.readString(file.toPath());
       } catch (IOException e) {
-        e.printStackTrace();
+        Alert alert = new Alert(AlertType.ERROR);
+        
+        alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+        alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+        alert.setContentText("File content not valid");
+        PresenterManager.showAlertDialog(alert);
       }
       if (validateEncodeImport()) {
         procedureLayoutPresenter.switchToChainPresenter(true);
       } else {
-        System.err.println("File content not valid.");
+        Alert alert = new Alert(AlertType.ERROR);
+        
+        alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+        alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+        alert.setContentText("File content not valid");
+        PresenterManager.showAlertDialog(alert);
       }
     }
 

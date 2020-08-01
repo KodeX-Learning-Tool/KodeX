@@ -103,7 +103,7 @@ public class QRCode extends Content<File> {
     BufferedImageLuminanceSource source = null;
     try {
       source = new BufferedImageLuminanceSource(ImageIO.read(input));
-    } catch (IOException e1) {
+    } catch (IOException | NullPointerException e1) {
       return false;
     } 
     bitmap = new BinaryBitmap(new HybridBinarizer(source));

@@ -6,6 +6,9 @@ import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.CharacterString;
 
+/**
+ *  
+ */
 public class CharacterStringChainLinkPresenter extends ChainLinkPresenter {
 
   /** The chain link name. */
