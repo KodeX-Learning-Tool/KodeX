@@ -97,14 +97,9 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
   public void updateView() {
     ObservableList<String> list = FXCollections.observableArrayList();
     
-    list.clear();
-    
-    System.out.println("Size: " + list.size());
-    
     for (Color color : ((RGBList) getContent()).getList()) {
       list.add(colorToRGBString(color));
     }
-    System.out.println("Size: " + list.size());
     
     rgbListView.setItems(list);
     
