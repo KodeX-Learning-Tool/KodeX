@@ -9,7 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
-import kodex.pluginutils.model.content.BinaryMatrix;
+import kodex.pluginutils.model.content.BitList;
 
 /**
  * This class manages the edit view and is responsible for editing a RGB matrix.
@@ -19,17 +19,14 @@ import kodex.pluginutils.model.content.BinaryMatrix;
  * 
  * @version 1.0
  */
-public class BWMatrixEditPresenter extends ChainLinkEditPresenter {
+public class BitListEditPresenter extends ChainLinkEditPresenter {
   
-  private BinaryMatrix content;
-  
-  private int selectedX;
-  private int selectedY;
-  
-  private TextField blackField;
+  private BitList content;
+
+  private TextField bitField;
   
   /** The text formatter which only allows binary input. */
-  private TextFormatter<String> blackFormatter;
+  private TextFormatter<String> bitFormatter;
   
   private AnchorPane view;
   
@@ -38,7 +35,7 @@ public class BWMatrixEditPresenter extends ChainLinkEditPresenter {
    *
    * @param chainLinkPresenter the corresponding chain link presenter
    */
-  public BWMatrixEditPresenter(ChainLinkPresenter chainLinkPresenter) {
+  public BitListEditPresenter(ChainLinkPresenter chainLinkPresenter) {
     super(chainLinkPresenter);
     
     // only allows 0 to 255 as input
@@ -53,18 +50,18 @@ public class BWMatrixEditPresenter extends ChainLinkEditPresenter {
       }
     };
     
-    blackFormatter = new TextFormatter<>(filter);
+    bitFormatter = new TextFormatter<>(filter);
     
     
-    blackField = new TextField();
-    blackField.setTextFormatter(blackFormatter);
+    bitField = new TextField();
+    bitField.setTextFormatter(bitFormatter);
     
-    Label blackLabel = new Label("Weiß: ");
+    Label bitLabel = new Label("Bit: ");
 
     
-    HBox blackBox = new HBox(blackLabel, blackField);
+    HBox bitBox = new HBox(bitLabel, bitField);
    
-    view = new AnchorPane((new VBox(blackBox)));
+    view = new AnchorPane((new VBox(bitBox)));
   }
 
   @Override
@@ -76,19 +73,15 @@ public class BWMatrixEditPresenter extends ChainLinkEditPresenter {
 
   @Override
   public void handleSubmit() {
-    content.set(selectedX, selectedY, Integer.parseInt(blackField.getText()) / 255);
+    content.getList().set(markID, Integer.parseInt(bitField.getText()));
     
     chainLinkPresenter.updateChain();
   }
 
   @Override
   protected void updateMarkedElement() {   
-    content = (BinaryMatrix) chainLinkPresenter.getContent();
+    content = (BitList) chainLinkPresenter.getContent();
     
-    selectedX = markID % content.getWidth();
-    selectedY = (markID / content.getWidth());
-
-    int markedPixel = content.get(selectedX, selectedY);
-    blackField.setText(String.valueOf(Math.round(markedPixel * 255)));
+    bitField.setText(String.valueOf(content.get(markID)));
   }
 }

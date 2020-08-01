@@ -7,6 +7,7 @@ import javafx.scene.layout.AnchorPane;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.BitList;
+import kodex.pluginutils.presenter.edit.BitListEditPresenter;
 import kodex.pluginutils.presenter.header.RGBListHeaderPresenter;
 
 /** 
@@ -34,7 +35,7 @@ public class BitListChainLinkPresenter extends ChainLinkPresenter {
   public BitListChainLinkPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
-    //chainLinkEditPresenter = new RGBListEditPresenter(this); //TODO: anpassen
+    chainLinkEditPresenter = new BitListEditPresenter(this);
     content = new BitList();
     chainLinkHeaderPresenter = new RGBListHeaderPresenter(this.getContent());
   }
