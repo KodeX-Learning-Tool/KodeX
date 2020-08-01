@@ -6,6 +6,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import kodex.model.I18N;
+import kodex.presenter.PresenterManager;
+
 /**
  * This class holds data in LinkedList format. An RGBByteList consists of RGB triplets in exactly
  * that order in binary. Extending AbstractList, it adds validation and exporting capabilities to
@@ -21,34 +26,43 @@ public class RGBByteList extends AbstractList<String> {
   @Override
   public boolean isValid(Object input) { 
     RGBByteList object;
+    
+    Alert alert = new Alert(AlertType.ERROR);
+    alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+    alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
 
     if (input == null) {
-      System.out.println("Invalid import, no import to validate");
+      alert.setContentText("Input is empty");
+      PresenterManager.showAlertDialog(alert);
       return false;
     }
 
     try {
       object = ((RGBByteList) input);
     } catch (ClassCastException e) {
-      System.out.println("Invalid import, import is of wrong type");
+      alert.setContentText("Import is of wrong type");
+      PresenterManager.showAlertDialog(alert);
       return false;
     }
 
     if (object.size() % 3 != 0) {
-      System.out.println("Invalid import, import does not excludingly contain rgb triplets");
+      alert.setContentText("Invalid import, import does not excludingly contain rgb triplets");
+      PresenterManager.showAlertDialog(alert);
       return false;
     }
 
     for (int i = 0; i < object.size(); i++) {
       String rgb = object.get(i);
       if (rgb.length() != 8) {
-        System.out.println("Invalid import, import does not excludingly contain rgb values");
+        alert.setContentText("Invalid import, import does not excludingly contain rgb values");
+        PresenterManager.showAlertDialog(alert);
         return false;
       }
 
       for (int j = 0; j < rgb.length(); j++) {
         if (rgb.charAt(i) != '0' && rgb.charAt(i) != '1') {
-          System.out.println("Invalid import, import does not excludingly contain rgb values");
+          alert.setContentText("Invalid import, import does not excludingly contain rgb values");
+          PresenterManager.showAlertDialog(alert);
           return false;
         }
       }

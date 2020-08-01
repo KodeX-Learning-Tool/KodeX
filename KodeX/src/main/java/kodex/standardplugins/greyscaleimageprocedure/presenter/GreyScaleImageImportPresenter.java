@@ -8,7 +8,9 @@ import java.util.Scanner;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
@@ -19,6 +21,7 @@ import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.content.BinaryString;
 import kodex.pluginutils.model.content.ColorImage;
+import kodex.presenter.PresenterManager;
 
 /**
  * This class is responsible for managing the import of the greyscale image or a
@@ -108,7 +111,11 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
     if (validateEncodeImport()) {
       procedureLayoutPresenter.switchToChainPresenter(true);
     } else {
-      System.err.println("File content not valid.");
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("Invalid file (" + file.getName() +  "). Please try annother!");
+      PresenterManager.showAlertDialog(alert);
     }
   }
 

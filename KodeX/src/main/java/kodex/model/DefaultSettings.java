@@ -6,7 +6,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 import java.util.Properties;
+
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import kodex.model.validator.PortNumValidator;
+import kodex.presenter.PresenterManager;
 
 /**
  * This class saves the user's settings. These are saved locally in a file so that they persist the
@@ -77,7 +81,11 @@ public class DefaultSettings extends Settings {
       isDarkModeEnabled = !prop.getProperty("isDarkModeEnabled").equals("false");
 
     } catch (IOException e) {
-      System.out.println("Settings can not be loaded");
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("Settings can not be loaded");
+      PresenterManager.showAlertDialog(alert);
     }
   }
 
@@ -129,7 +137,11 @@ public class DefaultSettings extends Settings {
       setDarkMode(!prop.getProperty("isDarkModeEnabled").equals("false"));
 
     } catch (IOException e) {
-      System.out.println("Settings can not be loaded");
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("Settings can not be loaded");
+      PresenterManager.showAlertDialog(alert);
     }
   }
 
@@ -168,7 +180,11 @@ public class DefaultSettings extends Settings {
     if (!PortNumValidator.getInstance().isValid(input.toString())) {
       DefaultSettings.port = port;
     } else {
-      System.out.println("invalid port");
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("Port is not valid");
+      PresenterManager.showAlertDialog(alert);
       return;
     }
     prop.setProperty("port", String.valueOf(getPort()));

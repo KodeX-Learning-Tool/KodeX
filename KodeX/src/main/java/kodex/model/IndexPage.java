@@ -7,8 +7,11 @@ import java.io.InputStream;
 import java.util.Properties;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import kodex.plugininterface.ProcedureInformation;
 import kodex.plugininterface.ProcedurePlugin;
+import kodex.presenter.PresenterManager;
 
 /**
  * This class contains the list of selected procedure to be displayed on the start page. It can
@@ -63,7 +66,11 @@ public class IndexPage {
       return;
 
     } else {
-      System.err.println("no suitable filter found");
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("no suitable filter found");
+      PresenterManager.showAlertDialog(alert);
       resetSelectedProcedures();
       return;
     }
@@ -131,7 +138,11 @@ public class IndexPage {
       storeProperties(prop);
 
     } catch (IOException e) {
-      e.printStackTrace();
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("Relevancy could not be increased");
+      PresenterManager.showAlertDialog(alert);
     }
   }
 
