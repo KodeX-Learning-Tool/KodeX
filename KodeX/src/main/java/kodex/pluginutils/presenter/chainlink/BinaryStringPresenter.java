@@ -32,6 +32,12 @@ public class BinaryStringPresenter extends ChainLinkPresenter {
   /** The whole binary string. */
   private String binaryString;
 
+  /** The Constant NOT_MARKED. */
+  private static final int NOT_MARKED = -1;
+  
+  /** The last marked ID. */
+  private int lastElementMarked = NOT_MARKED;
+
   /**
    * Instantiates a new binary string presenter.
    *
@@ -71,7 +77,16 @@ public class BinaryStringPresenter extends ChainLinkPresenter {
 
   @Override
   protected void mark(int id) {
-    // TODO Auto-generated method stub
+    lastElementMarked = id;
+    int unitLength = (int) content.getHeader().get("unit-length");
+    
+    prefix.setText(binaryString.substring(0, Math.max(0, unitLength * id)));
+    markedText.setText(binaryString.substring(unitLength * id, unitLength * id + unitLength));    
+    suffix.setText(binaryString.substring(
+        Math.min(unitLength * (id + 1), binaryString.length()), binaryString.length()));
+    
+    chainLinkEditPresenter.setMarkID(id);
+  }
 
   }
 }
