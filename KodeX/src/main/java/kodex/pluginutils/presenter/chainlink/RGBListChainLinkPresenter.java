@@ -49,8 +49,9 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
     // adds listener to list view items
     rgbListView
         .getSelectionModel()
-        .selectedItemProperty()
+        .selectedIndexProperty()
         .addListener((obs, old, newV) -> handleMark());
+    
   }
 
   @Override

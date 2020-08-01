@@ -60,7 +60,7 @@ public class BitListChainLinkPresenter extends ChainLinkPresenter {
     // adds listener to list view items
     bitListView
         .getSelectionModel()
-        .selectedItemProperty()
+        .selectedIndexProperty()
         .addListener((obs, old, newV) -> handleMark());
 
     AnchorPane chainLinkPane = new AnchorPane();
