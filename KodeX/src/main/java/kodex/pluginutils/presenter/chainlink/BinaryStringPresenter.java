@@ -1,7 +1,9 @@
 package kodex.pluginutils.presenter.chainlink;
 
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.BinaryString;
@@ -17,6 +19,18 @@ public class BinaryStringPresenter extends ChainLinkPresenter {
 
   /** The chain link name. */
   private static final String CHAIN_LINK_NAME = "Binärkette";
+  
+  /** The prefix before the marked part. */
+  private Text prefix;
+  
+  /** The marked text. */
+  private Text markedText;
+  
+  /** The suffix after the marked part. */
+  private Text suffix;
+
+  /** The whole binary string. */
+  private String binaryString;
 
   /**
    * Instantiates a new binary string presenter.
@@ -31,25 +45,23 @@ public class BinaryStringPresenter extends ChainLinkPresenter {
     chainLinkEditPresenter = new BinaryStringEditPresenter(this);
     content = new BinaryString();
     chainLinkHeaderPresenter = new BinaryStringHeaderPresenter(this.getContent());
+    
+    prefix = new Text();
+    markedText = new Text();
+    markedText.setFill(Color.RED);
+    suffix = new Text();
   }
 
   @Override
   public AnchorPane getView() {    
-    TextArea binaryTextArea = new TextArea(((BinaryString) getContent()).getString());
+    TextFlow binaryTextFlow = new TextFlow();
     
-    binaryTextArea.setEditable(false);
-    binaryTextArea.setWrapText(true);
-
-    AnchorPane.setTopAnchor(binaryTextArea, 0d);
-    AnchorPane.setRightAnchor(binaryTextArea, 0d);
-    AnchorPane.setBottomAnchor(binaryTextArea, 0d);
-    AnchorPane.setLeftAnchor(binaryTextArea, 0d);
+    prefix.setText(((BinaryString) (content)).getString());
     
-    AnchorPane chainLinkPane = new AnchorPane();
+    binaryTextFlow.getChildren().addAll(prefix, markedText, suffix);
+    binaryTextFlow.setMaxWidth(400);    
     
-    chainLinkPane.getChildren().add(binaryTextArea);
-    
-    return chainLinkPane;
+    return new AnchorPane(binaryTextFlow);
   }
 
   @Override
