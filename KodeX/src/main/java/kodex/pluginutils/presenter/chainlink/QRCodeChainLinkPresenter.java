@@ -125,7 +125,11 @@ public class QRCodeChainLinkPresenter extends ChainLinkPresenter {
 
   @Override
   protected void mark(int id) {
-    // TODO Auto-generated method stub
+    //this method is empty since it requires knowledge of the internals of QR-Codes
+  }
 
+  @Override
+  public void updateView() {
+    //this method is empty since it the view never changes
   }
 }
