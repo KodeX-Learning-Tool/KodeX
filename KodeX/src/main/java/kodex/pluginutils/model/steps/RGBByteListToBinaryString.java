@@ -11,6 +11,7 @@ import kodex.pluginutils.model.content.RGBByteList;
  * these explicitly defined levels.
  * 
  * @author Yannick Neubert
+ * @author Raimon Gramlich
  * 
  * @version 1.0
  */
@@ -23,6 +24,9 @@ public class RGBByteListToBinaryString implements ChainStep {
     RGBByteList list = (RGBByteList) output;
     BinaryString string = (BinaryString) input;
 
+    
+    list.getList().clear();
+    
     String data = string.getString();
     for (int i = 0; i < data.length() / 8; i++) {
       String rgb = data.substring(i * 8, i * 8 + 8);

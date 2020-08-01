@@ -13,6 +13,7 @@ import kodex.pluginutils.model.content.RGBList;
  * these explicitly defined levels.
  * 
  * @author Yannick Neubert
+ * @author Raimon Gramlich
  * 
  * @version 1.0
  */
@@ -32,6 +33,8 @@ public class RGBListToRGBByteList implements ChainStep {
   public void decode(Content<?> input, Content<?> output) {
     RGBList outputlist = (RGBList) output;
     RGBByteList inputlist = (RGBByteList) input;
+    
+    outputlist.getList().clear();
 
     for (int i = 0; i < inputlist.size() / 3; i++) {
       int red = Integer.parseInt(inputlist.get(i * 3), 2);

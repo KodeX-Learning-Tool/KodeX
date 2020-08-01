@@ -12,6 +12,7 @@ import kodex.pluginutils.model.content.RGBMatrix;
  * these explicitly defined levels.
  * 
  * @author Yannick Neubert
+ * @author Raimon Gramlich
  * 
  * @version 1.0
  */
@@ -42,7 +43,9 @@ public class RGBMatrixToRGBList implements ChainStep {
   public void encode(Content<?> input, Content<?> output) {
     RGBMatrix mtx = (RGBMatrix) input;
     RGBList list = (RGBList) output;
-
+    
+    list.getList().clear();
+    
     for (int y = 0; y < mtx.getHeight(); y++) {
       for (int x = 0; x < mtx.getWidth(); x++) {
         list.add(mtx.get(x, y));
