@@ -4,7 +4,11 @@ import javafx.scene.layout.AnchorPane;
 import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
 
-/** */
+/**
+ * This class manages the edit view and is responsible for editing a character string.
+ * 
+ *  @author Raimon Gramlich
+ */
 public class CharacterStringEditPresenter extends ChainLinkEditPresenter {
 
   public CharacterStringEditPresenter(ChainLinkPresenter chainLinkPresenter) {
@@ -22,5 +26,11 @@ public class CharacterStringEditPresenter extends ChainLinkEditPresenter {
   public void handleSubmit() {
     // TODO Auto-generated method stub
 
+  }
+
+  @Override
+  protected void updateMarkedElement() {
+    // TODO Auto-generated method stub
+    
   }
 }
