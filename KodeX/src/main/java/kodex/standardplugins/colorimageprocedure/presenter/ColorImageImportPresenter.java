@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import javafx.fxml.FXML;
@@ -49,6 +50,10 @@ public class ColorImageImportPresenter extends ImportPresenter {
   
   /** The header to the binaryString containing information about what it encodes. */
   private HashMap<String, Object> header;
+  
+  private static final String WIDTH_KEY = "width";
+  
+  private static final String HEIGHT_KEY = "height";
 
   /**
    * Instantiates a new color image import presenter.
@@ -160,14 +165,12 @@ public class ColorImageImportPresenter extends ImportPresenter {
 
   @Override
   public boolean validateDecodeImport() {
-    ChainLinkPresenter clp = plugin.getChainTail();
-
-    BinaryString content = new BinaryString();
+    BinaryString content = (BinaryString) plugin.getChainTail().getContent();
     
     if (content.isValid(binaryString)) {
       content.setString(binaryString);
       content.setHeader(header);
-      clp.setContent(content);
+      plugin.getChainTail().setContent(content);
       return true;
     }
     return false;
@@ -178,6 +181,11 @@ public class ColorImageImportPresenter extends ImportPresenter {
     ColorImage content = (ColorImage) plugin.getChainHead().getContent();
 
     if (content.isValid(writableImage)) {
+      HashMap<String, Object> map = new HashMap<>();
+      map.put(WIDTH_KEY, writableImage.getWidth());
+      map.put(HEIGHT_KEY, writableImage.getHeight());
+      
+      content.setHeader(map);
       plugin.getChainHead().updateChain();
       return true;
     }
@@ -185,31 +193,28 @@ public class ColorImageImportPresenter extends ImportPresenter {
   }
   
   private void parseTextFile(File file) {
-    try {
-      Scanner in = new Scanner(file);
+    try (Scanner in = new Scanner(file)) {
       
       //header
-      header = new HashMap<String, Object>();
+      header = new HashMap<>();
       in.next("HEADER");
-      in.next("width");
+      in.next(WIDTH_KEY);
       int width = in.nextInt();
-      header.put("width", width);
+      header.put(WIDTH_KEY, width);
       in.next("unit-length");
       int unitLength = in.nextInt();
-      header.put("unit-Length", unitLength);
-      in.next("height");
+      header.put("unit-length", unitLength);
+      in.next(HEIGHT_KEY);
       int height = in.nextInt();
-      header.put("height", height);
-
+      header.put(HEIGHT_KEY, height);
+      
       //content
       in.next("CONTENT");
-      System.out.println(in.nextLine());
+      in.nextLine();
       binaryString = in.nextLine();
-
-      in.close();
 
     } catch (FileNotFoundException e) {
       e.printStackTrace();
-    }
+    } 
   }
 }
