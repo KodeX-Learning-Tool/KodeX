@@ -85,15 +85,6 @@ public class QRCode extends Content<File> {
     decodeFile(data);
   }
   
-  /**
-   * Sets the size for this Content's data. Use this for encoding.
-   * 
-   * @param size The dimensions to be used
-   */
-  public void setSize(int size) {
-    this.matrix = new BitMatrix(size);
-  }
-  
   @Override
   public boolean isValid(File input) {
     return decodeFile(input);

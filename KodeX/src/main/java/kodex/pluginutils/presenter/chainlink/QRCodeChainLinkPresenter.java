@@ -42,38 +42,23 @@ public class QRCodeChainLinkPresenter extends ChainLinkPresenter {
    */
   private static final int PREFFERED_IMAGE_SIZE = 200;
 
+  /**
+   * Instantiates a new QRCodeChainLinkPresenter.
+   *
+   * @param previous the previous ChainLinkPresenter
+   * @param previousStep the previous step
+   * @param nextStep the next step
+   */
   public QRCodeChainLinkPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
     this.content = new QRCode();
+    qrView = new ImageView();
   }
 
   @Override
   public AnchorPane getView() {
-    File file = new File("dummy");
-    Image image = null;
-    try {
-      MatrixToImageWriter.writeToPath(
-          ((QRCode) this.getContent()).getBitMatrix(), "PNG", file.toPath());
-      image = new Image(file.toURI().toString());
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    
-    if (image == null) {
-      return null;
-    }
-    file.delete();
-    scaleFactor = (int) (PREFFERED_IMAGE_SIZE / Math.max(image.getWidth(), image.getHeight()));
-    
-    // scale if smaller than preferred size
-    if (scaleFactor > 1) {
-      qrView = new ImageView(resample(image, scaleFactor));
-    } else {
-      qrView = new ImageView(image);
-      scaleFactor = 1;
-    }
+    updateView();
 
     StackPane alignmentPane = new StackPane();
     
@@ -130,6 +115,24 @@ public class QRCodeChainLinkPresenter extends ChainLinkPresenter {
 
   @Override
   public void updateView() {
-    //this method is empty since it the view never changes
+    File file = new File("dummy");
+    Image image = null;
+    try {
+      MatrixToImageWriter.writeToPath(
+          ((QRCode) this.getContent()).getBitMatrix(), "PNG", file.toPath());
+      image = new Image(file.toURI().toString());
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+      
+    file.delete();
+    scaleFactor = (int) (PREFFERED_IMAGE_SIZE / Math.max(image.getWidth(), image.getHeight()));
+    // scale if smaller than preferred size
+    if (scaleFactor > 1) {
+      image = resample(image, scaleFactor);
+    } else {
+      scaleFactor = 1;
+    }
+    qrView.setImage(image);
   }
 }

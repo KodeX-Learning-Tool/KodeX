@@ -3,6 +3,8 @@ package kodex.standardplugins.qrcode.presenter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.HashMap;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -40,6 +42,12 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
 
   /** The string which is imported for encoding. */
   private String string;
+  
+  /** 
+   * The header to the QRCode containing meta-information like error correction level. 
+   * This feature is not yet implemented, it only serves as a guideline.
+   */
+  private HashMap<String, Object> header;
   
   private static final int MAX_CHAR_ALPHANUMERICAL = 4296;
 
@@ -111,7 +119,7 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
         alert.setContentText("File not valid");
         PresenterManager.showAlertDialog(alert);
       }
-      if (validateEncodeImport()) {
+      if (string != null && validateEncodeImport()) {
         procedureLayoutPresenter.switchToChainPresenter(true);
       } else {
         Alert alert = new Alert(AlertType.ERROR);
@@ -142,6 +150,8 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
     QRCode content = new QRCode();
 
     if (content.isValid(qrcode)) {
+      HashMap<String, Object> map = new HashMap<>();
+      content.setHeader(map);
       clp.setContent(content);
       return true;
     }
@@ -156,6 +166,8 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
     if (string.length() <= MAX_CHAR_ALPHANUMERICAL
         && content.isValid(string)) {
       content.setString(string);
+      HashMap<String, Object> map = new HashMap<>();
+      content.setHeader(map);
       clp.setContent(content);
       return true;
     }

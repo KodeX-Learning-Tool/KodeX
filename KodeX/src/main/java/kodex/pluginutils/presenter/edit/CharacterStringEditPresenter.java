@@ -46,7 +46,6 @@ public class CharacterStringEditPresenter extends ChainLinkEditPresenter {
   @Override
   public void handleSubmit() {
     content.setString(characterStringArea.getText());
-    System.out.println(content.getString());
     chainLinkPresenter.updateChain();
   }
 

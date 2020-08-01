@@ -1,5 +1,8 @@
 package kodex.pluginutils.model.steps;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatReader;
 import com.google.zxing.NotFoundException;
@@ -42,6 +45,18 @@ public class CharacterStringToQRCode implements ChainStep {
       alert.setContentText("Something went wrong decoding the QR-Code");
       PresenterManager.showAlertDialog(alert);
     }
+    
+    if (string.getHeader() == null || string.getHeader().isEmpty()) {  
+      Map<String, Object> header = new HashMap<>();
+      Map<String, Object> map =  qrcode.getHeader();
+      
+      for (Map.Entry<String, Object> entry: map.entrySet()) {
+        header.put(entry.getKey(), entry.getValue());
+      }
+
+      string.setHeader(header);
+    }
+
   }
 
   @Override
@@ -64,5 +79,17 @@ public class CharacterStringToQRCode implements ChainStep {
       alert.setContentText("Something went wrong encoding the textfile");
       PresenterManager.showAlertDialog(alert);    
     }
+    
+    if (qrcode.getHeader() == null || qrcode.getHeader().isEmpty()) {  
+      Map<String, Object> header = new HashMap<>();
+      Map<String, Object> map =  string.getHeader();
+      
+      for (Map.Entry<String, Object> entry: map.entrySet()) {
+        header.put(entry.getKey(), entry.getValue());
+      }
+
+      qrcode.setHeader(header);
+    }
+    
   }
 }
