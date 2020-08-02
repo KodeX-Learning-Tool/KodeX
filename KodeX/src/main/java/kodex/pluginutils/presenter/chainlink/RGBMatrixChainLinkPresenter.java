@@ -30,6 +30,7 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
      * @param id   the id of the button
      */
     MatrixButton(String text, int id) {
+      this.getStyleClass().add("matrix__button");
       this.setText(text);
       this.setOnAction(e -> {
         selectedElementID = id;
@@ -121,7 +122,7 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
     if (lastElementMarked != NOT_MARKED) {
       editMatrixElementColor(lastElementMarked, Color.BLACK);
     }
-
+    
     // mark selected element
     editMatrixElementColor(id, Color.RED);
     lastElementMarked = id;
@@ -135,12 +136,14 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
     RGBMatrix matrix = (RGBMatrix) content;
     
     matrixPane.getChildren().clear();
-
+    
     // create buttons for each element in the 2d array
     for (int j = 0; j < matrix.getHeight(); j++) {
       for (int i = 0; i < matrix.getWidth(); i++) {
-        matrixPane
-        .add(new MatrixButton(colorToRGBString(matrix.get(i, j)), i + j * matrix.getWidth()), i, j);
+        MatrixButton btn = new MatrixButton(
+            colorToRGBString(matrix.get(i, j)), i + j * matrix.getWidth());
+        
+        matrixPane.add(btn, i, j);
       }
     }
     

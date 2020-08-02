@@ -32,6 +32,7 @@ public class DecMatrixChainLinkPresenter extends ChainLinkPresenter {
      * @param id the id of the button
      */
     MatrixButton(String text, int id) {
+      this.getStyleClass().add("matrix__button");
       this.setText(text);
       this.setOnAction(e -> {
         selectedElementID = id;

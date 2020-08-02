@@ -628,3 +628,21 @@
 .chain__scroll-pane {
 	-fx-fit-to-height: true;
 }
+
+/* Default Plugin */
+
+.matrix__button {
+	-fx-background-color: -fx-base-color;
+
+	-fx-border-style: none;
+    -fx-border-width: 0;
+    -fx-border-insets: 0;
+
+	-fx-background-radius: 0;
+
+	-fx-font-size: 18;
+	
+	-fx-text-alignment: center;
+
+	-fx-padding: 8;
+}

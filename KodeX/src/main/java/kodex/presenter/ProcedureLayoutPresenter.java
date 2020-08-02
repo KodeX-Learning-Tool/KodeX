@@ -229,7 +229,6 @@ public class ProcedureLayoutPresenter extends Presenter {
       thumbnail.fitHeightProperty().bind(this.heightProperty().subtract(16));
       thumbnail.fitWidthProperty().bind(this.widthProperty().subtract(16));
       thumbnail.setImage(chainLinkPresenter.getView().snapshot(null, null));
-      
     }
   }
 
