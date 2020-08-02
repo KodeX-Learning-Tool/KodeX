@@ -15,8 +15,11 @@ import java.util.List;
 import java.util.ServiceLoader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import kodex.plugininterface.Pluginable;
 import kodex.plugininterface.ProcedurePlugin;
+import kodex.presenter.PresenterManager;
 
 /**
  * This class is the central class of the plugin mechanism. It allows the user
@@ -43,20 +46,17 @@ public class PluginLoader {
   }
 
   /* List of all plugins */
-  private ObservableList<Pluginable> 
-    allPlugins = FXCollections.observableArrayList();
+  private ObservableList<Pluginable> allPlugins = FXCollections.observableArrayList();
 
   /* List of all enabled plugins */
-  private ObservableList<Pluginable> 
-    enabledPlugins = FXCollections.observableArrayList();
+  private ObservableList<Pluginable> enabledPlugins = FXCollections.observableArrayList();
 
   /* List of all procedure plugins */
-  private ObservableList<ProcedurePlugin> 
-    allProcedurePlugins = FXCollections.observableArrayList();
+  private ObservableList<ProcedurePlugin> allProcedurePlugins = FXCollections.observableArrayList();
 
   /* List of all enabled procedure plugins */
-  private ObservableList<ProcedurePlugin> 
-    enabledProcedurePlugins = FXCollections.observableArrayList();
+  private ObservableList<ProcedurePlugin> enabledProcedurePlugins =
+      FXCollections.observableArrayList();
 
   /* ServiceLoader which loads all implementations of the Pluginable class */
   private ServiceLoader<Pluginable> pluginLoader;
@@ -207,7 +207,11 @@ public class PluginLoader {
           }
         }
       } else {
-        System.out.println("No external Plugins to be loaded!");
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.titleProperty().bind(I18N.createStringBinding("alert.title.warning"));
+        alert.titleProperty().bind(I18N.createStringBinding("alert.load.failed"));
+        alert.setContentText("No plugins which can be loaded.");
+        PresenterManager.showAlertDialog(alert);
       }
 
     } else {
@@ -216,7 +220,11 @@ public class PluginLoader {
       try {
         urls[0] = file.toURI().toURL();
       } catch (MalformedURLException e) {
-        throw new Error("Malformed URL");
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+        alert.titleProperty().bind(I18N.createStringBinding("alert.load.failed"));
+        alert.setContentText("Plugin could not be loaded.");
+        PresenterManager.showAlertDialog(alert);
       }
     }
 
@@ -289,7 +297,11 @@ public class PluginLoader {
       }
 
     } catch (IOException e) {
-      e.printStackTrace();
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+      alert.titleProperty().bind(I18N.createStringBinding("alert.load.failed"));
+      alert.setContentText("Couldn't read enabled_plugins.txt.");
+      PresenterManager.showAlertDialog(alert);
     }
   }
 
@@ -320,7 +332,11 @@ public class PluginLoader {
     try {
       pluginList = Files.readAllLines(pluginListPath);
     } catch (IOException e) {
-      e.printStackTrace();
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+      alert.titleProperty().bind(I18N.createStringBinding("alert.load.failed"));
+      alert.setContentText("Couldn't read enabled_plugins.txt.");
+      PresenterManager.showAlertDialog(alert);
     }
 
     return pluginList;

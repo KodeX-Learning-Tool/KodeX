@@ -24,6 +24,13 @@ public class TextRLEProcedurePlugin extends ProcedurePlugin {
 
   /** Creates a new instance of the TextRLEProcedurePlugin. */
   public TextRLEProcedurePlugin() {
+
+  }
+  
+  /**
+   * Initialize the procedure plugin.
+   */
+  private void initialize() {
     this.chainLinks = new ChainLinkPresenter[2];
 
     RLEStep rleStep = new RLEStep();
@@ -39,6 +46,7 @@ public class TextRLEProcedurePlugin extends ProcedurePlugin {
 
   @Override
   public ImportPresenter createImportPresenter() {
+    initialize();
     return new RLEImportPresenter(this);
   }
 

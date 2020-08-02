@@ -111,7 +111,7 @@ public class BWImageImportPresenter extends ImportPresenter {
       procedureLayoutPresenter.switchToChainPresenter(true);
     } else {
       Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
       alert.setContentText("Invalid file (" + file.getName() +  "). Please try annother!");
       PresenterManager.showAlertDialog(alert);

@@ -58,7 +58,7 @@ public class I18N {
       loadSupportedLocales();
     } catch (FileAlreadyExistsException | FileNotFoundException e) {
       Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
       alert.setContentText("Language file is missing!");
       PresenterManager.showAlertDialog(alert);
@@ -185,7 +185,7 @@ public class I18N {
 
         if (defaultFound) {
           Alert alert = new Alert(AlertType.ERROR);
-          alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+          alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
           alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
           alert.setContentText("Language default property file " + fileName + "is not unique.");
           PresenterManager.showAlertDialog(alert);
@@ -199,7 +199,7 @@ public class I18N {
 
       if (fileNameParts.length != VALID_NAME_PART_NUMBER) {
         Alert alert = new Alert(AlertType.ERROR);
-        alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+        alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
         alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
         alert.setContentText("Please check name of File: " + fileName);
         PresenterManager.showAlertDialog(alert);

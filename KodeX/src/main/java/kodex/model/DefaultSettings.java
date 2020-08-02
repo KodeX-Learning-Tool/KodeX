@@ -82,7 +82,7 @@ public class DefaultSettings extends Settings {
 
     } catch (IOException e) {
       Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
       alert.setContentText("Settings can not be loaded");
       PresenterManager.showAlertDialog(alert);
@@ -138,7 +138,7 @@ public class DefaultSettings extends Settings {
 
     } catch (IOException e) {
       Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
       alert.setContentText("Settings can not be loaded");
       PresenterManager.showAlertDialog(alert);
@@ -181,7 +181,7 @@ public class DefaultSettings extends Settings {
       DefaultSettings.port = port;
     } else {
       Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
       alert.setContentText("Port is not valid");
       PresenterManager.showAlertDialog(alert);

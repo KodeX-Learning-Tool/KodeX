@@ -64,9 +64,9 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
   private void initialize() {
     // language support
     encodeImportButton.textProperty()
-      .bind(I18N.createStringBinding("importexample.encode.importbutton"));
+        .bind(I18N.createStringBinding("importexample.encode.importbutton"));
     decodeImportButton.textProperty()
-      .bind(I18N.createStringBinding("importexample.decode.importbutton"));
+        .bind(I18N.createStringBinding("importexample.decode.importbutton"));
   }
 
   @Override
@@ -114,7 +114,7 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
       procedureLayoutPresenter.switchToChainPresenter(true);
     } else {
       Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
       alert.setContentText("Invalid file (" + file.getName() +  "). Please try annother!");
       PresenterManager.showAlertDialog(alert);

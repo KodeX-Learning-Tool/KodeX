@@ -32,7 +32,7 @@ public class ByteList extends AbstractList<String> {
   public boolean isValid(Object input) {    
     if (input == null) {
       Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
       alert.setContentText("Input is empty");
       PresenterManager.showAlertDialog(alert);
@@ -42,7 +42,7 @@ public class ByteList extends AbstractList<String> {
     
     if (byteValue.length() != 8) {
       Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
       alert.setContentText("This is not a byte");
       PresenterManager.showAlertDialog(alert);
@@ -50,7 +50,7 @@ public class ByteList extends AbstractList<String> {
     }
     if (!byteValue.matches("[01]+")) {
       Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
       alert.setContentText("This is not a byte");
       PresenterManager.showAlertDialog(alert);

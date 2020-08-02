@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import kodex.presenter.PresenterManager;
+
 /**
  * This class manages the FAQ. A fixed set of questions is stored locally in KodeX.Help_DE or
  * KodeX.Help_EN, which can then be read using this class.
@@ -43,7 +47,12 @@ public class Help {
     try {
       prop.load(input);
     } catch (IOException e) {
-      System.out.println("Error during reading File");
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
+      alert.setContentText("Couldn't load help page property files.");
+      
+      PresenterManager.showAlertDialog(alert);
     }
 
     loadQuestions();

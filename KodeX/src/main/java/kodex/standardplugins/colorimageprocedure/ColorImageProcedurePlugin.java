@@ -28,6 +28,13 @@ public class ColorImageProcedurePlugin extends ProcedurePlugin {
 
   /** Creates a new instance of the ColorImageProcedurePlugin. */
   public ColorImageProcedurePlugin() {
+    // does nothing because the procedure plugin is initalized when creating a new import presenter
+  }
+  
+  /**
+   * Initialize the procedure plugin.
+   */
+  private void initialize() {
     this.chainLinks = new ChainLinkPresenter[5];
 
     ColorImageToRGBMatrix colorImageToRGBMatrix = new ColorImageToRGBMatrix();
@@ -55,6 +62,7 @@ public class ColorImageProcedurePlugin extends ProcedurePlugin {
 
   @Override
   public ColorImageImportPresenter createImportPresenter() {
+    initialize();
     return new ColorImageImportPresenter(this);
   }
 

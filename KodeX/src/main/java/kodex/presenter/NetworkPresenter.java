@@ -293,12 +293,27 @@ public class NetworkPresenter extends Presenter {
 
       setErrorPseudoClass(ipConnectTextField, true);
       invalid = true;
+      
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("The input is not a valid IP-Address. " 
+          + "It must have four parts separated by a period. " 
+          + "Each part has to be a number between 0 and 255.");
+      PresenterManager.showAlertDialog(alert);
     }
 
     if (!PortNumValidator.getInstance().isValid(portText)) {
 
       setErrorPseudoClass(portConnectTextField, true);
       invalid = true;
+      
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("The input is not a valid port. " 
+          + "The number has to be between 0 and 65535.");
+      PresenterManager.showAlertDialog(alert);
     }
 
     if (invalid) {
