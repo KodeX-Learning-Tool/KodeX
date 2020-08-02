@@ -5,8 +5,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
@@ -63,6 +66,7 @@ public class RLEImportPresenter extends ImportPresenter {
     try {
       tupleString = Files.readString(file.toPath());
     } catch (IOException e) {
+      importAlert(file);
       e.printStackTrace();
       return;
     }
@@ -71,6 +75,9 @@ public class RLEImportPresenter extends ImportPresenter {
       // TODO notify that we want to decode?
       procedureLayoutPresenter.switchToChainPresenter(false);
     } else {
+      
+      importAlert(file);
+      
       System.err.println("File content not valid.");
     }
   }
@@ -87,6 +94,7 @@ public class RLEImportPresenter extends ImportPresenter {
     try {
       letterString = Files.readString(file.toPath());
     } catch (IOException e) {
+      importAlert(file);
       e.printStackTrace();
       return;
     }
@@ -95,8 +103,21 @@ public class RLEImportPresenter extends ImportPresenter {
 
       procedureLayoutPresenter.switchToChainPresenter(true);
     } else {
+      
+      importAlert(file);
+      
       System.err.println("File content not valid.");
     }
+  }
+  
+  private void importAlert(File file) {
+    
+    Alert alert = new Alert(AlertType.ERROR);
+    alert.titleProperty().bind(I18N.createStringBinding("Import error"));
+    alert.headerTextProperty().bind(I18N.createStringBinding("Import is not valid."));
+    alert.setContentText("The chosen file ("
+        + file.getName() +  ") is not a text file with valid content.");
+    PresenterManager.showAlertDialog(alert);
   }
 
   /**
