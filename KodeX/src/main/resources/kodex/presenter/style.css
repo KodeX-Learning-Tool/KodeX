@@ -592,8 +592,7 @@
 }
 
 .chainlink__content__scrollbar {
-	-fx-max-height: 480;
-	-fx-max-width: 480;
+	-fx-alignment: center;
 }
 
 .chainlink__info > .title {
