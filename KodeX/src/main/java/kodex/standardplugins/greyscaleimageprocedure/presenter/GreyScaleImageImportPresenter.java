@@ -14,6 +14,7 @@ import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.content.CharacterString;
 import kodex.pluginutils.model.content.ColorImage;
+import kodex.presenter.PresenterManager;
 
 /**
  * This class is responsible for managing the import of the greyscale image or a binary sequence.
@@ -109,7 +110,7 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
   private File importFile(String type) {
     FileChooser fc = new FileChooser();
     fc.setTitle("Datei zum " + type + " auswählen.");
-    return fc.showOpenDialog(null);
+    return PresenterManager.showOpenFileChooser(fc);
   }
 
   @Override

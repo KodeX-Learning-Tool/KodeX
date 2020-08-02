@@ -20,6 +20,7 @@ import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.content.BinaryString;
 import kodex.pluginutils.model.content.ColorImage;
+import kodex.presenter.PresenterManager;
 
 /**
  * This class imports an image for encoding or a binary string for decoding. Afterwards it prepares
@@ -146,7 +147,7 @@ public class ColorImageImportPresenter extends ImportPresenter {
    * @return the chosen file
    */
   private File importFile(Boolean encoding) {
-    FileChooser fc = new FileChooser();
+    FileChooser fileChooser = new FileChooser();
     String propertyName;
     
     if (Boolean.TRUE.equals(encoding)) {
@@ -155,9 +156,9 @@ public class ColorImageImportPresenter extends ImportPresenter {
       propertyName = "importexample.filechooser.decode.title";
     }
     
-    fc.titleProperty().bind(I18N.createStringBinding(propertyName));
+    fileChooser.titleProperty().bind(I18N.createStringBinding(propertyName));
     
-    return fc.showOpenDialog(null);
+    return PresenterManager.showOpenFileChooser(fileChooser);
   }
 
   @Override
