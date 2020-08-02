@@ -117,6 +117,7 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
         alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
         alert.setContentText("File not valid");
         PresenterManager.showAlertDialog(alert);
+        return;
       }
       if (string != null && validateEncodeImport()) {
         procedureLayoutPresenter.switchToChainPresenter(true);
@@ -149,8 +150,8 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
     QRCode content = new QRCode();
 
     if (content.isValid(qrcode)) {
-      HashMap<String, Object> map = new HashMap<>();
-      content.setHeader(map);
+      header = new HashMap<>();
+      content.setHeader(header);
       clp.setContent(content);
       return true;
     }
@@ -165,8 +166,8 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
     if (string.length() <= MAX_CHAR_ALPHANUMERICAL
         && content.isValid(string)) {
       content.setString(string);
-      HashMap<String, Object> map = new HashMap<>();
-      content.setHeader(map);
+      header = new HashMap<>();
+      content.setHeader(header);
       clp.setContent(content);
       return true;
     }
