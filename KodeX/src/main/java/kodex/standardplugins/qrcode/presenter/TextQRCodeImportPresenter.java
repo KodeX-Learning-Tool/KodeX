@@ -48,8 +48,9 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
    */
   private HashMap<String, Object> header;
   
+  /** the maximum amount of alpha numeric characters a QR-code can contain. (177*177) */
   private static final int MAX_CHAR_ALPHANUMERICAL = 4296;
-
+  
   /**
    * Instantiates a new color image import presenter.
    *
@@ -163,7 +164,7 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
     ChainLinkPresenter clp = plugin.getChainHead();
     CharacterString content = new CharacterString();
     
-    if (string.length() <= MAX_CHAR_ALPHANUMERICAL
+    if (!string.isEmpty() && string.length() <= MAX_CHAR_ALPHANUMERICAL
         && content.isValid(string)) {
       content.setString(string);
       header = new HashMap<>();
