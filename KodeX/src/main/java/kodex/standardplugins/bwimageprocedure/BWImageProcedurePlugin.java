@@ -31,6 +31,13 @@ public class BWImageProcedurePlugin extends ProcedurePlugin {
 
   /** Constructor of class BWImageProecedure. Sets all chainLinks */
   public BWImageProcedurePlugin() {
+
+  }
+  
+  /**
+   * Initialize the procedure plugin.
+   */
+  private void initialize() {
     chainLinks = new ChainLinkPresenter[4];
     BWImageToMatrix bwImageToMatrix = new BWImageToMatrix();
     MatrixToBitList matrixToBitList = new MatrixToBitList();
@@ -50,9 +57,10 @@ public class BWImageProcedurePlugin extends ProcedurePlugin {
       chainLinks[i].setNext(chainLinks[i + 1]);
     }
   }
-
+  
   @Override
   public ImportPresenter createImportPresenter() {
+    initialize();
     return new BWImageImportPresenter(this);
   }
 

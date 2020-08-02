@@ -34,7 +34,7 @@ public class ColorImageProcedurePlugin extends ProcedurePlugin {
   /**
    * Initialize the procedure plugin.
    */
-  protected void initialize() {
+  private void initialize() {
     this.chainLinks = new ChainLinkPresenter[5];
 
     ColorImageToRGBMatrix colorImageToRGBMatrix = new ColorImageToRGBMatrix();
