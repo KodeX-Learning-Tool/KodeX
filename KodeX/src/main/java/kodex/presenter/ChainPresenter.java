@@ -2,9 +2,7 @@ package kodex.presenter;
 
 import java.io.File;
 import java.io.IOException;
-
 import org.kordamp.ikonli.javafx.FontIcon;
-
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
