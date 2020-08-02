@@ -615,7 +615,7 @@
 /*Edit */
 
 .editor-pane {
-    -fx-background-color: -fx-root-color;
+    -fx-background-color: -fx-base-color;
     -fx-background-radius: 5;
     -fx-border-style: solid;
     -fx-border-color: black;
