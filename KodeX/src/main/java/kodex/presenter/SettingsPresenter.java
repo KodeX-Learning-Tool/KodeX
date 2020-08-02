@@ -29,6 +29,7 @@ import kodex.presenter.textformatter.PortNumFormatter;
  *
  * @author Leonhard Kraft
  * @author Yannick Neubert
+ * @author Raimon Gramlich
  * @version 1.0
  */
 public class SettingsPresenter extends Presenter {
@@ -173,6 +174,14 @@ public class SettingsPresenter extends Presenter {
       // port number is invalid
 
       setErrorPseudoClass(portTextField, true);
+      
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("The input is not a valid port. " 
+          + "The number has to be between 0 and 65535.");
+      PresenterManager.showAlertDialog(alert);
+      
       return;
     }
 
