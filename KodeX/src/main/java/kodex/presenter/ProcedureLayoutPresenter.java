@@ -1,13 +1,14 @@
 package kodex.presenter;
 
 import java.io.IOException;
-
 import javafx.animation.TranslateTransition;
 import javafx.beans.binding.DoubleBinding;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -15,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ImportPresenter;
@@ -79,13 +81,20 @@ public class ProcedureLayoutPresenter extends Presenter {
      */
     Editor() {
       // loads the template file
+      String fileName = "editlayout.fxml";
+      
+      FXMLLoader loader = new FXMLLoader(getClass().getResource(fileName));
+      loader.setController(this);
+      loader.setRoot(this);
+      
       try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("editlayout.fxml"));
-        loader.setController(this);
-        loader.setRoot(this);
         loader.load();
       } catch (IOException exc) {
-        System.err.println("The file editlayout.fxml was not found!");
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+        alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
+        alert.setContentText("Failed creating Editor-view with " + fileName + ".");
+        PresenterManager.showAlertDialog(alert);
       }
     }
 
@@ -196,13 +205,21 @@ public class ProcedureLayoutPresenter extends Presenter {
       this.chainLinkPresenter = chainLinkPresenter;
 
       // loads the template file
+      String fileName = "overviewbuttontemplate.fxml";
+
+      FXMLLoader loader = new FXMLLoader(getClass().getResource(fileName));
+      loader.setController(this);
+      loader.setRoot(this);
+      
       try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("overviewbuttontemplate.fxml"));
-        loader.setController(this);
-        loader.setRoot(this);
         loader.load();
       } catch (IOException exc) {
-        System.err.println("The file overviewbutton.fxml was not found!");
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+        alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
+        alert.setContentText("Failed creating Overview item for " 
+            + chainLinkPresenter.getName() + " with " + fileName + ".");
+        PresenterManager.showAlertDialog(alert);
       }
     }
 
