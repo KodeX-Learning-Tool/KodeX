@@ -73,8 +73,6 @@ public class PluginMenuPresenter extends Presenter {
     File file = PresenterManager.showOpenFileChooser(chooser);
     if (file != null) {
       PluginLoader.getInstance().loadExternalPlugin(file);
-    } else {
-      System.out.println("No plugin chosen.");
     }
   }
 
