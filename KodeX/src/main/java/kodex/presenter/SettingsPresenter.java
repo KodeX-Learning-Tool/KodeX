@@ -2,11 +2,16 @@ package kodex.presenter;
 
 import java.io.File;
 import java.util.Locale;
+import java.util.Optional;
+
 import org.controlsfx.control.ToggleSwitch;
 import javafx.collections.FXCollections;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
@@ -24,6 +29,7 @@ import kodex.presenter.textformatter.PortNumFormatter;
  *
  * @author Leonhard Kraft
  * @author Yannick Neubert
+ * @author Raimon Gramlich
  * @version 1.0
  */
 public class SettingsPresenter extends Presenter {
@@ -138,11 +144,21 @@ public class SettingsPresenter extends Presenter {
    */
   @FXML
   public void handleRestoreDefaultSettings() {
+    
+    Alert alert = new Alert(AlertType.CONFIRMATION);
+    alert.titleProperty().bind(I18N.createStringBinding("alert.title.confirmation"));
+    alert.headerTextProperty().bind(I18N.createStringBinding("alert.settings.reset"));
+    alert.setContentText("Restore default settings? " 
+        + " All changes made to the settings will be lost.");
+    
+    Optional<ButtonType> result = PresenterManager.showAlertDialog(alert);
+    
+    if (result.isPresent() && result.get() == ButtonType.OK) {
+      defaultSettings.reset();
 
-    defaultSettings.reset();
-
-    // initialize all settings again to display the reset
-    this.initialize();
+      // initialize all settings again to display the reset
+      this.initialize();
+    } 
   }
 
   /**
@@ -158,6 +174,14 @@ public class SettingsPresenter extends Presenter {
       // port number is invalid
 
       setErrorPseudoClass(portTextField, true);
+      
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("The input is not a valid port. " 
+          + "The number has to be between 0 and 65535.");
+      PresenterManager.showAlertDialog(alert);
+      
       return;
     }
 

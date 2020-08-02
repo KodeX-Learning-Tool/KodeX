@@ -64,9 +64,9 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
   private void initialize() {
     // language support
     encodeImportButton.textProperty()
-      .bind(I18N.createStringBinding("importexample.encode.importbutton"));
+        .bind(I18N.createStringBinding("importexample.encode.importbutton"));
     decodeImportButton.textProperty()
-      .bind(I18N.createStringBinding("importexample.decode.importbutton"));
+        .bind(I18N.createStringBinding("importexample.decode.importbutton"));
   }
 
   @Override

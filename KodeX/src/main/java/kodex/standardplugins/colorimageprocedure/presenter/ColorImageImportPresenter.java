@@ -119,7 +119,8 @@ public class ColorImageImportPresenter extends ImportPresenter {
         Alert alert = new Alert(AlertType.ERROR);
         alert.titleProperty().bind(I18N.createStringBinding(ERROR_PROPERTY_KEY));
         alert.headerTextProperty().bind(I18N.createStringBinding(INVALID_IMPORT_PROPERTY_KEY));
-        alert.setContentText("The chosen file (" + file.getName() +  ") is not a text file with valid content.");
+        alert.setContentText("The chosen file (" + file.getName() 
+            + ") is not a text file with valid content.");
         PresenterManager.showAlertDialog(alert);
       }
     }

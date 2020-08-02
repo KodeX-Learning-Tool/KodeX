@@ -4,9 +4,11 @@ import java.io.File;
 import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableRow;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -66,15 +68,13 @@ public class PluginMenuPresenter extends Presenter {
   private void handleAddPlugin() {
     // create new FileChooser
     FileChooser chooser = new FileChooser();
-    chooser.setTitle("Plugin zum importieren auswählen.");
-    chooser.getExtensionFilters().add(new ExtensionFilter("JAR-Datei", "*.jar"));
+    chooser.titleProperty().bind(I18N.createStringBinding("pluginpage.import.title"));
+    chooser.getExtensionFilters().add(new ExtensionFilter(I18N.get("files.jar"), "*.jar"));
 
     // add the plugin located at the given path
     File file = PresenterManager.showOpenFileChooser(chooser);
     if (file != null) {
       PluginLoader.getInstance().loadExternalPlugin(file);
-    } else {
-      System.out.println("No plugin chosen.");
     }
   }
 
@@ -96,9 +96,17 @@ public class PluginMenuPresenter extends Presenter {
     // get selected table row
     Pluginable plugin = pluginTable.getSelectionModel().getSelectedItem();
     if (plugin == null) {
-      System.out.println("No plugin selected.");
-    } else if (!defaultPlugins.contains(plugin.pluginNameProperty().get())) {
-      System.out.println("Default Plugins can't be removed.");
+      Alert alert = new Alert(AlertType.INFORMATION);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.information"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.operation.invalid"));
+      alert.setContentText("No plugin selected.");
+      PresenterManager.showAlertDialog(alert);
+    } else if (defaultPlugins.contains(plugin.pluginNameProperty().get())) {
+      Alert alert = new Alert(AlertType.INFORMATION);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.information"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.operation.invalid"));
+      alert.setContentText("Default plugins can't be removed.");
+      PresenterManager.showAlertDialog(alert);
     } else {
       pluginLoader.removePlugin(plugin);
     }
@@ -140,23 +148,22 @@ public class PluginMenuPresenter extends Presenter {
           return c.getValue().activatedProperty();
         });  
 
-    checkBoxColumn.setCellFactory(column -> {
-      return new CheckBoxTableCell<Pluginable, Boolean>() {
-
-        @Override
-        public void updateItem(Boolean item, boolean empty) {
-          super.updateItem(item, empty);
-
-          // disables check-boxes for default / protected plugins
-          TableRow<Pluginable> currentRow = getTableRow();
-          this.setDisable(false); // it is required to fit default state
-          if (currentRow != null && currentRow.getItem() != null && !empty
-              && defaultPlugins.contains(currentRow.getItem().pluginNameProperty().get())) {
-            this.setDisable(true);
-            this.getStyleClass().add("plugin__check-box-cell");
+    checkBoxColumn.setCellFactory(column ->
+        new CheckBoxTableCell<Pluginable, Boolean>() {
+    
+          @Override
+          public void updateItem(Boolean item, boolean empty) {
+            super.updateItem(item, empty);
+    
+            // disables check-boxes for default / protected plugins
+            TableRow<Pluginable> currentRow = getTableRow();
+            this.setDisable(false); // it is required to fit default state
+            if (currentRow != null && currentRow.getItem() != null && !empty
+                && defaultPlugins.contains(currentRow.getItem().pluginNameProperty().get())) {
+              this.setDisable(true);
+              this.getStyleClass().add("plugin__check-box-cell");
+            }
           }
-        }
-      };
     });
 
     // defines the name and description column

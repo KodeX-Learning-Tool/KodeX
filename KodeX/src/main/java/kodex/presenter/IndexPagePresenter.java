@@ -5,6 +5,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -78,13 +80,20 @@ public class IndexPagePresenter extends Presenter {
       this.procedureInformation = procedurePlugin.createProcedureInformation();
 
       // loads the template
+      String fileName = "procedurebuttontemplate.fxml";
+      
+      FXMLLoader loader = new FXMLLoader(getClass().getResource(fileName));
+      loader.setController(this);
+      loader.setRoot(this);
       try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("procedurebuttontemplate.fxml"));
-        loader.setController(this);
-        loader.setRoot(this);
         loader.load();
       } catch (IOException exc) {
-        exc.printStackTrace();
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+        alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
+        alert.setContentText("Failed creating procedure button for " 
+            + procedurePlugin.pluginNameProperty().get() + " with " + fileName + ".");
+        PresenterManager.showAlertDialog(alert);
       }
 
       procedureLabel.setText(procedureInformation.getName());

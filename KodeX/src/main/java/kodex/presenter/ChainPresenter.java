@@ -7,11 +7,13 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane.Divider;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import kodex.model.I18N;
@@ -93,14 +95,20 @@ public class ChainPresenter implements IPresenter {
       hidden = false;
 
       // loads template file
-      try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("chainlinktemplate.fxml"));
-        loader.setController(this);
-        loader.setRoot(this);
+      String fileName = "chainlinktemplate.fxml";
+      
+      FXMLLoader loader = new FXMLLoader(getClass().getResource(fileName));
+      loader.setController(this);
+      loader.setRoot(this);
+      try {  
         loader.load();
-      } catch (IOException exc) {
-        exc.printStackTrace();
-        System.err.println("The file chainlinktemplate.fxml was not found!");
+      } catch (IOException e) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+        alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
+        alert.setContentText("Failed creating chain item " + chainLinkPresenter.getName() 
+            + " with " + fileName + ".");
+        PresenterManager.showAlertDialog(alert);
       }
     }
 
@@ -245,13 +253,19 @@ public class ChainPresenter implements IPresenter {
     this.firstChainLinkPresenter = chainLinkPresenter;
     this.procedureLayoutPresenter = procedureLayoutPresenter;
     
+    String fileName = "chainlayout.fxml";
+    
     // loads the template file
-    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("chainlayout.fxml"));
+    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fileName));
     fxmlLoader.setController(this);
     try {
       viewScrollPane = fxmlLoader.load();
     } catch (IOException e) {
-      e.printStackTrace();
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
+      alert.setContentText("Failed creating chain view with " + fileName + ".");
+      PresenterManager.showAlertDialog(alert);
     }
   }
 

@@ -2,7 +2,10 @@ package kodex.presenter;
 
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
+import kodex.model.I18N;
 
 /**
  * This abstract class is a superclass for all main and side menu presenter. Main presenter are all
@@ -57,7 +60,11 @@ public abstract class Presenter implements IPresenter {
       this.view = loader.load();
 
     } catch (IOException e) {
-      e.printStackTrace();
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
+      alert.setContentText("Failed creating view for " + fileName + ".fxml.");
+      PresenterManager.showAlertDialog(alert);
     }
   }
 }
