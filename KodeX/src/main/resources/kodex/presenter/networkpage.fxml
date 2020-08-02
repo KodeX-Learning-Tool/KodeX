@@ -64,15 +64,6 @@
                                                 <String fx:value="network__controll__connect" />
                                                 <String fx:value="network__controll__input" />
                                              </styleClass>
-                                             <columnConstraints>
-                                                <ColumnConstraints />
-                                                <ColumnConstraints />
-                                             </columnConstraints>
-                                             <rowConstraints>
-                                                <RowConstraints />
-                                                <RowConstraints />
-                                                <RowConstraints />
-                                             </rowConstraints>
                                           </GridPane>
                                           <Region styleClass="network__controll_spring" />
                                           <Button fx:id="connectButton" mnemonicParsing="false" onAction="#handleSend" styleClass="default-button--shadow" />
