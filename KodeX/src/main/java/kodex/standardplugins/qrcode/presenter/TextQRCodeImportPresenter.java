@@ -48,8 +48,9 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
    */
   private HashMap<String, Object> header;
   
+  /** the maximum amount of alpha numeric characters a QR-code can contain. (177*177) */
   private static final int MAX_CHAR_ALPHANUMERICAL = 4296;
-
+  
   /**
    * Instantiates a new color image import presenter.
    *
@@ -117,6 +118,7 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
         alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
         alert.setContentText("File not valid");
         PresenterManager.showAlertDialog(alert);
+        return;
       }
       if (string != null && validateEncodeImport()) {
         procedureLayoutPresenter.switchToChainPresenter(true);
@@ -149,8 +151,8 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
     QRCode content = new QRCode();
 
     if (content.isValid(qrcode)) {
-      HashMap<String, Object> map = new HashMap<>();
-      content.setHeader(map);
+      header = new HashMap<>();
+      content.setHeader(header);
       clp.setContent(content);
       return true;
     }
@@ -162,11 +164,11 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
     ChainLinkPresenter clp = plugin.getChainHead();
     CharacterString content = new CharacterString();
     
-    if (string.length() <= MAX_CHAR_ALPHANUMERICAL
+    if (!string.isEmpty() && string.length() <= MAX_CHAR_ALPHANUMERICAL
         && content.isValid(string)) {
       content.setString(string);
-      HashMap<String, Object> map = new HashMap<>();
-      content.setHeader(map);
+      header = new HashMap<>();
+      content.setHeader(header);
       clp.setContent(content);
       return true;
     }
