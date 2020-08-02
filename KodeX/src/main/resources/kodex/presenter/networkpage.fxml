@@ -124,7 +124,7 @@
                                           <HBox>
                                              <children>
                                                 <Button fx:id="hostButton" mnemonicParsing="false" onAction="#handleReceive" styleClass="default-button--shadow" />
-                                                <Region />
+                                                <Region styleClass="network__controll__button__spring" />
                                                 <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancel" styleClass="default-button--shadow" />
                                              </children>
                                           </HBox>

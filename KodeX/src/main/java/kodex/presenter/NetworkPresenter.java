@@ -12,6 +12,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.concurrent.CompletableFuture;
 import javafx.application.Platform;
 import javafx.css.PseudoClass;
@@ -61,15 +62,18 @@ public class NetworkPresenter extends Presenter {
   @FXML private Button connectButton;
 
   @FXML private Button hostButton;
-  
+
   @FXML private Button cancelButton;
-  
+
   /** The server socket which can be accessed for closing. */
   private ServerSocket serverSocket;
+  
+  /** The socket used to send the file. */
+  private Socket sendSocket;
 
   /** The boolean receiving indicates whether the program is currently waiting for a connection. */
   private boolean receiving;
-  
+
   /** The boolean canceling indicates that closing the connection prematurely was intended. */
   private boolean canceling;
 
@@ -80,6 +84,9 @@ public class NetworkPresenter extends Presenter {
    */
   public NetworkPresenter(PresenterManager presenterManager) {
     super(presenterManager, "networkpage");
+
+    // disable cancel button at startup
+    setConnectCancelDisable(true);
   }
 
   /** Create a file from the directory saved as the default path. */
@@ -104,7 +111,7 @@ public class NetworkPresenter extends Presenter {
           try {
             // doesn't use try-with-resources because otherwise serverSocket is not accessible
             serverSocket = new ServerSocket(DefaultSettings.getPort());
-            
+
             /*
              * display local ip address and server port after server creation was successful
              */
@@ -139,17 +146,21 @@ public class NetworkPresenter extends Presenter {
              * from a different Thread than the application thread. Therefore we have to
              * delegate the opening of the FileChooser to the main thread.
              */
-            File saveFile = CompletableFuture.supplyAsync(() -> {
-              FileChooser fileChooser = new FileChooser();
+            File saveFile =
+                CompletableFuture.supplyAsync(
+                    () -> {
+                      FileChooser fileChooser = new FileChooser();
 
-              if (defaultDirectory.exists()) {
-                // set default directory if it exists
-                fileChooser.setInitialDirectory(defaultDirectory);
-              }
+                      if (defaultDirectory.exists()) {
+                        // set default directory if it exists
+                        fileChooser.setInitialDirectory(defaultDirectory);
+                      }
 
-              fileChooser.setInitialFileName(fileName);
-              return fileChooser.showSaveDialog(null);
-            }, Platform::runLater).join(); // runs on FX thread and waits for result
+                      fileChooser.setInitialFileName(fileName);
+                      return fileChooser.showSaveDialog(null);
+                    },
+                    Platform::runLater)
+                    .join(); // runs on FX thread and waits for result
 
             if (saveFile == null) {
 
@@ -173,15 +184,23 @@ public class NetworkPresenter extends Presenter {
             setConnectDisable(false);
             setHostDisable(false);
 
+            // clear host text fields after successfully receiving a file
+            clearHostTextFields();
+
           } catch (SocketException e) {
             // only show this if closing the connection was not intended
             if (!canceling) {
               // Alerts and Dialogs can only be shown on JavaFX Application Thread
               Platform.runLater(() -> showErrorDialog("Failed receiving file."));
+              return;
             }
+
+            // clear text when receiving is canceled
+            clearHostTextFields();
+
           } catch (IOException e) {
             // the error message probably has to be adjusted,
-            // since it seems most errors regarding sockets will be caught by one above 
+            // since it seems most errors regarding sockets will be caught by one above
             System.out.println("Already created this socket.");
           } finally {
             try {
@@ -197,12 +216,17 @@ public class NetworkPresenter extends Presenter {
 
     // disable send button to prevent sending while having an open server
     setConnectDisable(true);
-    // also disables host since it doesn't make sense to open multiple listener connections 
+    // also disables host since it doesn't make sense to open multiple listener connections
     setHostDisable(true);
-    
+
     serverThread.start();
   }
-  
+
+  private void clearHostTextFields() {
+    ipHostTextField.clear();
+    portHostTextField.clear();
+  }
+
   /**
    * Shows an information window.
    *
@@ -215,7 +239,7 @@ public class NetworkPresenter extends Presenter {
     alert.setContentText(message);
     PresenterManager.showAlertDialog(alert);
   }
-  
+
   /**
    * Shows an error window.
    *
@@ -228,15 +252,14 @@ public class NetworkPresenter extends Presenter {
     alert.setContentText(message);
     PresenterManager.showAlertDialog(alert);
   }
-  
-  
+
   /**
-   * This Method is called when the user clicks on the Cancel button.
-   * The connection is closed forcebly.
+   * This Method is called when the user clicks on the Cancel button. The connection is closed
+   * forcebly.
    */
   @FXML
   private void handleCancel() {
-    
+
     // only close socket if it is waiting
     if (receiving) {
       try {
@@ -250,7 +273,6 @@ public class NetworkPresenter extends Presenter {
         showErrorDialog("Couldn't close the connection.");
       }
     }
-
   }
 
   /**
@@ -282,12 +304,21 @@ public class NetworkPresenter extends Presenter {
     if (invalid) {
       return;
     }
-
+    
     /*
      * Open socket with the entered ip and port.
      */
     // TODO what if entered credentials are invalid (server doesn't exist)
-    Socket socket = new Socket(ipText, Integer.parseInt(portText));
+    try {
+      sendSocket = new Socket(ipText, Integer.parseInt(portText));
+      
+    } catch (UnknownHostException e) {
+      
+      //host name is not valid to connect to
+      setErrorPseudoClass(ipConnectTextField, true);
+      return;
+    }
+    
 
     File defaultDirectory = getDefaultDirectoryAsFile();
 
@@ -311,7 +342,7 @@ public class NetworkPresenter extends Presenter {
      */
     Runnable sendTask =
         () -> {
-          try (OutputStream os = socket.getOutputStream()) {
+          try (OutputStream os = sendSocket.getOutputStream()) {
             DataOutputStream nameStream = new DataOutputStream(os);
 
             nameStream.writeUTF(sendFile.getName());
@@ -328,7 +359,7 @@ public class NetworkPresenter extends Presenter {
             is.close();
             os.flush();
 
-            socket.close();
+            sendSocket.close();
 
             setHostDisable(false);
 
@@ -343,6 +374,8 @@ public class NetworkPresenter extends Presenter {
     setHostDisable(true);
 
     clientSendThread.start();
+    
+    sendSocket = null;
   }
 
   /** Initializes the view-object created by the FXMLLoader. */
@@ -352,7 +385,11 @@ public class NetworkPresenter extends Presenter {
     header.textProperty().bind(I18N.createStringBinding("networkpage.header"));
 
     ipConnectLbl.textProperty().bind(I18N.createStringBinding("networkpage.connect.ip.lbl"));
+    ipConnectTextField.promptTextProperty()
+        .bind(I18N.createStringBinding("networkpage.connect.ip.prompt"));
     portConnectLbl.textProperty().bind(I18N.createStringBinding("networkpage.connect.port.lbl"));
+    portConnectTextField.promptTextProperty()
+        .bind(I18N.createStringBinding("networkpage.connect.port.prompt"));
     connectButton.textProperty().bind(I18N.createStringBinding("networkpage.connect.button"));
 
     ipHostLbl.textProperty().bind(I18N.createStringBinding("networkpage.host.ip.lbl"));
@@ -371,7 +408,7 @@ public class NetworkPresenter extends Presenter {
     portConnectTextField.setTextFormatter(PortNumFormatter.createTextFormatter());
   }
 
-  private void setConnectDisable(Boolean disable) {
+  private void setConnectDisable(boolean disable) {
     ipConnectTextField.setDisable(disable);
     portConnectTextField.setDisable(disable);
     connectButton.setDisable(disable);
@@ -390,7 +427,13 @@ public class NetworkPresenter extends Presenter {
     control.pseudoClassStateChanged(errorClass, state);
   }
 
-  private void setHostDisable(Boolean disable) {
+  private void setConnectCancelDisable(boolean disable) {
+    cancelButton.setDisable(disable);
+  }
+
+  private void setHostDisable(boolean disable) {
+
+    setConnectCancelDisable(!disable);
     hostButton.setDisable(disable);
   }
 }

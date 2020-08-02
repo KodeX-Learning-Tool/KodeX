@@ -26,6 +26,7 @@
 
 .text-field:error {
   -fx-text-inner-color: red ;
+  -fx-prompt-text-fill: rgba(255,0,0,0.6);
 }
 
 .default-page-title {
@@ -304,6 +305,10 @@
 
 .network__controll_spring {
 	-fx-pref-height: 48;
+}
+
+.network__controll__button__spring {
+	-fx-pref-width: 40;
 }
 
 .network__controll__connect_spring {
