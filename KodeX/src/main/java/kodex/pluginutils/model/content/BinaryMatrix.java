@@ -5,6 +5,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import kodex.model.I18N;
+import kodex.presenter.PresenterManager;
+
 /**
  * This class holds data in Matrix format. An BinaryMatrix consists of a 2D array [rows][cols]
  * containing elements of the type Integer.
@@ -33,6 +38,11 @@ public class BinaryMatrix extends AbstractMatrix<Integer> {
   @Override
   public boolean isValid(Object input) {
     if (input == null) {
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("Input is empty");
+      PresenterManager.showAlertDialog(alert);
       return false;
     }
     int bit = (Integer) input;

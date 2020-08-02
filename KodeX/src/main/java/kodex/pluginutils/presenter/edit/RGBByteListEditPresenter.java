@@ -19,6 +19,9 @@ import kodex.presenter.PresenterManager;
  * This class manages the edit view and is responsible for editing a RGB byte list.
  * 
  *  @author Raimon Gramlich
+ *  @author Patrick Spiesberger
+ *  
+ *  @version 1.0
  */
 public class RGBByteListEditPresenter extends ChainLinkEditPresenter {
   

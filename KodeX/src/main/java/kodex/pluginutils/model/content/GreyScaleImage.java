@@ -5,7 +5,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.WritableImage;
+import kodex.model.I18N;
+import kodex.presenter.PresenterManager;
 
 /**
  * This class holds data in Image format. An GrayScaleImage consists of a
@@ -38,14 +42,29 @@ public class GreyScaleImage extends AbstractImage {
   @Override
   public boolean isValid(WritableImage input) {
     if (input == null) {
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("Input is empty");
+      PresenterManager.showAlertDialog(alert);
       return false;
     }
 
     if (input.getWidth() > MAX_IMAGE_WIDTH && MIN_IMAGE_WIDTH > input.getWidth()) {
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("File is too large");
+      PresenterManager.showAlertDialog(alert);
       return false;
     }
 
     if (input.getHeight() > MAX_IMAGE_HEIGHT && MIN_IMAGE_HEIGHT > input.getHeight()) {
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("File is too large");
+      PresenterManager.showAlertDialog(alert);
       return false;
     }
 

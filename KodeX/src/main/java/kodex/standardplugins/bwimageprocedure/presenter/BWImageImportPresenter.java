@@ -1,14 +1,22 @@
 package kodex.standardplugins.bwimageprocedure.presenter;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.Scanner;
+
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
@@ -24,28 +32,39 @@ import kodex.presenter.PresenterManager;
  * @version 1.0
  */
 public class BWImageImportPresenter extends ImportPresenter {
-
-  /** Converts an image to a writable image. */
-  private static WritableImage convertToFxImage(Image image) {
-    WritableImage wr = null;
-    if (image != null) {
-      wr = new WritableImage((int) image.getWidth(), (int) image.getHeight());
-      PixelWriter pw = wr.getPixelWriter();
-      for (int x = 0; x < image.getWidth(); x++) {
-        for (int y = 0; y < image.getHeight(); y++) {
-          pw.setArgb(x, y, image.getPixelReader().getArgb(x, y));
-        }
-      }
-    }
-    return wr;
-  }
   
+  /** The import button for encoding. */
+  @FXML
+  private Button encodeImportButton;
+  
+  /** The import button for decoding. */
+  @FXML
+  private Button decodeImportButton;
+
+  /** The image which is imported for encoding. */
   private WritableImage img;
 
+  /** The binary string which is imported for decoding. */
   private String binaryChain;
+  
+  /** The header to the binaryString containing information about what it encodes. */
+  private HashMap<String, Object> header;
+  
+  private static final String WIDTH_KEY = "width";
+  
+  private static final String HEIGHT_KEY = "height";
 
   public BWImageImportPresenter(ProcedurePlugin plugin) {
     super(plugin);
+  }
+  
+  @FXML
+  private void initialize() {
+    // language support   
+    encodeImportButton.textProperty()
+        .bind(I18N.createStringBinding("importexample.encode.importbutton"));
+    decodeImportButton.textProperty()
+        .bind(I18N.createStringBinding("importexample.decode.importbutton"));
   }
 
   @Override
@@ -67,29 +86,21 @@ public class BWImageImportPresenter extends ImportPresenter {
 
   @Override
   public void handleDecodeImport() {
-    File file = importFile("Dekodieren");
+    File file = importFile(false);
 
-    if (file == null) {
-      return;
-    }
-
-    try {
-      binaryChain = Files.readString(file.toPath());
-    } catch (IOException e) {
-      e.printStackTrace();
-      return;
-    }
-
-    if (validateDecodeImport()) {
-      procedureLayoutPresenter.switchToChainPresenter(false);
-    } else {
-      System.err.println("File content not valid.");
+    if (file != null) {
+      parseTextFile(file);
+      if (validateDecodeImport()) {
+        procedureLayoutPresenter.switchToChainPresenter(false);
+      } else {
+        System.err.println("File content not valid.");
+      }
     }
   }
 
   @Override
   public void handleEncodeImport() {
-    File file = importFile("Kodieren");
+    File file = importFile(true);
 
     if (file == null) {
       return;
@@ -99,7 +110,11 @@ public class BWImageImportPresenter extends ImportPresenter {
     if (validateEncodeImport()) {
       procedureLayoutPresenter.switchToChainPresenter(true);
     } else {
-      System.err.println("File content not valid.");
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("Invalid file (" + file.getName() +  "). Please try annother!");
+      PresenterManager.showAlertDialog(alert);
     }
   }
 
@@ -109,9 +124,18 @@ public class BWImageImportPresenter extends ImportPresenter {
    * @param type the type (i.e. Decode/Encode)
    * @return the chosen file
    */
-  private File importFile(String type) {
+  private File importFile(Boolean encoding) {
     FileChooser fc = new FileChooser();
-    fc.setTitle("Datei zum " + type + " auswählen.");
+    String propertyName;
+    
+    if (Boolean.TRUE.equals(encoding)) {
+      propertyName = "importexample.filechooser.encode.title";
+    } else {
+      propertyName = "importexample.filechooser.decode.title";
+    }
+    
+    fc.titleProperty().bind(I18N.createStringBinding(propertyName));
+    
     return PresenterManager.showOpenFileChooser(fc);
   }
 
@@ -141,5 +165,46 @@ public class BWImageImportPresenter extends ImportPresenter {
       return true;
     }
     return false;
+  }
+  
+  /** Converts an image to a writable image. */
+  private static WritableImage convertToFxImage(Image image) {
+    WritableImage wr = null;
+    if (image != null) {
+      wr = new WritableImage((int) image.getWidth(), (int) image.getHeight());
+      PixelWriter pw = wr.getPixelWriter();
+      for (int x = 0; x < image.getWidth(); x++) {
+        for (int y = 0; y < image.getHeight(); y++) {
+          pw.setArgb(x, y, image.getPixelReader().getArgb(x, y));
+        }
+      }
+    }
+    return wr;
+  }
+  
+  private void parseTextFile(File file) {
+    try (Scanner in = new Scanner(file)) {
+      
+      //header
+      header = new HashMap<>();
+      in.next("HEADER");
+      in.next(WIDTH_KEY);
+      int width = in.nextInt();
+      header.put(WIDTH_KEY, width);
+      in.next("unit-length");
+      int unitLength = in.nextInt();
+      header.put("unit-length", unitLength);
+      in.next(HEIGHT_KEY);
+      int height = in.nextInt();
+      header.put(HEIGHT_KEY, height);
+      
+      //content
+      in.next("CONTENT");
+      in.nextLine();
+      binaryChain = in.nextLine();
+
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } 
   }
 }

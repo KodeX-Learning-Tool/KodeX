@@ -5,7 +5,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.paint.Color;
+import kodex.model.I18N;
+import kodex.presenter.PresenterManager;
 
 /**
  * This class holds data in Matrix format. An RGBMatrix consists of a 2D array [rows][cols]
@@ -31,25 +35,33 @@ public class RGBMatrix extends AbstractMatrix<Color> {
   public boolean isValid(Object input) {
     RGBMatrix object;
 
+    Alert alert = new Alert(AlertType.ERROR);
+    alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+    alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+    
     if (input == null) {
-      System.out.println("Invalid import, no import to validate");
+      alert.setContentText("Input is empty");
+      PresenterManager.showAlertDialog(alert);
       return false;
     }
 
     try {
       object = ((RGBMatrix) input);
     } catch (ClassCastException e) {
-      System.out.println("Invalid import, import is of wrong type");
+      alert.setContentText("Import is of wrong type");
+      PresenterManager.showAlertDialog(alert);
       return false;
     }
 
     if (object.getWidth() > MAX_MATRIX_WIDTH || MIN_MATRIX_WIDTH > object.getWidth()) {
-      System.out.println("Ivalid import, wrong dimensions");
+      alert.setContentText("Wrong dimensions");
+      PresenterManager.showAlertDialog(alert);
       return false;
     }
 
     if (object.getHeight() > MAX_MATRIX_HEIGHT || MIN_MATRIX_HEIGHT > object.getHeight()) {
-      System.out.println("Ivalid import, wrong dimensions");
+      alert.setContentText("Wrong dimensions");
+      PresenterManager.showAlertDialog(alert);
       return false;
     }
 

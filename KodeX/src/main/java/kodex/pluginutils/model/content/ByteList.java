@@ -6,6 +6,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import kodex.model.I18N;
+import kodex.presenter.PresenterManager;
+
 /**
  * This class holds data in LinkedList format. An List consists of Strings.
  * Extending AbstractList, it adds validation and exporting capabilities to
@@ -26,14 +31,29 @@ public class ByteList extends AbstractList<String> {
   @Override
   public boolean isValid(Object input) {    
     if (input == null) {
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("Input is empty");
+      PresenterManager.showAlertDialog(alert);
       return false;
     }
     String byteValue = (String) input;
     
     if (byteValue.length() != 8) {
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("This is not a byte");
+      PresenterManager.showAlertDialog(alert);
       return false;
     }
     if (!byteValue.matches("[01]+")) {
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("This is not a byte");
+      PresenterManager.showAlertDialog(alert);
       return false;
     }
     return true;

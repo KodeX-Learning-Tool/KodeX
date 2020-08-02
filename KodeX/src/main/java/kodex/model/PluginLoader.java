@@ -19,9 +19,10 @@ import kodex.plugininterface.Pluginable;
 import kodex.plugininterface.ProcedurePlugin;
 
 /**
- * This class is the central class of the plugin mechanism. It allows the user to add new plugins,
- * remove old ones and to activate or deactivate plugins. As a singleton, this class allows the user
- * to access it from anywhere and return the list of activated plugins on request.
+ * This class is the central class of the plugin mechanism. It allows the user
+ * to add new plugins, remove old ones and to activate or deactivate plugins. As
+ * a singleton, this class allows the user to access it from anywhere and return
+ * the list of activated plugins on request.
  *
  * @author Patrick Spiesberger
  * @author Raimon Gramlich
@@ -29,7 +30,7 @@ import kodex.plugininterface.ProcedurePlugin;
  */
 public class PluginLoader {
 
-  /* current instance of PluginLoader  */
+  /* current instance of PluginLoader */
   private static PluginLoader instance = new PluginLoader();
 
   /**
@@ -42,30 +43,36 @@ public class PluginLoader {
   }
 
   /* List of all plugins */
-  private ObservableList<Pluginable> allPlugins = FXCollections.observableArrayList();
+  private ObservableList<Pluginable> 
+    allPlugins = FXCollections.observableArrayList();
 
   /* List of all enabled plugins */
-  private ObservableList<Pluginable> enabledPlugins = FXCollections.observableArrayList();
+  private ObservableList<Pluginable> 
+    enabledPlugins = FXCollections.observableArrayList();
 
   /* List of all procedure plugins */
-  private ObservableList<ProcedurePlugin> allProcedurePlugins = FXCollections.observableArrayList();
+  private ObservableList<ProcedurePlugin> 
+    allProcedurePlugins = FXCollections.observableArrayList();
 
   /* List of all enabled procedure plugins */
-  private ObservableList<ProcedurePlugin> enabledProcedurePlugins =
-      FXCollections.observableArrayList();
+  private ObservableList<ProcedurePlugin> 
+    enabledProcedurePlugins = FXCollections.observableArrayList();
 
   /* ServiceLoader which loads all implementations of the Pluginable class */
   private ServiceLoader<Pluginable> pluginLoader;
 
   /* ServiceLoader which loads all implementations of the ProcedurePlugin class */
   private ServiceLoader<ProcedurePlugin> procedureLoader;
-  
+
   /** The Constant PROTECTED_SYMBOL which is a prefix for default plugins. */
   private static final String PROTECTED_SYMBOL = "#";
-  
-  /** The Constant ESCAPE_CHARACTER used if a non default-plugin uses the protected symbol. */
+
+  /**
+   * The Constant ESCAPE_CHARACTER used if a non default-plugin uses the protected
+   * symbol.
+   */
   private static final String ESCAPE_CHARACTER = "/";
-  
+
   /** The path to enabled_plugins.txt. */
   private Path pluginListPath = new File(this.getClass().getResource("plugins").getPath() 
       + "enabled_plugins.txt").toPath();
@@ -105,10 +112,10 @@ public class PluginLoader {
    */
   public void deactivatePlugin(Pluginable plugin) {
     enabledPlugins.remove(plugin);
-    
+
     // removes the plugin from enabled_plugins.txt
-    removeFromPluginList(plugin);  
-    
+    removeFromPluginList(plugin);
+
     // removes the equivalent procedure plugin if it exists
     for (ProcedurePlugin p : allProcedurePlugins) {
       if (p.pluginNameProperty().get().equals(plugin.pluginNameProperty().get())) {
@@ -143,7 +150,7 @@ public class PluginLoader {
   public ObservableList<Pluginable> getPlugins() {
     return allPlugins;
   }
-  
+
   /**
    * Gets the default plugin names.
    *
@@ -166,7 +173,7 @@ public class PluginLoader {
     for (ProcedurePlugin plugin : procedureLoader) {
       allProcedurePlugins.add(plugin);
     }
-    
+
     // enables the plugins according to the enabled_plugins.txt
     loadEnabledPluginList();
   }
@@ -183,14 +190,12 @@ public class PluginLoader {
       String[] files = file.list();
 
       if (files.length > 0) {
-        File[] flist =
-            file.listFiles(
-                new FileFilter() {
-                  @Override
-                  public boolean accept(File file) {
-                    return file.getPath().toLowerCase().endsWith(".jar");
-                  }
-                }); // only load .jar files
+        File[] flist = file.listFiles(new FileFilter() {
+          @Override
+          public boolean accept(File file) {
+            return file.getPath().toLowerCase().endsWith(".jar");
+          }
+        }); // only load .jar files
 
         urls = new URL[flist.length];
 
@@ -221,11 +226,15 @@ public class PluginLoader {
     procedureLoader = ServiceLoader.load(ProcedurePlugin.class, urlLoader);
 
     for (Pluginable plugin : pluginLoader) {
-      allPlugins.add(plugin);
+      if (!getPlugins().contains(plugin)) {
+        allPlugins.add(plugin);
+      }
     }
 
     for (ProcedurePlugin plugin : procedureLoader) {
-      allProcedurePlugins.add(plugin);
+      if (!getPlugins().contains(plugin)) {
+        allProcedurePlugins.add(plugin);
+      }
     }
   }
 
@@ -234,7 +243,8 @@ public class PluginLoader {
    *
    * @param plugin : plugin which should be removed
    */
-  // Note: is added again when the program starts If you want to delete it, you have to remove it
+  // Note: is added again when the program starts If you want to delete it, you
+  // have to remove it
   // from the plugin folder
   public void removePlugin(Pluginable plugin) {
     deactivatePlugin(plugin);
@@ -250,24 +260,25 @@ public class PluginLoader {
       }
     }
   }
-  
+
   /**
-   * Loads the list of enabled plugins and activates them.
-   * It also adds the default plugins to the default plugin list.
+   * Loads the list of enabled plugins and activates them. It also adds the
+   * default plugins to the default plugin list.
    */
-  private void loadEnabledPluginList() {      
+  private void loadEnabledPluginList() {
     try (BufferedReader reader = Files.newBufferedReader(pluginListPath)) {
       String line;
-      
-      while ((line = reader.readLine()) != null) {        
-        // add the default plugins to a separate list and remove escape character if necessary
+
+      while ((line = reader.readLine()) != null) {
+        // add the default plugins to a separate list and remove escape character if
+        // necessary
         if (line.startsWith(PROTECTED_SYMBOL)) {
           line = line.replaceFirst(PROTECTED_SYMBOL, "");
           defaultPluginNameList.add(line);
         } else if (line.startsWith(ESCAPE_CHARACTER.concat(PROTECTED_SYMBOL))) {
           line = line.replaceFirst(ESCAPE_CHARACTER.concat(PROTECTED_SYMBOL), PROTECTED_SYMBOL);
         }
-        
+
         // activates each plugin in the list
         for (Pluginable plugin : allPlugins) {
           if (plugin.pluginNameProperty().get().equals(line)) {
@@ -276,12 +287,12 @@ public class PluginLoader {
           }
         }
       }
-      
+
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
-  
+
   /**
    * Write to the plugin list text file.
    *
@@ -289,7 +300,7 @@ public class PluginLoader {
    */
   private void writeToPluginList(List<String> pluginList) {
     try (BufferedWriter writer = Files.newBufferedWriter(pluginListPath)) {
-      for (String pluginName: pluginList) {
+      for (String pluginName : pluginList) {
         writer.write(pluginName);
         writer.newLine();
       }
@@ -297,43 +308,42 @@ public class PluginLoader {
       e.printStackTrace();
     }
   }
-    
+
   /**
    * Reads the plugin list text file.
    *
    * @return the list of enabled plugins
    */
-  private List<String> readPluginList() {    
+  private List<String> readPluginList() {
     List<String> pluginList = new ArrayList<>();
-   
+
     try {
       pluginList = Files.readAllLines(pluginListPath);
     } catch (IOException e) {
       e.printStackTrace();
     }
-    
+
     return pluginList;
   }
-  
+
   private void addToPluginList(Pluginable plugin) {
     // adds the plugin to the enabled_plugins.txt
     List<String> pluginList = readPluginList();
     String pluginName = plugin.pluginNameProperty().get();
-    
+
     // add escape character if necessary
     if (!defaultPluginNameList.contains(pluginName) && pluginName.startsWith(PROTECTED_SYMBOL)) {
       pluginName = ESCAPE_CHARACTER.concat(pluginName);
     }
-    
+
     // check if list already contains entry
-    if (!pluginList.contains(pluginName) 
-        && !defaultPluginNameList.contains(pluginName)) {
+    if (!pluginList.contains(pluginName) && !defaultPluginNameList.contains(pluginName)) {
       pluginList.add(pluginName);
     }
-    
+
     writeToPluginList(pluginList);
   }
-  
+
   /**
    * Delete the plugin entry from the plugin list text file.
    *

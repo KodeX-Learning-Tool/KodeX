@@ -5,7 +5,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
+
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.paint.Color;
+import kodex.model.I18N;
+import kodex.presenter.PresenterManager;
 
 /**
  * This class holds data in LinkedList format. An RGBList consists of colors. Extending
@@ -22,18 +27,26 @@ public class RGBList extends AbstractList<Color> {
   public boolean isValid(Object input) {
     RGBList object;
 
+    Alert alert = new Alert(AlertType.ERROR);
+    alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+    alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+    
     if (input == null) {
-      System.out.println("Invalid import, no import to validate");
+      alert.setContentText("Input is empty");
+      PresenterManager.showAlertDialog(alert);
       return false;
     }
 
     try {
       object = ((RGBList) input);
       if (object.size() > MAX_LIST_LENGTH) {
+        alert.setContentText("File is too large");
+        PresenterManager.showAlertDialog(alert);
         return false;
       }
     } catch (ClassCastException e) {
-      System.out.println("Invalid import, import is of wrong type");
+      alert.setContentText("Input is of wrong type");
+      PresenterManager.showAlertDialog(alert);
       return false;
     }
 

@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.DecMatrix;
-import kodex.pluginutils.presenter.edit.RGBMatrixEditPresenter;
+import kodex.pluginutils.presenter.edit.DecMatrixEditPresenter;
 import kodex.pluginutils.presenter.header.RGBMatrixHeaderPresenter;
 
 /** The Class DecMatrixChainLinkPresenter manages the view for the dec matrix.
@@ -65,7 +65,7 @@ public class DecMatrixChainLinkPresenter extends ChainLinkPresenter {
   public DecMatrixChainLinkPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
-    chainLinkEditPresenter = new RGBMatrixEditPresenter(this); //TODO: anpassen
+    chainLinkEditPresenter = new DecMatrixEditPresenter(this);
     content = new DecMatrix(3, 3);
     chainLinkHeaderPresenter = new RGBMatrixHeaderPresenter(this.getContent());
   }
