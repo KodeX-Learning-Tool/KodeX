@@ -119,14 +119,6 @@
                                                    </children>
                                                 </AnchorPane>
                                              </children>
-                                             <columnConstraints>
-                                                <ColumnConstraints />
-                                                <ColumnConstraints />
-                                             </columnConstraints>
-                                             <rowConstraints>
-                                                <RowConstraints />
-                                                <RowConstraints />
-                                             </rowConstraints>
                                           </GridPane>
                                           <Region styleClass="network__controll_spring" />
                                           <HBox>
