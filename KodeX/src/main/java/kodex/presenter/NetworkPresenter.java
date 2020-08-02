@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.concurrent.CompletableFuture;
 import javafx.application.Platform;
 import javafx.css.PseudoClass;
@@ -62,6 +63,15 @@ public class NetworkPresenter extends Presenter {
   @FXML private Button hostButton;
   
   @FXML private Button cancelButton;
+  
+  /** The server socket which can be accessed for closing. */
+  private ServerSocket serverSocket;
+
+  /** The boolean receiving indicates whether the program is currently waiting for a connection. */
+  private boolean receiving;
+  
+  /** The boolean canceling indicates that closing the connection prematurely was intended. */
+  private boolean canceling;
 
   /**
    * Creates a new NetworkPresenter with a reference to the PresenterManger for its superclass.
@@ -200,6 +210,29 @@ public class NetworkPresenter extends Presenter {
     PresenterManager.showAlertDialog(alert);
   }
   
+  
+  /**
+   * This Method is called when the user clicks on the Cancel button.
+   * The connection is closed forcebly.
+   */
+  @FXML
+  private void handleCancel() {
+    
+    // only close socket if it is waiting
+    if (receiving) {
+      try {
+        canceling = true;
+        serverSocket.close();
+        showInformationDialog("Connection closed.");
+        setConnectDisable(false);
+        setHostDisable(false);
+        canceling = false;
+      } catch (IOException e) {
+        showErrorDialog("Couldn't close the connection.");
+      }
+    }
+
+  }
 
   /**
    * This Method is called when the user clicks on the item to send a file. The Connection is
@@ -207,6 +240,7 @@ public class NetworkPresenter extends Presenter {
    *
    * @throws IOException faulty stream TODO try-catch or throws?
    */
+  @FXML
   public void handleSend() throws IOException {
 
     boolean invalid = false;
@@ -322,6 +356,8 @@ public class NetworkPresenter extends Presenter {
     ipConnectTextField.setDisable(disable);
     portConnectTextField.setDisable(disable);
     connectButton.setDisable(disable);
+
+    receiving = disable;
   }
 
   // TODO create util for this?
