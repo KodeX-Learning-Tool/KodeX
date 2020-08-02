@@ -40,7 +40,7 @@ public class DecMatrix extends AbstractMatrix<Integer> {
   public boolean isValid(Object input) {
     if (input == null) {
       Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
       alert.setContentText("File is empty");
       PresenterManager.showAlertDialog(alert);
@@ -53,7 +53,7 @@ public class DecMatrix extends AbstractMatrix<Integer> {
     }
     
     Alert alert = new Alert(AlertType.ERROR);
-    alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+    alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
     alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
     alert.setContentText("This is not a byte");
     PresenterManager.showAlertDialog(alert);

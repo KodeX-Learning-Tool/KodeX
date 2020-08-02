@@ -67,7 +67,7 @@ public class IndexPage {
 
     } else {
       Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
       alert.setContentText("no suitable filter found");
       PresenterManager.showAlertDialog(alert);
@@ -139,7 +139,7 @@ public class IndexPage {
 
     } catch (IOException e) {
       Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
       alert.setContentText("Relevancy could not be increased");
       PresenterManager.showAlertDialog(alert);
