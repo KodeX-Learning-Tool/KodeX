@@ -61,7 +61,7 @@ public abstract class Presenter implements IPresenter {
 
     } catch (IOException e) {
       Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
       alert.setContentText("Failed creating view for " + fileName + ".fxml.");
       PresenterManager.showAlertDialog(alert);

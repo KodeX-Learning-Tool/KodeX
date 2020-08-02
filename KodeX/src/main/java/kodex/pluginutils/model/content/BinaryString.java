@@ -31,7 +31,7 @@ public class BinaryString extends AbstractString {
   public boolean isValid(String input) {
     if (input == null) {
       Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.error.title"));
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
       alert.setContentText("Input is empty");
       PresenterManager.showAlertDialog(alert);
