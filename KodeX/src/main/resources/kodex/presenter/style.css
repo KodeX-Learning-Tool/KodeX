@@ -576,7 +576,15 @@
 
 .chainlink {
 	-fx-background-color: -fx-base-color;
+	-fx-alignment: top-center;
+}
+
+.chainlink__content_container {
 	-fx-padding: 0 40 0 40;
+}
+
+.chainlink__spring {
+	-fx-min-height: 40;
 }
 
 .chainlink__scrollbar {
@@ -595,9 +603,9 @@
 }
 
 .chainlink__hidden-label {
-    -fx-pref-width: 1px;
-    -fx-min-width: 1px;
-    -fx-max-width: 1px;
+    -fx-pref-width: 24px;
+    -fx-min-width: 24px;
+    -fx-max-width: 24px;
     -fx-font-family: "Monospaced";
     -fx-font-size: 24;
     -fx-wrap-text: true;

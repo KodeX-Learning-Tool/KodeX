@@ -2,7 +2,9 @@ package kodex.presenter;
 
 import java.io.File;
 import java.io.IOException;
+
 import org.kordamp.ikonli.javafx.FontIcon;
+
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +15,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane.Divider;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkHeaderPresenter;
@@ -38,7 +41,7 @@ public class ChainPresenter implements IPresenter {
    * @author Raimon Gramlich
    * @version 1.0
    */
-  private class ChainItem extends BorderPane {
+  private class ChainItem extends VBox {
 
     /** The Label for displaying the name of the chain link. */
     @FXML private Label titleLabel;
@@ -47,7 +50,7 @@ public class ChainPresenter implements IPresenter {
     @FXML private BorderPane chainLinkPane;
 
     /** The BorderPane containing the interactions and content as well as header. */
-    @FXML private BorderPane chainLinkContainer;
+    @FXML private BorderPane chainlinkContent;
 
     /** The VBox containing information like the header and the export button. */
     @FXML private BorderPane informationBox;
@@ -63,21 +66,30 @@ public class ChainPresenter implements IPresenter {
 
     /** The edit button. */
     @FXML private Button editButton;
-
-    /** The BorderPane which is displayed when the content is hidden. */
-    @FXML private BorderPane hiddenPane;
+    
+    /** The VBox containing the chainlink contents. */
+    @FXML private VBox chainlinkContainer;
 
     /** The Label which is displayed when the content is hidden. */
     @FXML private Label hiddenLabel;
+    
+    /** The BorderPane containing the hideButton. */
+    @FXML private BorderPane hideButtonPane;
 
     /** This Boolean represents the state of the chain item. */
     private boolean hidden;
-
+    
+    /** The min width of the chainlink container when the contents are shown. */
+    private static final double SHOW_MIN_CONTAINER_WIDTH = 360;
+    
+    /** The min width of the chainlink container when the contents are hidden. */
+    private static final double HIDDEN_MIN_CONTAINER_WIDTH = 80;
+    
     /** The IconLiteral of the hidden-icon. */
-    private String hiddenIcon = "mdi-chevron-down";
+    private String hiddenIcon = "mdi-plus";
 
     /** The IconLiteral of the expanded-icon. */
-    private String shownIcon = "mdi-chevron-right";
+    private String shownIcon = "mdi-window-minimize";
 
     /** The reference to the ChainLinkPresenter. */
     private ChainLinkPresenter chainLinkPresenter;
@@ -146,6 +158,8 @@ public class ChainPresenter implements IPresenter {
     @FXML
     private void initialize() {
       // titleLabel.setText("Kodierungsstufe: " + chainLinkPresenter.getName());
+      
+      chainlinkContainer.setMinWidth(SHOW_MIN_CONTAINER_WIDTH);
 
       // add language support
       informationTitledPane
@@ -164,10 +178,10 @@ public class ChainPresenter implements IPresenter {
               I18N.createStringBinding("chainlinktemplate.hiddenlabel")
                   .concat(" " + chainLinkName));
 
-      // bind the visibility to the managed property and hide the hiddenPane
+      // bind the visibility to the managed property and hide the hiddenLabel
       chainLinkPane.visibleProperty().bind(chainLinkPane.managedProperty());
-      hiddenPane.visibleProperty().bind(hiddenPane.managedProperty());
-      hiddenPane.setManaged(false);
+      hiddenLabel.visibleProperty().bind(hiddenLabel.managedProperty());
+      hiddenLabel.setManaged(false);
 
       ChainLinkHeaderPresenter header = chainLinkPresenter.getChainLinkHeader();
 
@@ -177,7 +191,7 @@ public class ChainPresenter implements IPresenter {
       }
 
       // display the chain link content
-      chainLinkContainer.setCenter(chainLinkPresenter.getView());
+      chainlinkContent.setCenter(chainLinkPresenter.getView());
 
       // disables the edit button if there is no edit presenter for the chain link
       if (chainLinkPresenter.getChainLinkEditPresenter() == null) {
@@ -191,6 +205,14 @@ public class ChainPresenter implements IPresenter {
      */
     private void toggleHide() {
       if (hidden) {
+        
+        //put hide/show button into right of its BorderPane
+        Node hideButton = hideButtonPane.getCenter();
+        hideButtonPane.setCenter(null);
+        hideButtonPane.setRight(hideButton);
+        
+        chainlinkContainer.setMinWidth(SHOW_MIN_CONTAINER_WIDTH);
+        
         // change the icon
         hideButtonIcon.setIconLiteral(shownIcon);
 
@@ -198,19 +220,27 @@ public class ChainPresenter implements IPresenter {
         this.setMaxWidth(chainLinkPane.getMaxWidth());
 
         // show chain item content and hide the hidden pane
-        hiddenPane.setManaged(false);
+        hiddenLabel.setManaged(false);
         chainLinkPane.setManaged(true);
         hidden = false;
 
       } else {
+        
+        //put hide/show button into center of its BorderPane
+        Node hideButton = hideButtonPane.getRight();
+        hideButtonPane.setRight(null);
+        hideButtonPane.setCenter(hideButton);
+            
+        chainlinkContainer.setMinWidth(HIDDEN_MIN_CONTAINER_WIDTH);
+        
         // change the icon
         hideButtonIcon.setIconLiteral(hiddenIcon);
 
         // force the chain item to be thinner
-        this.setMaxWidth(hiddenPane.getPrefWidth());
+        this.setMaxWidth(hiddenLabel.getPrefWidth());
 
         // hide chain item content and show the hidden pane
-        hiddenPane.setManaged(true);
+        hiddenLabel.setManaged(true);
         chainLinkPane.setManaged(false);
         hidden = true;
       }
@@ -292,7 +322,8 @@ public class ChainPresenter implements IPresenter {
 
   /** Initializes the view-object created by the FXMLLoader. */
   @FXML
-  private void initialize() {}
+  private void initialize() {
+  }
 
   /**
    * This method jumps to the Chain Link with the given ID.
