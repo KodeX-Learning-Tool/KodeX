@@ -4,9 +4,11 @@ import java.io.File;
 import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableRow;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -94,9 +96,17 @@ public class PluginMenuPresenter extends Presenter {
     // get selected table row
     Pluginable plugin = pluginTable.getSelectionModel().getSelectedItem();
     if (plugin == null) {
-      System.out.println("No plugin selected.");
-    } else if (!defaultPlugins.contains(plugin.pluginNameProperty().get())) {
-      System.out.println("Default Plugins can't be removed.");
+      Alert alert = new Alert(AlertType.INFORMATION);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.information"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.operation.invalid"));
+      alert.setContentText("No plugin selected.");
+      PresenterManager.showAlertDialog(alert);
+    } else if (defaultPlugins.contains(plugin.pluginNameProperty().get())) {
+      Alert alert = new Alert(AlertType.INFORMATION);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.information"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.operation.invalid"));
+      alert.setContentText("Default plugins can't be removed.");
+      PresenterManager.showAlertDialog(alert);
     } else {
       pluginLoader.removePlugin(plugin);
     }
