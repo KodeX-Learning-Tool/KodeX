@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -174,7 +175,7 @@ public class ProcedureLayoutPresenter extends Presenter {
   private class OverviewItem extends Button {
 
     /** An icon or a thumb nail representing a chain link. */
-    private Image thumbNail;
+    @FXML private ImageView thumbnail;
 
     /** The abbreviation of the chain link name. It is displayed if there is no symbol. */
     private String chainLinkNameAbbreviation;
@@ -194,6 +195,8 @@ public class ProcedureLayoutPresenter extends Presenter {
     OverviewItem(ChainLinkPresenter chainLinkPresenter, int id) {
       this.id = id;
       this.chainLinkPresenter = chainLinkPresenter;
+      
+      this.chainLinkNameAbbreviation = chainLinkPresenter.getName().substring(0, 1);
 
       // loads the template file
       try {
@@ -221,19 +224,12 @@ public class ProcedureLayoutPresenter extends Presenter {
      */
     @FXML
     private void initialize() {
-
-      if (thumbNail != null) {
-        // displays the icon / thumb nail
-        // gets a screenshot of the content for the thumbnail
-        Image thumbnail = chainLinkPresenter.getView().snapshot(null, null);
-        
-        //TODO: Set overview image
-        
-        this.setText("");
-      } else {
-        // displays a text instead
-        this.setText(chainLinkNameAbbreviation);
-      }
+      
+      thumbnail.setPreserveRatio(true);
+      thumbnail.fitHeightProperty().bind(this.heightProperty().subtract(16));
+      thumbnail.fitWidthProperty().bind(this.widthProperty().subtract(16));
+      thumbnail.setImage(chainLinkPresenter.getView().snapshot(null, null));
+      
     }
   }
 
