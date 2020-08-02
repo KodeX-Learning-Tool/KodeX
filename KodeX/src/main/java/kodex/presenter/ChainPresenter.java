@@ -165,7 +165,8 @@ public class ChainPresenter implements IPresenter {
      */
     @FXML
     private void initialize() {
-      // titleLabel.setText("Kodierungsstufe: " + chainLinkPresenter.getName());
+      titleLabel.textProperty().bind(I18N.createStringBinding("chainlinktemplate.stage")
+          .concat(" " + chainLinkPresenter.getName()));
       
       chainlinkContainer.setMinWidth(SHOW_MIN_CONTAINER_WIDTH);
 
@@ -183,7 +184,7 @@ public class ChainPresenter implements IPresenter {
       hiddenLabel
           .textProperty()
           .bind(
-              I18N.createStringBinding("chainlinktemplate.hiddenlabel")
+              I18N.createStringBinding("chainlinktemplate.stage")
                   .concat(" " + chainLinkName));
 
       // bind the visibility to the managed property and hide the hiddenLabel
