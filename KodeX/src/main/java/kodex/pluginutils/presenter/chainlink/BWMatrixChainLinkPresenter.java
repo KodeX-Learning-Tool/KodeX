@@ -33,6 +33,7 @@ public class BWMatrixChainLinkPresenter extends ChainLinkPresenter {
      * @param id the id of the button
      */
     MatrixButton(String text, int id) {
+      this.getStyleClass().add("matrix__button");
       this.setText(text);
       this.setOnAction(e -> {
         selectedElementID = id;
@@ -40,7 +41,7 @@ public class BWMatrixChainLinkPresenter extends ChainLinkPresenter {
       });
     }
   }
-
+  
   /** The chain link name. */
   private static final String CHAIN_LINK_NAME = "Binär-Matrix";
 
