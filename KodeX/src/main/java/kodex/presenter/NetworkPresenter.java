@@ -182,7 +182,7 @@ public class NetworkPresenter extends Presenter {
           } catch (IOException e) {
             // the error message probably has to be adjusted,
             // since it seems most errors regarding sockets will be caught by one above 
-            System.out.println("Already opened");
+            System.out.println("Already created this socket.");
           } finally {
             try {
               serverSocket.close();
