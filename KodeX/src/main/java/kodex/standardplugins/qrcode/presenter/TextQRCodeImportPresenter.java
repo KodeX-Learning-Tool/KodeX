@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.HashMap;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -141,7 +140,7 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
    */
   private File importFile() {
     FileChooser fc = new FileChooser();
-    return fc.showOpenDialog(null);
+    return PresenterManager.showOpenFileChooser(fc);
   }
 
   @Override

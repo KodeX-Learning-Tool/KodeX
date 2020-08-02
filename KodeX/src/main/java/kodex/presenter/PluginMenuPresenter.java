@@ -70,7 +70,7 @@ public class PluginMenuPresenter extends Presenter {
     chooser.getExtensionFilters().add(new ExtensionFilter("JAR-Datei", "*.jar"));
 
     // add the plugin located at the given path
-    File file = chooser.showOpenDialog(null);
+    File file = PresenterManager.showOpenFileChooser(chooser);
     if (file != null) {
       PluginLoader.getInstance().loadExternalPlugin(file);
     } else {
