@@ -43,20 +43,17 @@ public class PluginLoader {
   }
 
   /* List of all plugins */
-  private ObservableList<Pluginable> 
-    allPlugins = FXCollections.observableArrayList();
+  private ObservableList<Pluginable> allPlugins = FXCollections.observableArrayList();
 
   /* List of all enabled plugins */
-  private ObservableList<Pluginable> 
-    enabledPlugins = FXCollections.observableArrayList();
+  private ObservableList<Pluginable> enabledPlugins = FXCollections.observableArrayList();
 
   /* List of all procedure plugins */
-  private ObservableList<ProcedurePlugin> 
-    allProcedurePlugins = FXCollections.observableArrayList();
+  private ObservableList<ProcedurePlugin> allProcedurePlugins = FXCollections.observableArrayList();
 
   /* List of all enabled procedure plugins */
-  private ObservableList<ProcedurePlugin> 
-    enabledProcedurePlugins = FXCollections.observableArrayList();
+  private ObservableList<ProcedurePlugin> enabledProcedurePlugins =
+      FXCollections.observableArrayList();
 
   /* ServiceLoader which loads all implementations of the Pluginable class */
   private ServiceLoader<Pluginable> pluginLoader;
