@@ -66,8 +66,8 @@ public class PluginMenuPresenter extends Presenter {
   private void handleAddPlugin() {
     // create new FileChooser
     FileChooser chooser = new FileChooser();
-    chooser.setTitle("Plugin zum importieren auswählen.");
-    chooser.getExtensionFilters().add(new ExtensionFilter("JAR-Datei", "*.jar"));
+    chooser.titleProperty().bind(I18N.createStringBinding("pluginpage.import.title"));
+    chooser.getExtensionFilters().add(new ExtensionFilter(I18N.get("files.jar"), "*.jar"));
 
     // add the plugin located at the given path
     File file = PresenterManager.showOpenFileChooser(chooser);
