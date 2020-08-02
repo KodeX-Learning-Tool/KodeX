@@ -12,6 +12,7 @@ import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.content.LetterString;
 import kodex.pluginutils.model.content.TupleString;
+import kodex.presenter.PresenterManager;
 
 /**
  * This class is the presenter for the import of the run length encoding procedure (RLE).
@@ -107,7 +108,7 @@ public class RLEImportPresenter extends ImportPresenter {
   private File importFile(String type) {
     FileChooser fc = new FileChooser();
     fc.setTitle("Datei zum " + type + " auswählen.");
-    return fc.showOpenDialog(null);
+    return PresenterManager.showOpenFileChooser(fc);
   }
 
   @Override

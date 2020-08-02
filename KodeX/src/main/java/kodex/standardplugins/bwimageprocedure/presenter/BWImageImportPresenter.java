@@ -14,6 +14,7 @@ import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.content.BinaryString;
 import kodex.pluginutils.model.content.ColorImage;
+import kodex.presenter.PresenterManager;
 
 /**
  * This class is responsible for managing the import of the black-and-white image or a binary
@@ -111,7 +112,7 @@ public class BWImageImportPresenter extends ImportPresenter {
   private File importFile(String type) {
     FileChooser fc = new FileChooser();
     fc.setTitle("Datei zum " + type + " auswählen.");
-    return fc.showOpenDialog(null);
+    return PresenterManager.showOpenFileChooser(fc);
   }
 
   @Override
