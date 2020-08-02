@@ -2,7 +2,7 @@ package kodex.pluginutils.presenter.chainlink;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
@@ -49,7 +49,7 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
   private int selectedElementID;
 
   /** The matrix grid pane. */
-  private GridPane matrixPane;
+  private TilePane matrixPane;
 
   /** The ID of the last element marked. */
   private int lastElementMarked = NOT_MARKED;
@@ -68,7 +68,7 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
     chainLinkEditPresenter = new RGBMatrixEditPresenter(this);
     chainLinkHeaderPresenter = new RGBMatrixHeaderPresenter(this.getContent());
     
-    matrixPane = new GridPane();
+    matrixPane = new TilePane();
   }
 
   @Override
@@ -135,6 +135,8 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
   public void updateView() {
     RGBMatrix matrix = (RGBMatrix) content;
     
+    matrixPane.setPrefColumns(matrix.getWidth());
+    matrixPane.setPrefHeight(matrix.getHeight());
     matrixPane.getChildren().clear();
     
     // create buttons for each element in the 2d array
@@ -143,7 +145,7 @@ public class RGBMatrixChainLinkPresenter extends ChainLinkPresenter {
         MatrixButton btn = new MatrixButton(
             colorToRGBString(matrix.get(i, j)), i + j * matrix.getWidth());
         
-        matrixPane.add(btn, i, j);
+        matrixPane.getChildren().add(btn);
       }
     }
     

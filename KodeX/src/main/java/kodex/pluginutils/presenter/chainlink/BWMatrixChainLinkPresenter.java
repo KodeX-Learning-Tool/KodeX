@@ -2,7 +2,7 @@ package kodex.pluginutils.presenter.chainlink;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
@@ -52,7 +52,7 @@ public class BWMatrixChainLinkPresenter extends ChainLinkPresenter {
   private int selectedElementID;
 
   /** The matrix grid pane. */
-  private GridPane matrixPane = new GridPane();
+  private TilePane matrixPane = new TilePane();
 
   /** The ID of the last element marked. */
   private int lastElementMarked = NOT_MARKED;
@@ -90,16 +90,24 @@ public class BWMatrixChainLinkPresenter extends ChainLinkPresenter {
 
   @Override
   public AnchorPane getView() {
-    AnchorPane chainLinkPane = new AnchorPane();
+    
     BinaryMatrix matrix = (BinaryMatrix) content;
     
+    matrixPane.setPrefColumns(matrix.getWidth());
+    matrixPane.setPrefHeight(matrix.getHeight());
+    matrixPane.getChildren().clear();
+
     // create buttons for each element in the 2d array
     for (int j = 0; j < matrix.getHeight(); j++) {
       for (int i = 0; i < matrix.getWidth(); i++) {
-        matrixPane.add(
-            new MatrixButton(matrix.get(i, j).toString(), i + j * matrix.getWidth()), i, j);
+        MatrixButton btn =
+            new MatrixButton(matrix.get(i, j).toString(), i + j * matrix.getWidth());
+
+        matrixPane.getChildren().add(btn);
       }
     }
+    
+    AnchorPane chainLinkPane = new AnchorPane();
 
     chainLinkPane.getChildren().add(matrixPane);
 
