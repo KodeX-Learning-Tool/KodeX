@@ -15,6 +15,8 @@ import java.util.concurrent.CompletableFuture;
 import javafx.application.Platform;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
@@ -171,6 +173,33 @@ public class NetworkPresenter extends Presenter {
 
     serverThread.start();
   }
+  
+  /**
+   * Shows an information window.
+   *
+   * @param message the message
+   */
+  private void showInformationDialog(String message) {
+    Alert alert = new Alert(AlertType.INFORMATION);
+    alert.titleProperty().bind(I18N.createStringBinding("alert.title.information"));
+    alert.headerTextProperty().bind(I18N.createStringBinding("alert.header.network"));
+    alert.setContentText(message);
+    PresenterManager.showAlertDialog(alert);
+  }
+  
+  /**
+   * Shows an error window.
+   *
+   * @param message the message
+   */
+  private void showErrorDialog(String message) {
+    Alert alert = new Alert(AlertType.ERROR);
+    alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+    alert.headerTextProperty().bind(I18N.createStringBinding("alert.header.network"));
+    alert.setContentText(message);
+    PresenterManager.showAlertDialog(alert);
+  }
+  
 
   /**
    * This Method is called when the user clicks on the item to send a file. The Connection is
