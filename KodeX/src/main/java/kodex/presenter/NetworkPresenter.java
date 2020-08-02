@@ -58,6 +58,8 @@ public class NetworkPresenter extends Presenter {
   @FXML private Button connectButton;
 
   @FXML private Button hostButton;
+  
+  @FXML private Button cancelButton;
 
   /**
    * Creates a new NetworkPresenter with a reference to the PresenterManger for its superclass.
@@ -274,6 +276,7 @@ public class NetworkPresenter extends Presenter {
     ipHostLbl.textProperty().bind(I18N.createStringBinding("networkpage.host.ip.lbl"));
     portHostLbl.textProperty().bind(I18N.createStringBinding("networkpage.host.port.lbl"));
     hostButton.textProperty().bind(I18N.createStringBinding("networkpage.host.button"));
+    cancelButton.textProperty().bind(I18N.createStringBinding("networkpage.host.button.cancel"));
 
     /*
      * Initialize the ip connect textfield.

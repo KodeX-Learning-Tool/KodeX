@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
@@ -63,6 +64,15 @@
                                                 <String fx:value="network__controll__connect" />
                                                 <String fx:value="network__controll__input" />
                                              </styleClass>
+                                             <columnConstraints>
+                                                <ColumnConstraints />
+                                                <ColumnConstraints />
+                                             </columnConstraints>
+                                             <rowConstraints>
+                                                <RowConstraints />
+                                                <RowConstraints />
+                                                <RowConstraints />
+                                             </rowConstraints>
                                           </GridPane>
                                           <Region styleClass="network__controll_spring" />
                                           <Button fx:id="connectButton" mnemonicParsing="false" onAction="#handleSend" styleClass="default-button--shadow" />
@@ -89,7 +99,7 @@
                                                 </AnchorPane>
                                                 <AnchorPane GridPane.rowIndex="1">
                                                    <children>
-                                                      <Label fx:id="portHostLbl"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                      <Label fx:id="portHostLbl" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <styleClass>
                                                             <String fx:value="network__controll__input__label" />
                                                             <String fx:value="network__controll__input__bottom" />
@@ -118,9 +128,23 @@
                                                    </children>
                                                 </AnchorPane>
                                              </children>
+                                             <columnConstraints>
+                                                <ColumnConstraints />
+                                                <ColumnConstraints />
+                                             </columnConstraints>
+                                             <rowConstraints>
+                                                <RowConstraints />
+                                                <RowConstraints />
+                                             </rowConstraints>
                                           </GridPane>
                                           <Region styleClass="network__controll_spring" />
-                                          <Button fx:id="hostButton" mnemonicParsing="false" onAction="#handleReceive" styleClass="default-button--shadow" />
+                                          <HBox>
+                                             <children>
+                                                <Button fx:id="hostButton" mnemonicParsing="false" onAction="#handleReceive" styleClass="default-button--shadow" />
+                                                <Region />
+                                                <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancel" styleClass="default-button--shadow" />
+                                             </children>
+                                          </HBox>
                                        </children>
                                     </VBox>
                                  </children>
