@@ -138,23 +138,22 @@ public class PluginMenuPresenter extends Presenter {
           return c.getValue().activatedProperty();
         });  
 
-    checkBoxColumn.setCellFactory(column -> {
-      return new CheckBoxTableCell<Pluginable, Boolean>() {
-
-        @Override
-        public void updateItem(Boolean item, boolean empty) {
-          super.updateItem(item, empty);
-
-          // disables check-boxes for default / protected plugins
-          TableRow<Pluginable> currentRow = getTableRow();
-          this.setDisable(false); // it is required to fit default state
-          if (currentRow != null && currentRow.getItem() != null && !empty
-              && defaultPlugins.contains(currentRow.getItem().pluginNameProperty().get())) {
-            this.setDisable(true);
-            this.getStyleClass().add("plugin__check-box-cell");
+    checkBoxColumn.setCellFactory(column ->
+        new CheckBoxTableCell<Pluginable, Boolean>() {
+    
+          @Override
+          public void updateItem(Boolean item, boolean empty) {
+            super.updateItem(item, empty);
+    
+            // disables check-boxes for default / protected plugins
+            TableRow<Pluginable> currentRow = getTableRow();
+            this.setDisable(false); // it is required to fit default state
+            if (currentRow != null && currentRow.getItem() != null && !empty
+                && defaultPlugins.contains(currentRow.getItem().pluginNameProperty().get())) {
+              this.setDisable(true);
+              this.getStyleClass().add("plugin__check-box-cell");
+            }
           }
-        }
-      };
     });
 
     // defines the name and description column
