@@ -94,17 +94,17 @@ public class NetworkPresenter extends Presenter {
    *
    * @throws IOException TODO throw or try-catch
    */
-  public void handleReceive() throws IOException {
-
-    // TODO cancel button
-
+  @FXML
+  private void handleReceive() {
     Runnable serverTask =
         () -> {
           /*
            * try to create a server based on the default port
            */
-          try (ServerSocket serverSocket = new ServerSocket(DefaultSettings.getPort())) {
-
+          try {
+            // doesn't use try-with-resources because otherwise serverSocket is not accessible
+            serverSocket = new ServerSocket(DefaultSettings.getPort());
+            
             /*
              * display local ip address and server port after server creation was successful
              */
@@ -154,6 +154,7 @@ public class NetworkPresenter extends Presenter {
             if (saveFile == null) {
 
               setConnectDisable(false);
+              setHostDisable(false);
               return;
             }
 
@@ -170,9 +171,25 @@ public class NetworkPresenter extends Presenter {
 
             // server finished and send can be re-enabled
             setConnectDisable(false);
+            setHostDisable(false);
 
+          } catch (SocketException e) {
+            // only show this if closing the connection was not intended
+            if (!canceling) {
+              // Alerts and Dialogs can only be shown on JavaFX Application Thread
+              Platform.runLater(() -> showErrorDialog("Failed receiving file."));
+            }
           } catch (IOException e) {
-            System.out.println("Already created this socket");
+            // the error message probably has to be adjusted,
+            // since it seems most errors regarding sockets will be caught by one above 
+            System.out.println("Already opened");
+          } finally {
+            try {
+              serverSocket.close();
+              receiving = false;
+            } catch (IOException e) {
+              Platform.runLater(() -> showErrorDialog("Couldn't close the connection."));
+            }
           }
         };
 
@@ -180,7 +197,9 @@ public class NetworkPresenter extends Presenter {
 
     // disable send button to prevent sending while having an open server
     setConnectDisable(true);
-
+    // also disables host since it doesn't make sense to open multiple listener connections 
+    setHostDisable(true);
+    
     serverThread.start();
   }
   
