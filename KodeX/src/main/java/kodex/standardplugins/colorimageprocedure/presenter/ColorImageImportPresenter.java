@@ -112,16 +112,11 @@ public class ColorImageImportPresenter extends ImportPresenter {
     File file = importFile(false, extensionFilters);
 
     if (file != null) {
-      parseTextFile(file);
+      if (!parseTextFile(file)) {
+        return;
+      }
       if (validateDecodeImport()) {
         procedureLayoutPresenter.switchToChainPresenter(false);
-      } else {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.titleProperty().bind(I18N.createStringBinding(ERROR_PROPERTY_KEY));
-        alert.headerTextProperty().bind(I18N.createStringBinding(INVALID_IMPORT_PROPERTY_KEY));
-        alert.setContentText("The chosen file (" + file.getName() 
-            + ") is not a text file with valid content.");
-        PresenterManager.showAlertDialog(alert);
       }
     }
   }
@@ -142,7 +137,7 @@ public class ColorImageImportPresenter extends ImportPresenter {
       if (width <= 0 || height <= 0) {
         Alert alert = new Alert(AlertType.ERROR);
         alert.titleProperty().bind(I18N.createStringBinding(ERROR_PROPERTY_KEY));
-        alert.headerTextProperty().bind(I18N.createStringBinding(INVALID_CONTENT_PROPERTY_KEY));
+        alert.headerTextProperty().bind(I18N.createStringBinding(INVALID_IMPORT_PROPERTY_KEY));
         alert.setContentText("The content has dimensions less or equal to 0.");
         PresenterManager.showAlertDialog(alert);
         return;
@@ -170,12 +165,6 @@ public class ColorImageImportPresenter extends ImportPresenter {
 
       if (validateEncodeImport()) {
         procedureLayoutPresenter.switchToChainPresenter(true);
-      } else {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.titleProperty().bind(I18N.createStringBinding(ERROR_PROPERTY_KEY));
-        alert.headerTextProperty().bind(I18N.createStringBinding(INVALID_IMPORT_PROPERTY_KEY));
-        alert.setContentText("The chosen file is not a image file with valid content.");
-        PresenterManager.showAlertDialog(alert);
       }
     }
   }
@@ -232,7 +221,7 @@ public class ColorImageImportPresenter extends ImportPresenter {
     return false;
   }
   
-  private void parseTextFile(File file) {
+  private boolean parseTextFile(File file) {
     try (Scanner in = new Scanner(file)) {
       
       //header
@@ -260,6 +249,8 @@ public class ColorImageImportPresenter extends ImportPresenter {
       alert.setContentText(
           "The file doesn't have a valid format. Check if the header or content has been damaged.");
       PresenterManager.showAlertDialog(alert);
+      
+      return false;
     } catch (FileNotFoundException e1) {
       Alert alert = new Alert(AlertType.ERROR);
       alert.titleProperty().bind(I18N.createStringBinding(ERROR_PROPERTY_KEY));
@@ -267,6 +258,10 @@ public class ColorImageImportPresenter extends ImportPresenter {
       alert.setContentText(
           "The content could not be parsed because the program couldn't find the file.");
       PresenterManager.showAlertDialog(alert);
+      
+      return false;
     } 
+    
+    return true;
   }
 }
