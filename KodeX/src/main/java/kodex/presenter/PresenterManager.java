@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import kodex.model.SideMenuTypes;
@@ -142,6 +143,16 @@ public class PresenterManager {
   public static File showSaveFileChooser(FileChooser fileChooser) {
     return fileChooser.showSaveDialog(rootStage);
   }
+  
+  /**
+   * Show the given DirectoryChooser.
+   *
+   * @param directoryChooser The DirectoryChooser object
+   * @return the chosen directory
+   */
+  public static File showDirectoryChooser(DirectoryChooser directoryChooser) {
+    return directoryChooser.showDialog(rootStage);
+  }
 
   /**
    * Sets the static root stage.
@@ -151,4 +162,6 @@ public class PresenterManager {
   public static void setRootStage(Stage rootStage) {
     PresenterManager.rootStage = rootStage;
   }
+
+
 }
