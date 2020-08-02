@@ -43,16 +43,20 @@ public class PluginLoader {
   }
 
   /* List of all plugins */
-  private ObservableList<Pluginable> allPlugins = FXCollections.observableArrayList();
+  private ObservableList<Pluginable> 
+    allPlugins = FXCollections.observableArrayList();
 
   /* List of all enabled plugins */
-  private ObservableList<Pluginable> enabledPlugins = FXCollections.observableArrayList();
+  private ObservableList<Pluginable> 
+    enabledPlugins = FXCollections.observableArrayList();
 
   /* List of all procedure plugins */
-  private ObservableList<ProcedurePlugin> allProcedurePlugins = FXCollections.observableArrayList();
+  private ObservableList<ProcedurePlugin> 
+    allProcedurePlugins = FXCollections.observableArrayList();
 
   /* List of all enabled procedure plugins */
-  private ObservableList<ProcedurePlugin> enabledProcedurePlugins = FXCollections.observableArrayList();
+  private ObservableList<ProcedurePlugin> 
+    enabledProcedurePlugins = FXCollections.observableArrayList();
 
   /* ServiceLoader which loads all implementations of the Pluginable class */
   private ServiceLoader<Pluginable> pluginLoader;
@@ -70,8 +74,8 @@ public class PluginLoader {
   private static final String ESCAPE_CHARACTER = "/";
 
   /** The path to enabled_plugins.txt. */
-  private Path pluginListPath = new File(this.getClass().getResource("plugins").getPath() + "enabled_plugins.txt")
-      .toPath();
+  private Path pluginListPath = new File(this.getClass().getResource("plugins").getPath() 
+      + "enabled_plugins.txt").toPath();
 
   /** The list of default plugin names. */
   private List<String> defaultPluginNameList = new ArrayList<>();
