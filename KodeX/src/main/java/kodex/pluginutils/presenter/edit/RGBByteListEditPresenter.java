@@ -4,12 +4,16 @@ import java.util.function.UnaryOperator;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.pluginutils.model.content.RGBByteList;
+import kodex.presenter.PresenterManager;
 
 /**
  * This class manages the edit view and is responsible for editing a RGB byte list.
@@ -18,6 +22,8 @@ import kodex.pluginutils.model.content.RGBByteList;
  */
 public class RGBByteListEditPresenter extends ChainLinkEditPresenter {
   
+  private static final int RGB_BINARY_LENGTH = 8;
+
   private RGBByteList content;
   
   private TextField redField;
@@ -77,6 +83,8 @@ public class RGBByteListEditPresenter extends ChainLinkEditPresenter {
     HBox blueBox = new HBox(blueLabel, blueField);
    
     view = new AnchorPane((new VBox(redBox, greenBox, blueBox)));
+    
+    content = (RGBByteList) chainLinkPresenter.getContent();
   }
 
   @Override
@@ -90,20 +98,47 @@ public class RGBByteListEditPresenter extends ChainLinkEditPresenter {
 
   @Override
   public void handleSubmit() {
-    content.getList().set(markID * unitLength, redField.getText());
-    content.getList().set(markID * unitLength + 1, greenField.getText());
-    content.getList().set(markID * unitLength + 2, blueField.getText());
-    
+    setBinaryColorString(markID * unitLength, redField.getText());
+    setBinaryColorString(markID * unitLength + 1, greenField.getText());
+    setBinaryColorString(markID * unitLength + 2, blueField.getText());
+
     chainLinkPresenter.updateChain();
   }
 
   @Override
   protected void updateMarkedElement() {
-    
     content = (RGBByteList) chainLinkPresenter.getContent();
     
     redField.setText(String.valueOf(content.get(markID * unitLength)));
     greenField.setText(String.valueOf(content.get(markID * unitLength + 1)));
     blueField.setText(String.valueOf(content.get(markID * unitLength + 2)));
+  }
+  
+  /**
+   * Validates and sets the binary color string.
+   *
+   * @param input the input string
+   * @return the string with leading zeros if necessary
+   */
+  private void setBinaryColorString(int index, String input) {
+    // strip leading zeros to check if the string is equal to or less than max length
+    input = input.replaceFirst("^0+(?!$)", "");
+    if (input.length() > RGB_BINARY_LENGTH) {
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText(
+          "RGB values range from 0 to 255." 
+              + " In Binary this means there can only be 8 digits without counting leading zeros.");
+      PresenterManager.showAlertDialog(alert);
+      
+      return;
+    } else if (input.length() < RGB_BINARY_LENGTH) {
+      while (input.length() < RGB_BINARY_LENGTH) {
+        input = "0".concat(input);
+      }
+    }
+    
+    content.getList().set(index, input);
   }
 }
