@@ -27,6 +27,13 @@ public class TextQRCodeProcedurePlugin extends ProcedurePlugin {
 
   /** Creates a new instance of the QRCodeProcedurePlugin. */
   public TextQRCodeProcedurePlugin() {
+
+  }
+  
+  /**
+   * Initialize the procedure plugin.
+   */
+  private void initialize() {
     this.chainLinks = new ChainLinkPresenter[2];
     
     CharacterStringToQRCode charStringToQRCode = new CharacterStringToQRCode();
@@ -39,6 +46,7 @@ public class TextQRCodeProcedurePlugin extends ProcedurePlugin {
   
   @Override
   public ImportPresenter createImportPresenter() {
+    initialize();
     return new TextQRCodeImportPresenter(this);
   }
 

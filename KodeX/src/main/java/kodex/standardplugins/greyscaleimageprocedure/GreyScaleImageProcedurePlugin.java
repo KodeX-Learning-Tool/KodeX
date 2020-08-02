@@ -31,6 +31,13 @@ public class GreyScaleImageProcedurePlugin extends ProcedurePlugin {
 
   /** Constructor of class GreyScaleImageProecedurePlugin. Sets all chainLinks */
   public GreyScaleImageProcedurePlugin() {
+
+  }
+  
+  /**
+   * Initialize the procedure plugin.
+   */
+  private void initialize() {
     chainLinks = new ChainLinkPresenter[4];
 
     GreyScaleImageToDecMatrix greyScaleImageToDecMatrix = new GreyScaleImageToDecMatrix();
@@ -49,9 +56,10 @@ public class GreyScaleImageProcedurePlugin extends ProcedurePlugin {
       chainLinks[i].setNext(chainLinks[i + 1]);
     }
   }
-
+  
   @Override
   public ImportPresenter createImportPresenter() {
+    initialize();
     return new GreyScaleImageImportPresenter(this);
   }
 
