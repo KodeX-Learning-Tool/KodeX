@@ -215,7 +215,7 @@ public class NetworkPresenter extends Presenter {
       fileChooser.setInitialDirectory(defaultDirectory);
     }
 
-    File sendFile = fileChooser.showOpenDialog(null);
+    File sendFile = PresenterManager.showOpenFileChooser(fileChooser);
 
     if (sendFile == null) {
       setHostDisable(false);

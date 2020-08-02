@@ -11,7 +11,11 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import kodex.model.I18N;
 import kodex.plugininterface.Content;
+import kodex.presenter.PresenterManager;
 
 /** 
  * This class holds a QRCode. A QRCode can be set via a File.
@@ -81,15 +85,6 @@ public class QRCode extends Content<File> {
     decodeFile(data);
   }
   
-  /**
-   * Sets the size for this Content's data. Use this for encoding.
-   * 
-   * @param size The dimensions to be used
-   */
-  public void setSize(int size) {
-    this.matrix = new BitMatrix(size);
-  }
-  
   @Override
   public boolean isValid(File input) {
     return decodeFile(input);
@@ -99,7 +94,7 @@ public class QRCode extends Content<File> {
     BufferedImageLuminanceSource source = null;
     try {
       source = new BufferedImageLuminanceSource(ImageIO.read(input));
-    } catch (IOException e1) {
+    } catch (IOException | NullPointerException e1) {
       return false;
     } 
     bitmap = new BinaryBitmap(new HybridBinarizer(source));
@@ -118,8 +113,12 @@ public class QRCode extends Content<File> {
     try {
       MatrixToImageWriter.writeToPath(matrix, "PNG", file.toPath());
     } catch (IOException | NullPointerException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      Alert alert = new Alert(AlertType.ERROR);
+      
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("Something went wrong creating this file");
+      PresenterManager.showAlertDialog(alert);
     }
   }
 

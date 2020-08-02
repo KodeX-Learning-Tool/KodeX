@@ -1,11 +1,14 @@
 package kodex.presenter;
 
+import java.io.File;
+import java.util.List;
 import java.util.Optional;
-
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import kodex.model.SideMenuTypes;
 
@@ -15,6 +18,7 @@ import kodex.model.SideMenuTypes;
  *
  * @author Leonhard Kraft
  * @author Yannick Neubert
+ * @author Raimon Gramlich
  * @version 1.0
  */
 public class PresenterManager {
@@ -101,12 +105,53 @@ public class PresenterManager {
   /**
    * Shows an alert dialog with the top level stage as the owner.
    *
-   * @param alert the Alert object
+   * @param alert The Alert object
    * @return the optional user input
    */
   public static Optional<ButtonType> showAlertDialog(Alert alert) {
     alert.initOwner(rootStage);
     return alert.showAndWait();
+  }
+  
+
+  /**
+   * Shows the given FileChooser for opening a file.
+   *
+   * @param fileChooser The FileChooser object
+   * @return the file to be opened
+   */
+  public static File showOpenFileChooser(FileChooser fileChooser) {
+    return fileChooser.showOpenDialog(rootStage);
+  }
+  
+  /**
+   * Shows the given FileChooser for opening multiple files.
+   *
+   * @param fileChooser The FileChooser object
+   * @return the list of selected files
+   */
+  public static List<File> showOpenMultipleFileChooser(FileChooser fileChooser) {
+    return fileChooser.showOpenMultipleDialog(rootStage);
+  }
+
+  /**
+   * Shows the given FileChooser for saving to a file.
+   *
+   * @param fileChooser The FileChooser object
+   * @return the file to be saved to
+   */
+  public static File showSaveFileChooser(FileChooser fileChooser) {
+    return fileChooser.showSaveDialog(rootStage);
+  }
+  
+  /**
+   * Show the given DirectoryChooser.
+   *
+   * @param directoryChooser The DirectoryChooser object
+   * @return the chosen directory
+   */
+  public static File showDirectoryChooser(DirectoryChooser directoryChooser) {
+    return directoryChooser.showDialog(rootStage);
   }
 
   /**
@@ -117,4 +162,6 @@ public class PresenterManager {
   public static void setRootStage(Stage rootStage) {
     PresenterManager.rootStage = rootStage;
   }
+
+
 }

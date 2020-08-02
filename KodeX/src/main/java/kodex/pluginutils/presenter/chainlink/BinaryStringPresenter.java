@@ -48,8 +48,8 @@ public class BinaryStringPresenter extends ChainLinkPresenter {
   public BinaryStringPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
-    chainLinkEditPresenter = new BinaryStringEditPresenter(this);
     content = new BinaryString();
+    chainLinkEditPresenter = new BinaryStringEditPresenter(this);
     chainLinkHeaderPresenter = new BinaryStringHeaderPresenter(this.getContent());
     
     prefix = new Text();

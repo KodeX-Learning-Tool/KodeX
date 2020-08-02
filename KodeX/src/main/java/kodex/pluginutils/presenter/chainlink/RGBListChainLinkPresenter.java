@@ -40,8 +40,8 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
   public RGBListChainLinkPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
-    chainLinkEditPresenter = new RGBListEditPresenter(this);
     content = new RGBList();
+    chainLinkEditPresenter = new RGBListEditPresenter(this);
     chainLinkHeaderPresenter = new RGBListHeaderPresenter(this.getContent());
     
     rgbListView = new ListView<>();

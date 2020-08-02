@@ -1,12 +1,17 @@
 package kodex.pluginutils.presenter.edit;
 
 import java.util.function.UnaryOperator;
+
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.AnchorPane;
+import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.pluginutils.model.content.BinaryString;
+import kodex.presenter.PresenterManager;
 
 /**
  * This class manages the edit view and is responsible for editing a binary string.
@@ -40,7 +45,7 @@ public class BinaryStringEditPresenter extends ChainLinkEditPresenter {
     
     // only allows 0 or 1 as input
     UnaryOperator<TextFormatter.Change> filter = change -> {
-      if (change.getControlNewText().matches("[0-1]+")) {
+      if (change.getControlNewText().matches("[0-1]*")) {
         return change;
       } else {
         return null;
@@ -53,6 +58,8 @@ public class BinaryStringEditPresenter extends ChainLinkEditPresenter {
     binaryStringArea.setTextFormatter(binaryFormatter);
     
     view = new AnchorPane(binaryStringArea);
+
+    content = (BinaryString) chainLinkPresenter.getContent();
   }
 
   @Override
@@ -66,26 +73,36 @@ public class BinaryStringEditPresenter extends ChainLinkEditPresenter {
 
   @Override
   public void handleSubmit() {
+    String input = binaryStringArea.getText();
+    // strip leading zeros to verify whether the number is in range
+    input = input.replaceFirst("^0+(?!$)", "");
     
-    if (binaryStringArea.getText().length() == unitLength) {
-      
-      // replace and concatenate each part 
-
-      String binaryString = content.getString();
-      String prefix = binaryString.substring(0, unitLength * markID);
-      String suffix = binaryString.substring((markID + 1) * 24);
-      
-      binaryString = prefix.concat(binaryStringArea.getText().concat(suffix));
-      
-      content.setString(binaryString);
-      
-      System.out.println(content.getString());
-      
-      chainLinkPresenter.updateChain();
-      
+    if (input.length() < unitLength) {
+      // add leading zeros
+      while (input.length() < unitLength) {
+        input = "0".concat(input);
+      }
     } else {
-      System.err.println("This binary sub string has to be " + unitLength + " digits long.");
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("This binary string has a max length of " + unitLength);
+      PresenterManager.showAlertDialog(alert);
+      
+      return;
     }
+    
+    // replace and concatenate each part 
+
+    String binaryString = content.getString();
+    String prefix = binaryString.substring(0, unitLength * markID);
+    String suffix = binaryString.substring((markID + 1) * 24);
+    
+    binaryString = prefix.concat(input.concat(suffix));
+    
+    content.setString(binaryString);
+    
+    chainLinkPresenter.updateChain();
   }
 
   @Override

@@ -136,7 +136,7 @@ public class BWImageImportPresenter extends ImportPresenter {
     
     fc.titleProperty().bind(I18N.createStringBinding(propertyName));
     
-    return fc.showOpenDialog(null);
+    return PresenterManager.showOpenFileChooser(fc);
   }
 
   @Override

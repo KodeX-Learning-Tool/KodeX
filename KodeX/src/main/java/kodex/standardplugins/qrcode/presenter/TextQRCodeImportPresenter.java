@@ -3,9 +3,12 @@ package kodex.standardplugins.qrcode.presenter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.HashMap;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import kodex.model.I18N;
@@ -14,6 +17,7 @@ import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.content.CharacterString;
 import kodex.pluginutils.model.content.QRCode;
+import kodex.presenter.PresenterManager;
 
 /**
  * This class imports an image for encoding or a string for decoding. Afterwards it prepares
@@ -22,7 +26,7 @@ import kodex.pluginutils.model.content.QRCode;
  * @author Yannick Neubert
  * @version 1.0
  */
-public class QRCodeImportPresenter extends ImportPresenter {
+public class TextQRCodeImportPresenter extends ImportPresenter {
 
   /** The import button for encoding. */
   @FXML
@@ -38,6 +42,12 @@ public class QRCodeImportPresenter extends ImportPresenter {
   /** The string which is imported for encoding. */
   private String string;
   
+  /** 
+   * The header to the QRCode containing meta-information like error correction level. 
+   * This feature is not yet implemented, it only serves as a guideline.
+   */
+  private HashMap<String, Object> header;
+  
   private static final int MAX_CHAR_ALPHANUMERICAL = 4296;
 
   /**
@@ -45,7 +55,7 @@ public class QRCodeImportPresenter extends ImportPresenter {
    *
    * @param plugin the procedure plugin reference
    */
-  public QRCodeImportPresenter(ProcedurePlugin plugin) {
+  public TextQRCodeImportPresenter(ProcedurePlugin plugin) {
     super(plugin);
   }
 
@@ -82,7 +92,12 @@ public class QRCodeImportPresenter extends ImportPresenter {
       if (validateDecodeImport()) {
         procedureLayoutPresenter.switchToChainPresenter(false);
       } else {
-        System.err.println("File content not valid.");
+        Alert alert = new Alert(AlertType.ERROR);
+        
+        alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+        alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+        alert.setContentText("File content not valid");
+        PresenterManager.showAlertDialog(alert);
       }
     }
   }
@@ -96,12 +111,22 @@ public class QRCodeImportPresenter extends ImportPresenter {
       try {
         string = Files.readString(file.toPath());
       } catch (IOException e) {
-        e.printStackTrace();
+        Alert alert = new Alert(AlertType.ERROR);
+        
+        alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+        alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+        alert.setContentText("File not valid");
+        PresenterManager.showAlertDialog(alert);
       }
-      if (validateEncodeImport()) {
+      if (string != null && validateEncodeImport()) {
         procedureLayoutPresenter.switchToChainPresenter(true);
       } else {
-        System.err.println("File content not valid.");
+        Alert alert = new Alert(AlertType.ERROR);
+        
+        alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+        alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+        alert.setContentText("File content not valid");
+        PresenterManager.showAlertDialog(alert);
       }
     }
 
@@ -115,16 +140,17 @@ public class QRCodeImportPresenter extends ImportPresenter {
    */
   private File importFile() {
     FileChooser fc = new FileChooser();
-    return fc.showOpenDialog(null);
+    return PresenterManager.showOpenFileChooser(fc);
   }
 
   @Override
   public boolean validateDecodeImport() {
     ChainLinkPresenter clp = plugin.getChainTail();
-
     QRCode content = new QRCode();
 
     if (content.isValid(qrcode)) {
+      HashMap<String, Object> map = new HashMap<>();
+      content.setHeader(map);
       clp.setContent(content);
       return true;
     }
@@ -139,6 +165,8 @@ public class QRCodeImportPresenter extends ImportPresenter {
     if (string.length() <= MAX_CHAR_ALPHANUMERICAL
         && content.isValid(string)) {
       content.setString(string);
+      HashMap<String, Object> map = new HashMap<>();
+      content.setHeader(map);
       clp.setContent(content);
       return true;
     }
