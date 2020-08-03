@@ -42,8 +42,6 @@ public class SettingsPresenter extends Presenter {
 
   @FXML private ChoiceBox<Locale> languageChoiceBox;
 
-  @FXML private ToggleSwitch darkModeSwitch;
-
   @FXML private TextField portTextField;
 
   @FXML private TextField pathTextField;
@@ -128,17 +126,6 @@ public class SettingsPresenter extends Presenter {
   }
 
   /**
-   * This Method is called when the Dark-Mode has been de-/activated. Changes the appearance of the
-   * application by changing the loaded css file.
-   */
-  @FXML
-  public void handleDarkModeToggle() {
-
-    // TODO switch label of switch
-    defaultSettings.setDarkMode(darkModeSwitch.isSelected());
-  }
-
-  /**
    * This Method is called when the user clicks on the item to restore the default settings. Resets
    * the settings.
    */
@@ -198,7 +185,6 @@ public class SettingsPresenter extends Presenter {
 
     lblHeader.textProperty().bind(I18N.createStringBinding("settingspage.header"));
     lblLanguage.textProperty().bind(I18N.createStringBinding("settingspage.language.header"));
-    lblDarkmode.textProperty().bind(I18N.createStringBinding("settingspage.darkmode.header"));
     lblDefaultPort.textProperty().bind(I18N.createStringBinding("settingspage.defaultport.header"));
     lblDefaultPortDescription
         .textProperty()
@@ -222,12 +208,6 @@ public class SettingsPresenter extends Presenter {
     // set initial language, works fine because select uses equals to compare and
     // therefore the instances don't have to be the same
     languageChoiceBox.getSelectionModel().select(I18N.getLocale());
-
-    /*
-     * Initialize the DarkMode switch setting.
-     */
-
-    darkModeSwitch.setSelected(defaultSettings.isDarkMode());
 
     /*
      * Initialize the port setting.
