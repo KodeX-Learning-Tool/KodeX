@@ -232,7 +232,7 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
     
     // remarks the view
     if (lastElementMarked !=  NOT_MARKED) {
-      mark(lastElementMarked / scaleFactor);
+      // mark(lastElementMarked / scaleFactor);
       
       // remember the new value
       int x = lastElementMarked % (int) Math.round(colorImageView.getImage().getWidth());
