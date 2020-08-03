@@ -17,7 +17,7 @@
                </graphic>
             </Button>
             <Region prefWidth="200.0" styleClass="editor__spring" />
-            <Label text="Bearbeiten:" />
+            <Label fx:id="editLabel" />
             <Region prefHeight="50.0" styleClass="editor__spring" />
             <Button fx:id="submitButton" mnemonicParsing="false" onAction="#handleSubmit" styleClass="default-button--shadow" />
          </children>
