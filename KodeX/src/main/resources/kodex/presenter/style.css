@@ -592,8 +592,7 @@
 }
 
 .chainlink__content__scrollbar {
-	-fx-max-height: 480;
-	-fx-max-width: 480;
+	-fx-alignment: center;
 }
 
 .chainlink__info > .title {
@@ -616,7 +615,7 @@
 /*Edit */
 
 .editor-pane {
-    -fx-background-color: -fx-root-color;
+    -fx-background-color: -fx-base-color;
     -fx-background-radius: 5;
     -fx-border-style: solid;
     -fx-border-color: black;
@@ -633,7 +632,7 @@
 
 .matrix__button {
 	-fx-background-color: -fx-base-color;
-
+	
 	-fx-border-style: none;
     -fx-border-width: 0;
     -fx-border-insets: 0;

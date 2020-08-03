@@ -2,7 +2,7 @@ package kodex.pluginutils.presenter.chainlink;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
@@ -10,10 +10,11 @@ import kodex.pluginutils.model.content.DecMatrix;
 import kodex.pluginutils.presenter.edit.DecMatrixEditPresenter;
 import kodex.pluginutils.presenter.header.RGBMatrixHeaderPresenter;
 
-/** The Class DecMatrixChainLinkPresenter manages the view for the dec matrix.
- * 
- *  @author Raimon Gramlich
- *  @author Patrick Spiesberger
+/**
+ * The Class DecMatrixChainLinkPresenter manages the view for the dec matrix.
+ *
+ * @author Raimon Gramlich
+ * @author Patrick Spiesberger
  */
 public class DecMatrixChainLinkPresenter extends ChainLinkPresenter {
 
@@ -34,10 +35,11 @@ public class DecMatrixChainLinkPresenter extends ChainLinkPresenter {
     MatrixButton(String text, int id) {
       this.getStyleClass().add("matrix__button");
       this.setText(text);
-      this.setOnAction(e -> {
-        selectedElementID = id;
-        handleMark();
-      });
+      this.setOnAction(
+          e -> {
+            selectedElementID = id;
+            handleMark();
+          });
     }
   }
 
@@ -51,7 +53,7 @@ public class DecMatrixChainLinkPresenter extends ChainLinkPresenter {
   private int selectedElementID;
 
   /** The matrix grid pane. */
-  private GridPane matrixPane = new GridPane();
+  private TilePane matrixPane = new TilePane();
 
   /** The ID of the last element marked. */
   private int lastElementMarked = NOT_MARKED;
@@ -82,23 +84,30 @@ public class DecMatrixChainLinkPresenter extends ChainLinkPresenter {
    * @param id the universal id
    * @param color the color to be set
    */
-  private void editMatrixElementColor(int id, Color color) {    
+  private void editMatrixElementColor(int id, Color color) {
     MatrixButton element = (MatrixButton) matrixPane.getChildren().get(id);
     element.setTextFill(color);
   }
 
   @Override
   public AnchorPane getView() {
-    AnchorPane chainLinkPane = new AnchorPane();
     DecMatrix matrix = (DecMatrix) content;
-    
+
+    matrixPane.setPrefColumns(matrix.getWidth());
+    matrixPane.setPrefHeight(matrix.getHeight());
+    matrixPane.getChildren().clear();
+
     // create buttons for each element in the 2d array
     for (int j = 0; j < matrix.getHeight(); j++) {
       for (int i = 0; i < matrix.getWidth(); i++) {
-        matrixPane.add(
-            new MatrixButton(String.valueOf(matrix.get(i, j)), i + j * matrix.getWidth()), i, j);
+        MatrixButton btn =
+            new MatrixButton(String.valueOf(matrix.get(i, j)), i + j * matrix.getWidth());
+
+        matrixPane.getChildren().add(btn);
       }
     }
+    
+    AnchorPane chainLinkPane = new AnchorPane();
 
     chainLinkPane.getChildren().add(matrixPane);
 
@@ -133,6 +142,6 @@ public class DecMatrixChainLinkPresenter extends ChainLinkPresenter {
   @Override
   public void updateView() {
     // TODO Auto-generated method stub
-    
+
   }
 }

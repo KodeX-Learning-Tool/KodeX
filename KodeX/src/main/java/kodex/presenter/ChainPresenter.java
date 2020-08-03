@@ -349,7 +349,12 @@ public class ChainPresenter implements IPresenter {
     // This sets the position of the vertical dividers between the Chain Links.
     // TODO: expand the chain item
 
-    Node chainItem = chainSplitPane.getItems().get(id);
+    ChainItem chainItem = (ChainItem) chainSplitPane.getItems().get(id);
+    
+    if (chainItem.hidden) {
+      //make desired chainlink visible if it is hidden
+      chainItem.handleHideChainLink();
+    }
 
     // calculate the hValue for the view port of the scroll pane
     double scrollPanewidth = viewScrollPane.getContent().getBoundsInLocal().getWidth();
