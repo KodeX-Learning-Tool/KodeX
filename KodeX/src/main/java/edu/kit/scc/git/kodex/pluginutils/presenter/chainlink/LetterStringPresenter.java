@@ -1,0 +1,47 @@
+package edu.kit.scc.git.kodex.pluginutils.presenter.chainlink;
+
+import edu.kit.scc.git.kodex.plugininterface.ChainLinkPresenter;
+import edu.kit.scc.git.kodex.plugininterface.ChainStep;
+import edu.kit.scc.git.kodex.pluginutils.model.content.LetterString;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+
+public class LetterStringPresenter extends ChainLinkPresenter {
+
+  /** The chain link name. */
+  private static final String CHAIN_LINK_NAME = "Buchstabenkette";
+
+  public LetterStringPresenter(
+      ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
+    super(previous, previousStep, nextStep);
+    this.content = new LetterString();
+  }
+
+  @Override
+  public AnchorPane getView() {
+
+    AnchorPane ap = new AnchorPane();
+    Label displaytext = new Label();
+
+    displaytext.setText(((LetterString) content).getLetterString());
+    ap.getChildren().add(displaytext);
+    return ap;
+  }
+
+  @Override
+  public String getName() {
+    return CHAIN_LINK_NAME;
+  }
+
+  @Override
+  protected void mark(int id) {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void updateView() {
+    // TODO Auto-generated method stub
+    
+  }
+}
