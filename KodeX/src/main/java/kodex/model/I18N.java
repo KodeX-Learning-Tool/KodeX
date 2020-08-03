@@ -1,18 +1,30 @@
 package kodex.model;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.FileAlreadyExistsException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
+
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.ObjectProperty;
@@ -146,9 +158,52 @@ public class I18N {
     return supportedLocales;
   }
 
-  private static void loadSupportedLocales()
-      throws FileNotFoundException, FileAlreadyExistsException {
+  private static void loadSupportedLocales() throws FileAlreadyExistsException, FileNotFoundException {
 
+    try {
+      System.out.println("A");
+      File jarFile = new File(I18N.class
+          .getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+      System.out.println(jarFile);
+      JarFile newJarFile = new JarFile(jarFile);
+      System.out.println(newJarFile);
+      System.out.println(newJarFile.getEntry("kodex"));
+      System.out.println(newJarFile.getEntry("kodex/model"));
+      System.out.println(newJarFile.getEntry("kodex/model/languages"));
+      System.out.println(newJarFile.getEntry("kodex/model/languages/I18N.class"));
+      ZipEntry a = newJarFile.getEntry("kodex/model/languages");
+    } catch (URISyntaxException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+    ArrayList<JarEntry> fileNameList = new ArrayList<>();
+    
+    Enumeration<JarEntry> jar;
+    try {
+      jar = new JarFile(
+          new File(I18N.class.getProtectionDomain().getCodeSource().getLocation().toURI())).entries();
+      
+      Iterator<JarEntry> it = jar.asIterator();
+      while (it.hasNext()) {     
+        JarEntry jarEntry = it.next();
+        String name = jarEntry.getName();
+       // System.out.println(name);
+        if (name.contains("kodex/model/languages/" + LANGUAGE_FILE_NAME)) {
+          System.out.println("Found: " + name);
+          fileNameList.add(jarEntry);
+        }
+      }
+    } catch (IOException | URISyntaxException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+
+    
     // File to the languages folder directory
     File languageDir = new File(I18N.class.getResource(LANGUAGE_FOLDER_NAME).getPath());
 
@@ -157,9 +212,9 @@ public class I18N {
      */
     FileFilter propertyFilter = file -> file.getPath().toLowerCase().endsWith(".properties");
 
-    File[] languageFiles = languageDir.listFiles(propertyFilter);
+    // File[] languageFiles = languageDir.listFiles(propertyFilter);
 
-    if (languageFiles.length <= 0) {
+    if (fileNameList.size() <= 0) {
       throw new FileNotFoundException("No language file has been found.");
     }
 
@@ -172,7 +227,7 @@ public class I18N {
     /*
      * Get Locale from all available files.
      */
-    for (File propertyFile : languageFiles) {
+    for (JarEntry propertyFile : fileNameList) {
 
       fileName = propertyFile.getName();
 
@@ -212,6 +267,8 @@ public class I18N {
       }
 
       fileLocale = new Locale(fileNameParts[LANGUAGE_SUFIX]);
+      
+      System.out.println(fileLocale);
 
       if (supportedLocales.contains(fileLocale)) {
 
