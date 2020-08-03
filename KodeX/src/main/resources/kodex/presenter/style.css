@@ -614,12 +614,19 @@
 
 /*Edit */
 
+.editor__spring {
+	-fx-min-height: 24;
+}
+
 .editor-pane {
     -fx-background-color: -fx-base-color;
     -fx-background-radius: 5;
-    -fx-border-style: solid;
-    -fx-border-color: black;
+    
     -fx-border-radius: 5;
+    
+    -fx-padding: 40 0 0 40;
+    
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 24, 0, 0, 0);
 }
 
 /*Chain layout */
