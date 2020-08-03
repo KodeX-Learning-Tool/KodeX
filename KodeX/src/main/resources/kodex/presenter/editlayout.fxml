@@ -19,7 +19,7 @@
             <Region prefWidth="200.0" styleClass="editor__spring" />
             <Label text="Bearbeiten:" />
             <Region prefHeight="50.0" styleClass="editor__spring" />
-            <Button mnemonicParsing="false" onAction="#handleSubmit" styleClass="default-button--shadow" text="Submit" />
+            <Button fx:id="submitButton" mnemonicParsing="false" onAction="#handleSubmit" styleClass="default-button--shadow" />
          </children>
       </VBox>
    </children>
