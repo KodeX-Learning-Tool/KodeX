@@ -16,9 +16,9 @@
                   <FontIcon iconLiteral="mdi-chevron-right" />
                </graphic>
             </Button>
-            <Region prefWidth="200.0" />
-            <Label fx:id="editLabel" />
-            <Region prefHeight="50.0" />
+            <Region prefWidth="200.0" styleClass="editor__spring" />
+            <Label text="Bearbeiten:" />
+            <Region prefHeight="50.0" styleClass="editor__spring" />
             <Button fx:id="submitButton" mnemonicParsing="false" onAction="#handleSubmit" styleClass="default-button--shadow" />
          </children>
       </VBox>
