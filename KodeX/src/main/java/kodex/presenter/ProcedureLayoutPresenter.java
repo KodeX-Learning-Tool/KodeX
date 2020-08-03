@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
@@ -45,6 +46,12 @@ public class ProcedureLayoutPresenter extends Presenter {
 
     /** The VBox which displays the concrete view for a chain link.. */
     @FXML private VBox editItemsBox;
+    
+    /** The submit button for applying the changes to the chain if they are valid. */
+    @FXML private Button submitButton;
+    
+    /** The header label of the editor. */
+    @FXML private Label editLabel;
 
     /** The Constant ANIMATION_LENGTH in millis. */
     private static final int ANIMATION_LENGTH = 500;
@@ -133,6 +140,10 @@ public class ProcedureLayoutPresenter extends Presenter {
     /** Initializes the view-object created by the FXMLLoader. Sets up a TranslateTransition. */
     @FXML
     private void initialize() {
+      // language support
+      editLabel.textProperty().bind(I18N.createStringBinding("editlayout.edit.lbl"));
+      submitButton.textProperty().bind(I18N.createStringBinding("editlayout.submitbutton"));
+      
       // calculate editor width from total procedure view width
       int editorWidth = (int) Math.round(procedureRootPane.getWidth() / EDITOR_RATIO);
 
