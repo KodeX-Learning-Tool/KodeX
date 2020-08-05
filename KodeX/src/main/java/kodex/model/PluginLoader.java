@@ -14,9 +14,11 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLDecoder;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ServiceLoader;
 import org.apache.commons.io.FileUtils;
 import javafx.collections.FXCollections;
@@ -316,9 +318,9 @@ public class PluginLoader {
 
     pluginLoader = ServiceLoader.load(Pluginable.class, urlLoader);
     procedureLoader = ServiceLoader.load(ProcedurePlugin.class, urlLoader);
-
-    boolean addedPlugin = false;
     
+    boolean addedPlugin = false;
+
     for (Pluginable plugin : pluginLoader) {
       if (!allPlugins.contains(plugin)) {
         allPlugins.add(plugin);
@@ -343,6 +345,15 @@ public class PluginLoader {
         allProcedurePlugins.add(plugin);
       }
     }
+    
+    // closes the class loader to free the files up for deleting
+    try {
+      urlLoader.close();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
   }
 
   /**
@@ -357,14 +368,28 @@ public class PluginLoader {
     deactivatePlugin(plugin);
     allPlugins.remove(plugin);
     enabledPlugins.remove(plugin);
-
+    String pluginName = plugin.pluginNameProperty().get();
+    
     for (ProcedurePlugin p : allProcedurePlugins) {
-      if (p.pluginNameProperty().get().equals(plugin.pluginNameProperty().get())
+      if (p.pluginNameProperty().get().equals(pluginName)
           && !enabledProcedurePlugins.contains(p)) {
-        allProcedurePlugins.remove(p);
+        // allProcedurePlugins.remove(p);
         enabledProcedurePlugins.remove(p);
         removeFromPluginList(p);
       }
+    }
+        
+    try {
+      if (!Files.deleteIfExists(Paths.get(pluginsDir.getPath(), pluginName + ".jar"))) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+        alert.headerTextProperty().bind(I18N.createStringBinding("alert.delete.failed"));
+        alert.setContentText("Couldn't delete " + pluginName 
+            + ",jar. Make sure that the name of the jar file matches the internal plugin name.");
+      }
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     }
   }
 

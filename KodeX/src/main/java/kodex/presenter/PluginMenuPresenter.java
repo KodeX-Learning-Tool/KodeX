@@ -2,10 +2,12 @@ package kodex.presenter;
 
 import java.io.File;
 import java.util.List;
+import java.util.Optional;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
@@ -108,7 +110,16 @@ public class PluginMenuPresenter extends Presenter {
       alert.setContentText("Default plugins can't be removed.");
       PresenterManager.showAlertDialog(alert);
     } else {
-      pluginLoader.removePlugin(plugin);
+      Alert alert = new Alert(AlertType.CONFIRMATION);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.confirmation"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.delete.plugin"));
+      alert.setContentText("Are you sure you want to delete " + plugin.pluginNameProperty().get()
+          + ".jar? The plugin will be permanently deleted from the plugins folder.");
+      Optional<ButtonType> result = PresenterManager.showAlertDialog(alert);
+      
+      if (result.isPresent() && result.get() == ButtonType.OK) {
+        pluginLoader.removePlugin(plugin);
+      }      
     }
   }
 
