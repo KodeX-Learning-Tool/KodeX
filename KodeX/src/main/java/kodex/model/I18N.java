@@ -146,6 +146,32 @@ public class I18N {
 
   private static void loadSupportedLocales()
       throws FileNotFoundException, FileAlreadyExistsException {
+       
+    CodeSource src = I18N.class.getProtectionDomain().getCodeSource();
+    if (src != null) {
+      URL jar = src.getLocation();
+      
+      try (ZipInputStream zip = new ZipInputStream(jar.openStream())) {
+        while (true) {
+          ZipEntry e;
+          e = zip.getNextEntry();
+
+          if (e == null) {
+            break;
+          }
+          String name = e.getName();
+          if (name.startsWith(LANGUAGE_FOLDER_PATH + LANGUAGE_FILE_NAME)
+              && name.endsWith(".properties")) {
+            /* Do something with this entry. */
+          }
+        }
+      } catch (IOException e1) {
+        e1.printStackTrace();
+      }
+    } else {
+      /* Fail... */
+    }
+    
     ArrayList<JarEntry> languageFiles = new ArrayList<>();
         
     // get a list of available language property files
@@ -174,13 +200,13 @@ public class I18N {
     if (languageFiles.isEmpty()) {
       throw new FileNotFoundException("No language file has been found.");
     }
-
+    
     String fileName;
     String[] fileNameParts;
     Locale fileLocale;
     boolean defaultFound = false;
     int exPos;
-
+    
     /*
      * Get Locale from all available files.
      */
@@ -202,7 +228,7 @@ public class I18N {
       fileName = fileName.substring(0, exPos);
 
       if (fileName.equals(LANGUAGE_FILE_NAME)) {
-
+        
         if (defaultFound) {
           Alert alert = new Alert(AlertType.ERROR);
           alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));

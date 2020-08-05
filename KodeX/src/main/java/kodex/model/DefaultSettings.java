@@ -31,9 +31,6 @@ public class DefaultSettings extends Settings {
   /* current Path where files are stored */
   private static String defaultPath = null;
 
-  /* current state of darkmode */
-  private static boolean isDarkModeEnabled;
-
   /* instance of property file */
   private static Properties prop = new Properties();
 
@@ -78,7 +75,6 @@ public class DefaultSettings extends Settings {
         setPort(0);
       }
       setDefaultPath(prop.getProperty("defaultPath"));
-      isDarkModeEnabled = !prop.getProperty("isDarkModeEnabled").equals("false");
 
     } catch (IOException e) {
       Alert alert = new Alert(AlertType.ERROR);
@@ -111,15 +107,6 @@ public class DefaultSettings extends Settings {
     return new Locale(prop.getProperty("local"));
   }
 
-  /**
-   * Returns state of dark mode.
-   *
-   * @return state of dark mode
-   */
-  public boolean isDarkMode() {
-    return isDarkModeEnabled;
-  }
-
   /** Resets all settings. */
   public void reset() {
     String url = "settings/Default_Settings.properties";
@@ -134,8 +121,6 @@ public class DefaultSettings extends Settings {
 
       setDefaultPath(prop.getProperty("defaultPath"));
 
-      setDarkMode(!prop.getProperty("isDarkModeEnabled").equals("false"));
-
     } catch (IOException e) {
       Alert alert = new Alert(AlertType.ERROR);
       alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
@@ -143,17 +128,6 @@ public class DefaultSettings extends Settings {
       alert.setContentText("Settings can not be loaded");
       PresenterManager.showAlertDialog(alert);
     }
-  }
-
-  /**
-   * Sets state of dark mode.
-   *
-   * @param enable : is darkmode enabled?
-   */
-  public void setDarkMode(boolean enable) {
-    isDarkModeEnabled = enable;
-    prop.setProperty("port", Boolean.toString(enable));
-    storeUserProperties();
   }
 
   /**

@@ -3,7 +3,6 @@ package kodex.presenter;
 import java.io.File;
 import java.util.Locale;
 import java.util.Optional;
-
 import javafx.collections.FXCollections;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
@@ -130,21 +129,21 @@ public class SettingsPresenter extends Presenter {
    */
   @FXML
   public void handleRestoreDefaultSettings() {
-    
+
     Alert alert = new Alert(AlertType.CONFIRMATION);
     alert.titleProperty().bind(I18N.createStringBinding("alert.title.confirmation"));
     alert.headerTextProperty().bind(I18N.createStringBinding("alert.settings.reset"));
-    alert.setContentText("Restore default settings? " 
+    alert.setContentText("Restore default settings? "
         + " All changes made to the settings will be lost.");
-    
+
     Optional<ButtonType> result = PresenterManager.showAlertDialog(alert);
-    
+
     if (result.isPresent() && result.get() == ButtonType.OK) {
       defaultSettings.reset();
 
       // initialize all settings again to display the reset
       this.initialize();
-    } 
+    }
   }
 
   /**
@@ -160,14 +159,14 @@ public class SettingsPresenter extends Presenter {
       // port number is invalid
 
       setErrorPseudoClass(portTextField, true);
-      
+
       Alert alert = new Alert(AlertType.ERROR);
       alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("The input is not a valid port. " 
+      alert.setContentText("The input is not a valid port. "
           + "The number has to be between 0 and 65535.");
       PresenterManager.showAlertDialog(alert);
-      
+
       return;
     }
 
