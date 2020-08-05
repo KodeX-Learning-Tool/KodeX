@@ -1,13 +1,16 @@
 package kodex.model;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.util.Locale;
 import java.util.Properties;
-
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import kodex.model.validator.PortNumValidator;
@@ -77,16 +80,77 @@ public class DefaultSettings extends Settings {
     return port;
   }
 
-  /* nessesary to read the property file */
-  private InputStream input = null;
-
+  /* necessary to read the property file */
+  private InputStreamReader input = null;
+  
+  /**
+   * Gets the current parent directory of the running jar.
+   *
+   * @return the parent path
+   * @throws UnsupportedEncodingException the unsupported encoding exception
+   */
+  private static String getParentPath() throws UnsupportedEncodingException {
+    URL url = DefaultSettings.class.getProtectionDomain().getCodeSource().getLocation();
+    String jarPath = URLDecoder.decode(url.getFile(), "UTF-8");
+    return new File(jarPath).getParentFile().getPath();
+  }
+  
   /**
    * Constructor of the DefaultSettings class. However, since this class is a singleton, only one
    * instance can be created
    */
   private DefaultSettings() {
-    String url = "settings/User_Settings.properties";
-    input = getClass().getResourceAsStream(url);
+    String fileSeparator = System.getProperty("file.separator");     
+    
+    File settingsDir;
+    try {
+      settingsDir = new File(getParentPath() + fileSeparator + (SETTINGS_DIRECTORY));
+
+      if (!settingsDir.exists() && settingsDir.mkdir()) {
+        System.out.println("Created settings folder!");
+      }
+    } catch (UnsupportedEncodingException e4) {
+      // TODO Auto-generated catch block
+      e4.printStackTrace();
+    }
+  
+    // makes a user settings property file with the default settings if necessary
+    try {
+      userSettingsFile = new File(getParentPath() + (fileSeparator.concat(USER_SETTINGS_PATH)));
+    } catch (UnsupportedEncodingException e3) {
+      // TODO Auto-generated catch block
+      e3.printStackTrace();
+    }
+    
+    if (!userSettingsFile.exists()) {
+      try {
+        System.out.println(DEFAULT_SETTINGS_PATH);
+        defaultProperties.load(DefaultSettings.class.getResourceAsStream(DEFAULT_SETTINGS_PATH));
+      } catch (IOException e2) {
+        // TODO Auto-generated catch block
+        e2.printStackTrace();
+      }
+      
+      // write the default values to the file
+      try {
+        FileOutputStream fileOut = new FileOutputStream(userSettingsFile);
+        defaultProperties.store(fileOut, null);
+      } catch (FileNotFoundException e1) {
+        // TODO Auto-generated catch block
+        e1.printStackTrace();
+      } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    }
+    
+    
+    try {
+      input = new InputStreamReader(new FileInputStream(userSettingsFile), "UTF-8");
+    } catch (UnsupportedEncodingException | FileNotFoundException e1) {
+      // TODO Auto-generated catch block
+      e1.printStackTrace();
+    }
 
     try {
       prop.load(input);
@@ -130,11 +194,8 @@ public class DefaultSettings extends Settings {
 
   /** Resets all settings. */
   public void reset() {
-    String url = "settings/Default_Settings.properties";
-    input = getClass().getResourceAsStream(url);
-
     try {
-      prop.load(input);
+      prop.load(DefaultSettings.class.getResourceAsStream(DEFAULT_SETTINGS_PATH));
 
       I18N.setLocale(new Locale(prop.getProperty("local")));
 
@@ -196,15 +257,12 @@ public class DefaultSettings extends Settings {
     storeUserProperties();
   }
 
-  /*
-   * Stores all properties changed by user
+  /**
+   * Stores all properties changed by the user in the external property file.
    */
   private void storeUserProperties() {
     try {
-      prop.store(
-          new FileOutputStream(
-              getClass().getResource("settings").getPath() + "/User_Settings.properties"),
-          null);
+      prop.store(new FileOutputStream(userSettingsFile), null);
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     } catch (IOException e) {
