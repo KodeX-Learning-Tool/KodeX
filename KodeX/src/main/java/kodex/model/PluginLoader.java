@@ -293,7 +293,7 @@ public class PluginLoader {
         Alert alert = new Alert(AlertType.WARNING);
         alert.titleProperty().bind(I18N.createStringBinding("alert.title.warning"));
         alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
-        alert.setContentText("No plugins which can be loaded.");
+        alert.setContentText("No external plugins which can be loaded.");
         PresenterManager.showAlertDialog(alert);
         
         return;
@@ -386,6 +386,7 @@ public class PluginLoader {
         alert.headerTextProperty().bind(I18N.createStringBinding("alert.delete.failed"));
         alert.setContentText("Couldn't delete " + pluginName 
             + ",jar. Make sure that the name of the jar file matches the internal plugin name.");
+        PresenterManager.showAlertDialog(alert);
       }
     } catch (IOException e) {
       // TODO Auto-generated catch block
