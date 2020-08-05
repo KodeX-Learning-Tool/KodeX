@@ -266,7 +266,7 @@ public class PluginLoader {
       } else {
         Alert alert = new Alert(AlertType.WARNING);
         alert.titleProperty().bind(I18N.createStringBinding("alert.title.warning"));
-        alert.titleProperty().bind(I18N.createStringBinding("alert.load.failed"));
+        alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
         alert.setContentText("No plugins which can be loaded.");
         PresenterManager.showAlertDialog(alert);
       }
@@ -279,7 +279,7 @@ public class PluginLoader {
       } catch (MalformedURLException e) {
         Alert alert = new Alert(AlertType.WARNING);
         alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-        alert.titleProperty().bind(I18N.createStringBinding("alert.load.failed"));
+        alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
         alert.setContentText("Plugin could not be loaded.");
         PresenterManager.showAlertDialog(alert);
       }
@@ -350,7 +350,7 @@ public class PluginLoader {
     } catch (IOException e) {
       Alert alert = new Alert(AlertType.ERROR);
       alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.titleProperty().bind(I18N.createStringBinding("alert.load.failed"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
       alert.setContentText("Couldn't read enabled_plugins.txt.");
       PresenterManager.showAlertDialog(alert);
     }
@@ -378,7 +378,7 @@ public class PluginLoader {
     } catch (IOException e) {
       Alert alert = new Alert(AlertType.ERROR);
       alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.titleProperty().bind(I18N.createStringBinding("alert.load.failed"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
       alert.setContentText("Couldn't read protected_plugins.txt.");
       PresenterManager.showAlertDialog(alert);
     }
