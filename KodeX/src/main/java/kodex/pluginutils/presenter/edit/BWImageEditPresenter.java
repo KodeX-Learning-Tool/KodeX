@@ -9,21 +9,21 @@ import javafx.scene.paint.Color;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
-import kodex.pluginutils.model.content.GreyScaleImage;
+import kodex.pluginutils.model.content.BlackWhiteImage;
 import kodex.presenter.PresenterManager;
 
 /**
- * This class manages the edit view and is responsible for editing a color image.
+ * This class manages the edit view and is responsible for editing a black & white image.
  * 
  *  @author Raimon Gramlich
  *  @author Patrick Spiesberger
  *  
  *  @version 1.0
  */
-public class GreyScaleImageEditPresenter extends ChainLinkEditPresenter {
+public class BWImageEditPresenter extends ChainLinkEditPresenter {
   
   /** The content which this class edits. */
-  private GreyScaleImage content;
+  private BlackWhiteImage content;
   
   /** The x coordinate of the selected pixel. */
   private int selectedX;
@@ -42,7 +42,7 @@ public class GreyScaleImageEditPresenter extends ChainLinkEditPresenter {
    *
    * @param chainLinkPresenter the chain link presenter
    */
-  public GreyScaleImageEditPresenter(ChainLinkPresenter chainLinkPresenter) {
+  public BWImageEditPresenter(ChainLinkPresenter chainLinkPresenter) {
     super(chainLinkPresenter);
     
     view = new AnchorPane(new ColorPicker());
@@ -59,7 +59,7 @@ public class GreyScaleImageEditPresenter extends ChainLinkEditPresenter {
   public void handleSubmit() {
     Color newColor = colorPicker.getValue();
     
-    if (newColor.getRed() != newColor.getGreen() || newColor.getGreen() != newColor.getBlue())  {
+    if (newColor != Color.BLACK & newColor != Color.WHITE)  {
       Alert alert = new Alert(AlertType.WARNING);
       alert.titleProperty().bind(I18N.createStringBinding("alert.title.warning"));
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
@@ -84,7 +84,7 @@ public class GreyScaleImageEditPresenter extends ChainLinkEditPresenter {
   }
   
   protected void updateMarkedElement() {
-    content = (GreyScaleImage) chainLinkPresenter.getContent();
+    content = (BlackWhiteImage) chainLinkPresenter.getContent();
     WritableImage img = content.getImage();
     selectedX = markID % (int) Math.round(img.getWidth());
     selectedY = (markID / (int) Math.round(img.getWidth()));

@@ -11,21 +11,21 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
-import kodex.pluginutils.model.content.GreyScaleImage;
-import kodex.pluginutils.presenter.edit.GreyScaleImageEditPresenter;
+import kodex.pluginutils.model.content.BlackWhiteImage;
+import kodex.pluginutils.presenter.edit.BWImageEditPresenter;
 import kodex.pluginutils.presenter.header.ColorImageHeaderPresenter;
 
-/** The Class GreyScaleImageChainLinkPresenter manages the view for the grey scale image.
+/** The Class BWImageChainLinkPresenter manages the view for the black & white image.
  * 
  *  @author Raimon Gramlich
  *  @author Patrick Spiesberger
  *  
  *  @version 1.0
  */
-public class GreyScaleImageChainLinkPresenter extends ChainLinkPresenter {
+public class BWImageChainLinkPresenter extends ChainLinkPresenter {
 
   /** The chain link name. */
-  private static final String CHAIN_LINK_NAME = "Graustufenbild";
+  private static final String CHAIN_LINK_NAME = "Schwarz/Weiß-Bild";
 
   /** The color image view displaying the image. */
   private ImageView colorImageView;
@@ -64,11 +64,11 @@ public class GreyScaleImageChainLinkPresenter extends ChainLinkPresenter {
    * @param previousStep the previous step
    * @param nextStep the next step
    */
-  public GreyScaleImageChainLinkPresenter(
+  public BWImageChainLinkPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
-    content = new GreyScaleImage();
-    chainLinkEditPresenter = new GreyScaleImageEditPresenter(this);
+    content = new BlackWhiteImage();
+    chainLinkEditPresenter = new BWImageEditPresenter(this);
     chainLinkHeaderPresenter = new ColorImageHeaderPresenter(this.getContent());
     
     colorImageView = new ImageView();
@@ -220,7 +220,7 @@ public class GreyScaleImageChainLinkPresenter extends ChainLinkPresenter {
   
   @Override
   public void updateView() {
-    image = ((GreyScaleImage) content).getImage();
+    image = ((BlackWhiteImage) content).getImage();
     
     scaleFactor = (int) (PREFFERED_IMAGE_SIZE / Math.max(image.getWidth(), image.getHeight()));
     
