@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.FileAlreadyExistsException;
-import java.security.CodeSource;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -17,9 +15,6 @@ import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.ObjectProperty;
@@ -146,31 +141,6 @@ public class I18N {
 
   private static void loadSupportedLocales()
       throws FileNotFoundException, FileAlreadyExistsException {
-       
-    CodeSource src = I18N.class.getProtectionDomain().getCodeSource();
-    if (src != null) {
-      URL jar = src.getLocation();
-      
-      try (ZipInputStream zip = new ZipInputStream(jar.openStream())) {
-        while (true) {
-          ZipEntry e;
-          e = zip.getNextEntry();
-
-          if (e == null) {
-            break;
-          }
-          String name = e.getName();
-          if (name.startsWith(LANGUAGE_FOLDER_PATH + LANGUAGE_FILE_NAME)
-              && name.endsWith(".properties")) {
-            /* Do something with this entry. */
-          }
-        }
-      } catch (IOException e1) {
-        e1.printStackTrace();
-      }
-    } else {
-      /* Fail... */
-    }
     
     ArrayList<JarEntry> languageFiles = new ArrayList<>();
         
