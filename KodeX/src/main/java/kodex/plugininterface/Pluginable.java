@@ -10,14 +10,14 @@ import javafx.beans.property.StringProperty;
  * @author Raimon Gramlich
  * @version 1.0
  */
-public interface Pluginable {
+public abstract class Pluginable {
 
   /**
    * Returns the state of the plugin Note: Whether the plugin is activated or not.
    *
    * @return state of the plugin
    */
-  public BooleanProperty activatedProperty();
+  public abstract BooleanProperty activatedProperty();
 
   /**
    * Returns the description of the plugin Note: The description is limited to a string and should
@@ -25,13 +25,35 @@ public interface Pluginable {
    *
    * @return description of the plugin
    */
-  public StringProperty pluginDescriptionProperty();
+  public abstract StringProperty pluginDescriptionProperty();
 
   /**
-   * Returns the name of the plugin Note: Make absolutely sure which symbols are allowed in a
+   * Returns the unique name of the plugin Note: Make absolutely sure which symbols are allowed in a
    * string.
    *
    * @return name of plugin
    */
-  public StringProperty pluginNameProperty();
+  public abstract StringProperty pluginNameProperty();
+  
+  @Override
+  public boolean equals(Object v) {
+    boolean retVal = false;
+    
+    // use the plugin name for comparing two plugins
+    if (v instanceof Pluginable) {
+      Pluginable ptr = (Pluginable) v;
+      retVal = ptr.pluginNameProperty().get().equals(this.pluginNameProperty().get());
+    }
+
+    return retVal;
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 7;
+    hash = 17 * hash
+        + (this.pluginNameProperty().get() != null ? this.pluginNameProperty().get().hashCode()
+            : 0);
+    return hash;
+  }
 }
