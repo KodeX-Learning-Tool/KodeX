@@ -290,12 +290,24 @@ public class PluginLoader {
     pluginLoader = ServiceLoader.load(Pluginable.class, urlLoader);
     procedureLoader = ServiceLoader.load(ProcedurePlugin.class, urlLoader);
 
+    boolean addedPlugin = false;
+    
     for (Pluginable plugin : pluginLoader) {
       if (!allPlugins.contains(plugin)) {
         allPlugins.add(plugin);
+        addedPlugin = true;
       }
     }
-
+    
+    // the plugin was already loaded
+    if (!addedPlugin) {
+      Alert alert = new Alert(AlertType.WARNING);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.warning"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.add.failed"));
+      alert.setContentText("Plugin with the same name is already loaded.");
+      PresenterManager.showAlertDialog(alert);
+    }
+    
     for (ProcedurePlugin plugin : procedureLoader) {
       if (!allProcedurePlugins.contains(plugin)) {
         allProcedurePlugins.add(plugin);
