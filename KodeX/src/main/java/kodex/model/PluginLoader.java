@@ -291,13 +291,13 @@ public class PluginLoader {
     procedureLoader = ServiceLoader.load(ProcedurePlugin.class, urlLoader);
 
     for (Pluginable plugin : pluginLoader) {
-      if (!getPlugins().contains(plugin)) {
+      if (!allPlugins.contains(plugin)) {
         allPlugins.add(plugin);
       }
     }
 
     for (ProcedurePlugin plugin : procedureLoader) {
-      if (!getPlugins().contains(plugin)) {
+      if (!allProcedurePlugins.contains(plugin)) {
         allProcedurePlugins.add(plugin);
       }
     }
