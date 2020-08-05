@@ -3,7 +3,6 @@ package kodex.model;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -19,6 +18,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ServiceLoader;
+import org.apache.commons.io.FileUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -82,8 +82,14 @@ public class PluginLoader {
 
   private static File enabledPluginsFile;
 
+  /** The plugins folder. */
+  private File pluginsDir;
+  
   /** The list of default plugin names. */
   private List<String> defaultPluginNameList = new ArrayList<>();
+
+  /** Whether the program is initalizing. */
+  private boolean pluginFolderCreated = false;
 
   /**
    * Gets the current parent directory of the running jar.
@@ -101,12 +107,12 @@ public class PluginLoader {
   private PluginLoader() {
     String fileSeparator = System.getProperty("file.separator");
 
-    File pluginsDir;
+    
     try {
       pluginsDir = new File(getParentPath() + fileSeparator + (PLUGIN_DIRECTORY));
 
       if (!pluginsDir.exists() && pluginsDir.mkdir()) {
-        System.out.println("Created plugins folder.");
+        pluginFolderCreated = true;
       }
     } catch (UnsupportedEncodingException e) {
       e.printStackTrace();
@@ -138,7 +144,11 @@ public class PluginLoader {
 
     }
 
-    load();
+    loadInternalPlugins();
+    loadExternalPlugins();
+    
+    // enables the plugins according to enabled_plugins.txt
+    loadEnabledPluginList();
   }
 
   /**
@@ -217,7 +227,7 @@ public class PluginLoader {
   }
 
   /** Loads only internal plugins. */
-  public void load() {
+  public void loadInternalPlugins() {
     pluginLoader = ServiceLoader.load(Pluginable.class);
     procedureLoader = ServiceLoader.load(ProcedurePlugin.class);
 
@@ -230,30 +240,44 @@ public class PluginLoader {
       allProcedurePlugins.add(plugin);
     }
 
-    // enables the plugins according to the enabled_plugins.txt and protected_plugins.txt
+    // enables the plugins according to protected_plugins.txt
     loadProtectedPluginList();
-    loadEnabledPluginList();
+  }
+  
+  /**
+   * Import an external plugin.
+   *
+   * @param externalPlugin : the external plugin to be imported
+   */
+  public void importPlugin(File externalPlugin) {
+    // copy to plugin folder
+    try {
+      FileUtils.copyFileToDirectory(externalPlugin, pluginsDir);
+
+      loadExternalPlugins();
+    } catch (IOException e) {
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.copy.failed"));
+      alert.setContentText("Couldn't copy plugin to plugins folder.");
+      PresenterManager.showAlertDialog(alert);
+    }
   }
 
   /**
-   * Loads external plugins.
-   *
-   * @param file : location of plugins
+   * Loads external plugins in the plugins folder.
    */
-  public void loadExternalPlugin(File file) {
+  public void loadExternalPlugins() {
     URL[] urls = null;
 
-    if (file.isDirectory()) { // file is a folder
-      String[] files = file.list();
+    
+    // load all plugins from the plugin folder
+    if (pluginsDir.isDirectory()) {
 
-      if (files.length > 0) {
-        File[] flist = file.listFiles(new FileFilter() {
-          @Override
-          public boolean accept(File file) {
-            return file.getPath().toLowerCase().endsWith(".jar");
-          }
-        }); // only load .jar files
+      // only load .jar files
+      File[] flist = pluginsDir.listFiles(file -> file.getPath().toLowerCase().endsWith(".jar"));
 
+      if (flist.length > 0) {
         urls = new URL[flist.length];
 
         for (int i = 0; i < flist.length; i++) {
@@ -263,26 +287,29 @@ public class PluginLoader {
             throw new Error("Malformed URL");
           }
         }
-      } else {
+      } else if (!pluginFolderCreated) {
         Alert alert = new Alert(AlertType.WARNING);
         alert.titleProperty().bind(I18N.createStringBinding("alert.title.warning"));
         alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
         alert.setContentText("No plugins which can be loaded.");
         PresenterManager.showAlertDialog(alert);
+        
+        return;
+      } else {
+        // plugin folder was newly created
+        pluginFolderCreated = false;
+        
+        return;
       }
 
     } else {
-      // if file is no directory
-      urls = new URL[1];
-      try {
-        urls[0] = file.toURI().toURL();
-      } catch (MalformedURLException e) {
-        Alert alert = new Alert(AlertType.WARNING);
-        alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-        alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
-        alert.setContentText("Plugin could not be loaded.");
-        PresenterManager.showAlertDialog(alert);
-      }
+      Alert alert = new Alert(AlertType.WARNING);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
+      alert.setContentText("Check if the plugin folder exists.");
+      PresenterManager.showAlertDialog(alert);
+      
+      return;
     }
 
     URLClassLoader urlLoader = new URLClassLoader(urls);
@@ -304,8 +331,11 @@ public class PluginLoader {
       Alert alert = new Alert(AlertType.WARNING);
       alert.titleProperty().bind(I18N.createStringBinding("alert.title.warning"));
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.add.failed"));
-      alert.setContentText("Plugin with the same name is already loaded.");
+      alert.setContentText("Either the file is not a valid plugin " 
+          + "or a plugin with the same name is already loaded.");
       PresenterManager.showAlertDialog(alert);
+      
+      return;
     }
     
     for (ProcedurePlugin plugin : procedureLoader) {

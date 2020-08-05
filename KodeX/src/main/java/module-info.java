@@ -15,6 +15,7 @@ module kodex.KodeX {
   requires java.desktop;
   requires com.google.zxing;
   requires com.google.zxing.javase;
+  requires commons.io;
   
 
   uses kodex.plugininterface.ProcedurePlugin;

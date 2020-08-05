@@ -74,7 +74,7 @@ public class PluginMenuPresenter extends Presenter {
     // add the plugin located at the given path
     File file = PresenterManager.showOpenFileChooser(chooser);
     if (file != null) {
-      PluginLoader.getInstance().loadExternalPlugin(file);
+      PluginLoader.getInstance().importPlugin(file);
     }
   }
 
@@ -84,7 +84,7 @@ public class PluginMenuPresenter extends Presenter {
    */
   @FXML
   public void handleRefreshPlugins() {
-    pluginLoader.load();
+    pluginLoader.loadExternalPlugins();
   }
 
   /**
