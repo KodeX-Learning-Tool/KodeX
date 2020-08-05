@@ -5,7 +5,6 @@ import javafx.scene.control.SplitPane;
 
 public class ChainSplitPane extends SplitPane {
   
-  
   /** 
    * {@inheritDoc}
    */
