@@ -10,10 +10,10 @@ import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.steps.BWImageToMatrix;
 import kodex.pluginutils.model.steps.BitListToBinaryString;
 import kodex.pluginutils.model.steps.MatrixToBitList;
+import kodex.pluginutils.presenter.chainlink.BWImageChainLinkPresenter;
 import kodex.pluginutils.presenter.chainlink.BWMatrixChainLinkPresenter;
 import kodex.pluginutils.presenter.chainlink.BinaryStringPresenter;
 import kodex.pluginutils.presenter.chainlink.BitListChainLinkPresenter;
-import kodex.pluginutils.presenter.chainlink.ColorImageChainLinkPresenter;
 import kodex.standardplugins.bwimageprocedure.presenter.BWImageImportPresenter;
 
 /**
@@ -44,7 +44,7 @@ public class BWImageProcedurePlugin extends ProcedurePlugin {
     BitListToBinaryString bitListToBinaryString = new BitListToBinaryString();
 
     chainLinks[0] =
-        new ColorImageChainLinkPresenter(null, null, bwImageToMatrix);
+        new BWImageChainLinkPresenter(null, null, bwImageToMatrix);
     chainLinks[1] = 
         new BWMatrixChainLinkPresenter(chainLinks[0], bwImageToMatrix, matrixToBitList);
     chainLinks[2] =

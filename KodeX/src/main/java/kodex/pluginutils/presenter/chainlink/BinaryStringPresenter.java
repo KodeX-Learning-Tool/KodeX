@@ -78,7 +78,7 @@ public class BinaryStringPresenter extends ChainLinkPresenter {
   @Override
   protected void mark(int id) {
     lastElementMarked = id;
-    int unitLength = (int) content.getHeader().get("unit-length");
+    int unitLength = 1; //Length of a bit
     
     prefix.setText(binaryString.substring(0, Math.max(0, unitLength * id)));
     markedText.setText(binaryString.substring(unitLength * id, unitLength * id + unitLength));    
