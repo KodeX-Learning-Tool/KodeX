@@ -12,7 +12,7 @@ import javafx.beans.property.SimpleBooleanProperty;
  * @author Leonhard Kraft
  * @version 1.0
  */
-public abstract class ProcedurePlugin implements Pluginable, Comparable<ProcedurePlugin> {
+public abstract class ProcedurePlugin extends Pluginable implements Comparable<ProcedurePlugin> {
 
   /** The BooleanProperty activated stores the state of the procedure. */
   protected final BooleanProperty activated = new SimpleBooleanProperty(false);
@@ -20,6 +20,28 @@ public abstract class ProcedurePlugin implements Pluginable, Comparable<Procedur
   @Override
   public BooleanProperty activatedProperty() {
     return activated;
+  }
+  
+  @Override
+  public boolean equals(Object v) {
+    boolean retVal = false;
+    
+    // use the plugin name for comparing two plugins
+    if (v instanceof ProcedurePlugin) {
+      ProcedurePlugin ptr = (ProcedurePlugin) v;
+      retVal = ptr.pluginNameProperty().get().equals(this.pluginNameProperty().get());
+    }
+
+    return retVal;
+  }
+  
+  @Override
+  public int hashCode() {
+    int hash = 7;
+    hash = 17 * hash
+        + (this.pluginNameProperty().get() != null ? this.pluginNameProperty().get().hashCode()
+            : 0);
+    return hash;
   }
 
   @Override
