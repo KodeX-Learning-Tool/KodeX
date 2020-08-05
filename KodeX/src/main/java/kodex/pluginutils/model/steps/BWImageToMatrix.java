@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.BinaryMatrix;
-import kodex.pluginutils.model.content.ColorImage;
+import kodex.pluginutils.model.content.BlackWhiteImage;
 
 /**
  * Step from Image (black & white) to Matrix (bit) bidirectional.
@@ -19,7 +19,7 @@ public class BWImageToMatrix implements ChainStep {
   @SuppressWarnings("unchecked")
   @Override
   public void decode(Content<?> right, Content<?> left) {
-    ColorImage leftimg = (ColorImage) left;
+    BlackWhiteImage leftimg = (BlackWhiteImage) left;
     BinaryMatrix rightmtx = (BinaryMatrix) right;
 
     int width = (int) rightmtx.getHeader().get("width");
@@ -42,7 +42,7 @@ public class BWImageToMatrix implements ChainStep {
   @SuppressWarnings("unchecked")
   @Override
   public void encode(Content<?> left, Content<?> right) {
-    ColorImage leftimg = (ColorImage) left;
+    BlackWhiteImage leftimg = (BlackWhiteImage) left;
     BinaryMatrix rightmtx = (BinaryMatrix) right;
 
     rightmtx.setSize(leftimg.getWidth(), leftimg.getHeight());

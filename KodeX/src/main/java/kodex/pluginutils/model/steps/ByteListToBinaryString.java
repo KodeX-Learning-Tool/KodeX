@@ -21,6 +21,8 @@ public class ByteListToBinaryString implements ChainStep {
     ByteList leftlist = (ByteList) left;
     BinaryString rightstring = (BinaryString) right;
     String sequence = "";
+    
+    leftlist.getList().clear();
 
     String input = rightstring.getString();
     for (int i = 0; i < input.length() / 8; i++) {

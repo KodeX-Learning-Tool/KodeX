@@ -26,7 +26,7 @@ public class DecMatrixToByteList implements ChainStep {
     leftmtx.setSize(width, height);
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
-        leftmtx.set(x, y, Integer.parseInt(rightlist.get(y * width + x)));
+        leftmtx.set(x, y, Integer.parseInt(rightlist.get(y * width + x), 2));
       }
     }
 

@@ -20,10 +20,12 @@ public class BitListToBinaryString implements ChainStep {
   public void decode(Content<?> right, Content<?> left) {
     BitList leftlist = (BitList) left;
     BinaryString rightstring = (BinaryString) right;
+    
+    leftlist.getList().clear();
 
     String input = rightstring.getString();
     for (int i = 0; i < input.length(); i++) {
-      String rgb = input.substring(i, i);
+      String rgb = input.substring(i, i + 1);
       leftlist.add(Integer.valueOf(rgb));
     }
 

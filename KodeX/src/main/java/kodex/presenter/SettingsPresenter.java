@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.Locale;
 import java.util.Optional;
 
-import org.controlsfx.control.ToggleSwitch;
 import javafx.collections.FXCollections;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;

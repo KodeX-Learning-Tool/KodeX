@@ -4,7 +4,7 @@ import java.util.HashMap;
 import javafx.scene.paint.Color;
 import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
-import kodex.pluginutils.model.content.ColorImage;
+import kodex.pluginutils.model.content.GreyScaleImage;
 import kodex.pluginutils.model.content.DecMatrix;
 
 /*
@@ -19,16 +19,18 @@ public class GreyScaleImageToDecMatrix implements ChainStep {
   @SuppressWarnings("unchecked")
   @Override
   public void decode(Content<?> right, Content<?> left) {
-    ColorImage leftimg = (ColorImage) left;
+    GreyScaleImage leftimg = (GreyScaleImage) left;
     DecMatrix rightmtx = (DecMatrix) right;
 
     int width = (int) rightmtx.getHeader().get("width");
     int height = (int) rightmtx.getHeader().get("height");
+    double color;
+    
     leftimg.setSize(width, height);
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
-        leftimg
-        .setColor(x, y, new Color(rightmtx.get(x, y), rightmtx.get(x, y), rightmtx.get(x, y), 1));
+        color = ((double) rightmtx.get(x, y) / 255);
+        leftimg.setColor(x, y, new Color(color, color, color, 1));
       }
     }
 
@@ -38,7 +40,7 @@ public class GreyScaleImageToDecMatrix implements ChainStep {
   @SuppressWarnings("unchecked")
   @Override
   public void encode(Content<?> left, Content<?> right) {
-    ColorImage leftimg = (ColorImage) left;
+    GreyScaleImage leftimg = (GreyScaleImage) left;
     DecMatrix rightmtx = (DecMatrix) right;
 
     rightmtx.setSize(leftimg.getWidth(), leftimg.getHeight());

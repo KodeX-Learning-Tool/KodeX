@@ -27,6 +27,7 @@ public class GreyScaleImage extends AbstractImage {
   /** Creates a new GrayScaleImage. */
   public GreyScaleImage() {
     super.image = new WritableImage(1, 1);
+    header = new HashMap<>();
   }
 
   /**
@@ -81,6 +82,11 @@ public class GreyScaleImage extends AbstractImage {
         green = (pixel >> 8) & 0xff;
         blue = (pixel) & 0xff;
         if (red != green || green != blue) {
+          Alert alert = new Alert(AlertType.ERROR);
+          alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+          alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+          alert.setContentText("Pixel [" + x + "," + y + "] isn't valid  (R = G = B)");
+          PresenterManager.showAlertDialog(alert);
           return false;
         }
       }

@@ -80,7 +80,9 @@ public class BlackWhiteImage extends AbstractImage {
         }
       }
     }
-
+    
+    image = input;
+    
     return true;
   }
 
