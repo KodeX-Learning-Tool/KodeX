@@ -13,16 +13,17 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.SplitPane.Divider;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkHeaderPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ProcedurePlugin;
+import kodex.presenter.ChainSplitPane.Divider;
 
 /**
  * This Presenter is responsible for the Coding Chain. This Page shows the Coding Chain in its
@@ -315,6 +316,13 @@ public class ChainPresenter implements IPresenter {
       
       chainLinkPresenter = encoding ? chainLinkPresenter.getNext() : chainLinkPresenter.getPrev();
     }
+    
+    /*
+     * Add a node to the end of the list, to enable resizing of the last chain link
+     */
+    Region endNode = new Region();
+    endNode.setMaxWidth(1);
+    chainSplitPane.getItems().add(endNode);
 
     dividers = chainSplitPane.getDividers();
     
