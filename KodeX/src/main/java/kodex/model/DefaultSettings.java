@@ -1,5 +1,6 @@
 package kodex.model;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -18,6 +19,7 @@ import kodex.presenter.PresenterManager;
  *
  * @author Patrick Spiesberger
  * @author Leonhard Kraft
+ * @author Raimon Gramlich
  * @version 1.0
  */
 public class DefaultSettings extends Settings {
@@ -33,6 +35,25 @@ public class DefaultSettings extends Settings {
 
   /* instance of property file */
   private static Properties prop = new Properties();
+  
+  private static Properties defaultProperties = new Properties();
+  
+  private static final String SETTINGS_DIRECTORY = "settings";
+  
+  private static final String USER_SETTINGS_PROPERTY = "User_Settings.properties";
+  
+  private static final String USER_SETTINGS_PATH = 
+      SETTINGS_DIRECTORY.concat("/".concat(USER_SETTINGS_PROPERTY));
+  
+  // internal resource files need '/' as path delimiter
+  private static final String INTERNAL_SETTINGS_DIRECTORY = "/kodex/model/settings"; 
+  
+  private static final String DEFAULT_SETTINGS_PROPERTY = "Default_Settings.properties";
+  
+  private static final String DEFAULT_SETTINGS_PATH  
+      = INTERNAL_SETTINGS_DIRECTORY.concat("/".concat(DEFAULT_SETTINGS_PROPERTY));
+  
+  private static File userSettingsFile;
 
   /**
    * Provides the singleton instance of this class. The presenter can request the settings directly
