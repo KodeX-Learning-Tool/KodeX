@@ -10,11 +10,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SplitPane.Divider;
 import javafx.scene.control.TitledPane;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -23,7 +24,6 @@ import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkHeaderPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ProcedurePlugin;
-import kodex.presenter.ChainSplitPane.Divider;
 
 /**
  * This Presenter is responsible for the Coding Chain. This Page shows the Coding Chain in its
@@ -69,9 +69,6 @@ public class ChainPresenter implements IPresenter {
 
     /** The edit button. */
     @FXML private Button editButton;
-    
-    /** The VBox containing the chainlink contents. */
-    @FXML private VBox chainlinkContainer;
 
     /** The Label which is displayed when the content is hidden. */
     @FXML private Label hiddenLabel;
@@ -169,7 +166,7 @@ public class ChainPresenter implements IPresenter {
       titleLabel.textProperty().bind(I18N.createStringBinding("chainlinktemplate.stage")
           .concat(" " + chainLinkPresenter.getName()));
       
-      chainlinkContainer.setMinWidth(SHOW_MIN_CONTAINER_WIDTH);
+      this.setMinWidth(SHOW_MIN_CONTAINER_WIDTH);
 
       // add language support
       informationTitledPane
@@ -221,7 +218,7 @@ public class ChainPresenter implements IPresenter {
         hideButtonPane.setCenter(null);
         hideButtonPane.setRight(hideButton);
         
-        chainlinkContainer.setMinWidth(SHOW_MIN_CONTAINER_WIDTH);
+        this.setMinWidth(SHOW_MIN_CONTAINER_WIDTH);
         
         // change the icon
         hideButtonIcon.setIconLiteral(shownIcon);
@@ -240,14 +237,13 @@ public class ChainPresenter implements IPresenter {
         Node hideButton = hideButtonPane.getRight();
         hideButtonPane.setRight(null);
         hideButtonPane.setCenter(hideButton);
-            
-        chainlinkContainer.setMinWidth(HIDDEN_MIN_CONTAINER_WIDTH);
+        
+        // force the chain item to be thinner
+        this.setMinWidth(HIDDEN_MIN_CONTAINER_WIDTH);
+        this.setMaxWidth(HIDDEN_MIN_CONTAINER_WIDTH);
         
         // change the icon
         hideButtonIcon.setIconLiteral(hiddenIcon);
-
-        // force the chain item to be thinner
-        this.setMaxWidth(hiddenLabel.getPrefWidth());
 
         // hide chain item content and show the hidden pane
         hiddenLabel.setManaged(true);
