@@ -64,15 +64,6 @@ public class PluginLoader {
   /* ServiceLoader which loads all implementations of the ProcedurePlugin class */
   private ServiceLoader<ProcedurePlugin> procedureLoader;
 
-  /** The Constant PROTECTED_SYMBOL which is a prefix for default plugins. */
-  private static final String PROTECTED_SYMBOL = "#";
-
-  /**
-   * The Constant ESCAPE_CHARACTER used if a non default-plugin uses the protected
-   * symbol.
-   */
-  private static final String ESCAPE_CHARACTER = "/";
-
   /** The path to enabled_plugins.txt. */
   private Path pluginListPath = new File(this.getClass().getResource("plugins").getPath() 
       + "enabled_plugins.txt").toPath();
@@ -280,13 +271,6 @@ public class PluginLoader {
       while ((line = reader.readLine()) != null) {
         // add the default plugins to a separate list and remove escape character if
         // necessary
-        if (line.startsWith(PROTECTED_SYMBOL)) {
-          line = line.replaceFirst(PROTECTED_SYMBOL, "");
-          defaultPluginNameList.add(line);
-        } else if (line.startsWith(ESCAPE_CHARACTER.concat(PROTECTED_SYMBOL))) {
-          line = line.replaceFirst(ESCAPE_CHARACTER.concat(PROTECTED_SYMBOL), PROTECTED_SYMBOL);
-        }
-
         // activates each plugin in the list
         for (Pluginable plugin : allPlugins) {
           if (plugin.pluginNameProperty().get().equals(line)) {
@@ -347,11 +331,6 @@ public class PluginLoader {
     List<String> pluginList = readPluginList();
     String pluginName = plugin.pluginNameProperty().get();
 
-    // add escape character if necessary
-    if (!defaultPluginNameList.contains(pluginName) && pluginName.startsWith(PROTECTED_SYMBOL)) {
-      pluginName = ESCAPE_CHARACTER.concat(pluginName);
-    }
-
     // check if list already contains entry
     if (!pluginList.contains(pluginName) && !defaultPluginNameList.contains(pluginName)) {
       pluginList.add(pluginName);
@@ -368,9 +347,7 @@ public class PluginLoader {
   private void removeFromPluginList(Pluginable plugin) {
     List<String> pluginList = readPluginList();
     String pluginName = plugin.pluginNameProperty().get();
-    if (pluginName.startsWith(PROTECTED_SYMBOL)) {
-      pluginName = ESCAPE_CHARACTER.concat(pluginName);
-    }
+
     pluginList.remove(pluginName);
     writeToPluginList(pluginList);
   }
