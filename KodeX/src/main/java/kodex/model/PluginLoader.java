@@ -361,8 +361,8 @@ public class PluginLoader {
    * also get added to the default plugin list.
    */
   private void loadProtectedPluginList() {
-    try (InputStreamReader in = new InputStreamReader(PluginLoader.class.getResourceAsStream(
-        INTERNAL_PLUGIN_DIRECTORY + "/" + PROTECTED_PLUGIN_LIST));
+    try (InputStreamReader in = new InputStreamReader(PluginLoader.class
+            .getResourceAsStream(INTERNAL_PLUGIN_DIRECTORY + "/" + PROTECTED_PLUGIN_LIST), "UTF-8");
         BufferedReader reader = new BufferedReader(in)) {
       String line;
 
@@ -370,6 +370,7 @@ public class PluginLoader {
         for (Pluginable plugin : allPlugins) {
           if (plugin.pluginNameProperty().get().equals(line)) {
             plugin.activatedProperty().set(true);
+            activatePlugin(plugin);
             defaultPluginNameList.add(line);
           }
         }
