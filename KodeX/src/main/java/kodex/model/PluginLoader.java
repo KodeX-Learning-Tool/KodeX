@@ -61,30 +61,30 @@ public class PluginLoader {
   private ObservableList<ProcedurePlugin> allProcedurePlugins = FXCollections.observableArrayList();
 
   /* List of all enabled procedure plugins */
-  private ObservableList<ProcedurePlugin> enabledProcedurePlugins =
-      FXCollections.observableArrayList();
+  private ObservableList<ProcedurePlugin> enabledProcedurePlugins = FXCollections
+      .observableArrayList();
 
   /* ServiceLoader which loads all implementations of the Pluginable class */
   private ServiceLoader<Pluginable> pluginLoader;
 
   /* ServiceLoader which loads all implementations of the ProcedurePlugin class */
   private ServiceLoader<ProcedurePlugin> procedureLoader;
-  
+
   private static final String PLUGIN_DIRECTORY = "plugins";
-  
+
   private static final String INTERNAL_PLUGIN_DIRECTORY = "/kodex/model/" + PLUGIN_DIRECTORY;
-  
+
   private static final String ENABLED_PLUGIN_LIST = "enabled_plugins.txt";
-  
+
   private static final String PROTECTED_PLUGIN_LIST = "protected_plugins.txt";
-  
+
   private static final String ENABLED_PLUGINS_PATH = PLUGIN_DIRECTORY + "/" + ENABLED_PLUGIN_LIST;
-  
+
   private static File enabledPluginsFile;
 
   /** The list of default plugin names. */
   private List<String> defaultPluginNameList = new ArrayList<>();
-  
+
   /**
    * Gets the current parent directory of the running jar.
    *
@@ -96,30 +96,29 @@ public class PluginLoader {
     String jarPath = URLDecoder.decode(url.getFile(), "UTF-8");
     return new File(jarPath).getParentFile().getPath();
   }
-  
+
   /** Constructor of PluginLoader class. */
   private PluginLoader() {
     String fileSeparator = System.getProperty("file.separator");
-    
+
     File pluginsDir;
     try {
       pluginsDir = new File(getParentPath() + fileSeparator + (PLUGIN_DIRECTORY));
-      
+
       if (!pluginsDir.exists() && pluginsDir.mkdir()) {
         System.out.println("Created plugins folder.");
       }
     } catch (UnsupportedEncodingException e) {
       e.printStackTrace();
     }
-    
+
     try {
       enabledPluginsFile = new File(getParentPath() + fileSeparator + ENABLED_PLUGINS_PATH);
     } catch (UnsupportedEncodingException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    
-    
+
     if (!enabledPluginsFile.exists()) {
       try {
         InputStream input = PluginLoader.class
@@ -138,8 +137,7 @@ public class PluginLoader {
       }
 
     }
-    
-    
+
     load();
   }
 
@@ -333,8 +331,8 @@ public class PluginLoader {
    * default plugins to the default plugin list.
    */
   private void loadEnabledPluginList() {
-    try (BufferedReader reader = Files.newBufferedReader(
-        Paths.get(getParentPath(),  ENABLED_PLUGINS_PATH))) {
+    try (BufferedReader reader = Files
+        .newBufferedReader(Paths.get(getParentPath(), ENABLED_PLUGINS_PATH))) {
       String line;
 
       while ((line = reader.readLine()) != null) {
@@ -357,24 +355,24 @@ public class PluginLoader {
       PresenterManager.showAlertDialog(alert);
     }
   }
-  
+
   /**
-   * Loads the list of protected plugins and activates them.
-   * These default plugins also get added to the default plugin list.
+   * Loads the list of protected plugins and activates them. These default plugins
+   * also get added to the default plugin list.
    */
   private void loadProtectedPluginList() {
     try (InputStreamReader in = new InputStreamReader(PluginLoader.class.getResourceAsStream(
         INTERNAL_PLUGIN_DIRECTORY + "/" + PROTECTED_PLUGIN_LIST));
         BufferedReader reader = new BufferedReader(in)) {
       String line;
-      
+
       while ((line = reader.readLine()) != null) {
         for (Pluginable plugin : allPlugins) {
           if (plugin.pluginNameProperty().get().equals(line)) {
             plugin.activatedProperty().set(true);
             defaultPluginNameList.add(line);
           }
-        } 
+        }
       }
     } catch (IOException e) {
       Alert alert = new Alert(AlertType.ERROR);
@@ -391,8 +389,8 @@ public class PluginLoader {
    * @param pluginList the plugin list to be written
    */
   private void writeToPluginList(List<String> pluginList) {
-    try (BufferedWriter writer = Files.newBufferedWriter(
-        Paths.get(getParentPath(),  ENABLED_PLUGINS_PATH))) {
+    try (BufferedWriter writer = Files
+        .newBufferedWriter(Paths.get(getParentPath(), ENABLED_PLUGINS_PATH))) {
       for (String pluginName : pluginList) {
         writer.write(pluginName);
         writer.newLine();
@@ -411,7 +409,7 @@ public class PluginLoader {
     List<String> pluginList = new ArrayList<>();
 
     try {
-      pluginList = Files.readAllLines(Paths.get(getParentPath(),  ENABLED_PLUGINS_PATH));
+      pluginList = Files.readAllLines(Paths.get(getParentPath(), ENABLED_PLUGINS_PATH));
     } catch (IOException e) {
       Alert alert = new Alert(AlertType.ERROR);
       alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
