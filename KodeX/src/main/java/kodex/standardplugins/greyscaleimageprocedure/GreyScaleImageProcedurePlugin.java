@@ -12,7 +12,6 @@ import kodex.pluginutils.model.steps.DecMatrixToByteList;
 import kodex.pluginutils.model.steps.GreyScaleImageToDecMatrix;
 import kodex.pluginutils.presenter.chainlink.BinaryStringPresenter;
 import kodex.pluginutils.presenter.chainlink.ByteListChainLinkPresenter;
-import kodex.pluginutils.presenter.chainlink.ColorImageChainLinkPresenter;
 import kodex.pluginutils.presenter.chainlink.DecMatrixChainLinkPresenter;
 import kodex.pluginutils.presenter.chainlink.GreyScaleImageChainLinkPresenter;
 import kodex.standardplugins.greyscaleimageprocedure.presenter.GreyScaleImageImportPresenter;

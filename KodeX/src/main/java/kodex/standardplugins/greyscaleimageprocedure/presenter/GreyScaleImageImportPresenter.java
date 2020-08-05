@@ -185,6 +185,7 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
     
     return fileChooser.showOpenDialog(null);
   }
+  
   @Override
   public boolean validateDecodeImport() {
     BinaryString content = (BinaryString) plugin.getChainTail().getContent();

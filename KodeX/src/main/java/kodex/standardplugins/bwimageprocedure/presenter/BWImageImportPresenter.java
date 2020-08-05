@@ -22,13 +22,10 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import kodex.model.I18N;
-import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.content.BinaryString;
 import kodex.pluginutils.model.content.BlackWhiteImage;
-import kodex.pluginutils.model.content.ColorImage;
-import kodex.pluginutils.model.content.GreyScaleImage;
 import kodex.presenter.PresenterManager;
 
 /**
@@ -189,6 +186,7 @@ public class BWImageImportPresenter extends ImportPresenter {
     
     return fileChooser.showOpenDialog(null);
   }
+  
   @Override
   public boolean validateDecodeImport() {
     BinaryString content = (BinaryString) plugin.getChainTail().getContent();
