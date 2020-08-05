@@ -1,18 +1,20 @@
 package kodex.model;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileNotFoundException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.FileAlreadyExistsException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.ObjectProperty;
@@ -30,6 +32,7 @@ import kodex.presenter.PresenterManager;
  *
  * @author Leonhard Kraft
  * @author Patrick Spiesberger
+ * @author Raimon Gramlich
  * @version 1.0
  */
 public class I18N {
@@ -41,7 +44,9 @@ public class I18N {
 
   private static final String LANGUAGE_FILE_NAME = "Languages";
 
-  private static final String LANGUAGE_FOLDER_NAME = "languages";
+  private static final String LANGUAGE_FOLDER_PATH =  "kodex/model/languages/";
+  
+  private static final String LANGUAGE_PROPERTY_PATH = "kodex.model.languages.";
 
   private static final String DEFAULT_LOCALE = "en";
 
@@ -50,8 +55,6 @@ public class I18N {
   private static final int LANGUAGE_PREFIX = 0;
 
   private static final int LANGUAGE_SUFIX = 1;
-
-  private static URLClassLoader loader = null;
 
   static {
     try {
@@ -62,17 +65,6 @@ public class I18N {
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
       alert.setContentText("Language file is missing!");
       PresenterManager.showAlertDialog(alert);
-    }
-
-    try {
-      loader =
-          new URLClassLoader(
-              new URL[] {
-                new File(I18N.class.getResource(LANGUAGE_FOLDER_NAME).getPath()).toURI().toURL()
-              });
-    } catch (MalformedURLException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
     }
 
     // set language loaded by the settings
@@ -112,7 +104,8 @@ public class I18N {
    * @return Localized and formatted string.
    */
   public static String get(final String key, final Object... args) {
-    ResourceBundle bundle = ResourceBundle.getBundle(LANGUAGE_FILE_NAME, getLocale(), loader);
+    ResourceBundle bundle = ResourceBundle.getBundle(
+        LANGUAGE_PROPERTY_PATH + LANGUAGE_FILE_NAME, getLocale());
     return MessageFormat.format(bundle.getString(key), args);
   }
 
@@ -148,41 +141,64 @@ public class I18N {
 
   private static void loadSupportedLocales()
       throws FileNotFoundException, FileAlreadyExistsException {
-
-    // File to the languages folder directory
-    File languageDir = new File(I18N.class.getResource(LANGUAGE_FOLDER_NAME).getPath());
-
-    /*
-     * Languages are only contained in property files.
-     */
-    FileFilter propertyFilter = file -> file.getPath().toLowerCase().endsWith(".properties");
-
-    File[] languageFiles = languageDir.listFiles(propertyFilter);
-
-    if (languageFiles.length <= 0) {
+    
+    ArrayList<JarEntry> languageFiles = new ArrayList<>();
+        
+    // get a list of available language property files
+    try (JarFile jar = new JarFile(new File(I18N.class
+        .getProtectionDomain().getCodeSource().getLocation().toURI()))) {
+      Enumeration<JarEntry> entries = jar.entries();
+      
+      Iterator<JarEntry> it = entries.asIterator();
+      while (it.hasNext()) {     
+        JarEntry jarEntry = it.next();
+        String name = jarEntry.getName();
+        
+        /*
+         * Languages are only contained in property files.
+         */
+        if (name.startsWith(LANGUAGE_FOLDER_PATH + LANGUAGE_FILE_NAME)
+            && name.endsWith(".properties")) {
+          languageFiles.add(jarEntry);
+        }
+      }
+    } catch (IOException | URISyntaxException e) {
+      e.printStackTrace();
+    }
+    
+    
+    if (languageFiles.isEmpty()) {
       throw new FileNotFoundException("No language file has been found.");
     }
-
+    
     String fileName;
     String[] fileNameParts;
     Locale fileLocale;
     boolean defaultFound = false;
     int exPos;
-
+    
     /*
      * Get Locale from all available files.
      */
-    for (File propertyFile : languageFiles) {
-
-      fileName = propertyFile.getName();
-
+    for (JarEntry propertyFile : languageFiles) { 
+      String filePath = propertyFile.getName();
+      
+      int slashPos = filePath.lastIndexOf("/");
+      
+      // get the file name
+      if (slashPos != filePath.length() - 1) {
+        fileName = filePath.substring(slashPos + 1);
+      } else {
+        throw new FileNotFoundException(filePath + " is not a file.");
+      }
+      
       exPos = fileName.lastIndexOf(".");
 
       // strip file name of file extension
       fileName = fileName.substring(0, exPos);
 
       if (fileName.equals(LANGUAGE_FILE_NAME)) {
-
+        
         if (defaultFound) {
           Alert alert = new Alert(AlertType.ERROR);
           alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
