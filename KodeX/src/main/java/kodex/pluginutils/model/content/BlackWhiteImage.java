@@ -76,6 +76,11 @@ public class BlackWhiteImage extends AbstractImage {
             && !input.getPixelReader().getColor(x, y).toString().equals(Color.WHITE.toString())
             && !input.getPixelReader().getColor(x, y).toString().equals("0x00000000")) {
           // for .png images
+          Alert alert = new Alert(AlertType.ERROR);
+          alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+          alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+          alert.setContentText("Pixel [" + x + "," + y + "] isn't valid");
+          PresenterManager.showAlertDialog(alert);
           return false;
         }
       }

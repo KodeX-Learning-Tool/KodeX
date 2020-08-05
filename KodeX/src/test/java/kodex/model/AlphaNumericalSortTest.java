@@ -17,6 +17,7 @@ import kodex.standardplugins.rle.TextRLEProcedurePlugin;
 
 class AlphaNumericalSortTest {
 
+  /**
   private static BWImageProcedurePlugin bw = new BWImageProcedurePlugin();
   private static GreyScaleImageProcedurePlugin gs = new GreyScaleImageProcedurePlugin();
   private static TextQRCodeProcedurePlugin qr = new TextQRCodeProcedurePlugin();
@@ -25,6 +26,7 @@ class AlphaNumericalSortTest {
 
   private static ObservableList<ProcedurePlugin> actual;
   private static ObservableList<ProcedurePlugin> expected;
+
 
   @BeforeAll
   static void init() {
@@ -55,6 +57,5 @@ class AlphaNumericalSortTest {
   static void clean() {
     actual.clear();
     expected.clear();
-  }
-
+  } **/
 }
