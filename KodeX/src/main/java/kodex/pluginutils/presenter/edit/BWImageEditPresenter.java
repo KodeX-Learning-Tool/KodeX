@@ -63,7 +63,7 @@ public class BWImageEditPresenter extends ChainLinkEditPresenter {
       Alert alert = new Alert(AlertType.WARNING);
       alert.titleProperty().bind(I18N.createStringBinding("alert.title.warning"));
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("This isn't a valid grey scale. Please check if R = G = B");
+      alert.setContentText("This isn't a valid black or white value");
       PresenterManager.showAlertDialog(alert);
       return;
     }

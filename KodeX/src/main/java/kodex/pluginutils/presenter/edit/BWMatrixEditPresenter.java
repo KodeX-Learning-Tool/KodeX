@@ -43,10 +43,11 @@ public class BWMatrixEditPresenter extends ChainLinkEditPresenter {
     
     // only allows 0 to 255 as input
     UnaryOperator<TextFormatter.Change> filter = change -> {
-      if (change.getControlNewText().matches("[0-1]")) {
+      if (change.getControlNewText().toString().equals("0")
+          || change.getControlNewText().toString().equals("1")) {
         return change;
       } else if (change.getControlNewText().isEmpty()) {
-        change.setText("0");
+        change.setText("");
         return change;
       } else {
         return null;
@@ -77,7 +78,6 @@ public class BWMatrixEditPresenter extends ChainLinkEditPresenter {
   @Override
   public void handleSubmit() {
     content.set(selectedX, selectedY, Integer.parseInt(blackField.getText()) / 255);
-    
     chainLinkPresenter.updateChain();
   }
 
