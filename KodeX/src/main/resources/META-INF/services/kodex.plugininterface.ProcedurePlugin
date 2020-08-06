@@ -1,5 +1,3 @@
 kodex.standardplugins.colorimageprocedure.ColorImageProcedurePlugin
 kodex.standardplugins.bwimageprocedure.BWImageProcedurePlugin
 kodex.standardplugins.greyscaleimageprocedure.GreyScaleImageProcedurePlugin
-kodex.standardplugins.qrcode.TextQRCodeProcedurePlugin
-kodex.standardplugins.rle.TextRLEProcedurePlugin
