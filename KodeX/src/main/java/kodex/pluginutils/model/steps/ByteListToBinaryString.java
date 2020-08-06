@@ -1,6 +1,8 @@
 package kodex.pluginutils.model.steps;
 
 import java.util.HashMap;
+import java.util.Map;
+
 import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.BinaryString;
@@ -29,11 +31,11 @@ public class ByteListToBinaryString implements ChainStep {
       sequence = input.substring(i * 8, i * 8 + 8);
       leftlist.add(sequence);
     }
-
+    
+    rightstring.getHeader().put("unit-length", 8); //Length of Byte
     leftlist.setHeader(rightstring.getHeader());
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public void encode(Content<?> left, Content<?> right) {
     ByteList leftlist = (ByteList) left;
@@ -45,11 +47,11 @@ public class ByteListToBinaryString implements ChainStep {
     }
 
     rightstring.setString(result.toString());
+    
+    Map<String, Object> header = new HashMap<>();
+    header.put("unit-length", 8); //Length of Byte
+    
+    rightstring.setHeader(header);
 
-    HashMap<String, Object> map = new HashMap<>();
-    map.put("length", rightstring.length());
-    rightstring.setHeader(map);
-
-    rightstring.setHeader(leftlist.getHeader());
   }
 }

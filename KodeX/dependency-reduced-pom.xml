@@ -58,7 +58,7 @@
         <groupId>org.openjfx</groupId>
         <artifactId>javafx-maven-plugin</artifactId>
         <configuration>
-          <mainClass>kodex.KodeX/kodex.MainApp</mainClass>
+          <mainClass>kodex.KodeX/kodex.Main</mainClass>
           <compress>2</compress>
           <noHeaderFiles>true</noHeaderFiles>
           <noManPages>true</noManPages>
@@ -92,7 +92,7 @@
             </goals>
           </execution>
           <execution>
-            <id>default-repor</id>
+            <id>default-report</id>
             <phase>test</phase>
             <goals>
               <goal>report</goal>
@@ -108,7 +108,7 @@
         <version>3.2.4</version>
         <executions>
           <execution>
-            <phase>install</phase>
+            <phase>package</phase>
             <goals>
               <goal>shade</goal>
             </goals>
@@ -124,10 +124,38 @@
                 </filter>
               </filters>
               <transformers>
+                <transformer />
                 <transformer>
-                  <mainClass>kodex.MainApp</mainClass>
+                  <mainClass>kodex.Main</mainClass>
                 </transformer>
               </transformers>
+            </configuration>
+          </execution>
+        </executions>
+        <configuration>
+          <artifactSet>
+            <excludes>
+              <exclude>module-info.java</exclude>
+            </excludes>
+          </artifactSet>
+          <keepServices>true</keepServices>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.moditect</groupId>
+        <artifactId>moditect-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>add-module-infos</id>
+            <phase>package</phase>
+            <goals>
+              <goal>add-module-info</goal>
+            </goals>
+            <configuration>
+              <overwriteExistingFiles>true</overwriteExistingFiles>
+              <module>
+                <moduleInfoFile>src/main/java/module-info.java</moduleInfoFile>
+              </module>
             </configuration>
           </execution>
         </executions>

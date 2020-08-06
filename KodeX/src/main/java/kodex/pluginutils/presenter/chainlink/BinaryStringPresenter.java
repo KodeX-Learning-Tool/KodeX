@@ -11,7 +11,8 @@ import kodex.pluginutils.presenter.edit.BinaryStringEditPresenter;
 import kodex.pluginutils.presenter.header.BinaryStringHeaderPresenter;
 
 /**
- * The Class BinaryStringChainLinkPresenter manages the view for the binary string.
+ * The Class BinaryStringChainLinkPresenter manages the view for the binary
+ * string.
  *
  * @author Raimon Gramlich
  */
@@ -19,13 +20,13 @@ public class BinaryStringPresenter extends ChainLinkPresenter {
 
   /** The chain link name. */
   private static final String CHAIN_LINK_NAME = "Binärkette";
-  
+
   /** The prefix before the marked part. */
   private Text prefix;
-  
+
   /** The marked text. */
   private Text markedText;
-  
+
   /** The suffix after the marked part. */
   private Text suffix;
 
@@ -34,24 +35,23 @@ public class BinaryStringPresenter extends ChainLinkPresenter {
 
   /** The Constant NOT_MARKED. */
   private static final int NOT_MARKED = -1;
-  
+
   /** The last marked ID. */
   private int lastElementMarked = NOT_MARKED;
 
   /**
    * Instantiates a new binary string presenter.
    *
-   * @param previous the previous ChainLinkPresenter
+   * @param previous     the previous ChainLinkPresenter
    * @param previousStep the previous step
-   * @param nextStep the next step
+   * @param nextStep     the next step
    */
-  public BinaryStringPresenter(
-      ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
+  public BinaryStringPresenter(ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
     content = new BinaryString();
     chainLinkEditPresenter = new BinaryStringEditPresenter(this);
     chainLinkHeaderPresenter = new BinaryStringHeaderPresenter(this.getContent());
-    
+
     prefix = new Text();
     markedText = new Text();
     markedText.setFill(Color.RED);
@@ -59,14 +59,14 @@ public class BinaryStringPresenter extends ChainLinkPresenter {
   }
 
   @Override
-  public AnchorPane getView() {    
+  public AnchorPane getView() {
     TextFlow binaryTextFlow = new TextFlow();
-    
+
     prefix.setText(((BinaryString) (content)).getString());
-    
+
     binaryTextFlow.getChildren().addAll(prefix, markedText, suffix);
-    binaryTextFlow.setMaxWidth(400);    
-    
+    binaryTextFlow.setMaxWidth(400);
+
     return new AnchorPane(binaryTextFlow);
   }
 
@@ -78,22 +78,27 @@ public class BinaryStringPresenter extends ChainLinkPresenter {
   @Override
   protected void mark(int id) {
     lastElementMarked = id;
-    int unitLength = 1; //Length of a bit
-    
+    int unitLength = 0;
+    try {
+      unitLength = (int) content.getHeader().get("unit-length");
+    } catch (NullPointerException e) {
+      unitLength = 1; // Length of a bit
+    }
+
     prefix.setText(binaryString.substring(0, Math.max(0, unitLength * id)));
-    markedText.setText(binaryString.substring(unitLength * id, unitLength * id + unitLength));    
-    suffix.setText(binaryString.substring(
-        Math.min(unitLength * (id + 1), binaryString.length()), binaryString.length()));
-    
+    markedText.setText(binaryString.substring(unitLength * id, unitLength * id + unitLength));
+    suffix
+        .setText(binaryString.substring(Math.min(unitLength * (id + 1), binaryString.length()), binaryString.length()));
+
     chainLinkEditPresenter.setMarkID(id);
   }
 
   @Override
   public void updateView() {
     binaryString = ((BinaryString) (content)).getString();
-    
+
     // remarks the view
-    if (lastElementMarked !=  NOT_MARKED) {
+    if (lastElementMarked != NOT_MARKED) {
       mark(lastElementMarked);
     }
   }
