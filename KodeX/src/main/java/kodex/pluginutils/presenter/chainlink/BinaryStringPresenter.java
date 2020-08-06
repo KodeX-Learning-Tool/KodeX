@@ -46,7 +46,8 @@ public class BinaryStringPresenter extends ChainLinkPresenter {
    * @param previousStep the previous step
    * @param nextStep     the next step
    */
-  public BinaryStringPresenter(ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
+  public BinaryStringPresenter(ChainLinkPresenter previous,
+      ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
     content = new BinaryString();
     chainLinkEditPresenter = new BinaryStringEditPresenter(this);
@@ -88,7 +89,8 @@ public class BinaryStringPresenter extends ChainLinkPresenter {
     prefix.setText(binaryString.substring(0, Math.max(0, unitLength * id)));
     markedText.setText(binaryString.substring(unitLength * id, unitLength * id + unitLength));
     suffix
-        .setText(binaryString.substring(Math.min(unitLength * (id + 1), binaryString.length()), binaryString.length()));
+        .setText(binaryString.substring(Math.min(unitLength * (id + 1),
+            binaryString.length()), binaryString.length()));
 
     chainLinkEditPresenter.setMarkID(id);
   }
