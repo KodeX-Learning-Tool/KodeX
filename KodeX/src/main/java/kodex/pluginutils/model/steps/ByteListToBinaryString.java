@@ -32,10 +32,22 @@ public class ByteListToBinaryString implements ChainStep {
       leftlist.add(sequence);
     }
     
-    rightstring.getHeader().put("unit-length", 8); //Length of Byte
-    leftlist.setHeader(rightstring.getHeader());
+    if (leftlist.getHeader() == null || leftlist.getHeader().isEmpty()) {
+      
+      Map<String, Object> header = new HashMap<>();
+      Map<String, Object> map =  rightstring.getHeader();
+      
+      for (Map.Entry<String, Object> entry: map.entrySet()) {
+        header.put(entry.getKey(), entry.getValue());
+      }
+      
+      header.put("unit-length", 8); //Length of a Byte
+      
+      leftlist.setHeader(header);
+    }
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public void encode(Content<?> left, Content<?> right) {
     ByteList leftlist = (ByteList) left;
@@ -48,10 +60,16 @@ public class ByteListToBinaryString implements ChainStep {
 
     rightstring.setString(result.toString());
     
-    Map<String, Object> header = new HashMap<>();
-    header.put("unit-length", 8); //Length of Byte
-    
-    rightstring.setHeader(header);
+    if (rightstring.getHeader() == null || rightstring.getHeader().isEmpty()) {
+      Map<String, Object> header = new HashMap<>();
+      Map<String, Object> map = leftlist.getHeader();
 
+      for (Map.Entry<String, Object> entry : map.entrySet()) {
+        header.put(entry.getKey(), entry.getValue());
+      }
+
+      header.put("unit-length", 1); //Length of a Bit
+      rightstring.setHeader(header);
+    }
   }
 }
