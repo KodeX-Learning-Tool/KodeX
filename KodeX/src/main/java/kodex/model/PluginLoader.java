@@ -25,7 +25,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import kodex.plugininterface.Pluginable;
+import kodex.plugininterface.Plugin;
 import kodex.plugininterface.ProcedurePlugin;
 import kodex.presenter.PresenterManager;
 
@@ -54,10 +54,10 @@ public class PluginLoader {
   }
 
   /* List of all plugins */
-  private ObservableList<Pluginable> allPlugins = FXCollections.observableArrayList();
+  private ObservableList<Plugin> allPlugins = FXCollections.observableArrayList();
 
   /* List of all enabled plugins */
-  private ObservableList<Pluginable> enabledPlugins = FXCollections.observableArrayList();
+  private ObservableList<Plugin> enabledPlugins = FXCollections.observableArrayList();
 
   /* List of all procedure plugins */
   private ObservableList<ProcedurePlugin> allProcedurePlugins = FXCollections.observableArrayList();
@@ -67,7 +67,7 @@ public class PluginLoader {
       .observableArrayList();
 
   /* ServiceLoader which loads all implementations of the Pluginable class */
-  private ServiceLoader<Pluginable> pluginLoader;
+  private ServiceLoader<Plugin> pluginLoader;
 
   /* ServiceLoader which loads all implementations of the ProcedurePlugin class */
   private ServiceLoader<ProcedurePlugin> procedureLoader;
@@ -158,7 +158,7 @@ public class PluginLoader {
    *
    * @param plugin : plugin which should be added
    */
-  public void activatePlugin(Pluginable plugin) {
+  public void activatePlugin(Plugin plugin) {
     if (!enabledPlugins.contains(plugin)) {
       enabledPlugins.add(plugin);
       addToPluginList(plugin);
@@ -178,7 +178,7 @@ public class PluginLoader {
    *
    * @param plugin : plugin which should be removed
    */
-  public void deactivatePlugin(Pluginable plugin) {
+  public void deactivatePlugin(Plugin plugin) {
     enabledPlugins.remove(plugin);
 
     // removes the plugin from enabled_plugins.txt
@@ -197,7 +197,7 @@ public class PluginLoader {
    *
    * @return ObservableList of all enabled plugins
    */
-  public ObservableList<Pluginable> getEnabledPlugins() {
+  public ObservableList<Plugin> getEnabledPlugins() {
     return enabledPlugins;
   }
 
@@ -215,7 +215,7 @@ public class PluginLoader {
    *
    * @return ObservableList of all plugins
    */
-  public ObservableList<Pluginable> getPlugins() {
+  public ObservableList<Plugin> getPlugins() {
     return allPlugins;
   }
 
@@ -230,11 +230,11 @@ public class PluginLoader {
 
   /** Loads only internal plugins. */
   public void loadInternalPlugins() {
-    pluginLoader = ServiceLoader.load(Pluginable.class);
+    pluginLoader = ServiceLoader.load(Plugin.class);
     procedureLoader = ServiceLoader.load(ProcedurePlugin.class);
 
     // add loaded plugins to the respective lists
-    for (Pluginable plugin : pluginLoader) {
+    for (Plugin plugin : pluginLoader) {
       allPlugins.add(plugin);
     }
 
@@ -316,12 +316,12 @@ public class PluginLoader {
 
     URLClassLoader urlLoader = new URLClassLoader(urls);
 
-    pluginLoader = ServiceLoader.load(Pluginable.class, urlLoader);
+    pluginLoader = ServiceLoader.load(Plugin.class, urlLoader);
     procedureLoader = ServiceLoader.load(ProcedurePlugin.class, urlLoader);
     
     boolean addedPlugin = false;
 
-    for (Pluginable plugin : pluginLoader) {
+    for (Plugin plugin : pluginLoader) {
       if (!allPlugins.contains(plugin)) {
         allPlugins.add(plugin);
         addedPlugin = true;
@@ -364,7 +364,7 @@ public class PluginLoader {
   // Note: is added again when the program starts If you want to delete it, you
   // have to remove it
   // from the plugin folder
-  public void removePlugin(Pluginable plugin) {
+  public void removePlugin(Plugin plugin) {
     deactivatePlugin(plugin);
     allPlugins.remove(plugin);
     enabledPlugins.remove(plugin);
@@ -407,7 +407,7 @@ public class PluginLoader {
         // add the default plugins to a separate list and remove escape character if
         // necessary
         // activates each plugin in the list
-        for (Pluginable plugin : allPlugins) {
+        for (Plugin plugin : allPlugins) {
           if (plugin.pluginNameProperty().get().equals(line)) {
             plugin.activatedProperty().set(true);
             activatePlugin(plugin);
@@ -435,7 +435,7 @@ public class PluginLoader {
       String line;
 
       while ((line = reader.readLine()) != null) {
-        for (Pluginable plugin : allPlugins) {
+        for (Plugin plugin : allPlugins) {
           if (plugin.pluginNameProperty().get().equals(line)) {
             plugin.activatedProperty().set(true);
             activatePlugin(plugin);
@@ -495,7 +495,7 @@ public class PluginLoader {
    *
    * @param plugin the plugin to be activated
    */
-  private void addToPluginList(Pluginable plugin) {
+  private void addToPluginList(Plugin plugin) {
     // adds the plugin to the enabled_plugins.txt
     List<String> pluginList = readPluginList();
     String pluginName = plugin.pluginNameProperty().get();
@@ -513,7 +513,7 @@ public class PluginLoader {
    *
    * @param plugin the plugin to be deleted
    */
-  private void removeFromPluginList(Pluginable plugin) {
+  private void removeFromPluginList(Plugin plugin) {
     List<String> pluginList = readPluginList();
     String pluginName = plugin.pluginNameProperty().get();
 

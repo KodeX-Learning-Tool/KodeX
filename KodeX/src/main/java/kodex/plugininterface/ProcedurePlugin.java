@@ -12,7 +12,7 @@ import javafx.beans.property.SimpleBooleanProperty;
  * @author Leonhard Kraft
  * @version 1.0
  */
-public abstract class ProcedurePlugin extends Pluginable implements Comparable<ProcedurePlugin> {
+public abstract class ProcedurePlugin extends Plugin implements Comparable<ProcedurePlugin> {
 
   /** The BooleanProperty activated stores the state of the procedure. */
   protected final BooleanProperty activated = new SimpleBooleanProperty(false);

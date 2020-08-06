@@ -10,7 +10,7 @@ import javafx.beans.property.StringProperty;
  * @author Raimon Gramlich
  * @version 1.0
  */
-public abstract class Pluginable {
+public abstract class Plugin {
 
   /**
    * Returns the state of the plugin Note: Whether the plugin is activated or not.
@@ -40,8 +40,8 @@ public abstract class Pluginable {
     boolean retVal = false;
     
     // use the plugin name for comparing two plugins
-    if (v instanceof Pluginable) {
-      Pluginable ptr = (Pluginable) v;
+    if (v instanceof Plugin) {
+      Plugin ptr = (Plugin) v;
       retVal = ptr.pluginNameProperty().get().equals(this.pluginNameProperty().get());
     }
 

@@ -16,7 +16,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import kodex.model.I18N;
 import kodex.model.PluginLoader;
-import kodex.plugininterface.Pluginable;
+import kodex.plugininterface.Plugin;
 
 /**
  * This presenter is responsible for the plugins menu. In this menu the plugins are displayed in a
@@ -30,16 +30,16 @@ import kodex.plugininterface.Pluginable;
 public class PluginMenuPresenter extends Presenter {
 
   /** The Table which displays information about the plugins. */
-  @FXML TableView<Pluginable> pluginTable;
+  @FXML TableView<Plugin> pluginTable;
 
   /** The Column with check boxes allows the user to enable or disable selected plugins. */
-  @FXML TableColumn<Pluginable, Boolean> checkBoxColumn;
+  @FXML TableColumn<Plugin, Boolean> checkBoxColumn;
 
   /** The Column which displays the names of the plugin. */
-  @FXML TableColumn<Pluginable, String> nameColumn;
+  @FXML TableColumn<Plugin, String> nameColumn;
 
   /** The Column which displays the descriptions of the plugins. */
-  @FXML TableColumn<Pluginable, String> descriptionColumn;
+  @FXML TableColumn<Plugin, String> descriptionColumn;
 
   /** The Button which allows the user to import new plugins. */
   @FXML Button addPluginButton;
@@ -96,7 +96,7 @@ public class PluginMenuPresenter extends Presenter {
   @FXML
   private void handleRemovePlugin() {
     // get selected table row
-    Pluginable plugin = pluginTable.getSelectionModel().getSelectedItem();
+    Plugin plugin = pluginTable.getSelectionModel().getSelectedItem();
     if (plugin == null) {
       Alert alert = new Alert(AlertType.INFORMATION);
       alert.titleProperty().bind(I18N.createStringBinding("alert.title.information"));
@@ -160,14 +160,14 @@ public class PluginMenuPresenter extends Presenter {
         });  
 
     checkBoxColumn.setCellFactory(column ->
-        new CheckBoxTableCell<Pluginable, Boolean>() {
+        new CheckBoxTableCell<Plugin, Boolean>() {
     
           @Override
           public void updateItem(Boolean item, boolean empty) {
             super.updateItem(item, empty);
     
             // disables check-boxes for default / protected plugins
-            TableRow<Pluginable> currentRow = getTableRow();
+            TableRow<Plugin> currentRow = getTableRow();
             this.setDisable(false); // it is required to fit default state
             if (currentRow != null && currentRow.getItem() != null && !empty
                 && defaultPlugins.contains(currentRow.getItem().pluginNameProperty().get())) {

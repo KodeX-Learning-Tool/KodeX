@@ -1,4 +1,4 @@
-import kodex.plugininterface.Pluginable;
+import kodex.plugininterface.Plugin;
 import kodex.plugininterface.ProcedurePlugin;
 import kodex.standardplugins.bwimageprocedure.BWImageProcedurePlugin;
 import kodex.standardplugins.colorimageprocedure.ColorImageProcedurePlugin;
@@ -19,7 +19,7 @@ module kodex.KodeX {
   
 
   uses kodex.plugininterface.ProcedurePlugin;
-  uses kodex.plugininterface.Pluginable;
+  uses kodex.plugininterface.Plugin;
   
   opens kodex;
   opens kodex.presenter to javafx.fxml;
@@ -30,7 +30,7 @@ module kodex.KodeX {
   opens kodex.standardplugins.bwimageprocedure.presenter to javafx.fxml;
   exports kodex;
 
-  provides Pluginable
+  provides Plugin
   with ColorImageProcedurePlugin, BWImageProcedurePlugin, GreyScaleImageProcedurePlugin, TextQRCodeProcedurePlugin, TextRLEProcedurePlugin;
 
   provides ProcedurePlugin
