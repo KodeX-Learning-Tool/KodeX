@@ -7,15 +7,14 @@ import kodex.standardplugins.qrcode.TextQRCodeProcedurePlugin;
 import kodex.standardplugins.rle.TextRLEProcedurePlugin;
 
 module kodex.KodeX {
-  requires javafx.controls;
-  requires javafx.fxml;
+  requires transitive javafx.fxml;
+  requires transitive javafx.controls;
   requires transitive javafx.graphics;
-  requires javafx.base;
   requires org.kordamp.ikonli.javafx;
   requires java.desktop;
   requires com.google.zxing;
   requires com.google.zxing.javase;
-  requires commons.io;
+  requires org.apache.commons.io;
   
 
   uses kodex.plugininterface.ProcedurePlugin;
