@@ -183,7 +183,7 @@ public class ChainPresenter implements IPresenter {
           .textProperty()
           .bind(
               I18N.createStringBinding("chainlinktemplate.stage")
-                  .concat(" " + chainLinkName));
+                  .concat("  " + chainLinkName));
 
       // bind the visibility to the managed property and hide the hiddenLabel
       chainLinkPane.visibleProperty().bind(chainLinkPane.managedProperty());
@@ -337,11 +337,6 @@ public class ChainPresenter implements IPresenter {
   @Override
   public ScrollPane getView() {
     return viewScrollPane;
-  }
-
-  /** Initializes the view-object created by the FXMLLoader. */
-  @FXML
-  private void initialize() {
   }
 
   /**
