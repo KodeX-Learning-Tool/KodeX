@@ -2,11 +2,15 @@ package kodex.presenter;
 
 import java.io.File;
 import java.util.Locale;
-import org.controlsfx.control.ToggleSwitch;
+import java.util.Optional;
+
 import javafx.collections.FXCollections;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
@@ -24,6 +28,7 @@ import kodex.presenter.textformatter.PortNumFormatter;
  *
  * @author Leonhard Kraft
  * @author Yannick Neubert
+ * @author Raimon Gramlich
  * @version 1.0
  */
 public class SettingsPresenter extends Presenter {
@@ -35,8 +40,6 @@ public class SettingsPresenter extends Presenter {
   private DefaultSettings defaultSettings;
 
   @FXML private ChoiceBox<Locale> languageChoiceBox;
-
-  @FXML private ToggleSwitch darkModeSwitch;
 
   @FXML private TextField portTextField;
 
@@ -96,7 +99,7 @@ public class SettingsPresenter extends Presenter {
 
     // TODO: change from null to stage to disable stage interactions while dialog is
     // open
-    File selectedDirectory = dirChooser.showDialog(null);
+    File selectedDirectory = PresenterManager.showDirectoryChooser(dirChooser);
 
     if (selectedDirectory == null) {
       // no directory has been chosen
@@ -122,27 +125,26 @@ public class SettingsPresenter extends Presenter {
   }
 
   /**
-   * This Method is called when the Dark-Mode has been de-/activated. Changes the appearance of the
-   * application by changing the loaded css file.
-   */
-  @FXML
-  public void handleDarkModeToggle() {
-
-    // TODO switch label of switch
-    defaultSettings.setDarkMode(darkModeSwitch.isSelected());
-  }
-
-  /**
    * This Method is called when the user clicks on the item to restore the default settings. Resets
    * the settings.
    */
   @FXML
   public void handleRestoreDefaultSettings() {
+    
+    Alert alert = new Alert(AlertType.CONFIRMATION);
+    alert.titleProperty().bind(I18N.createStringBinding("alert.title.confirmation"));
+    alert.headerTextProperty().bind(I18N.createStringBinding("alert.settings.reset"));
+    alert.setContentText("Restore default settings? " 
+        + " All changes made to the settings will be lost.");
+    
+    Optional<ButtonType> result = PresenterManager.showAlertDialog(alert);
+    
+    if (result.isPresent() && result.get() == ButtonType.OK) {
+      defaultSettings.reset();
 
-    defaultSettings.reset();
-
-    // initialize all settings again to display the reset
-    this.initialize();
+      // initialize all settings again to display the reset
+      this.initialize();
+    } 
   }
 
   /**
@@ -158,6 +160,14 @@ public class SettingsPresenter extends Presenter {
       // port number is invalid
 
       setErrorPseudoClass(portTextField, true);
+      
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("The input is not a valid port. " 
+          + "The number has to be between 0 and 65535.");
+      PresenterManager.showAlertDialog(alert);
+      
       return;
     }
 
@@ -174,7 +184,6 @@ public class SettingsPresenter extends Presenter {
 
     lblHeader.textProperty().bind(I18N.createStringBinding("settingspage.header"));
     lblLanguage.textProperty().bind(I18N.createStringBinding("settingspage.language.header"));
-    lblDarkmode.textProperty().bind(I18N.createStringBinding("settingspage.darkmode.header"));
     lblDefaultPort.textProperty().bind(I18N.createStringBinding("settingspage.defaultport.header"));
     lblDefaultPortDescription
         .textProperty()
@@ -198,12 +207,6 @@ public class SettingsPresenter extends Presenter {
     // set initial language, works fine because select uses equals to compare and
     // therefore the instances don't have to be the same
     languageChoiceBox.getSelectionModel().select(I18N.getLocale());
-
-    /*
-     * Initialize the DarkMode switch setting.
-     */
-
-    darkModeSwitch.setSelected(defaultSettings.isDarkMode());
 
     /*
      * Initialize the port setting.

@@ -37,8 +37,8 @@ public class LetterString extends Content<String> {
   }
 
   @Override
-  protected File toFile() {
+  public void export(File file) {
     // TODO Auto-generated method stub
-    return null;
   }
+  
 }

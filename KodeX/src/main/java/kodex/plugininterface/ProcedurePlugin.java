@@ -51,6 +51,15 @@ public abstract class ProcedurePlugin implements Pluginable, Comparable<Procedur
    * @return presenter for first link of procedure
    */
   public abstract ChainLinkPresenter getChainHead();
+  
+
+  /**
+   * Returns the last link of the procedure, whereby the stages are saved internally as a
+   * double-linked list and are linked accordingly.
+   *
+   * @return presenter for last link of procedure
+   */
+  public abstract ChainLinkPresenter getChainTail();
 
   /**
    * Sets the content for the first link of the process when decoding. In addition, the method

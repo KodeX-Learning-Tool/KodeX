@@ -11,10 +11,14 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.concurrent.CompletableFuture;
 import javafx.application.Platform;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
@@ -59,6 +63,20 @@ public class NetworkPresenter extends Presenter {
 
   @FXML private Button hostButton;
 
+  @FXML private Button cancelButton;
+
+  /** The server socket which can be accessed for closing. */
+  private ServerSocket serverSocket;
+  
+  /** The socket used to send the file. */
+  private Socket sendSocket;
+
+  /** The boolean receiving indicates whether the program is currently waiting for a connection. */
+  private boolean receiving;
+
+  /** The boolean canceling indicates that closing the connection prematurely was intended. */
+  private boolean canceling;
+
   /**
    * Creates a new NetworkPresenter with a reference to the PresenterManger for its superclass.
    *
@@ -66,6 +84,9 @@ public class NetworkPresenter extends Presenter {
    */
   public NetworkPresenter(PresenterManager presenterManager) {
     super(presenterManager, "networkpage");
+
+    // disable cancel button at startup
+    setConnectCancelDisable(true);
   }
 
   /** Create a file from the directory saved as the default path. */
@@ -80,16 +101,16 @@ public class NetworkPresenter extends Presenter {
    *
    * @throws IOException TODO throw or try-catch
    */
-  public void handleReceive() throws IOException {
-
-    // TODO cancel button
-
+  @FXML
+  private void handleReceive() {
     Runnable serverTask =
         () -> {
           /*
            * try to create a server based on the default port
            */
-          try (ServerSocket serverSocket = new ServerSocket(DefaultSettings.getPort())) {
+          try {
+            // doesn't use try-with-resources because otherwise serverSocket is not accessible
+            serverSocket = new ServerSocket(DefaultSettings.getPort());
 
             /*
              * display local ip address and server port after server creation was successful
@@ -127,23 +148,24 @@ public class NetworkPresenter extends Presenter {
              */
             File saveFile =
                 CompletableFuture.supplyAsync(
-                        () -> {
-                          FileChooser fileChooser = new FileChooser();
+                    () -> {
+                      FileChooser fileChooser = new FileChooser();
 
-                          if (defaultDirectory.exists()) {
-                            // set default directory if it exists
-                            fileChooser.setInitialDirectory(defaultDirectory);
-                          }
+                      if (defaultDirectory.exists()) {
+                        // set default directory if it exists
+                        fileChooser.setInitialDirectory(defaultDirectory);
+                      }
 
-                          fileChooser.setInitialFileName(fileName);
-                          return fileChooser.showSaveDialog(null);
-                        },
-                        Platform::runLater)
+                      fileChooser.setInitialFileName(fileName);
+                      return fileChooser.showSaveDialog(null);
+                    },
+                    Platform::runLater)
                     .join(); // runs on FX thread and waits for result
 
             if (saveFile == null) {
 
               setConnectDisable(false);
+              setHostDisable(false);
               return;
             }
 
@@ -160,9 +182,33 @@ public class NetworkPresenter extends Presenter {
 
             // server finished and send can be re-enabled
             setConnectDisable(false);
+            setHostDisable(false);
+
+            // clear host text fields after successfully receiving a file
+            clearHostTextFields();
+
+          } catch (SocketException e) {
+            // only show this if closing the connection was not intended
+            if (!canceling) {
+              // Alerts and Dialogs can only be shown on JavaFX Application Thread
+              Platform.runLater(() -> showErrorDialog("Failed receiving file."));
+              return;
+            }
+
+            // clear text when receiving is canceled
+            clearHostTextFields();
 
           } catch (IOException e) {
-            System.out.println("Already created this socket");
+            // the error message probably has to be adjusted,
+            // since it seems most errors regarding sockets will be caught by one above
+            System.out.println("Already created this socket.");
+          } finally {
+            try {
+              serverSocket.close();
+              receiving = false;
+            } catch (IOException e) {
+              Platform.runLater(() -> showErrorDialog("Couldn't close the connection."));
+            }
           }
         };
 
@@ -170,8 +216,63 @@ public class NetworkPresenter extends Presenter {
 
     // disable send button to prevent sending while having an open server
     setConnectDisable(true);
+    // also disables host since it doesn't make sense to open multiple listener connections
+    setHostDisable(true);
 
     serverThread.start();
+  }
+
+  private void clearHostTextFields() {
+    ipHostTextField.clear();
+    portHostTextField.clear();
+  }
+
+  /**
+   * Shows an information window.
+   *
+   * @param message the message
+   */
+  private void showInformationDialog(String message) {
+    Alert alert = new Alert(AlertType.INFORMATION);
+    alert.titleProperty().bind(I18N.createStringBinding("alert.title.information"));
+    alert.headerTextProperty().bind(I18N.createStringBinding("alert.header.network"));
+    alert.setContentText(message);
+    PresenterManager.showAlertDialog(alert);
+  }
+
+  /**
+   * Shows an error window.
+   *
+   * @param message the message
+   */
+  private void showErrorDialog(String message) {
+    Alert alert = new Alert(AlertType.ERROR);
+    alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+    alert.headerTextProperty().bind(I18N.createStringBinding("alert.header.network"));
+    alert.setContentText(message);
+    PresenterManager.showAlertDialog(alert);
+  }
+
+  /**
+   * This Method is called when the user clicks on the Cancel button. The connection is closed
+   * forcebly.
+   */
+  @FXML
+  private void handleCancel() {
+
+    // only close socket if it is waiting
+    if (receiving) {
+      try {
+        canceling = true;
+        serverSocket.close();
+        showInformationDialog("Connection closed.");
+        setConnectDisable(false);
+        setHostDisable(false);
+        canceling = false;
+      } catch (IOException e) {
+        showErrorDialog("Couldn't close the connection.");
+      }
+    }
   }
 
   /**
@@ -180,6 +281,7 @@ public class NetworkPresenter extends Presenter {
    *
    * @throws IOException faulty stream TODO try-catch or throws?
    */
+  @FXML
   public void handleSend() throws IOException {
 
     boolean invalid = false;
@@ -191,23 +293,47 @@ public class NetworkPresenter extends Presenter {
 
       setErrorPseudoClass(ipConnectTextField, true);
       invalid = true;
+      
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("The input is not a valid IP-Address. " 
+          + "It must have four parts separated by a period. " 
+          + "Each part has to be a number between 0 and 255.");
+      PresenterManager.showAlertDialog(alert);
     }
 
     if (!PortNumValidator.getInstance().isValid(portText)) {
 
       setErrorPseudoClass(portConnectTextField, true);
       invalid = true;
+      
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("The input is not a valid port. " 
+          + "The number has to be between 0 and 65535.");
+      PresenterManager.showAlertDialog(alert);
     }
 
     if (invalid) {
       return;
     }
-
+    
     /*
      * Open socket with the entered ip and port.
      */
     // TODO what if entered credentials are invalid (server doesn't exist)
-    Socket socket = new Socket(ipText, Integer.parseInt(portText));
+    try {
+      sendSocket = new Socket(ipText, Integer.parseInt(portText));
+      
+    } catch (UnknownHostException e) {
+      
+      //host name is not valid to connect to
+      setErrorPseudoClass(ipConnectTextField, true);
+      return;
+    }
+    
 
     File defaultDirectory = getDefaultDirectoryAsFile();
 
@@ -219,7 +345,7 @@ public class NetworkPresenter extends Presenter {
       fileChooser.setInitialDirectory(defaultDirectory);
     }
 
-    File sendFile = fileChooser.showOpenDialog(null);
+    File sendFile = PresenterManager.showOpenFileChooser(fileChooser);
 
     if (sendFile == null) {
       setHostDisable(false);
@@ -231,7 +357,7 @@ public class NetworkPresenter extends Presenter {
      */
     Runnable sendTask =
         () -> {
-          try (OutputStream os = socket.getOutputStream()) {
+          try (OutputStream os = sendSocket.getOutputStream()) {
             DataOutputStream nameStream = new DataOutputStream(os);
 
             nameStream.writeUTF(sendFile.getName());
@@ -248,7 +374,7 @@ public class NetworkPresenter extends Presenter {
             is.close();
             os.flush();
 
-            socket.close();
+            sendSocket.close();
 
             setHostDisable(false);
 
@@ -263,6 +389,8 @@ public class NetworkPresenter extends Presenter {
     setHostDisable(true);
 
     clientSendThread.start();
+    
+    sendSocket = null;
   }
 
   /** Initializes the view-object created by the FXMLLoader. */
@@ -272,12 +400,17 @@ public class NetworkPresenter extends Presenter {
     header.textProperty().bind(I18N.createStringBinding("networkpage.header"));
 
     ipConnectLbl.textProperty().bind(I18N.createStringBinding("networkpage.connect.ip.lbl"));
+    ipConnectTextField.promptTextProperty()
+        .bind(I18N.createStringBinding("networkpage.connect.ip.prompt"));
     portConnectLbl.textProperty().bind(I18N.createStringBinding("networkpage.connect.port.lbl"));
+    portConnectTextField.promptTextProperty()
+        .bind(I18N.createStringBinding("networkpage.connect.port.prompt"));
     connectButton.textProperty().bind(I18N.createStringBinding("networkpage.connect.button"));
 
     ipHostLbl.textProperty().bind(I18N.createStringBinding("networkpage.host.ip.lbl"));
     portHostLbl.textProperty().bind(I18N.createStringBinding("networkpage.host.port.lbl"));
     hostButton.textProperty().bind(I18N.createStringBinding("networkpage.host.button"));
+    cancelButton.textProperty().bind(I18N.createStringBinding("networkpage.host.button.cancel"));
 
     /*
      * Initialize the ip connect textfield.
@@ -290,10 +423,12 @@ public class NetworkPresenter extends Presenter {
     portConnectTextField.setTextFormatter(PortNumFormatter.createTextFormatter());
   }
 
-  private void setConnectDisable(Boolean disable) {
+  private void setConnectDisable(boolean disable) {
     ipConnectTextField.setDisable(disable);
     portConnectTextField.setDisable(disable);
     connectButton.setDisable(disable);
+
+    receiving = disable;
   }
 
   // TODO create util for this?
@@ -307,7 +442,13 @@ public class NetworkPresenter extends Presenter {
     control.pseudoClassStateChanged(errorClass, state);
   }
 
-  private void setHostDisable(Boolean disable) {
+  private void setConnectCancelDisable(boolean disable) {
+    cancelButton.setDisable(disable);
+  }
+
+  private void setHostDisable(boolean disable) {
+
+    setConnectCancelDisable(!disable);
     hostButton.setDisable(disable);
   }
 }

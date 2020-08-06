@@ -1,7 +1,5 @@
 package kodex.pluginutils.presenter.chainlink;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
@@ -13,11 +11,24 @@ import kodex.pluginutils.model.content.RGBList;
 import kodex.pluginutils.presenter.edit.RGBListEditPresenter;
 import kodex.pluginutils.presenter.header.RGBListHeaderPresenter;
 
-/** @author Raimon Gramlich */
+/** 
+ * The Class RGBListChainLinkPresenter manages the view for the RGB list.
+ * 
+ * @author Raimon Gramlich
+ */
 public class RGBListChainLinkPresenter extends ChainLinkPresenter {
+
+  /** The chain link name. */
+  private static final String CHAIN_LINK_NAME = "RGB-Liste";
 
   /** The rgb list view. */
   private ListView<String> rgbListView;
+
+  /** The Constant NOT_MARKED. */
+  private static final int NOT_MARKED = -1;
+
+  /** The ID of the last element marked. */
+  private int lastElementMarked = NOT_MARKED;
 
   /**
    * Instantiates a new RGB list chain link presenter.
@@ -29,8 +40,18 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
   public RGBListChainLinkPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
+    content = new RGBList();
     chainLinkEditPresenter = new RGBListEditPresenter(this);
     chainLinkHeaderPresenter = new RGBListHeaderPresenter(this.getContent());
+    
+    rgbListView = new ListView<>();
+    
+    // adds listener to list view items
+    rgbListView
+        .getSelectionModel()
+        .selectedIndexProperty()
+        .addListener((obs, old, newV) -> handleMark());
+    
   }
 
   @Override
@@ -56,41 +77,36 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
 
   @Override
   public AnchorPane getView() {
-    AnchorPane chainLinkPane = new AnchorPane();
+    updateView();
 
-    rgbListView = new ListView<>();
+    return new AnchorPane(rgbListView);
+  }
 
-    ObservableList<String> list = FXCollections.observableArrayList();
-
-    for (Color color : ((RGBList) getContent()).getList()) {
-      list.add(colorToRGBString(color));
-    }
-
-    rgbListView.setItems(list);
-
-    // adds listener to list view items
-    rgbListView
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            new ChangeListener<String>() {
-
-              @Override
-              public void changed(
-                  ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                // executes handleMark on selected
-                handleMark();
-              }
-            });
-
-    chainLinkPane.getChildren().add(rgbListView);
-
-    return chainLinkPane;
+  @Override
+  public String getName() {
+    return CHAIN_LINK_NAME;
   }
 
   @Override
   protected void mark(int id) {
+    lastElementMarked = id;
     rgbListView.getSelectionModel().select(id);
     chainLinkEditPresenter.setMarkID(id);
+  }
+
+  @Override
+  public void updateView() {
+    ObservableList<String> list = FXCollections.observableArrayList();
+    
+    for (Color color : ((RGBList) getContent()).getList()) {
+      list.add(colorToRGBString(color));
+    }
+    
+    rgbListView.setItems(list);
+    
+    // remarks the view
+    if (lastElementMarked !=  NOT_MARKED) {
+      mark(lastElementMarked);
+    }
   }
 }

@@ -7,12 +7,17 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import kodex.presenter.PresenterManager;
+
 /**
  * This class manages the FAQ. A fixed set of questions is stored locally in KodeX.Help_DE or
  * KodeX.Help_EN, which can then be read using this class.
  *
+ * @author Yannick Neubert
  * @author Patrick Spiesberger
- * @version 1.0
+ * @version 2.0
  */
 public class Help {
 
@@ -43,12 +48,15 @@ public class Help {
     try {
       prop.load(input);
     } catch (IOException e) {
-      System.out.println("Error during reading File");
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
+      alert.setContentText("Couldn't load help page property files.");
+      
+      PresenterManager.showAlertDialog(alert);
     }
-
-    loadQuestions();
-    loadAnswers();
-    loadInfo();
+    
+    load();
   }
 
   /**
@@ -77,27 +85,23 @@ public class Help {
   public List<String> getQuestions() {
     return questions;
   }
-
-  /** loads answers from selected property file. */
-  public void loadAnswers() {
-    for (int i = 1; i < prop.size() / 2 + 1; i++) {
-      if (prop.getProperty("answer" + i) != null) {
-        answers.add(prop.getProperty("answer" + i));
-      }
-    }
+  
+  /** loads the entries in the property file. */
+  private void load() {
+    prop.entrySet().stream()
+        .sorted((k1, k2) -> k1.getKey().toString().compareTo(k2.getKey().toString()))
+        .forEach(k -> {
+          String type = k.getKey().toString().substring(0, k.getKey().toString().length() - 1);
+          switch (type) {
+            case "question": questions.add(k.getValue().toString()); 
+              break;
+            case "answer": answers.add(k.getValue().toString()); 
+              break;
+            case "info": info.add(k.getValue().toString() + "\n");  
+              break;
+            default: break;
+          }
+        });
   }
-
-  /** loads informations about selected property file. */
-  public void loadInfo() {
-    info.add(prop.getProperty("info"));
-  }
-
-  /** loads questions from selected property file. */
-  public void loadQuestions() {
-    for (int i = 1; i < prop.size() / 2 + 1; i++) {
-      if (prop.getProperty("answer" + i) != null) {
-        questions.add(prop.getProperty("question" + i));
-      }
-    }
-  }
+  
 }

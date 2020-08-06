@@ -1,6 +1,5 @@
 package kodex.pluginutils.model.content;
 
-import java.util.LinkedList;
 import java.util.List;
 import kodex.plugininterface.Content;
 
@@ -8,10 +7,22 @@ import kodex.plugininterface.Content;
  * This class holds data in list format. It adds validation and exporting capabilities to Javas
  * LinkedList.
  */
-public abstract class AbstractList<E> extends Content<E> {
 
+//This is a workaround for the isValid method since generics could not be
+//used in this context.
+//This does however create the warning
+//"Content is a raw type. References to generic type Content<T> should be
+//parameterized"
+//and requires class casting in the subclasses so that the isValid method
+//receives the correct generic type of input.
+@SuppressWarnings("rawtypes")
+public abstract class AbstractList<E> extends Content {
+
+  /** The Constant MAX_IMAGE_WIDTH. */
+  protected static final int MAX_LIST_LENGTH = 500000;
+  
   /** The LinkedList containing this Contents data. */
-  protected LinkedList<E> list;
+  protected List<E> list;
 
   // below some shortcuts for common actions
   public void add(E element) {
@@ -36,7 +47,7 @@ public abstract class AbstractList<E> extends Content<E> {
    *
    * @param list The LinkedList containing this Contents data
    */
-  public void setList(LinkedList<E> list) {
+  public void setList(List<E> list) {
     this.list = list;
   }
 

@@ -12,13 +12,25 @@ import kodex.pluginutils.presenter.chainlink.TupleStringPresenter;
 import kodex.standardplugins.rle.model.steps.RLEStep;
 import kodex.standardplugins.rle.presenter.RLEImportPresenter;
 
-/** */
+/**
+ * This class is a plugin for the run length encoding procedure.
+ * 
+ * @author Leonhard Kraft
+ * @version 1.0
+ */
 public class TextRLEProcedurePlugin extends ProcedurePlugin {
 
   private ChainLinkPresenter[] chainLinks; // [2..*]
 
   /** Creates a new instance of the TextRLEProcedurePlugin. */
   public TextRLEProcedurePlugin() {
+
+  }
+  
+  /**
+   * Initialize the procedure plugin.
+   */
+  private void initialize() {
     this.chainLinks = new ChainLinkPresenter[2];
 
     RLEStep rleStep = new RLEStep();
@@ -34,6 +46,7 @@ public class TextRLEProcedurePlugin extends ProcedurePlugin {
 
   @Override
   public ImportPresenter createImportPresenter() {
+    initialize();
     return new RLEImportPresenter(this);
   }
 
@@ -45,6 +58,11 @@ public class TextRLEProcedurePlugin extends ProcedurePlugin {
   @Override
   public ChainLinkPresenter getChainHead() {
     return chainLinks[0];
+  }
+
+  @Override
+  public ChainLinkPresenter getChainTail() {
+    return chainLinks[chainLinks.length - 1];
   }
 
   @Override

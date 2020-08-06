@@ -11,12 +11,15 @@ import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.TupleString;
 
 /**
- * This class provides a chain link presenter for an array of string tuples thta should be
+ * This class provides a chain link presenter for an array of string tuples that should be
  * represented as a string.
  *
  * @author Leonhard Kraft
  */
 public class TupleStringPresenter extends ChainLinkPresenter {
+
+  /** The chain link name. */
+  private static final String CHAIN_LINK_NAME = "Tupelkette";
 
   public TupleStringPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
@@ -32,7 +35,6 @@ public class TupleStringPresenter extends ChainLinkPresenter {
 
     List<String> tupleStrings = new LinkedList<>();
     Arrays.stream(((TupleString) content).getTuples()).forEach(t -> tupleStrings.add(t.toString()));
-    ;
 
     displaytext.setText(String.join(" ", tupleStrings));
     ap.getChildren().add(displaytext);
@@ -40,8 +42,19 @@ public class TupleStringPresenter extends ChainLinkPresenter {
   }
 
   @Override
+  public String getName() {
+    return CHAIN_LINK_NAME;
+  }
+
+  @Override
   protected void mark(int id) {
     // TODO Auto-generated method stub
 
+  }
+
+  @Override
+  public void updateView() {
+    // TODO Auto-generated method stub
+    
   }
 }

@@ -1,47 +1,72 @@
 package kodex.pluginutils.model.steps;
 
 import java.util.HashMap;
-
+import java.util.Map;
 import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.ColorImage;
 import kodex.pluginutils.model.content.RGBMatrix;
 
-/** */
+/**
+ * This class represents the bidirectional step between ColorImage and RGBMatrix.
+ * It contains the functionality to decode and encode the content between 
+ * these explicitly defined levels.
+ * 
+ * @author Yannick Neubert
+ * @version 1.0
+ */
+
 public class ColorImageToRGBMatrix implements ChainStep {
 
+  @SuppressWarnings("unchecked")
   @Override
-  public void decode(Content<?> right, Content<?> left) {
-    ColorImage leftimg = (ColorImage) left;
-    RGBMatrix rightmtx = (RGBMatrix) right;
+  public void decode(Content<?> input, Content<?> output) {
+    ColorImage img = (ColorImage) output;
+    RGBMatrix mtx = (RGBMatrix) input;
 
-    int width = (int) rightmtx.getHeader().get("width");
-    int height = (int) rightmtx.getHeader().get("height");
-    leftimg.setSize(width, height);
+    int width = (int) mtx.getHeader().get("width");
+    int height = (int) mtx.getHeader().get("height");
+    img.setSize(width, height);
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
-        leftimg.setColor(x, y, rightmtx.get(x, y));
+        img.setColor(x, y, mtx.get(x, y));
       }
     }
+    
+    if (img.getHeader() == null || img.getHeader().isEmpty()) {  
+      Map<String, Object> header = new HashMap<>();
+      Map<String, Object> map =  mtx.getHeader();
+      
+      for (Map.Entry<String, Object> entry: map.entrySet()) {
+        header.put(entry.getKey(), entry.getValue());
+      }
 
-    leftimg.setHeader(rightmtx.getHeader());
+      img.setHeader(header);
+    }
   }
 
+  @SuppressWarnings("unchecked")
   @Override
-  public void encode(Content<?> left, Content<?> right) {
-    ColorImage leftimg = (ColorImage) left;
-    RGBMatrix rightmtx = (RGBMatrix) right;
+  public void encode(Content<?> input, Content<?> output) {
+    ColorImage img = (ColorImage) input;
+    RGBMatrix mtx = (RGBMatrix) output;
 
-    rightmtx.setSize(leftimg.getWidth(), leftimg.getHeight());
-    for (int y = 0; y < leftimg.getHeight(); y++) {
-      for (int x = 0; x < leftimg.getWidth(); x++) {
-        rightmtx.set(x, y, leftimg.getColor(x, y));
+    mtx.setSize(img.getWidth(), img.getHeight());
+    for (int y = 0; y < img.getHeight(); y++) {
+      for (int x = 0; x < img.getWidth(); x++) {
+        mtx.set(x, y, img.getColor(x, y));
       }
     }
+    
+    if (mtx.getHeader() == null || mtx.getHeader().isEmpty()) {  
+      Map<String, Object> header = new HashMap<>();
+      Map<String, Object> map =  img.getHeader();
+      
+      for (Map.Entry<String, Object> entry: map.entrySet()) {
+        header.put(entry.getKey(),  ((int) Math.round((double) entry.getValue())));
+      }
 
-    HashMap<String, Object> map = new HashMap<>();
-    map.put("width", Integer.valueOf(leftimg.getWidth()));
-    map.put("height", Integer.valueOf(leftimg.getHeight()));
-    rightmtx.setHeader(map);
+      mtx.setHeader(header);
+    }
   }
 }

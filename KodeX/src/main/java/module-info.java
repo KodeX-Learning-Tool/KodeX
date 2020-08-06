@@ -7,26 +7,32 @@ import kodex.standardplugins.qrcode.TextQRCodeProcedurePlugin;
 import kodex.standardplugins.rle.TextRLEProcedurePlugin;
 
 module kodex.KodeX {
-    requires javafx.controls;
-    requires javafx.fxml;
-	requires javafx.graphics;
-	requires javafx.base;
-	requires org.kordamp.ikonli.javafx;
-    requires org.controlsfx.controls;
-    
-    uses kodex.plugininterface.ProcedurePlugin;
-    uses kodex.plugininterface.Pluginable;
-    
-    opens kodex.presenter to javafx.fxml;
-    opens kodex.standardplugins.colorimageprocedure.presenter to javafx.fxml;
-    opens kodex.standardplugins.rle.presenter to javafx.fxml;
-    opens kodex.standardplugins.greyscaleimageprocedure.presenter to javafx.fxml;
-    opens kodex.standardplugins.bwimageprocedure.presenter to javafx.fxml;
-    exports kodex;
-    
-    provides Pluginable
-    	with ColorImageProcedurePlugin, BWImageProcedurePlugin, GreyScaleImageProcedurePlugin, TextQRCodeProcedurePlugin, TextRLEProcedurePlugin;
-    
-    provides ProcedurePlugin
-    	with ColorImageProcedurePlugin, BWImageProcedurePlugin, GreyScaleImageProcedurePlugin, TextQRCodeProcedurePlugin, TextRLEProcedurePlugin;
+  requires javafx.controls;
+  requires javafx.fxml;
+  requires transitive javafx.graphics;
+  requires javafx.base;
+  requires org.kordamp.ikonli.javafx;
+  requires org.controlsfx.controls;
+  requires java.desktop;
+  requires com.google.zxing;
+  requires com.google.zxing.javase;
+  
+
+  uses kodex.plugininterface.ProcedurePlugin;
+  uses kodex.plugininterface.Pluginable;
+  
+  opens kodex;
+  opens kodex.presenter to javafx.fxml;
+  opens kodex.standardplugins.colorimageprocedure.presenter to javafx.fxml;
+  opens kodex.standardplugins.rle.presenter to javafx.fxml;
+  opens kodex.standardplugins.qrcode.presenter to javafx.fxml;
+  opens kodex.standardplugins.greyscaleimageprocedure.presenter to javafx.fxml;
+  opens kodex.standardplugins.bwimageprocedure.presenter to javafx.fxml;
+  exports kodex;
+
+  provides Pluginable
+  with ColorImageProcedurePlugin, BWImageProcedurePlugin, GreyScaleImageProcedurePlugin, TextQRCodeProcedurePlugin, TextRLEProcedurePlugin;
+
+  provides ProcedurePlugin
+  with ColorImageProcedurePlugin, BWImageProcedurePlugin, GreyScaleImageProcedurePlugin, TextQRCodeProcedurePlugin, TextRLEProcedurePlugin;
 }

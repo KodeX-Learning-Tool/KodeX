@@ -17,6 +17,9 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import kodex.presenter.PresenterManager;
 
 /**
  * I18N utility class..
@@ -54,7 +57,11 @@ public class I18N {
     try {
       loadSupportedLocales();
     } catch (FileAlreadyExistsException | FileNotFoundException e) {
-      e.printStackTrace();
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("Language file is missing!");
+      PresenterManager.showAlertDialog(alert);
     }
 
     try {
@@ -177,8 +184,11 @@ public class I18N {
       if (fileName.equals(LANGUAGE_FILE_NAME)) {
 
         if (defaultFound) {
-          throw new FileAlreadyExistsException(
-              "Language default property file " + fileName + "is not unique.");
+          Alert alert = new Alert(AlertType.ERROR);
+          alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+          alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+          alert.setContentText("Language default property file " + fileName + "is not unique.");
+          PresenterManager.showAlertDialog(alert);
         }
 
         defaultFound = true;
@@ -188,7 +198,11 @@ public class I18N {
       fileNameParts = fileName.split("_");
 
       if (fileNameParts.length != VALID_NAME_PART_NUMBER) {
-        System.err.println("Please check name of File: " + fileName);
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+        alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+        alert.setContentText("Please check name of File: " + fileName);
+        PresenterManager.showAlertDialog(alert);
         continue;
       }
 
@@ -206,6 +220,7 @@ public class I18N {
             "Language property file for language "
                 + fileLocale.getDisplayLanguage()
                 + "is not unique.");
+        
       }
 
       supportedLocales.add(fileLocale);

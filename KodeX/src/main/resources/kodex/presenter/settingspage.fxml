@@ -29,18 +29,6 @@
                   <Region styleClass="settings__spring" />
                   <VBox>
                      <children>
-                        <Label fx:id="lblDarkmode"/>
-                        <Region styleClass="settings__setting__spring" />
-                        <HBox>
-                           <children>
-                              <ToggleSwitch fx:id="darkModeSwitch" onMouseClicked="#handleDarkModeToggle" styleClass="toggle-switch" text="Aus "/>
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-                  <Region styleClass="settings__spring" />
-                  <VBox>
-                     <children>
                         <Label fx:id="lblDefaultPort"/>
                         <Region styleClass="settings__setting__spring" />
                         <HBox styleClass="settings__setting__input">

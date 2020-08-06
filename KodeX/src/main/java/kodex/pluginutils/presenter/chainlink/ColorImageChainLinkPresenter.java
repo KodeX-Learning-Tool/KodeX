@@ -1,11 +1,13 @@
 package kodex.pluginutils.presenter.chainlink;
 
+import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
@@ -13,17 +15,23 @@ import kodex.pluginutils.model.content.ColorImage;
 import kodex.pluginutils.presenter.edit.ColorImageEditPresenter;
 import kodex.pluginutils.presenter.header.ColorImageHeaderPresenter;
 
-/** @author Raimon Gramlich */
+/** The Class ColorImageChainLinkPresenter manages the view for the color image.
+ * 
+ *  @author Raimon Gramlich
+ */
 public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
 
-  /** The Constant PREFFERED_IMAGE_SIZE. Scales the image if it smaller than this value. */
-  private static final int PREFFERED_IMAGE_SIZE = 90;
-
-  /** The Constant NOT_MARKED. */
-  private static final int NOT_MARKED = -1;
+  /** The chain link name. */
+  private static final String CHAIN_LINK_NAME = "Farbbild";
 
   /** The color image view displaying the image. */
   private ImageView colorImageView;
+
+  /**
+   * The Constant PREFFERED_IMAGE_SIZE. Scales the image if it smaller than this
+   * value.
+   */
+  private static final int PREFFERED_IMAGE_SIZE = 360;
 
   /** The selected X coordinate. */
   private double selectedX;
@@ -34,11 +42,17 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
   /** The scale factor of the image. */
   private int scaleFactor = 1;
 
+  /** The Constant NOT_MARKED. */
+  private static final int NOT_MARKED = -1;
+
   /** The ID of the last element marked. */
   private int lastElementMarked = NOT_MARKED;
 
   /** The last marked color. */
   private Color lastMarkedColor;
+
+  /** The image which is shown. */
+  private Image image;
 
   /**
    * Instantiates a new color image chain link presenter.
@@ -50,16 +64,30 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
   public ColorImageChainLinkPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
+    content = new ColorImage();
     chainLinkEditPresenter = new ColorImageEditPresenter(this);
     chainLinkHeaderPresenter = new ColorImageHeaderPresenter(this.getContent());
-    content = new ColorImage();
+    
+    colorImageView = new ImageView();
+    
+    // allows detection of clicks on transparent parts of the image
+    colorImageView.setPickOnBounds(true);
+
+    colorImageView.setOnMouseClicked(
+        e -> {
+          // store selected (marked) pixel
+          selectedX = e.getX();
+          selectedY = e.getY();
+      
+          handleMark();
+        });   
   }
 
   @Override
   protected int calculateID() {
     return (int) (selectedX / scaleFactor)
         + ((int) (selectedY / scaleFactor)
-            * (int) (colorImageView.getImage().getHeight() / scaleFactor));
+            * (int) (colorImageView.getImage().getWidth() / scaleFactor));
   }
 
   /**
@@ -71,8 +99,8 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
    * @param color the color which the "pixel" should be edited to
    */
   private void editPixelColor(PixelWriter writer, PixelReader reader, int id, Color color) {
-    int x = id % (int) Math.round(colorImageView.getImage().getHeight());
-    int y = (id / (int) Math.round(colorImageView.getImage().getHeight())) * scaleFactor;
+    int x = id % (int) Math.round(colorImageView.getImage().getWidth());
+    int y = (id / (int) Math.round(colorImageView.getImage().getWidth())) * scaleFactor;
 
     // store original color
     if (lastElementMarked != id) {
@@ -92,46 +120,35 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
 
   @Override
   public AnchorPane getView() {
-    AnchorPane chainLinkPane = new AnchorPane();
-    Image image = ((ColorImage) this.getContent()).getImage();
+    updateView();
 
-    scaleFactor = (int) (PREFFERED_IMAGE_SIZE / Math.max(image.getWidth(), image.getHeight()));
+    StackPane alignmentPane = new StackPane();
+    
+    // anchor the alignment pane in the center
+    AnchorPane.setTopAnchor(alignmentPane, 0d);
+    AnchorPane.setRightAnchor(alignmentPane, 0d);
+    AnchorPane.setBottomAnchor(alignmentPane, 0d);
+    AnchorPane.setLeftAnchor(alignmentPane, 0d);
+    
+    // align the image view in the center
+    alignmentPane.getChildren().add(colorImageView);
+    alignmentPane.setAlignment(Pos.CENTER);
+    
+    return new AnchorPane(alignmentPane);
+  }
 
-    // scale if smaller than preffered size
-    if (scaleFactor > 1) {
-      colorImageView = new ImageView(resample(image, scaleFactor));
-    } else {
-      colorImageView = new ImageView(image);
-      scaleFactor = 1;
-    }
-
-    // allows detection of clicks on transparent parts of the image
-    colorImageView.setPickOnBounds(true);
-
-    colorImageView.setOnMouseClicked(
-        e -> {
-          // store selected (marked) pixel
-          selectedX = e.getX();
-          selectedY = e.getY();
-
-          handleMark();
-        });
-
-    chainLinkPane.getChildren().add(colorImageView);
-
-    AnchorPane.setTopAnchor(colorImageView, 0d);
-    AnchorPane.setRightAnchor(colorImageView, 0d);
-    AnchorPane.setBottomAnchor(colorImageView, 0d);
-    AnchorPane.setLeftAnchor(colorImageView, 0d);
-
-    return chainLinkPane;
+  @Override
+  public String getName() {
+    return CHAIN_LINK_NAME;
   }
 
   @Override
   protected void mark(int id) {
+    // sets the mark id for editing
+    chainLinkEditPresenter.setMarkID(id);
+    
     id = id * scaleFactor;
-    Image image = colorImageView.getImage();
-
+    
     int width = (int) image.getWidth();
     int height = (int) image.getHeight();
 
@@ -165,9 +182,6 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
 
     // show marked image
     colorImageView.setImage(writableImage);
-
-    // sets the mark id for editing
-    chainLinkEditPresenter.setMarkID(id);
   }
 
   /**
@@ -199,5 +213,33 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
     }
 
     return output;
+  }
+  
+  @Override
+  public void updateView() {
+    image = ((ColorImage) content).getImage();
+    
+    scaleFactor = (int) (PREFFERED_IMAGE_SIZE / Math.max(image.getWidth(), image.getHeight()));
+    
+    // scale if smaller than preferred size
+    if (scaleFactor > 1) {
+      image = resample(image, scaleFactor);
+    } else {
+      scaleFactor = 1;
+    }
+
+    colorImageView.setImage(image);
+    
+    // remarks the view
+    if (lastElementMarked !=  NOT_MARKED) {
+      // mark(lastElementMarked / scaleFactor);
+      
+      // remember the new value
+      int x = lastElementMarked % (int) Math.round(colorImageView.getImage().getWidth());
+      int y = (lastElementMarked 
+          / (int) Math.round(colorImageView.getImage().getWidth())) * scaleFactor;
+      
+      lastMarkedColor = image.getPixelReader().getColor(x, y);
+    } 
   }
 }

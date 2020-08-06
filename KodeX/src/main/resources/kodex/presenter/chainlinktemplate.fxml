@@ -4,75 +4,79 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<fx:root type="AnchorPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root styleClass="chainlink" stylesheets="@style.css" type="VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button mnemonicParsing="false" onAction="#handleHideChainLink" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <graphic>
-            <FontIcon fx:id="hideButtonIcon" iconLiteral="mdi-chevron-right" />
-         </graphic>
-      </Button>
-      <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Region prefHeight="50.0" prefWidth="240.0" />
-            <AnchorPane>
-               <children>
-                  <BorderPane fx:id="chainLinkPane" prefHeight="182.0" prefWidth="240.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane fx:id="hideButtonPane">
+         <right>
+            <Button mnemonicParsing="false" onAction="#handleHideChainLink" styleClass="default-button--shadow" BorderPane.alignment="CENTER">
+               <graphic>
+                  <FontIcon fx:id="hideButtonIcon" iconLiteral="mdi-window-minimize" />
+               </graphic>
+            </Button>
+         </right>
+      </BorderPane>
+      <Region styleClass="chainlink__spring" />
+      <BorderPane fx:id="chainLinkPane">
+         <center>
+            <ScrollPane hbarPolicy="NEVER" styleClass="chainlink__scrollbar">
+               <content>
+                  <BorderPane styleClass="chainlink__content_container">
+                     <center>
+                        <ScrollPane styleClass="chainlink__content__scrollbar">
+                           <content>
+                              <BorderPane fx:id="chainlinkContent" />
+                           </content>
+                        </ScrollPane>
+                     </center>
                      <top>
-                        <AnchorPane BorderPane.alignment="CENTER">
-                           <children>
-                              <HBox prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <Label fx:id="titleLabel" text="Eingabe" />
-                                    <Region />
-                                    <Button mnemonicParsing="false" onAction="#handleEdit">
-                                       <graphic>
-                                          <FontIcon iconLiteral="mdi-lead-pencil" />
-                                       </graphic>
-                                    </Button>
-                                 </children>
-                              </HBox>
-                           </children>
-                        </AnchorPane>
+                        <BorderPane BorderPane.alignment="CENTER">
+                           <left>
+                              <Label fx:id="titleLabel" text="Eingabe" BorderPane.alignment="CENTER" />
+                           </left>
+                           <right>
+                              <Button fx:id="editButton" mnemonicParsing="false" onAction="#handleEdit" styleClass="default-button--shadow" BorderPane.alignment="CENTER">
+                                 <graphic>
+                                    <FontIcon iconLiteral="mdi-lead-pencil" />
+                                 </graphic>
+                              </Button>
+                           </right>
+                        </BorderPane>
                      </top>
                      <bottom>
-                        <AnchorPane BorderPane.alignment="CENTER">
-                           <children>
-                              <TitledPane fx:id="informationTitledPane" animated="false" prefHeight="82.0" prefWidth="240.0" text="Informationen:" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                <content>
-                                    <AnchorPane>
-                                       <children>
-                                          <ScrollPane fitToWidth="true" layoutX="19.6" layoutY="19.6" prefHeight="56.0" prefWidth="238.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <TitledPane fx:id="informationTitledPane" animated="false" styleClass="chainlink__info" text="Informationen:" BorderPane.alignment="CENTER">
+                           <content>
+                              <VBox>
+                                 <children>
+                                    <BorderPane>
+                                       <center>
+                                          <ScrollPane fitToWidth="true">
                                              <content>
-                                                <AnchorPane>
-                                                   <children>
-                                                      <VBox fx:id="informationBox" prefHeight="25.0" prefWidth="217.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                         <children>
-                                                            <Region />
-                                                            <Button fx:id="exportButton" mnemonicParsing="false" onAction="#handleExport" text="Exportieren" />
-                                                         </children>
-                                                      </VBox>
-                                                   </children>
-                                                </AnchorPane>
+                                                <BorderPane fx:id="informationBox" />
                                              </content>
                                           </ScrollPane>
-                                       </children>
-                                    </AnchorPane>
-                                </content>
-                              </TitledPane>
-                           </children>
-                        </AnchorPane>
+                                       </center>
+                                    </BorderPane>
+                                    <Region />
+                                    <BorderPane>
+                                       <right>
+                                          <Button fx:id="exportButton" mnemonicParsing="false" onAction="#handleExport" styleClass="default-button--shadow" text="Exportieren" BorderPane.alignment="CENTER" />
+                                       </right>
+                                    </BorderPane>
+                                 </children>
+                              </VBox>
+                           </content>
+                        </TitledPane>
                      </bottom>
                   </BorderPane>
-               </children>
-            </AnchorPane>
-         </children>
-      </VBox>
+               </content>
+            </ScrollPane>
+         </center>
+      </BorderPane>
+      <Label fx:id="hiddenLabel" styleClass="chainlink__hidden-label" />
    </children>
 </fx:root>

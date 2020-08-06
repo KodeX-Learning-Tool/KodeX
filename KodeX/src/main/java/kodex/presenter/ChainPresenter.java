@@ -2,19 +2,25 @@ package kodex.presenter;
 
 import java.io.File;
 import java.io.IOException;
+
 import org.kordamp.ikonli.javafx.FontIcon;
+
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.SplitPane;
 import javafx.scene.control.SplitPane.Divider;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkHeaderPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ProcedurePlugin;
@@ -38,7 +44,7 @@ public class ChainPresenter implements IPresenter {
    * @author Raimon Gramlich
    * @version 1.0
    */
-  private class ChainItem extends AnchorPane {
+  private class ChainItem extends VBox {
 
     /** The Label for displaying the name of the chain link. */
     @FXML private Label titleLabel;
@@ -46,29 +52,47 @@ public class ChainPresenter implements IPresenter {
     /** The BorderPane to the ProcedureLayoutPresenter. */
     @FXML private BorderPane chainLinkPane;
 
+    /** The BorderPane containing the interactions and content as well as header. */
+    @FXML private BorderPane chainlinkContent;
+
     /** The VBox containing information like the header and the export button. */
-    @FXML private VBox informationBox;
+    @FXML private BorderPane informationBox;
 
     /** The Icon displaying whether or not the chain item is expanded. */
     @FXML private FontIcon hideButtonIcon;
 
-    /** This Boolean represents the state of the chain item. */
-    private Boolean isHidden;
+    /** The titled pane containing further information. */
+    @FXML private TitledPane informationTitledPane;
 
+    /** The export button. */
+    @FXML private Button exportButton;
+
+    /** The edit button. */
+    @FXML private Button editButton;
+
+    /** The Label which is displayed when the content is hidden. */
+    @FXML private Label hiddenLabel;
+    
+    /** The BorderPane containing the hideButton. */
+    @FXML private BorderPane hideButtonPane;
+
+    /** This Boolean represents the state of the chain item. */
+    private boolean hidden;
+    
+    /** The min width of the chainlink container when the contents are shown. */
+    private static final double SHOW_MIN_CONTAINER_WIDTH = 360;
+    
+    /** The min width of the chainlink container when the contents are hidden. */
+    private static final double HIDDEN_MIN_CONTAINER_WIDTH = 80;
+    
     /** The IconLiteral of the hidden-icon. */
-    private String hiddenIcon = "mdi-chevron-down";
+    private String hiddenIcon = "mdi-plus";
 
     /** The IconLiteral of the expanded-icon. */
-    private String shownIcon = "mdi-chevron-right";
+    private String shownIcon = "mdi-window-minimize";
 
     /** The reference to the ChainLinkPresenter. */
     private ChainLinkPresenter chainLinkPresenter;
-
-    /** The actual content of the chain item. */
-    private VBox chainItemContent;
-
-    /** The Label which is displayed when the content is hidden. */
-    private Label hiddenLabel;
 
     /**
      * Creates a new ChainItem with a reference to its ChainLinkPresenter.
@@ -78,17 +102,23 @@ public class ChainPresenter implements IPresenter {
     ChainItem(ChainLinkPresenter chainLinkPresenter) {
       this.chainLinkPresenter = chainLinkPresenter;
 
-      isHidden = false;
+      hidden = false;
 
       // loads template file
-      try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("chainlinktemplate.fxml"));
-        loader.setController(this);
-        loader.setRoot(this);
+      String fileName = "chainlinktemplate.fxml";
+      
+      FXMLLoader loader = new FXMLLoader(getClass().getResource(fileName));
+      loader.setController(this);
+      loader.setRoot(this);
+      try {  
         loader.load();
-      } catch (IOException exc) {
-        exc.printStackTrace();
-        System.err.println("The file chainlinktemplate.fxml was not found!");
+      } catch (IOException e) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+        alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
+        alert.setContentText("Failed creating chain item " + chainLinkPresenter.getName() 
+            + " with " + fileName + ".");
+        PresenterManager.showAlertDialog(alert);
       }
     }
 
@@ -110,8 +140,10 @@ public class ChainPresenter implements IPresenter {
       // opens save dialog to choose where you want to save the file
       FileChooser chooser = new FileChooser();
       chooser.setTitle("Choose export location");
-      File exportLocation = chooser.showSaveDialog(null);
-
+      File exportLocation = PresenterManager.showSaveFileChooser(chooser);
+      if (exportLocation == null) {
+        return;
+      }
       // initiates exporting the chain link content
       chainLinkPresenter.export(exportLocation);
     }
@@ -131,16 +163,47 @@ public class ChainPresenter implements IPresenter {
      */
     @FXML
     private void initialize() {
-      // titleLabel.setText("Kodierungsstufe: " + chainLinkPresenter.getName());
+      titleLabel.textProperty().bind(I18N.createStringBinding("chainlinktemplate.stage")
+          .concat(" " + chainLinkPresenter.getName()));
+      
+      this.setMinWidth(SHOW_MIN_CONTAINER_WIDTH);
+
+      // add language support
+      informationTitledPane
+          .textProperty()
+          .bind(I18N.createStringBinding("chainlinktemplate.information.header"));
+      exportButton.textProperty().bind(I18N.createStringBinding("chainlinktemplate.exportbutton"));
+
+      // replace horizontal lines with vertical ones
+      String chainLinkName = chainLinkPresenter.getName();
+      chainLinkName = chainLinkName.replace("-", "|");
+
+      // enable language support and display the name
+      hiddenLabel
+          .textProperty()
+          .bind(
+              I18N.createStringBinding("chainlinktemplate.stage")
+                  .concat("  " + chainLinkName));
+
+      // bind the visibility to the managed property and hide the hiddenLabel
+      chainLinkPane.visibleProperty().bind(chainLinkPane.managedProperty());
+      hiddenLabel.visibleProperty().bind(hiddenLabel.managedProperty());
+      hiddenLabel.setManaged(false);
 
       ChainLinkHeaderPresenter header = chainLinkPresenter.getChainLinkHeader();
 
+      // display the header if available
       if (header != null) {
-
-        informationBox.getChildren().set(0, header.getView());
+        informationBox.setCenter(header.getView());
       }
 
-      chainLinkPane.setCenter(chainLinkPresenter.getView());
+      // display the chain link content
+      chainlinkContent.setCenter(chainLinkPresenter.getView());
+
+      // disables the edit button if there is no edit presenter for the chain link
+      if (chainLinkPresenter.getChainLinkEditPresenter() == null) {
+        editButton.setDisable(true);
+      }
     }
 
     /**
@@ -148,12 +211,44 @@ public class ChainPresenter implements IPresenter {
      * accordingly.
      */
     private void toggleHide() {
-      if (isHidden) {
+      if (hidden) {
+        
+        //put hide/show button into right of its BorderPane
+        Node hideButton = hideButtonPane.getCenter();
+        hideButtonPane.setCenter(null);
+        hideButtonPane.setRight(hideButton);
+        
+        this.setMinWidth(SHOW_MIN_CONTAINER_WIDTH);
+        
+        // change the icon
         hideButtonIcon.setIconLiteral(shownIcon);
-        isHidden = false;
+
+        // reverse max width
+        this.setMaxWidth(chainLinkPane.getMaxWidth());
+
+        // show chain item content and hide the hidden pane
+        hiddenLabel.setManaged(false);
+        chainLinkPane.setManaged(true);
+        hidden = false;
+
       } else {
+        
+        //put hide/show button into center of its BorderPane
+        Node hideButton = hideButtonPane.getRight();
+        hideButtonPane.setRight(null);
+        hideButtonPane.setCenter(hideButton);
+        
+        // force the chain item to be thinner
+        this.setMinWidth(HIDDEN_MIN_CONTAINER_WIDTH);
+        this.setMaxWidth(HIDDEN_MIN_CONTAINER_WIDTH);
+        
+        // change the icon
         hideButtonIcon.setIconLiteral(hiddenIcon);
-        isHidden = true;
+
+        // hide chain item content and show the hidden pane
+        hiddenLabel.setManaged(true);
+        chainLinkPane.setManaged(false);
+        hidden = true;
       }
     }
   }
@@ -162,10 +257,7 @@ public class ChainPresenter implements IPresenter {
   @FXML private ScrollPane viewScrollPane;
 
   /** The split pane in which the Chain Links are displayed. */
-  @FXML private SplitPane chainSplitPane;
-
-  /** The view object containing everything which is displayed in the chain. */
-  private AnchorPane chainRootPane;
+  @FXML private ChainSplitPane chainSplitPane;
 
   /** The reference to the first ChainLinkPresenter. */
   private ChainLinkPresenter firstChainLinkPresenter;
@@ -176,9 +268,6 @@ public class ChainPresenter implements IPresenter {
   /** The dividers of the SplitPane chainSplitPane. */
   private ObservableList<Divider> dividers;
 
-  /** This Boolean stores whether the dividers are programmatically moved at the moment. */
-  private boolean isMoving = false;
-
   /**
    * Creates a new ChainPresenter with a reference to the first ChainLinkPresenter and a
    * ProcedureLayoutPresenter.
@@ -188,16 +277,23 @@ public class ChainPresenter implements IPresenter {
    */
   public ChainPresenter(
       ChainLinkPresenter chainLinkPresenter, ProcedureLayoutPresenter procedureLayoutPresenter) {
+    
     this.firstChainLinkPresenter = chainLinkPresenter;
     this.procedureLayoutPresenter = procedureLayoutPresenter;
-
+    
+    String fileName = "chainlayout.fxml";
+    
     // loads the template file
-    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("chainlayout.fxml"));
+    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fileName));
     fxmlLoader.setController(this);
     try {
-      chainRootPane = fxmlLoader.load();
+      viewScrollPane = fxmlLoader.load();
     } catch (IOException e) {
-      e.printStackTrace();
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
+      alert.setContentText("Failed creating chain view with " + fileName + ".");
+      PresenterManager.showAlertDialog(alert);
     }
   }
 
@@ -206,39 +302,42 @@ public class ChainPresenter implements IPresenter {
    *
    * @param activeProcedure the active Procedure-Plugin.
    */
-  public void createChainView(ProcedurePlugin activeProcedure) {
-    ChainLinkPresenter chainLinkPresenter = firstChainLinkPresenter;
-
+  public void createChainView(ProcedurePlugin activeProcedure, boolean encoding) {
+    ChainLinkPresenter chainLinkPresenter = 
+        encoding ? firstChainLinkPresenter : activeProcedure.getChainTail();
+    
     // add a newly created chain item for each ChainLinkPresenter
     while (chainLinkPresenter != null) {
       chainSplitPane.getItems().add(new ChainItem(chainLinkPresenter));
-      chainLinkPresenter = chainLinkPresenter.getNext();
+      
+      chainLinkPresenter = encoding ? chainLinkPresenter.getNext() : chainLinkPresenter.getPrev();
     }
+    
+    /*
+     * Add a node to the end of the list, to enable resizing of the last chain link
+     */
+    Region endNode = new Region();
+    endNode.setMaxWidth(1);
+    chainSplitPane.getItems().add(endNode);
 
-    // add change listener to the dividers of the SplitPane
     dividers = chainSplitPane.getDividers();
+    
+    double positionDelta = 1d / (dividers.size() + 1d);
+    
+    //set initial divider position, to be evenly distributed
+    for (int i = 0; i < dividers.size(); i++) {
 
-    for (Divider divider : dividers) {
-      divider
-          .positionProperty()
-          .addListener(
-              (obs, oldValue, newValue) -> {
-                if (isMoving == false) {
-                  double delta = newValue.doubleValue() - oldValue.doubleValue();
-                  moveDividers(divider, delta);
-                }
-              });
+      Divider divider = dividers.get(i);
+      
+      divider.setPosition(positionDelta * (double) (i + 1));
+      
     }
   }
 
   @Override
-  public AnchorPane getView() {
-    return chainRootPane;
+  public ScrollPane getView() {
+    return viewScrollPane;
   }
-
-  /** Initializes the view-object created by the FXMLLoader. */
-  @FXML
-  private void initialize() {}
 
   /**
    * This method jumps to the Chain Link with the given ID.
@@ -249,44 +348,21 @@ public class ChainPresenter implements IPresenter {
     // This sets the position of the vertical dividers between the Chain Links.
     // TODO: expand the chain item
 
-    Node chainItem = chainSplitPane.getChildrenUnmodifiable().get(id);
+    ChainItem chainItem = (ChainItem) chainSplitPane.getItems().get(id);
+    
+    if (chainItem.hidden) {
+      //make desired chainlink visible if it is hidden
+      chainItem.handleHideChainLink();
+    }
 
     // calculate the hValue for the view port of the scroll pane
     double scrollPanewidth = viewScrollPane.getContent().getBoundsInLocal().getWidth();
     double x =
-        (chainItem.getParent().getParent().getBoundsInParent().getMaxX()
-                + chainItem.getParent().getParent().getBoundsInParent().getMinX())
+        (chainItem.getParent().getBoundsInParent().getMaxX()
+                + chainItem.getParent().getBoundsInParent().getMinX())
             / 2.0;
     double viewPortWdith = viewScrollPane.getViewportBounds().getWidth();
     viewScrollPane.setHvalue(
         viewScrollPane.getHmax() * ((x - 0.5 * viewPortWdith) / (scrollPanewidth - viewPortWdith)));
-  }
-
-  /**
-   * This method moves the other dividers, if possible, by the same amount as the given divider.
-   *
-   * @param divider : The divider which was moved.
-   * @param delta : The signed amount which the divider was moved.
-   */
-  private void moveDividers(Divider divider, double delta) {
-    isMoving = true;
-
-    int id = dividers.indexOf(divider);
-
-    // move left or right hand dividers depending on the direction of movement
-    if (delta > 0) {
-      for (int i = id + 1; i < dividers.size(); i++) {
-        double newPosition = dividers.get(i).getPosition() + delta / 100;
-
-        dividers.get(i).setPosition(newPosition);
-      }
-    } else if (delta < 0) {
-      for (int i = id - 1; i >= 0; i--) {
-        double newPosition = dividers.get(i).getPosition() + delta / 100;
-
-        dividers.get(i).setPosition(newPosition);
-      }
-    }
-    isMoving = false;
   }
 }
