@@ -27,7 +27,6 @@ public class RLEStep implements ChainStep {
     letterString.setLetterString(letters.toString());
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public void encode(Content<?> input, Content<?> output) {
 
@@ -35,16 +34,16 @@ public class RLEStep implements ChainStep {
     TupleString tupleString = (TupleString) output;
 
     List<Tuple<String, Integer>> tuples = new ArrayList<>();
-
+    
     char[] letterStringChars = letterString.getLetterString().toCharArray();
-
+    
     char currentChar = letterStringChars[0];
     char newChar;
     int count = 1;
 
     for (int i = 1; i < letterStringChars.length; i++) {
 
-      newChar = letterStringChars[1];
+      newChar = letterStringChars[i];
 
       if (newChar != currentChar) {
 
@@ -56,6 +55,7 @@ public class RLEStep implements ChainStep {
         count++;
       }
     }
+    tuples.add(new Tuple<>(Character.toString(currentChar), count));
     tupleString.setTuples(tuples.toArray((Tuple<String, Integer>[]) new Tuple[tuples.size()]));
   }
 }
