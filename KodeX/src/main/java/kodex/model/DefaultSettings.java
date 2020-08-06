@@ -107,7 +107,7 @@ public class DefaultSettings extends Settings {
       settingsDir = new File(getParentPath() + fileSeparator + (SETTINGS_DIRECTORY));
 
       if (!settingsDir.exists() && settingsDir.mkdir()) {
-        System.out.println("Created settings folder!");
+        // do something
       }
     } catch (UnsupportedEncodingException e4) {
       // TODO Auto-generated catch block
@@ -124,7 +124,6 @@ public class DefaultSettings extends Settings {
     
     if (!userSettingsFile.exists()) {
       try {
-        System.out.println(DEFAULT_SETTINGS_PATH);
         defaultProperties.load(DefaultSettings.class.getResourceAsStream(DEFAULT_SETTINGS_PATH));
       } catch (IOException e2) {
         // TODO Auto-generated catch block

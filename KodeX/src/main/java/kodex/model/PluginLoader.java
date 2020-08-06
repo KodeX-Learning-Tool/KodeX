@@ -385,7 +385,7 @@ public class PluginLoader {
         alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
         alert.headerTextProperty().bind(I18N.createStringBinding("alert.delete.failed"));
         alert.setContentText("Couldn't delete " + pluginName 
-            + ",jar. Make sure that the name of the jar file matches the internal plugin name.");
+            + ".jar. Make sure that the name of the .jar file matches the internal plugin name.");
         PresenterManager.showAlertDialog(alert);
       }
     } catch (IOException e) {
