@@ -7,6 +7,7 @@ import java.net.URISyntaxException;
 import java.nio.file.FileAlreadyExistsException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
@@ -141,12 +142,13 @@ public class I18N {
 
   private static void loadSupportedLocales()
       throws FileNotFoundException, FileAlreadyExistsException {
-    
-    ArrayList<JarEntry> languageFiles = new ArrayList<>();
+
+    List<String> fileNames = new ArrayList<>();
         
     // get a list of available language property files
     try (JarFile jar = new JarFile(new File(I18N.class
         .getProtectionDomain().getCodeSource().getLocation().toURI()))) {
+      // getting a list of files inside a folder from a jar file
       Enumeration<JarEntry> entries = jar.entries();
       
       Iterator<JarEntry> it = entries.asIterator();
@@ -159,19 +161,25 @@ public class I18N {
          */
         if (name.startsWith(LANGUAGE_FOLDER_PATH + LANGUAGE_FILE_NAME)
             && name.endsWith(".properties")) {
-          languageFiles.add(jarEntry);
+          String filePath = jarEntry.getName();
+          
+          int slashPos = filePath.lastIndexOf("/");
+          
+          // get the file name
+          if (slashPos != filePath.length() - 1) {
+            fileNames.add(filePath.substring(slashPos + 1));
+          }
         }
       }
     } catch (IOException | URISyntaxException e) {
       e.printStackTrace();
     }
-    
-    
-    if (languageFiles.isEmpty()) {
+
+
+    if (fileNames.isEmpty()) {
       throw new FileNotFoundException("No language file has been found.");
     }
     
-    String fileName;
     String[] fileNameParts;
     Locale fileLocale;
     boolean defaultFound = false;
@@ -180,18 +188,7 @@ public class I18N {
     /*
      * Get Locale from all available files.
      */
-    for (JarEntry propertyFile : languageFiles) { 
-      String filePath = propertyFile.getName();
-      
-      int slashPos = filePath.lastIndexOf("/");
-      
-      // get the file name
-      if (slashPos != filePath.length() - 1) {
-        fileName = filePath.substring(slashPos + 1);
-      } else {
-        throw new FileNotFoundException(filePath + " is not a file.");
-      }
-      
+    for (String fileName : fileNames) {      
       exPos = fileName.lastIndexOf(".");
 
       // strip file name of file extension
