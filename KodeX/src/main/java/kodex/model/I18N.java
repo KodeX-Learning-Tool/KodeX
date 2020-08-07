@@ -171,6 +171,10 @@ public class I18N {
           }
         }
       }
+    } catch (FileNotFoundException e) {
+      // getting a list of files inside a folder running from the IDE
+      File a = new File(I18N.class.getResource("languages").getFile());
+      fileNames = Arrays.asList(a.list());
     } catch (IOException | URISyntaxException e) {
       e.printStackTrace();
     }
