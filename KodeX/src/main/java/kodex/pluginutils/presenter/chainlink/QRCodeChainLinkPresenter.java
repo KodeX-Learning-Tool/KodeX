@@ -2,9 +2,7 @@ package kodex.pluginutils.presenter.chainlink;
 
 import java.io.File;
 import java.io.IOException;
-
 import com.google.zxing.client.j2se.MatrixToImageWriter;
-
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

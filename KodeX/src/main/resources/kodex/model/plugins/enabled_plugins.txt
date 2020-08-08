@@ -1,5 +1,2 @@
-#Farbbildverfahrensplugin
-#Lauflängencodierung
 Graustufen Bild
-Schwarz & Weiß Bild
 QR-Code

@@ -224,6 +224,9 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
       in.next(WIDTH_KEY);
       int width = in.nextInt();
       header.put(WIDTH_KEY, width);
+      in.next("unit-length");
+      int unitLength = in.nextInt();
+      header.put("unit-length", unitLength);
       in.next(HEIGHT_KEY);
       int height = in.nextInt();
       header.put(HEIGHT_KEY, height);

@@ -1,6 +1,8 @@
 package kodex.pluginutils.model.steps;
 
 import java.util.HashMap;
+import java.util.Map;
+
 import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.BinaryString;
@@ -29,7 +31,19 @@ public class BitListToBinaryString implements ChainStep {
       leftlist.add(Integer.valueOf(rgb));
     }
 
-    leftlist.setHeader(rightstring.getHeader());
+    if (leftlist.getHeader() == null || leftlist.getHeader().isEmpty()) {
+      
+      Map<String, Object> header = new HashMap<>();
+      Map<String, Object> map =  rightstring.getHeader();
+      
+      for (Map.Entry<String, Object> entry: map.entrySet()) {
+        header.put(entry.getKey(), entry.getValue());
+      }
+      
+      header.put("unit-length", 1); //Length of a Bit
+      
+      leftlist.setHeader(header);
+    }
   }
 
   @SuppressWarnings("unchecked")
@@ -43,11 +57,17 @@ public class BitListToBinaryString implements ChainStep {
       builder.append(leftlist.get(i));
     }
     rightstring.setString(builder.toString());
+    
+    if (rightstring.getHeader() == null || rightstring.getHeader().isEmpty()) {
+      Map<String, Object> header = new HashMap<>();
+      Map<String, Object> map = leftlist.getHeader();
 
-    HashMap<String, Object> map = new HashMap<>();
-    map.put("length", rightstring.length());
-    rightstring.setHeader(map);
+      for (Map.Entry<String, Object> entry : map.entrySet()) {
+        header.put(entry.getKey(), entry.getValue());
+      }
 
-    rightstring.setHeader(leftlist.getHeader());
+      header.put("unit-length", 1); //Length of a Bit
+      rightstring.setHeader(header);
+    }
   }
 }
