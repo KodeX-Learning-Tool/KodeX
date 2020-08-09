@@ -1,23 +1,22 @@
 package kodex.model;
 
-//import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-//import org.junit.jupiter.api.AfterAll;
-//import org.junit.jupiter.api.BeforeAll;
-//import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-//import javafx.collections.FXCollections;
-//import javafx.collections.ObservableList;
-//import kodex.plugininterface.ProcedurePlugin;
-//import kodex.standardplugins.bwimageprocedure.BWImageProcedurePlugin;
-//import kodex.standardplugins.colorimageprocedure.ColorImageProcedurePlugin;
-//import kodex.standardplugins.greyscaleimageprocedure.GreyScaleImageProcedurePlugin;
-//import kodex.standardplugins.qrcode.TextQRCodeProcedurePlugin;
-//import kodex.standardplugins.rle.TextRLEProcedurePlugin;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import kodex.plugininterface.ProcedurePlugin;
+import kodex.standardplugins.bwimageprocedure.BWImageProcedurePlugin;
+import kodex.standardplugins.colorimageprocedure.ColorImageProcedurePlugin;
+import kodex.standardplugins.greyscaleimageprocedure.GreyScaleImageProcedurePlugin;
+import kodex.standardplugins.qrcode.TextQRCodeProcedurePlugin;
+import kodex.standardplugins.rle.TextRLEProcedurePlugin;
 
 class AlphaNumericalSortTest {
 
-  /**
   private static BWImageProcedurePlugin bw = new BWImageProcedurePlugin();
   private static GreyScaleImageProcedurePlugin gs = new GreyScaleImageProcedurePlugin();
   private static TextQRCodeProcedurePlugin qr = new TextQRCodeProcedurePlugin();
@@ -57,5 +56,5 @@ class AlphaNumericalSortTest {
   static void clean() {
     actual.clear();
     expected.clear();
-  } **/
+  }
 }
