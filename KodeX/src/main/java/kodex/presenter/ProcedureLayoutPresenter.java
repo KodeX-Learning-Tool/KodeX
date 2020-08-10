@@ -307,8 +307,10 @@ public class ProcedureLayoutPresenter extends Presenter {
   }
 
   /** This creates and adds the items to the overview bar. */
-  private void addOverviewItems() {
-    ChainLinkPresenter chainLinkPresenter = activeProcedure.getChainHead();
+  private void addOverviewItems(boolean encoding) {
+    
+    ChainLinkPresenter chainLinkPresenter = 
+        encoding ? activeProcedure.getChainHead() : activeProcedure.getChainTail();
 
     Double padding = overviewBox.getPadding().getTop() + overviewBox.getPadding().getBottom();
     DoubleBinding boxSize = overviewBox.heightProperty().subtract(padding);
@@ -327,7 +329,7 @@ public class ProcedureLayoutPresenter extends Presenter {
 
       overviewBox.getChildren().add(overviewItem);
 
-      chainLinkPresenter = chainLinkPresenter.getNext();
+      chainLinkPresenter = encoding ? chainLinkPresenter.getNext() : chainLinkPresenter.getPrev();
       i++;
     }
   } 
@@ -357,7 +359,7 @@ public class ProcedureLayoutPresenter extends Presenter {
     activePresenter = new ChainPresenter(activeProcedure.getChainHead(), this);
 
     // fills the overview bar with items
-    addOverviewItems();
+    addOverviewItems(encoding);
 
     // fills the chain view with chain links, then display it
     ((ChainPresenter) activePresenter).createChainView(activeProcedure, encoding);
