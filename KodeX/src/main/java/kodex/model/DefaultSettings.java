@@ -201,6 +201,8 @@ public class DefaultSettings extends Settings {
       setPort(Integer.parseInt(prop.getProperty("port")));
 
       setDefaultPath(prop.getProperty("defaultPath"));
+      
+      PluginLoader.getInstance().resetActivePlugins();
 
     } catch (IOException e) {
       Alert alert = new Alert(AlertType.ERROR);
