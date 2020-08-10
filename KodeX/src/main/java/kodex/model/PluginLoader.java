@@ -126,22 +126,7 @@ public class PluginLoader {
     }
 
     if (!enabledPluginsFile.exists()) {
-      try {
-        InputStream input = PluginLoader.class
-            .getResourceAsStream(INTERNAL_PLUGIN_DIRECTORY + "/" + ENABLED_PLUGIN_LIST);
-
-        // write the default enabled-plugins list to the file
-
-        FileOutputStream fileOut = new FileOutputStream(enabledPluginsFile);
-        input.transferTo(fileOut);
-      } catch (FileNotFoundException e1) {
-        // TODO Auto-generated catch block
-        e1.printStackTrace();
-      } catch (IOException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-
+      copyInternalPluginListToFolder();
     }
 
     loadInternalPlugins();
@@ -157,6 +142,7 @@ public class PluginLoader {
    * @param plugin : plugin which should be added
    */
   public void activatePlugin(Plugin plugin) {
+    plugin.activatedProperty().set(true);
     if (!enabledPlugins.contains(plugin)) {
       enabledPlugins.add(plugin);
       addToPluginList(plugin);
@@ -177,6 +163,7 @@ public class PluginLoader {
    * @param plugin : plugin which should be removed
    */
   public void deactivatePlugin(Plugin plugin) {
+    plugin.activatedProperty().set(false);
     enabledPlugins.remove(plugin);
 
     // removes the plugin from enabled_plugins.txt
@@ -407,7 +394,6 @@ public class PluginLoader {
         // activates each plugin in the list
         for (Plugin plugin : allPlugins) {
           if (plugin.pluginNameProperty().get().equals(line)) {
-            plugin.activatedProperty().set(true);
             activatePlugin(plugin);
           }
         }
@@ -517,5 +503,53 @@ public class PluginLoader {
 
     pluginList.remove(pluginName);
     writeToPluginList(pluginList);
+  }
+  
+  /**
+   * Resets active plugins so that only the default plugins are active.
+   */
+  public void resetActivePlugins() {
+    if (!enabledPluginsFile.exists()) {
+      copyInternalPluginListToFolder();
+    } else {
+      if (enabledPluginsFile.delete()) {
+        copyInternalPluginListToFolder();
+      } else {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+        alert.titleProperty().bind(I18N.createStringBinding("alert.reset.failed"));
+        alert.setContentText("Couldn't reset the active plugins "
+            + "because the program failed deleting enabled_plugins.txt.");
+        PresenterManager.showAlertDialog(alert);
+        
+        return;
+      }
+    }
+    
+    // deactivates all non-default plugins
+    for (Plugin plugin : allPlugins) {
+      if (!defaultPluginNameList.contains(plugin.pluginNameProperty().get())) {
+        deactivatePlugin(plugin);
+      }
+    }
+  }
+  
+  /**
+   * Copy internal plugin list to the plugins folder.
+   */
+  private void copyInternalPluginListToFolder() {
+    try (InputStream input = PluginLoader.class.getResourceAsStream(INTERNAL_PLUGIN_DIRECTORY
+        + "/" + ENABLED_PLUGIN_LIST);
+        FileOutputStream fileOut = new FileOutputStream(enabledPluginsFile)) {
+
+      // write the default enabled-plugins list to the file
+      input.transferTo(fileOut);
+    } catch (FileNotFoundException e1) {
+      // TODO Auto-generated catch block
+      e1.printStackTrace();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } 
   }
 }
