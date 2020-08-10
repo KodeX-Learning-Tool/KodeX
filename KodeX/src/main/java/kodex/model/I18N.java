@@ -267,7 +267,4 @@ public class I18N {
     localeProperty().set(locale);
     Locale.setDefault(locale);
   }
-
-  private I18N() {
-  }
 }

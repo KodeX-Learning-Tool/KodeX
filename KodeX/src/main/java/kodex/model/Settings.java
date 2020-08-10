@@ -3,8 +3,7 @@ package kodex.model;
 /**
  * This class is an interface for your own settings. Please overwrite this methods and create a new
  * instance of Settings in MainApp.
- *
- * <p>We do not use our own interface to keep the interface as expandable as possible and therefore
+ * We do not use our own interface to keep the interface as expandable as possible and therefore
  * do not want to design this for our settings.
  *
  * @author Patrick Spiesberger
