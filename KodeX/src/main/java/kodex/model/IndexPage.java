@@ -29,7 +29,7 @@ public class IndexPage {
   private ObservableList<ProcedurePlugin> selectedProcedures = FXCollections.observableArrayList();
 
   /* Map with all procedures and the number of times they were clicked */
-  private HashMap<ProcedurePlugin, Integer> valueProcedure 
+  private static HashMap<ProcedurePlugin, Integer> valueProcedure 
       = new HashMap<ProcedurePlugin, Integer>();
   
   /**
@@ -41,10 +41,6 @@ public class IndexPage {
 
     // all procedures are selected at the start
     selectedProcedures = FXCollections.observableArrayList(availableProcedures);
-    
-    for (ProcedurePlugin procedure : selectedProcedures) {
-      valueProcedure.put(procedure, 0);
-    }
   }
 
   /**

@@ -36,7 +36,7 @@ public class RelevancySort implements FilterStrategy {
 
   /** Default constructor of RelevancySort. */
   public RelevancySort() {
-    unsortedMap = new IndexPage().getValueProcedure();
+    unsortedMap = new IndexPage().getValueProcedure(); 
   }
 
   @Override
@@ -48,6 +48,10 @@ public class RelevancySort implements FilterStrategy {
 
     // add all plugins in sorted list
     selectedProcedures.addAll(sortedMap.keySet());
+    
+    for (ProcedurePlugin pl : selectedProcedures) {
+      sortedMap.get(pl);
+    }
 
   }
 }
