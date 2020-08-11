@@ -52,6 +52,9 @@ public class ProcedureLayoutPresenter extends Presenter {
     
     /** The header label of the editor. */
     @FXML private Label editLabel;
+    
+    /** Contains the actual edit utils. */
+    @FXML private BorderPane editContent;
 
     /** The Constant ANIMATION_LENGTH in millis. */
     private static final int ANIMATION_LENGTH = 500;
@@ -67,10 +70,7 @@ public class ProcedureLayoutPresenter extends Presenter {
 
     /** The Constant REVERSE_TRANSITION_RATE plays the transition at a normal rate in reverse. */
     private static final int REVERSE_TRANSITION_RATE = -1;
-
-    /** The Constant EDITOR_VIEW_INDEX which determines where the editor view is inserted. */
-    private static final int EDITOR_VIEW_INDEX = 3;
-
+    
     /** The TranslateTransition for sliding the editor window in and out. */
     private TranslateTransition editorTranslation;
 
@@ -181,7 +181,7 @@ public class ProcedureLayoutPresenter extends Presenter {
       editPresenter = editorPresenter;
       
       // gets and adds the concrete editor items for the chain link
-      editItemsBox.getChildren().set(EDITOR_VIEW_INDEX, editorPresenter.getView());
+      editContent.setCenter(editorPresenter.getView());
     }
   }
 
