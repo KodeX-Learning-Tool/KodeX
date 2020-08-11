@@ -48,10 +48,5 @@ public class RelevancySort implements FilterStrategy {
 
     // add all plugins in sorted list
     selectedProcedures.addAll(sortedMap.keySet());
-    
-    for (ProcedurePlugin pl : selectedProcedures) {
-      sortedMap.get(pl);
-    }
-
   }
 }

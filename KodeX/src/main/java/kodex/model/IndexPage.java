@@ -37,10 +37,15 @@ public class IndexPage {
    * PluginLoader.
    */
   public IndexPage() {
-    availableProcedures = PluginLoader.getInstance().getEnabledProcedurePlugins();
-
-    // all procedures are selected at the start
-    selectedProcedures = FXCollections.observableArrayList(availableProcedures);
+    try {
+      availableProcedures = PluginLoader.getInstance().getEnabledProcedurePlugins();
+      // all procedures are selected at the start
+      selectedProcedures = FXCollections.observableArrayList(availableProcedures);
+    } catch (ExceptionInInitializerError e) {
+      e.printStackTrace();
+    } catch (NoClassDefFoundError e) {
+      e.printStackTrace();
+    }
   }
 
   /**
