@@ -47,10 +47,11 @@ public class I18N {
   private static final String LANGUAGE_PROPERTY_PATH = "kodex.model.languages.";
 
   /**
-   * The Constant LANGUAGE_FILE_LIST_PATH. If you added a new language property
-   * file make sure to add the file name to this file. When building with 'maven'
-   * the file is generated automatically with the correct (all) entries, but for running
-   * the program in the IDE it is necessary to edit the file manually.
+   * The Constant LANGUAGE_FILE_LIST_PATH. If you have added a new language
+   * property file make sure to add the file name to this file. When building with
+   * 'maven' the file is generated automatically with the correct (all) entries,
+   * but for running the program in the IDE it is necessary to edit the file
+   * manually.
    */
   private static final String LANGUAGE_FILE_LIST_PATH = LANGUAGE_FOLDER_PATH
       + "language-files-list.json";
