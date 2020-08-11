@@ -52,6 +52,9 @@ public class ProcedureLayoutPresenter extends Presenter {
     
     /** The header label of the editor. */
     @FXML private Label editLabel;
+    
+    /** Contains the actual edit utils. */
+    @FXML private BorderPane editContent;
 
     /** The Constant ANIMATION_LENGTH in millis. */
     private static final int ANIMATION_LENGTH = 500;
@@ -67,10 +70,7 @@ public class ProcedureLayoutPresenter extends Presenter {
 
     /** The Constant REVERSE_TRANSITION_RATE plays the transition at a normal rate in reverse. */
     private static final int REVERSE_TRANSITION_RATE = -1;
-
-    /** The Constant EDITOR_VIEW_INDEX which determines where the editor view is inserted. */
-    private static final int EDITOR_VIEW_INDEX = 3;
-
+    
     /** The TranslateTransition for sliding the editor window in and out. */
     private TranslateTransition editorTranslation;
 
@@ -128,12 +128,12 @@ public class ProcedureLayoutPresenter extends Presenter {
       if (!moving && editorShown) {
         moving = true;
         editorTranslation.setRate(REVERSE_TRANSITION_RATE);
-        editorTranslation.play();
         editorTranslation.setOnFinished(
             event -> {
               editorShown = false;
               moving = false;
             });
+        editorTranslation.play();
       }
     }
 
@@ -145,6 +145,8 @@ public class ProcedureLayoutPresenter extends Presenter {
       submitButton.textProperty().bind(I18N.createStringBinding("editlayout.submitbutton"));
       
       // calculate editor width from total procedure view width
+      //TODO: maybe use the prefered width of the editor as
+      //long as it is smaller than a constant max width?
       int editorWidth = (int) Math.round(procedureRootPane.getWidth() / EDITOR_RATIO);
 
       // set size and hide the pane outside the visible area
@@ -154,8 +156,9 @@ public class ProcedureLayoutPresenter extends Presenter {
 
       // creates a new TranslateTransition to move the window on the x-axis
       editorTranslation = new TranslateTransition(Duration.millis(ANIMATION_LENGTH), this);
-      editorTranslation.setFromX(overlayPane.getWidth() + editorWidth);
-      editorTranslation.setToX(overlayPane.getWidth() - editorWidth);
+      
+      editorTranslation.fromXProperty().bind(overlayPane.widthProperty().add(editorWidth));
+      editorTranslation.toXProperty().bind(overlayPane.widthProperty().subtract(editorWidth));
     }
 
     /** Plays the slide in animation at normal rate. */
@@ -163,12 +166,12 @@ public class ProcedureLayoutPresenter extends Presenter {
       if (!moving && !editorShown) {
         moving = true;
         editorTranslation.setRate(NORMAL_TRANSITION_RATE);
-        editorTranslation.play();
         editorTranslation.setOnFinished(
             event -> {
               editorShown = true;
               moving = false;
             });
+        editorTranslation.play();
       }
     }
 
@@ -181,7 +184,7 @@ public class ProcedureLayoutPresenter extends Presenter {
       editPresenter = editorPresenter;
       
       // gets and adds the concrete editor items for the chain link
-      editItemsBox.getChildren().set(EDITOR_VIEW_INDEX, editorPresenter.getView());
+      editContent.setCenter(editorPresenter.getView());
     }
   }
 

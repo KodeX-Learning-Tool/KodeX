@@ -45,32 +45,40 @@
                                  </graphic>
                               </Button>
                            </right>
+                           <bottom>
+                              <Region styleClass="chainlink__content__spring" BorderPane.alignment="CENTER" />
+                           </bottom>
                         </BorderPane>
                      </top>
                      <bottom>
-                        <TitledPane fx:id="informationTitledPane" animated="false" styleClass="chainlink__info" text="Informationen:" BorderPane.alignment="CENTER">
-                           <content>
-                              <VBox>
-                                 <children>
-                                    <BorderPane>
-                                       <center>
-                                          <ScrollPane fitToWidth="true">
-                                             <content>
-                                                <BorderPane fx:id="informationBox" />
-                                             </content>
-                                          </ScrollPane>
-                                       </center>
-                                    </BorderPane>
-                                    <Region />
-                                    <BorderPane>
-                                       <right>
-                                          <Button fx:id="exportButton" mnemonicParsing="false" onAction="#handleExport" styleClass="default-button--shadow" text="Exportieren" BorderPane.alignment="CENTER" />
-                                       </right>
-                                    </BorderPane>
-                                 </children>
-                              </VBox>
-                           </content>
-                        </TitledPane>
+                        <VBox BorderPane.alignment="CENTER">
+                           <children>
+                              <Region styleClass="chainlink__content__spring" />
+                              <TitledPane fx:id="informationTitledPane" animated="false" styleClass="chainlink__info" text="Informationen:">
+                                 <content>
+                                    <VBox>
+                                       <children>
+                                          <BorderPane>
+                                             <center>
+                                                <ScrollPane fitToWidth="true">
+                                                   <content>
+                                                      <BorderPane fx:id="informationBox" />
+                                                   </content>
+                                                </ScrollPane>
+                                             </center>
+                                          </BorderPane>
+                                          <Region />
+                                          <BorderPane>
+                                             <right>
+                                                <Button fx:id="exportButton" mnemonicParsing="false" onAction="#handleExport" styleClass="default-button--shadow" text="Exportieren" BorderPane.alignment="CENTER" />
+                                             </right>
+                                          </BorderPane>
+                                       </children>
+                                    </VBox>
+                                 </content>
+                              </TitledPane>
+                           </children>
+                        </VBox>
                      </bottom>
                   </BorderPane>
                </content>
