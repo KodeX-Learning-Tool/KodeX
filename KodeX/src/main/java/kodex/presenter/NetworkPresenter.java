@@ -95,16 +95,15 @@ public class NetworkPresenter extends Presenter {
   private File getDefaultDirectoryAsFile() {
     return new File(DefaultSettings.getInstance().getDefaultPath());
   }
-  
+
   private void closeResources(Closeable... closeables) {
-    
+
     for (Closeable closeable : closeables) {
-      
+
       try {
         closeable.close();
       } catch (IOException e) {
         e.printStackTrace();
-        Platform.runLater(() -> showErrorDialog("Failed to close stream."));
       }
     }
   }
@@ -126,15 +125,14 @@ public class NetworkPresenter extends Presenter {
            */
           try {
             serverSocket = new ServerSocket(DefaultSettings.getPort());
-            
+
           } catch (IOException e) {
             Platform.runLater(
                 () ->
                     showErrorDialog(
-                        "The chosen default port "
-                            + DefaultSettings.getPort()
-                            + " is already in use."
-                            + " Change the default port or clear it inside the settings."));
+                        "alert.input.invalid",
+                        "networkpage.error.port.used",
+                        DefaultSettings.getPort()));
             endHosting();
             return;
           }
@@ -144,13 +142,13 @@ public class NetworkPresenter extends Presenter {
            */
           try {
             ipHostTextField.setText(InetAddress.getLocalHost().getHostAddress());
-            
+
           } catch (UnknownHostException e1) {
             e1.printStackTrace();
-            ipHostTextField.setText("Error getting local host, try again.");
-            
+            ipHostTextField.setText(I18N.get("networkpage.error.localhost"));
+
             closeResources(serverSocket);
-            
+
             return;
           }
 
@@ -170,7 +168,10 @@ public class NetworkPresenter extends Presenter {
             // only show this if closing the connection was not intended
             if (!canceling) {
               // Alerts and Dialogs can only be shown on JavaFX Application Thread
-              Platform.runLater(() -> showErrorDialog("Failed receiving file."));
+              Platform.runLater(
+                  () ->
+                      showErrorDialog(
+                          "alert.connection.failed", "networkpage.error.connection.build"));
               closeResources(serverSocket);
               endHosting();
               return;
@@ -192,7 +193,10 @@ public class NetworkPresenter extends Presenter {
           }
 
           if (clientSocket == null) {
-            Platform.runLater(() -> showErrorDialog("Failed to build connection."));
+            Platform.runLater(
+                () ->
+                    showErrorDialog(
+                        "alert.connection.failed", "networkpage.error.connection.build"));
             closeResources(serverSocket);
             endHosting();
             return;
@@ -205,7 +209,10 @@ public class NetworkPresenter extends Presenter {
 
           } catch (IOException e1) {
             e1.printStackTrace();
-            Platform.runLater(() -> showErrorDialog("Failed to read connection."));
+            Platform.runLater(
+                () ->
+                    showErrorDialog(
+                        "alert.connection.failed", "networkpage.error.connection.read"));
             closeResources(serverSocket, clientSocket);
             endHosting();
             return;
@@ -222,16 +229,15 @@ public class NetworkPresenter extends Presenter {
 
           } catch (IOException e1) {
             e1.printStackTrace();
-            Platform.runLater(() -> showErrorDialog("Failed to read file metadata."));
+            Platform.runLater(
+                () -> showErrorDialog("alert.load.failed", "networkpage.error.read.fileheader"));
             closeResources(serverSocket, clientSocket, clientInputStream);
             endHosting();
             return;
           }
 
           File defaultDirectory = getDefaultDirectoryAsFile();
-          
-          System.out.println("Name received:" + fileName);
-          
+
           byte[] bytes = new byte[8192];
 
           /*
@@ -243,7 +249,8 @@ public class NetworkPresenter extends Presenter {
 
           } catch (IOException e1) {
             e1.printStackTrace();
-            Platform.runLater(() -> showErrorDialog("Failed to read file."));
+            Platform.runLater(
+                () -> showErrorDialog("alert.load.failed", "networkpage.error.read.file"));
             closeResources(serverSocket, clientSocket, clientInputStream, dis);
             endHosting();
             return;
@@ -267,14 +274,14 @@ public class NetworkPresenter extends Presenter {
                     fileChooser.setInitialFileName(fileName);
                     return fileChooser.showSaveDialog(null);
                   },
-                  Platform::runLater)
+                      Platform::runLater)
                   .join(); // runs on FX thread and waits for result
 
           if (saveFile == null) {
 
             setConnectDisable(false);
             setHostDisable(false);
-            
+
             closeResources(serverSocket, clientSocket, clientInputStream, dis);
             endHosting();
             return;
@@ -288,7 +295,8 @@ public class NetworkPresenter extends Presenter {
 
           } catch (FileNotFoundException e1) {
             e1.printStackTrace();
-            Platform.runLater(() -> showErrorDialog("Failed to save file."));
+            Platform.runLater(
+                () -> showErrorDialog("alert.save.failed", "networkpage.error.write.file"));
             closeResources(serverSocket, clientSocket, clientInputStream, dis);
             endHosting();
             return;
@@ -303,12 +311,13 @@ public class NetworkPresenter extends Presenter {
 
           } catch (IOException e1) {
             e1.printStackTrace();
-            Platform.runLater(() -> showErrorDialog("Failed to write file."));
+            Platform.runLater(
+                () -> showErrorDialog("alert.save.failed", "networkpage.error.write.file"));
             closeResources(serverSocket, clientSocket, clientInputStream, dis, out);
             endHosting();
             return;
           }
-          
+
           closeResources(serverSocket, clientSocket, clientInputStream, dis, out);
 
           endHosting();
@@ -323,16 +332,16 @@ public class NetworkPresenter extends Presenter {
 
     serverThread.start();
   }
-  
+
   private void endHosting() {
-    
+
     // server finished and send can be re-enabled
     setConnectDisable(false);
     setHostDisable(false);
 
     // clear host text fields after successfully receiving a file
     clearHostTextFields();
-    
+
     receiving = false;
   }
 
@@ -346,11 +355,11 @@ public class NetworkPresenter extends Presenter {
    *
    * @param message the message
    */
-  private void showInformationDialog(String message) {
+  private void showInformationDialog(String messageKey, Object... args) {
     Alert alert = new Alert(AlertType.INFORMATION);
     alert.titleProperty().bind(I18N.createStringBinding("alert.title.information"));
     alert.headerTextProperty().bind(I18N.createStringBinding("alert.header.network"));
-    alert.setContentText(message);
+    alert.contentTextProperty().bind(I18N.createStringBinding(messageKey, args));
     PresenterManager.showAlertDialog(alert);
   }
 
@@ -359,11 +368,11 @@ public class NetworkPresenter extends Presenter {
    *
    * @param message the message
    */
-  private void showErrorDialog(String message) {
+  private void showErrorDialog(String titleKey, String messageKey, Object... args) {
     Alert alert = new Alert(AlertType.ERROR);
     alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-    alert.headerTextProperty().bind(I18N.createStringBinding("alert.header.network"));
-    alert.setContentText(message);
+    alert.headerTextProperty().bind(I18N.createStringBinding(titleKey));
+    alert.contentTextProperty().bind(I18N.createStringBinding(messageKey, args));
     PresenterManager.showAlertDialog(alert);
   }
 
@@ -379,12 +388,12 @@ public class NetworkPresenter extends Presenter {
       try {
         canceling = true;
         serverSocket.close();
-        showInformationDialog("Connection closed.");
+        showInformationDialog("networkpage.info.close.connection");
         setConnectDisable(false);
         setHostDisable(false);
         canceling = false;
       } catch (IOException e) {
-        showErrorDialog("Couldn't close the connection.");
+        showErrorDialog("alert.input.network", "networkpage.error.close.connection");
       }
     }
   }
@@ -408,14 +417,7 @@ public class NetworkPresenter extends Presenter {
       setErrorPseudoClass(ipConnectTextField, true);
       invalid = true;
 
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText(
-          "The input is not a valid IP-Address. "
-              + "It must have four parts separated by a period. "
-              + "Each part has to be a number between 0 and 255.");
-      PresenterManager.showAlertDialog(alert);
+      showErrorDialog("alert.input.invalid", "networkpage.error.invalid.ipformat");
     }
 
     if (!PortNumValidator.getInstance().isValid(portText)) {
@@ -423,12 +425,7 @@ public class NetworkPresenter extends Presenter {
       setErrorPseudoClass(portConnectTextField, true);
       invalid = true;
 
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText(
-          "The input is not a valid port. " + "The number has to be between 0 and 65535.");
-      PresenterManager.showAlertDialog(alert);
+      showErrorDialog("alert.input.invalid", "networkpage.error.invalid.portformat");
     }
 
     if (invalid) {
