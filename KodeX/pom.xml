@@ -118,9 +118,12 @@
 		    <artifactId>commons-io</artifactId>
 		    <version>2.7</version>
 		</dependency>
+		<dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.6</version>
+        </dependency>
     </dependencies>
-
-
     <build>
         <pluginManagement>
             <plugins>
@@ -161,6 +164,25 @@
                 <configuration>
                     <release>11</release>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>eu.numberfour.maven.plugins</groupId>
+                <artifactId>file-list-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <configuration>
+                    <baseDir>${basedir}/target/classes/kodex/model/languages</baseDir>
+                    <outputFile>${basedir}/target/classes/kodex/model/languages/language-files-list.json</outputFile>
+                    <includes>Languages*.properties</includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>create-file-list</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>list</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
