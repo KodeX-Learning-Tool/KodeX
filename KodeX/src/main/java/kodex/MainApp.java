@@ -12,7 +12,9 @@ import kodex.presenter.PresenterManager;
  * @author Leonhard Kraft
  */
 public class MainApp extends Application {
-
+  
+  private PresenterManager presenterManager;
+  
   /**
    * The entry point for this application.
    *
@@ -50,7 +52,7 @@ public class MainApp extends Application {
 
     PresenterManager.setRootStage(rootStage);
     
-    PresenterManager presenterManager = new PresenterManager();
+    presenterManager = new PresenterManager();
 
     PresenterFactory factory = new PresenterFactory(presenterManager);
 
@@ -61,5 +63,10 @@ public class MainApp extends Application {
     presenterManager.updatePresenter(factory.createIndexPagePresenter());
 
     rootStage.show();
+  }
+  
+  @Override
+  public void stop() {
+    presenterManager.stop();
   }
 }

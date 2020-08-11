@@ -1,9 +1,11 @@
 package kodex.presenter;
 
+import java.io.Closeable;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -67,7 +69,7 @@ public class NetworkPresenter extends Presenter {
 
   /** The server socket which can be accessed for closing. */
   private ServerSocket serverSocket;
-  
+
   /** The socket used to send the file. */
   private Socket sendSocket;
 
@@ -94,6 +96,18 @@ public class NetworkPresenter extends Presenter {
     return new File(DefaultSettings.getInstance().getDefaultPath());
   }
 
+  private void closeResources(Closeable... closeables) {
+
+    for (Closeable closeable : closeables) {
+
+      try {
+        closeable.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
   /**
    * This Method is called when the user clicks on the item to host a connection. The application
    * creates a new thread and waits on the given port for a connection an a file to receive and
@@ -103,113 +117,210 @@ public class NetworkPresenter extends Presenter {
    */
   @FXML
   private void handleReceive() {
+
     Runnable serverTask =
         () -> {
           /*
            * try to create a server based on the default port
            */
           try {
-            // doesn't use try-with-resources because otherwise serverSocket is not accessible
             serverSocket = new ServerSocket(DefaultSettings.getPort());
 
-            /*
-             * display local ip address and server port after server creation was successful
-             */
+          } catch (IOException e) {
+            Platform.runLater(
+                () ->
+                    showErrorDialog(
+                        "alert.input.invalid",
+                        "networkpage.error.port.used",
+                        DefaultSettings.getPort()));
+            endHosting();
+            return;
+          }
+
+          /*
+           * display local ip address and server port after server creation was successful
+           */
+          try {
             ipHostTextField.setText(InetAddress.getLocalHost().getHostAddress());
-            portHostTextField.setText(Integer.toString(serverSocket.getLocalPort()));
 
-            /*
-             * Wait for a incoming connection. This is a blocking method call that only
-             * returns when a connection has been established
-             */
-            Socket clientSocket = serverSocket.accept();
+          } catch (UnknownHostException e1) {
+            e1.printStackTrace();
+            ipHostTextField.setText(I18N.get("networkpage.error.localhost"));
 
-            InputStream clientInputStream = clientSocket.getInputStream();
+            closeResources(serverSocket);
 
-            /*
-             * A DataInputStream is created to read the file name via readUTF.
-             */
-            DataInputStream dis = new DataInputStream(clientInputStream);
-            String fileName = dis.readUTF();
+            return;
+          }
 
-            File defaultDirectory = getDefaultDirectoryAsFile();
-            System.out.println("Name received:" + fileName);
-            byte[] bytes = new byte[8192];
+          portHostTextField.setText(Integer.toString(serverSocket.getLocalPort()));
 
-            /*
-             * Blocks until readable data has been detected or end of file.
-             */
-            int count = clientInputStream.read(bytes);
+          /*
+           * Wait for a incoming connection. This is a blocking method call that only
+           * returns when a connection has been established
+           */
+          Socket clientSocket = null;
 
-            /*
-             * CompletableFuture is used, because it is not possible to open a FileChoser
-             * from a different Thread than the application thread. Therefore we have to
-             * delegate the opening of the FileChooser to the main thread.
-             */
-            File saveFile =
-                CompletableFuture.supplyAsync(
-                    () -> {
-                      FileChooser fileChooser = new FileChooser();
+          try {
+            clientSocket = serverSocket.accept();
 
-                      if (defaultDirectory.exists()) {
-                        // set default directory if it exists
-                        fileChooser.setInitialDirectory(defaultDirectory);
-                      }
+          } catch (SocketException e) {
 
-                      fileChooser.setInitialFileName(fileName);
-                      return fileChooser.showSaveDialog(null);
-                    },
-                    Platform::runLater)
-                    .join(); // runs on FX thread and waits for result
-
-            if (saveFile == null) {
-
-              setConnectDisable(false);
-              setHostDisable(false);
+            // only show this if closing the connection was not intended
+            if (!canceling) {
+              // Alerts and Dialogs can only be shown on JavaFX Application Thread
+              Platform.runLater(
+                  () ->
+                      showErrorDialog(
+                          "alert.connection.failed", "networkpage.error.connection.build"));
+              closeResources(serverSocket);
+              endHosting();
               return;
             }
 
-            // outputstream to write the received data to
-            OutputStream out = new FileOutputStream(saveFile);
+            // clear text when receiving is canceled
+            clearHostTextFields();
+            closeResources(serverSocket);
+            endHosting();
+            return;
 
+          } catch (IOException e) {
+            // the error message probably has to be adjusted,
+            // since it seems most errors regarding sockets will be caught by one above
+            System.err.println("Already created this socket.");
+            closeResources(serverSocket);
+            endHosting();
+            return;
+          }
+
+          if (clientSocket == null) {
+            Platform.runLater(
+                () ->
+                    showErrorDialog(
+                        "alert.connection.failed", "networkpage.error.connection.build"));
+            closeResources(serverSocket);
+            endHosting();
+            return;
+          }
+
+          InputStream clientInputStream;
+
+          try {
+            clientInputStream = clientSocket.getInputStream();
+
+          } catch (IOException e1) {
+            e1.printStackTrace();
+            Platform.runLater(
+                () ->
+                    showErrorDialog(
+                        "alert.connection.failed", "networkpage.error.connection.read"));
+            closeResources(serverSocket, clientSocket);
+            endHosting();
+            return;
+          }
+
+          /*
+           * A DataInputStream is created to read the file name via readUTF.
+           */
+          DataInputStream dis = new DataInputStream(clientInputStream);
+
+          String fileName;
+          try {
+            fileName = dis.readUTF();
+
+          } catch (IOException e1) {
+            e1.printStackTrace();
+            Platform.runLater(
+                () -> showErrorDialog("alert.load.failed", "networkpage.error.read.fileheader"));
+            closeResources(serverSocket, clientSocket, clientInputStream);
+            endHosting();
+            return;
+          }
+
+          File defaultDirectory = getDefaultDirectoryAsFile();
+
+          byte[] bytes = new byte[8192];
+
+          /*
+           * Blocks until readable data has been detected or end of file.
+           */
+          int count;
+          try {
+            count = clientInputStream.read(bytes);
+
+          } catch (IOException e1) {
+            e1.printStackTrace();
+            Platform.runLater(
+                () -> showErrorDialog("alert.load.failed", "networkpage.error.read.file"));
+            closeResources(serverSocket, clientSocket, clientInputStream, dis);
+            endHosting();
+            return;
+          }
+
+          /*
+           * CompletableFuture is used, because it is not possible to open a FileChoser
+           * from a different Thread than the application thread. Therefore we have to
+           * delegate the opening of the FileChooser to the main thread.
+           */
+          File saveFile =
+              CompletableFuture.supplyAsync(
+                  () -> {
+                    FileChooser fileChooser = new FileChooser();
+
+                    if (defaultDirectory.exists()) {
+                      // set default directory if it exists
+                      fileChooser.setInitialDirectory(defaultDirectory);
+                    }
+
+                    fileChooser.setInitialFileName(fileName);
+                    return fileChooser.showSaveDialog(null);
+                  },
+                      Platform::runLater)
+                  .join(); // runs on FX thread and waits for result
+
+          if (saveFile == null) {
+
+            setConnectDisable(false);
+            setHostDisable(false);
+
+            closeResources(serverSocket, clientSocket, clientInputStream, dis);
+            endHosting();
+            return;
+          }
+
+          // outputstream to write the received data to
+          OutputStream out;
+
+          try {
+            out = new FileOutputStream(saveFile);
+
+          } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+            Platform.runLater(
+                () -> showErrorDialog("alert.save.failed", "networkpage.error.write.file"));
+            closeResources(serverSocket, clientSocket, clientInputStream, dis);
+            endHosting();
+            return;
+          }
+
+          try {
             do {
 
               out.write(bytes, 0, count);
 
             } while ((count = clientInputStream.read(bytes)) > 0);
 
-            out.close();
-
-            // server finished and send can be re-enabled
-            setConnectDisable(false);
-            setHostDisable(false);
-
-            // clear host text fields after successfully receiving a file
-            clearHostTextFields();
-
-          } catch (SocketException e) {
-            // only show this if closing the connection was not intended
-            if (!canceling) {
-              // Alerts and Dialogs can only be shown on JavaFX Application Thread
-              Platform.runLater(() -> showErrorDialog("Failed receiving file."));
-              return;
-            }
-
-            // clear text when receiving is canceled
-            clearHostTextFields();
-
-          } catch (IOException e) {
-            // the error message probably has to be adjusted,
-            // since it seems most errors regarding sockets will be caught by one above
-            System.out.println("Already created this socket.");
-          } finally {
-            try {
-              serverSocket.close();
-              receiving = false;
-            } catch (IOException e) {
-              Platform.runLater(() -> showErrorDialog("Couldn't close the connection."));
-            }
+          } catch (IOException e1) {
+            e1.printStackTrace();
+            Platform.runLater(
+                () -> showErrorDialog("alert.save.failed", "networkpage.error.write.file"));
+            closeResources(serverSocket, clientSocket, clientInputStream, dis, out);
+            endHosting();
+            return;
           }
+
+          closeResources(serverSocket, clientSocket, clientInputStream, dis, out);
+
+          endHosting();
         };
 
     Thread serverThread = new Thread(serverTask);
@@ -222,6 +333,18 @@ public class NetworkPresenter extends Presenter {
     serverThread.start();
   }
 
+  private void endHosting() {
+
+    // server finished and send can be re-enabled
+    setConnectDisable(false);
+    setHostDisable(false);
+
+    // clear host text fields after successfully receiving a file
+    clearHostTextFields();
+
+    receiving = false;
+  }
+
   private void clearHostTextFields() {
     ipHostTextField.clear();
     portHostTextField.clear();
@@ -232,11 +355,11 @@ public class NetworkPresenter extends Presenter {
    *
    * @param message the message
    */
-  private void showInformationDialog(String message) {
+  private void showInformationDialog(String messageKey, Object... args) {
     Alert alert = new Alert(AlertType.INFORMATION);
     alert.titleProperty().bind(I18N.createStringBinding("alert.title.information"));
     alert.headerTextProperty().bind(I18N.createStringBinding("alert.header.network"));
-    alert.setContentText(message);
+    alert.contentTextProperty().bind(I18N.createStringBinding(messageKey, args));
     PresenterManager.showAlertDialog(alert);
   }
 
@@ -245,11 +368,11 @@ public class NetworkPresenter extends Presenter {
    *
    * @param message the message
    */
-  private void showErrorDialog(String message) {
+  private void showErrorDialog(String titleKey, String messageKey, Object... args) {
     Alert alert = new Alert(AlertType.ERROR);
     alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-    alert.headerTextProperty().bind(I18N.createStringBinding("alert.header.network"));
-    alert.setContentText(message);
+    alert.headerTextProperty().bind(I18N.createStringBinding(titleKey));
+    alert.contentTextProperty().bind(I18N.createStringBinding(messageKey, args));
     PresenterManager.showAlertDialog(alert);
   }
 
@@ -265,12 +388,12 @@ public class NetworkPresenter extends Presenter {
       try {
         canceling = true;
         serverSocket.close();
-        showInformationDialog("Connection closed.");
+        showInformationDialog("networkpage.info.close.connection");
         setConnectDisable(false);
         setHostDisable(false);
         canceling = false;
       } catch (IOException e) {
-        showErrorDialog("Couldn't close the connection.");
+        showErrorDialog("alert.input.network", "networkpage.error.close.connection");
       }
     }
   }
@@ -293,47 +416,35 @@ public class NetworkPresenter extends Presenter {
 
       setErrorPseudoClass(ipConnectTextField, true);
       invalid = true;
-      
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("The input is not a valid IP-Address. " 
-          + "It must have four parts separated by a period. " 
-          + "Each part has to be a number between 0 and 255.");
-      PresenterManager.showAlertDialog(alert);
+
+      showErrorDialog("alert.input.invalid", "networkpage.error.invalid.ipformat");
     }
 
     if (!PortNumValidator.getInstance().isValid(portText)) {
 
       setErrorPseudoClass(portConnectTextField, true);
       invalid = true;
-      
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("The input is not a valid port. " 
-          + "The number has to be between 0 and 65535.");
-      PresenterManager.showAlertDialog(alert);
+
+      showErrorDialog("alert.input.invalid", "networkpage.error.invalid.portformat");
     }
 
     if (invalid) {
       return;
     }
-    
+
     /*
      * Open socket with the entered ip and port.
      */
     // TODO what if entered credentials are invalid (server doesn't exist)
     try {
       sendSocket = new Socket(ipText, Integer.parseInt(portText));
-      
+
     } catch (UnknownHostException e) {
-      
-      //host name is not valid to connect to
+
+      // host name is not valid to connect to
       setErrorPseudoClass(ipConnectTextField, true);
       return;
     }
-    
 
     File defaultDirectory = getDefaultDirectoryAsFile();
 
@@ -389,7 +500,7 @@ public class NetworkPresenter extends Presenter {
     setHostDisable(true);
 
     clientSendThread.start();
-    
+
     sendSocket = null;
   }
 
@@ -400,10 +511,12 @@ public class NetworkPresenter extends Presenter {
     header.textProperty().bind(I18N.createStringBinding("networkpage.header"));
 
     ipConnectLbl.textProperty().bind(I18N.createStringBinding("networkpage.connect.ip.lbl"));
-    ipConnectTextField.promptTextProperty()
+    ipConnectTextField
+        .promptTextProperty()
         .bind(I18N.createStringBinding("networkpage.connect.ip.prompt"));
     portConnectLbl.textProperty().bind(I18N.createStringBinding("networkpage.connect.port.lbl"));
-    portConnectTextField.promptTextProperty()
+    portConnectTextField
+        .promptTextProperty()
         .bind(I18N.createStringBinding("networkpage.connect.port.prompt"));
     connectButton.textProperty().bind(I18N.createStringBinding("networkpage.connect.button"));
 
@@ -421,6 +534,11 @@ public class NetworkPresenter extends Presenter {
      * Initialize the port connect textfield.
      */
     portConnectTextField.setTextFormatter(PortNumFormatter.createTextFormatter());
+  }
+
+  @Override
+  public void onExit() {
+    handleCancel();
   }
 
   private void setConnectDisable(boolean disable) {
