@@ -128,12 +128,12 @@ public class ProcedureLayoutPresenter extends Presenter {
       if (!moving && editorShown) {
         moving = true;
         editorTranslation.setRate(REVERSE_TRANSITION_RATE);
-        editorTranslation.play();
         editorTranslation.setOnFinished(
             event -> {
               editorShown = false;
               moving = false;
             });
+        editorTranslation.play();
       }
     }
 
@@ -145,6 +145,8 @@ public class ProcedureLayoutPresenter extends Presenter {
       submitButton.textProperty().bind(I18N.createStringBinding("editlayout.submitbutton"));
       
       // calculate editor width from total procedure view width
+      //TODO: maybe use the prefered width of the editor as
+      //long as it is smaller than a constant max width?
       int editorWidth = (int) Math.round(procedureRootPane.getWidth() / EDITOR_RATIO);
 
       // set size and hide the pane outside the visible area
@@ -154,8 +156,9 @@ public class ProcedureLayoutPresenter extends Presenter {
 
       // creates a new TranslateTransition to move the window on the x-axis
       editorTranslation = new TranslateTransition(Duration.millis(ANIMATION_LENGTH), this);
-      editorTranslation.setFromX(overlayPane.getWidth() + editorWidth);
-      editorTranslation.setToX(overlayPane.getWidth() - editorWidth);
+      
+      editorTranslation.fromXProperty().bind(overlayPane.widthProperty().add(editorWidth));
+      editorTranslation.toXProperty().bind(overlayPane.widthProperty().subtract(editorWidth));
     }
 
     /** Plays the slide in animation at normal rate. */
@@ -163,12 +166,12 @@ public class ProcedureLayoutPresenter extends Presenter {
       if (!moving && !editorShown) {
         moving = true;
         editorTranslation.setRate(NORMAL_TRANSITION_RATE);
-        editorTranslation.play();
         editorTranslation.setOnFinished(
             event -> {
               editorShown = true;
               moving = false;
             });
+        editorTranslation.play();
       }
     }
 
