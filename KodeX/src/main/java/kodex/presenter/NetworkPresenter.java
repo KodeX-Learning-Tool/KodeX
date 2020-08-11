@@ -422,6 +422,11 @@ public class NetworkPresenter extends Presenter {
      */
     portConnectTextField.setTextFormatter(PortNumFormatter.createTextFormatter());
   }
+  
+  @Override
+  public void onExit() {
+    handleCancel();
+  }
 
   private void setConnectDisable(boolean disable) {
     ipConnectTextField.setDisable(disable);

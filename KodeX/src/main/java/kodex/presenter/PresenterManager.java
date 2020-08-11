@@ -56,7 +56,11 @@ public class PresenterManager {
    * @param sideMenuPresenter The SideMenuPresenter for the displayed side menu.
    */
   public void setSideMenuPresenter(SideMenuPresenter sideMenuPresenter) {
-
+    
+    if (this.sideMenuPresenter != null) {
+      this.sideMenuPresenter.onExit();
+    }
+    
     this.sideMenuPresenter = sideMenuPresenter;
     updateSideMenuView();
   }
@@ -76,7 +80,11 @@ public class PresenterManager {
    * @param newPresenter The main presenter that should display its view next.
    */
   public void updatePresenter(Presenter newPresenter) {
-
+    
+    if (this.currentPresenter != null) {
+      this.currentPresenter.onExit();
+    }
+    
     this.currentPresenter = newPresenter;
     updateMainView();
   }
@@ -162,6 +170,12 @@ public class PresenterManager {
   public static void setRootStage(Stage rootStage) {
     PresenterManager.rootStage = rootStage;
   }
-
-
+  
+  /**
+   * This method should only be called when the application exits.
+   */
+  public final void stop() {
+    currentPresenter.onExit();
+    sideMenuPresenter.onExit();
+  }
 }

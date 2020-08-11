@@ -50,6 +50,13 @@ public abstract class Presenter implements IPresenter {
   public Pane getView() {
     return this.view;
   }
+  
+  /**
+   * This method is called by the PresenterManager when a presenter is no longer needed.
+   */
+  public void onExit() {
+    
+  }
 
   /*
    * Loads the FXML from the given FXML file name.
