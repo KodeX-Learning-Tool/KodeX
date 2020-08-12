@@ -68,7 +68,13 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
   
   /** The Constant INVALID_CONTENT_PROPERTY_KEY. */
   private static final String INVALID_CONTENT_PROPERTY_KEY = "alert.content.invalid";
-  
+
+  /** The Constant MAXIMUM_OPACITY_VALUE as defined in the JavaFX Color class. */
+  private static final double MAXIMUM_OPACITY_VALUE = 1;
+
+  /** The Constant MINIMUM_OPACITY_VALUE as defined in the JavaFX Color class. */
+  private static final double MINIMUM_OPACITY_VALUE = 0;
+
 
   public GreyScaleImageImportPresenter(ProcedurePlugin plugin) {
     super(plugin);
@@ -153,6 +159,18 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
           // Retrieving the color of the pixel of the loaded image
           Color color = pixelReader.getColor(x, y);
 
+          // remove alpha (opacity values) because this procedure uses only RGB values
+          if (color.getOpacity() == MINIMUM_OPACITY_VALUE) {
+            color = Color.WHITE;
+          } else if (color.getOpacity() != MAXIMUM_OPACITY_VALUE) {
+            // adjust the RGB values since the background is white
+            color = new Color(
+                color.getRed() * color.getOpacity() + MAXIMUM_OPACITY_VALUE - color.getOpacity(),
+                color.getGreen() * color.getOpacity() + MAXIMUM_OPACITY_VALUE - color.getOpacity(),
+                color.getBlue() * color.getOpacity() + MAXIMUM_OPACITY_VALUE - color.getOpacity(),
+                MAXIMUM_OPACITY_VALUE);
+          }
+          
           // Setting the color to the writable image
           writer.setColor(x, y, color);
         }
