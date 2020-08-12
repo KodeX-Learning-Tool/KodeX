@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
@@ -16,9 +17,11 @@
                   <FontIcon iconLiteral="mdi-chevron-right" />
                </graphic>
             </Button>
-            <Region prefWidth="200.0" styleClass="editor__spring" />
+            <Region styleClass="editor__spring" />
             <Label fx:id="editLabel" />
-            <Region prefHeight="50.0" styleClass="editor__spring" />
+            <Region styleClass="editor__spring" />
+            <BorderPane fx:id="editContent" />
+            <Region styleClass="editor__spring" />
             <Button fx:id="submitButton" mnemonicParsing="false" onAction="#handleSubmit" styleClass="default-button--shadow" />
          </children>
       </VBox>
