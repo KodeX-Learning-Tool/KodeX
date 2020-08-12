@@ -22,6 +22,7 @@ module kodex.KodeX {
   
   opens kodex;
   opens kodex.model;
+  opens kodex.model.validator;
   opens kodex.presenter to javafx.fxml;
   opens kodex.standardplugins.colorimageprocedure.presenter to javafx.fxml;
   opens kodex.standardplugins.rle.presenter to javafx.fxml;
