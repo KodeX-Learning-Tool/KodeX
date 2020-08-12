@@ -61,8 +61,6 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
 
   private ChainSplitPane control;
 
-  private Content resizeContent;
-
   private int moveDividerIndex = 0;
 
   private double initialAvailable;
@@ -83,8 +81,6 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
     //      control.setManaged(false);
     horizontal = getSkinnable().getOrientation() == Orientation.HORIZONTAL;
     this.control = control;
-
-    this.resizeContent = null;
 
     contentRegions = FXCollections.<Content>observableArrayList();
     contentDividers = FXCollections.<ContentDivider>observableArrayList();
@@ -117,7 +113,9 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
    * Public API
    */
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   protected void layoutChildren(final double x, final double y, final double w, final double h) {
 
@@ -432,7 +430,9 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
     resize = false;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   protected double computeMinWidth(
       double height, double topInset, double rightInset, double bottomInset, double leftInset) {
@@ -452,7 +452,9 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
     }
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc} 
+   */
   @Override
   protected double computeMinHeight(
       double width, double topInset, double rightInset, double bottomInset, double leftInset) {
@@ -472,7 +474,9 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
     }
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   protected double computePrefWidth(
       double height, double topInset, double rightInset, double bottomInset, double leftInset) {
@@ -492,7 +496,9 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
     }
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   protected double computePrefHeight(
       double width, double topInset, double rightInset, double bottomInset, double leftInset) {
@@ -537,37 +543,37 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
         .getItems()
         .addListener(
             (ListChangeListener<Node>)
-                c -> {
-                  while (c.next()) {
-                    if (c.wasPermutated() || c.wasUpdated()) {
-                      /*
-                       * the contents were either moved, or updated. rebuild the contents to re-sync
-                       */
-                      getChildren().clear();
-                      contentRegions.clear();
-                      int index = 0;
-                      for (Node n : c.getList()) {
-                        addContent(index++, n);
-                      }
-
-                    } else {
-                      for (Node n : c.getRemoved()) {
-                        removeContent(n);
-                      }
-
-                      int index = c.getFrom();
-                      for (Node n : c.getAddedSubList()) {
-                        addContent(index++, n);
-                      }
-                    }
+            c -> {
+              while (c.next()) {
+                if (c.wasPermutated() || c.wasUpdated()) {
+                  /*
+                   * the contents were either moved, or updated. rebuild the contents to re-sync
+                   */
+                  getChildren().clear();
+                  contentRegions.clear();
+                  int index = 0;
+                  for (Node n : c.getList()) {
+                    addContent(index++, n);
                   }
-                  // TODO there may be a more efficient way than rebuilding all the dividers
-                  // everytime the list changes.
-                  removeAllDividers();
-                  for (ChainSplitPane.Divider d : getSkinnable().getDividers()) {
-                    addDivider(d);
+
+                } else {
+                  for (Node n : c.getRemoved()) {
+                    removeContent(n);
                   }
-                });
+
+                  int index = c.getFrom();
+                  for (Node n : c.getAddedSubList()) {
+                    addContent(index++, n);
+                  }
+                }
+              }
+              // TODO there may be a more efficient way than rebuilding all the dividers
+              // everytime the list changes.
+              removeAllDividers();
+              for (ChainSplitPane.Divider d : getSkinnable().getDividers()) {
+                addDivider(d);
+              }
+            });
   }
 
   private void checkDividerPosition(ContentDivider divider, double newPos, double oldPos) {
