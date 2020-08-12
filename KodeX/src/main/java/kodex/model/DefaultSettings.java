@@ -236,7 +236,7 @@ public class DefaultSettings extends Settings {
    * @param port : port of local network
    */
   public void setPort(int port) {
-    if (!PortNumValidator.getInstance().isValid(input.toString())) {
+    if (PortNumValidator.getInstance().isValid(String.valueOf(port))) {
       DefaultSettings.port = port;
     } else {
       Alert alert = new Alert(AlertType.ERROR);
