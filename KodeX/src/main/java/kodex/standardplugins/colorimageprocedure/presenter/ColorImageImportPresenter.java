@@ -157,6 +157,8 @@ public class ColorImageImportPresenter extends ImportPresenter {
 
       // getting the pixel writer
       PixelWriter writer = writableImage.getPixelWriter();
+      
+      boolean containedAlpha = false;
 
       // Reading the color of the image
       for (int y = 0; y < height; y++) {
@@ -167,6 +169,7 @@ public class ColorImageImportPresenter extends ImportPresenter {
           // remove alpha (opacity values) because this procedure uses only RGB values
           if (color.getOpacity() == MINIMUM_OPACITY_VALUE) {
             color = Color.WHITE;
+            containedAlpha = true;
           } else if (color.getOpacity() != MAXIMUM_OPACITY_VALUE) {
             // adjust the RGB values since the background is white
             color = new Color(
@@ -174,6 +177,7 @@ public class ColorImageImportPresenter extends ImportPresenter {
                 color.getGreen() * color.getOpacity() + MAXIMUM_OPACITY_VALUE - color.getOpacity(),
                 color.getBlue() * color.getOpacity() + MAXIMUM_OPACITY_VALUE - color.getOpacity(),
                 MAXIMUM_OPACITY_VALUE);
+            containedAlpha = true;
           }
 
           // Setting the color to the writable image
@@ -182,6 +186,15 @@ public class ColorImageImportPresenter extends ImportPresenter {
       }
 
       if (validateEncodeImport()) {
+        if (containedAlpha) {
+          Alert alert = new Alert(AlertType.INFORMATION);
+          alert.titleProperty().bind(I18N.createStringBinding("alert.title.information"));
+          alert.headerTextProperty().bind(I18N.createStringBinding("alert.import.image"));
+          alert.setContentText("The imported Image contained alpha values. Colors of pixel with "
+              + "alpha values were converted since this procedure only uses RGB values.");
+          PresenterManager.showAlertDialog(alert);
+        }
+        
         procedureLayoutPresenter.switchToChainPresenter(true);
       }
     }
