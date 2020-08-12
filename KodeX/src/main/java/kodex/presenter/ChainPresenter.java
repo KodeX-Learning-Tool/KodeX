@@ -93,15 +93,18 @@ public class ChainPresenter implements IPresenter {
 
     /** The reference to the ChainLinkPresenter. */
     private ChainLinkPresenter chainLinkPresenter;
+    
+    private int index;
 
     /**
      * Creates a new ChainItem with a reference to its ChainLinkPresenter.
      *
      * @param chainLinkPresenter : The reference to the ChainLinkPresenter.
      */
-    ChainItem(ChainLinkPresenter chainLinkPresenter) {
+    ChainItem(ChainLinkPresenter chainLinkPresenter, int index) {
       this.chainLinkPresenter = chainLinkPresenter;
-
+      this.index = index;
+      
       hidden = false;
 
       // loads template file
@@ -225,6 +228,9 @@ public class ChainPresenter implements IPresenter {
 
         // reverse max width
         this.setMaxWidth(chainLinkPane.getMaxWidth());
+        
+        //enable divider
+        chainSplitPane.enableDivider(index);
 
         // show chain item content and hide the hidden pane
         hiddenLabel.setManaged(false);
@@ -244,6 +250,9 @@ public class ChainPresenter implements IPresenter {
         
         // change the icon
         hideButtonIcon.setIconLiteral(hiddenIcon);
+        
+        //disable divider
+        chainSplitPane.disableDivider(index);
 
         // hide chain item content and show the hidden pane
         hiddenLabel.setManaged(true);
@@ -295,6 +304,8 @@ public class ChainPresenter implements IPresenter {
       alert.setContentText("Failed creating chain view with " + fileName + ".");
       PresenterManager.showAlertDialog(alert);
     }
+    
+    this.chainSplitPane.setMinWidth(0);
   }
 
   /**
@@ -306,9 +317,11 @@ public class ChainPresenter implements IPresenter {
     ChainLinkPresenter chainLinkPresenter = 
         encoding ? firstChainLinkPresenter : activeProcedure.getChainTail();
     
+    int index = 0;
     // add a newly created chain item for each ChainLinkPresenter
     while (chainLinkPresenter != null) {
-      chainSplitPane.getItems().add(new ChainItem(chainLinkPresenter));
+      chainSplitPane.getItems().add(new ChainItem(chainLinkPresenter, index));
+      index++;
       
       chainLinkPresenter = encoding ? chainLinkPresenter.getNext() : chainLinkPresenter.getPrev();
     }
