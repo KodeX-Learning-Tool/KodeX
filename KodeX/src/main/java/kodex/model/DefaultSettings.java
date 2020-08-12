@@ -234,18 +234,19 @@ public class DefaultSettings extends Settings {
    * @param port : port of local network
    */
   public void setPort(int port) {
+    
     if (!PortNumValidator.getInstance().isValid(input.toString())) {
       DefaultSettings.port = port;
-    } else {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("Port is not valid");
-      PresenterManager.showAlertDialog(alert);
+      prop.setProperty("port", String.valueOf(getPort()));
+      storeUserProperties();
       return;
     }
-    prop.setProperty("port", String.valueOf(getPort()));
-    storeUserProperties();
+    
+    Alert alert = new Alert(AlertType.ERROR);
+    alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+    alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+    alert.setContentText("Port is not valid");
+    PresenterManager.showAlertDialog(alert);
   }
 
   /**
