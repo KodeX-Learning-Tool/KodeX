@@ -59,6 +59,14 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
   private ObservableList<ContentDivider> contentDividers;
   private boolean horizontal;
 
+  private ChainSplitPane control;
+
+  private Content resizeContent;
+
+  private int moveDividerIndex = 0;
+
+  private double initialAvailable;
+
   /*
    * Constructors.
    */
@@ -74,6 +82,9 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
     super(control);
     //      control.setManaged(false);
     horizontal = getSkinnable().getOrientation() == Orientation.HORIZONTAL;
+    this.control = control;
+
+    this.resizeContent = null;
 
     contentRegions = FXCollections.<Content>observableArrayList();
     contentDividers = FXCollections.<ContentDivider>observableArrayList();
@@ -106,11 +117,10 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
    * Public API
    */
 
-  /** 
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Override
   protected void layoutChildren(final double x, final double y, final double w, final double h) {
+
     final ChainSplitPane s = getSkinnable();
     final double sw = s.getWidth();
     final double sh = s.getHeight();
@@ -119,6 +129,7 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
       return;
     }
 
+    // width of first contentdivider
     double dividerWidth = contentDividers.isEmpty() ? 0 : contentDividers.get(0).prefWidth(-1);
 
     if (contentDividers.size() > 0
@@ -209,6 +220,8 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
 
     // If the window is less than the min size we want to resize
     // proportionally
+
+    // normally inside KodeX ignored
     double minSize = totalMinSize();
     if (minSize > (horizontal ? w : h)) {
       double percentage = 0;
@@ -231,9 +244,15 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
 
     for (int trys = 0; trys < 10; trys++) {
       // Compute the area in between each divider.
+
       ContentDivider previousDivider = null;
+
+      if (moveDividerIndex != 0) {
+        previousDivider = contentDividers.get(moveDividerIndex - 1);
+      }
+
       ContentDivider divider = null;
-      for (int i = 0; i < contentRegions.size(); i++) {
+      for (int i = moveDividerIndex; i < contentRegions.size(); i++) {
         double space = 0;
         if (i < contentDividers.size()) {
           divider = contentDividers.get(i);
@@ -413,9 +432,7 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
     resize = false;
   }
 
-  /** 
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Override
   protected double computeMinWidth(
       double height, double topInset, double rightInset, double bottomInset, double leftInset) {
@@ -435,9 +452,7 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
     }
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Override
   protected double computeMinHeight(
       double width, double topInset, double rightInset, double bottomInset, double leftInset) {
@@ -457,9 +472,7 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
     }
   }
 
-  /** 
-   * {@inheritDoc} 
-   */
+  /** {@inheritDoc} */
   @Override
   protected double computePrefWidth(
       double height, double topInset, double rightInset, double bottomInset, double leftInset) {
@@ -479,9 +492,7 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
     }
   }
 
-  /** 
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Override
   protected double computePrefHeight(
       double width, double topInset, double rightInset, double bottomInset, double leftInset) {
@@ -526,37 +537,37 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
         .getItems()
         .addListener(
             (ListChangeListener<Node>)
-            c -> {
-              while (c.next()) {
-                if (c.wasPermutated() || c.wasUpdated()) {
-                  /*
-                   * the contents were either moved, or updated. rebuild the contents to re-sync
-                   */
-                  getChildren().clear();
-                  contentRegions.clear();
-                  int index = 0;
-                  for (Node n : c.getList()) {
-                    addContent(index++, n);
-                  }
+                c -> {
+                  while (c.next()) {
+                    if (c.wasPermutated() || c.wasUpdated()) {
+                      /*
+                       * the contents were either moved, or updated. rebuild the contents to re-sync
+                       */
+                      getChildren().clear();
+                      contentRegions.clear();
+                      int index = 0;
+                      for (Node n : c.getList()) {
+                        addContent(index++, n);
+                      }
 
-                } else {
-                  for (Node n : c.getRemoved()) {
-                    removeContent(n);
-                  }
+                    } else {
+                      for (Node n : c.getRemoved()) {
+                        removeContent(n);
+                      }
 
-                  int index = c.getFrom();
-                  for (Node n : c.getAddedSubList()) {
-                    addContent(index++, n);
+                      int index = c.getFrom();
+                      for (Node n : c.getAddedSubList()) {
+                        addContent(index++, n);
+                      }
+                    }
                   }
-                }
-              }
-              // TODO there may be a more efficient way than rebuilding all the dividers
-              // everytime the list changes.
-              removeAllDividers();
-              for (ChainSplitPane.Divider d : getSkinnable().getDividers()) {
-                addDivider(d);
-              }
-            });
+                  // TODO there may be a more efficient way than rebuilding all the dividers
+                  // everytime the list changes.
+                  removeAllDividers();
+                  for (ChainSplitPane.Divider d : getSkinnable().getDividers()) {
+                    addDivider(d);
+                  }
+                });
   }
 
   private void checkDividerPosition(ContentDivider divider, double newPos, double oldPos) {
@@ -662,11 +673,15 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
     divider.setOnMousePressed(
         e -> {
           divider.resetOldPos();
+          
+          this.initialAvailable = getLeft(divider).available;
+
+          control.setInitialWidth(control.getWidth());
 
           for (ContentDivider cd : contentDividers) {
             cd.setInitialPos(cd.getDividerPos());
           }
-
+          
           divider.setPressPos(e.getSceneX());
 
           e.consume();
@@ -677,34 +692,8 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
           double delta = 0;
           delta = e.getSceneX();
 
-          int id = contentDividers.indexOf(divider);
+          moveDividerIndex = contentDividers.indexOf(divider);
           delta -= divider.getPressPos();
-
-          moverDivider(id, delta);
-
-          /*
-           * Checks whether the divider has been moved
-           * and therefore the neighbor dividers should be moved
-           */
-          if (divider.getOldPos() == -1) {
-            divider.setOldPos(divider.getDividerPos());
-
-          } else if (divider.getOldPos() == divider.getDividerPos()) {
-            e.consume();
-            return;
-          }
-
-          divider.setOldPos(divider.getDividerPos());
-
-          // TODO: how do you resize the last chainlink?
-          // TODO: What about resizing the splitpane?
-
-          /*
-           * TODO: When resizing the splitpane the dividers are moved
-           * because they are positioned in percentages of the width,
-           * keep them positioned by reseting all dividers left of the moved
-           * (right is already being repositioned)
-           */
 
           /*
            * Move all dividers when right of the clicked divider.
@@ -713,23 +702,63 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
            * because it has not been moved yet.
            */
           if (delta > 0) {
-            for (int i = contentDividers.size() - 1; i > id; i--) {
-              moverDivider(i, delta);
+
+            // resize splitpnae first, to make space for the dividers to move
+            setSplitPaneWidth(delta);
+
+            // move all dividers right of the moved one to the right
+            // this happens in reversed order so the dividers
+            // can make space for the following to allow it to move
+            for (int i = contentDividers.size() - 1; i >= moveDividerIndex; i--) {
+              ContentDivider cd = contentDividers.get(i);
+              setAbsoluteDividerPos(cd, Math.ceil(cd.getInitialPos() + delta));
             }
 
           } else if (delta < 0) {
-            for (int i = id + 1; i < contentDividers.size(); i++) {
-              moverDivider(i, delta);
+
+            // move divider left, as far as it is allowed
+            if ((initialAvailable + delta) < 0) {
+              //available space is positive but we need a negative delta, since we move left
+              delta = -initialAvailable;
+            } 
+            
+            setAbsoluteDividerPos(divider, Math.ceil(divider.getInitialPos() + delta));
+            
+            /*
+             * Checks whether the divider has been moved
+             * and therefore the neighbor dividers should be moved
+             */
+            if (divider.getOldPos() == -1) {
+              divider.setOldPos(divider.getDividerPos());
+
+            } else if (divider.getOldPos() == divider.getDividerPos()) {
+              e.consume();
+              return;
             }
+
+            // only move dividers as far as the initial divider has been able to move
+            // therefore we change the delta to the actually moved value
+            delta = divider.getDividerPos() - divider.getInitialPos();
+
+            for (int i = moveDividerIndex + 1; i < contentDividers.size(); i++) {
+              ContentDivider cd = contentDividers.get(i);
+              setAbsoluteDividerPos(cd, Math.ceil(cd.getInitialPos() + delta));
+            }
+
+            // resize splitpane with the new delta
+            setSplitPaneWidth(delta);
           }
+
+          divider.setOldPos(divider.getDividerPos());
 
           e.consume();
         });
   }
 
-  private void moverDivider(int index, double delta) {
-    ContentDivider cd = contentDividers.get(index);
-    setAndCheckAbsoluteDividerPos(cd, Math.ceil(cd.getInitialPos() + delta));
+  private void setSplitPaneWidth(double delta) {
+    double splitPaneWidth = control.getInitialWidth() + delta;
+    this.previousSize = splitPaneWidth;
+    control.setPrefWidth(splitPaneWidth);
   }
 
   private Content getLeft(ContentDivider d) {
@@ -1334,5 +1363,13 @@ public class ChainSplitPaneSkin extends SkinBase<ChainSplitPane> {
     protected double computeMaxHeight(double width) {
       return snapSizeY(content.maxHeight(width));
     }
+  }
+
+  public void disableDivider(int index) {
+    contentDividers.get(index).setDisable(true);
+  }
+
+  public void enableDivider(int index) {
+    contentDividers.get(index).setDisable(false);
   }
 }
