@@ -1,21 +1,18 @@
 package kodex.model;
 
-import java.io.File;
+import com.google.gson.Gson;
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.io.InputStreamReader;
 import java.nio.file.FileAlreadyExistsException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.ObjectProperty;
@@ -45,9 +42,19 @@ public class I18N {
 
   private static final String LANGUAGE_FILE_NAME = "Languages";
 
-  private static final String LANGUAGE_FOLDER_PATH =  "kodex/model/languages/";
+  private static final String LANGUAGE_FOLDER_PATH =  "/kodex/model/languages/";
   
   private static final String LANGUAGE_PROPERTY_PATH = "kodex.model.languages.";
+
+  /**
+   * The Constant LANGUAGE_FILE_LIST_PATH. If you have added a new language
+   * property file make sure to add the file name to this file. When building with
+   * 'maven' the file is generated automatically with the correct (all) entries,
+   * but for running the program in the IDE it is necessary to edit the file
+   * manually.
+   */
+  private static final String LANGUAGE_FILE_LIST_PATH = LANGUAGE_FOLDER_PATH
+      + "language-files-list.json";
 
   private static final String DEFAULT_LOCALE = "en";
 
@@ -62,9 +69,9 @@ public class I18N {
       loadSupportedLocales();
     } catch (FileAlreadyExistsException | FileNotFoundException e) {
       Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("Language file is missing!");
+      alert.setTitle("Error");
+      alert.setHeaderText("Failed Loading");
+      alert.setContentText("Language files or the file list are missing!");
       PresenterManager.showAlertDialog(alert);
     }
 
@@ -144,41 +151,22 @@ public class I18N {
       throws FileNotFoundException, FileAlreadyExistsException {
 
     List<String> fileNames = new ArrayList<>();
-        
-    // get a list of available language property files
-    try (JarFile jar = new JarFile(new File(I18N.class
-        .getProtectionDomain().getCodeSource().getLocation().toURI()))) {
-      // getting a list of files inside a folder from a jar file
-      Enumeration<JarEntry> entries = jar.entries();
-      
-      Iterator<JarEntry> it = entries.asIterator();
-      while (it.hasNext()) {     
-        JarEntry jarEntry = it.next();
-        String name = jarEntry.getName();
-        
-        /*
-         * Languages are only contained in property files.
-         */
-        if (name.startsWith(LANGUAGE_FOLDER_PATH + LANGUAGE_FILE_NAME)
-            && name.endsWith(".properties")) {
-          String filePath = jarEntry.getName();
-          
-          int slashPos = filePath.lastIndexOf("/");
-          
-          // get the file name
-          if (slashPos != filePath.length() - 1) {
-            fileNames.add(filePath.substring(slashPos + 1));
-          }
-        }
-      }
-    } catch (FileNotFoundException e) {
-      // getting a list of files inside a folder running from the IDE
-      File a = new File(I18N.class.getResource("languages").getFile());
-      fileNames = Arrays.asList(a.list());
-    } catch (IOException | URISyntaxException e) {
-      e.printStackTrace();
-    }
+    
+    Gson gson = new Gson();
 
+    try (
+        InputStreamReader in = new InputStreamReader(
+            I18N.class.getResourceAsStream(LANGUAGE_FILE_LIST_PATH));
+        BufferedReader br = new BufferedReader(in)) {
+
+      String[] jsonFileNames = gson.fromJson(br, String[].class);      
+      fileNames = Arrays.asList(jsonFileNames);
+
+    } catch (FileNotFoundException e) {
+      throw new FileNotFoundException("Couldn't find file-list.json.");
+    } catch (IOException e1) {
+      e1.printStackTrace();
+    }
 
     if (fileNames.isEmpty()) {
       throw new FileNotFoundException("No language file has been found.");
@@ -202,8 +190,8 @@ public class I18N {
         
         if (defaultFound) {
           Alert alert = new Alert(AlertType.ERROR);
-          alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-          alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+          alert.setTitle("Error");
+          alert.setHeaderText("Load Failed");
           alert.setContentText("Language default property file " + fileName + "is not unique.");
           PresenterManager.showAlertDialog(alert);
         }
@@ -216,8 +204,8 @@ public class I18N {
 
       if (fileNameParts.length != VALID_NAME_PART_NUMBER) {
         Alert alert = new Alert(AlertType.ERROR);
-        alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-        alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+        alert.setTitle("Error");
+        alert.setHeaderText("Load Failed");
         alert.setContentText("Please check name of File: " + fileName);
         PresenterManager.showAlertDialog(alert);
         continue;
