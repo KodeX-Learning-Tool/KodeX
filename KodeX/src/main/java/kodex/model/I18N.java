@@ -25,11 +25,9 @@ import javafx.scene.control.Alert.AlertType;
 import kodex.presenter.PresenterManager;
 
 /**
- * I18N utility class..
- *
- * <p>This class is inspired by:
- *
- * <p>https://www.sothawo.com/2016/09/how-to-implement-a-javafx-ui-where-the-language-can-be-changed-dynamically/
+ * I18N utility class.
+ * This class is inspired by:
+ * https://www.sothawo.com/2016/09/how-to-implement-a-javafx-ui-where-the-language-can-be-changed-dynamically/
  *
  * @author Leonhard Kraft
  * @author Patrick Spiesberger
