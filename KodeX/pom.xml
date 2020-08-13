@@ -48,7 +48,7 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-graphics </artifactId>
             <version>13</version>
-            <classifier>lthisinux</classifier>
+            <classifier>linux</classifier>
             <scope>packaging</scope>
         </dependency>
         <dependency>
