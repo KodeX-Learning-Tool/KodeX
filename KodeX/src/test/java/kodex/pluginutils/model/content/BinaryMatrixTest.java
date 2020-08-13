@@ -38,26 +38,4 @@ class BinaryMatrixTest {
   void testIsValidObject() {
     fail("Not yet implemented");
   }
-  
-  @Test
-  void testAbstractMatrix() {
-    assertEquals(bmtx.getHeight(), height);
-    assertEquals(bmtx.getWidth(), width);
-    bmtx.setMatrix(mtx);
-    for (int y = 0; y < height; y++) {
-      for (int x = 0; x < width; x++) {
-        assertEquals(mtx[y][x].intValue(), bmtx.get(x, y));
-        assertEquals(mtx[y][x].intValue(), bmtx.getMatrix()[y][x].intValue());
-      }
-    }
-    bmtx.set(width -  1, height - 1, 0);
-    assertEquals(0, bmtx.get(width - 1, height - 1));
-    assertThrows(ArrayIndexOutOfBoundsException.class, () -> bmtx.set(width, height, 0));
-    bmtx.setSize(height, width);
-    assertEquals(bmtx.getHeight(), width);
-    assertEquals(bmtx.getWidth(), height);
-    assertNull(bmtx.get(height - 1, width - 1));
-    assertThrows(IllegalArgumentException.class, () -> bmtx.setSize(0, 0));
-  }
-
 }
