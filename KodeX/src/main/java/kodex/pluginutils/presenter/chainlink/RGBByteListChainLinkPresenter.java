@@ -30,6 +30,9 @@ public class RGBByteListChainLinkPresenter extends ChainLinkPresenter {
   /** The ID of the last element marked. */
   private int lastElementMarked = NOT_MARKED;
 
+  /** Whether to listen for changes or not. */
+  private boolean listenForChanges = true;
+
   /**
    * Instantiates a new RGB byte list chain link presenter.
    *
@@ -50,7 +53,11 @@ public class RGBByteListChainLinkPresenter extends ChainLinkPresenter {
     rgbByteListView
         .getSelectionModel()
         .selectedIndexProperty()
-        .addListener((obs, old, newV) -> handleMark());
+        .addListener((obs, old, newV) -> {
+          if (listenForChanges && newV.intValue() != -1) {
+            handleMark();
+          }
+        });
   }
 
   @Override
@@ -73,12 +80,14 @@ public class RGBByteListChainLinkPresenter extends ChainLinkPresenter {
   @Override
   protected void mark(int id) {
     lastElementMarked = id;
+    listenForChanges = false;
     rgbByteListView.getSelectionModel().select(id);
+    listenForChanges = true;
     chainLinkEditPresenter.setMarkID(id);
   }
 
   @Override
-  public void updateView() {    
+  public void updateView() {
     List<String> list = ((RGBByteList) getContent()).getList();
     
     List<String> tripleList = new LinkedList<>();
@@ -87,7 +96,9 @@ public class RGBByteListChainLinkPresenter extends ChainLinkPresenter {
       tripleList.add(list.get(j) + ", " + list.get(j + 1) + ", " + list.get(j + 2));
     }
     
+    listenForChanges = false;
     rgbByteListView.setItems(FXCollections.observableArrayList(tripleList));
+    listenForChanges = true;
     
     // remarks the view
     if (lastElementMarked !=  NOT_MARKED) {

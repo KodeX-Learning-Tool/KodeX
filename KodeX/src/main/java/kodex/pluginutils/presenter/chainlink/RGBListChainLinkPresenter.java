@@ -30,6 +30,9 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
   /** The ID of the last element marked. */
   private int lastElementMarked = NOT_MARKED;
 
+  /** Whether to listen for changes or not. */
+  private boolean listenForChanges = true;
+
   /**
    * Instantiates a new RGB list chain link presenter.
    *
@@ -50,7 +53,11 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
     rgbListView
         .getSelectionModel()
         .selectedIndexProperty()
-        .addListener((obs, old, newV) -> handleMark());
+        .addListener((obs, old, newV) -> {
+          if (listenForChanges && newV.intValue() != -1) {
+            handleMark();
+          }
+        });
     
   }
 
@@ -90,7 +97,9 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
   @Override
   protected void mark(int id) {
     lastElementMarked = id;
+    listenForChanges = false;
     rgbListView.getSelectionModel().select(id);
+    listenForChanges = true;
     chainLinkEditPresenter.setMarkID(id);
   }
 
@@ -102,7 +111,9 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
       list.add(colorToRGBString(color));
     }
     
+    listenForChanges = false;
     rgbListView.setItems(list);
+    listenForChanges = true;
     
     // remarks the view
     if (lastElementMarked !=  NOT_MARKED) {
