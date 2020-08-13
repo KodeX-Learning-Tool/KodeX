@@ -14,6 +14,9 @@ import kodex.presenter.PresenterManager;
 /**
  * This class holds data in Matrix format. An RGBMatrix consists of a 2D array [rows][cols]
  * containing elements of the type Color.
+ * 
+ * @author Yannick Neubert
+ * @version 1.0
  */
 public class RGBMatrix extends AbstractMatrix<Color> {
 
