@@ -21,7 +21,7 @@ public class TextQRCodeProcedureInformation extends ProcedureInformation {
             + "Umgedreht kann auch ein QR-Code wieder in einen Text übersetzt werden";
     this.labels =
         FXCollections.observableArrayList(
-            "Klasse 7", "Kodierungsverfahren", "Kodieren und Dekodieren");
+            "8", "Kodierungsverfahren", "Kodieren und Dekodieren");
   }
 
   @Override

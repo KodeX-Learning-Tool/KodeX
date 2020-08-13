@@ -210,6 +210,8 @@ public class DefaultSettings extends Settings {
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
       alert.setContentText("Settings can not be loaded");
       PresenterManager.showAlertDialog(alert);
+    } catch (ExceptionInInitializerError e) {
+      e.printStackTrace();
     }
   }
 
@@ -219,7 +221,7 @@ public class DefaultSettings extends Settings {
    * @param path : desired default path
    */
   public void setDefaultPath(String path) {
-    if (path.isEmpty()) {
+    if (path == null || path.isEmpty()) {
       DefaultSettings.defaultPath = System.getProperty("user.home");
     } else {
       DefaultSettings.defaultPath = path;
@@ -234,7 +236,7 @@ public class DefaultSettings extends Settings {
    * @param port : port of local network
    */
   public void setPort(int port) {
-    if (!PortNumValidator.getInstance().isValid(input.toString())) {
+    if (PortNumValidator.getInstance().isValid(String.valueOf(port))) {
       DefaultSettings.port = port;
     } else {
       Alert alert = new Alert(AlertType.ERROR);

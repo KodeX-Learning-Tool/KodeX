@@ -10,9 +10,9 @@ public enum SideMenuTypes {
   MINI_MENU("minisidemenu"), // minimized side menu
   EXTENDED_MENU("sidemenu"); // standard side menu
 
-  public final String fxmlName;
+  private final String fxmlName;
 
-  private SideMenuTypes(String fxmlName) {
+  SideMenuTypes(String fxmlName) {
     this.fxmlName = fxmlName;
   }
 

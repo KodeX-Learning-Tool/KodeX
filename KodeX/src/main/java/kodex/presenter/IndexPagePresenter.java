@@ -69,6 +69,9 @@ public class IndexPagePresenter extends Presenter {
     /** The information regarding the procedure. */
     private ProcedureInformation procedureInformation;
 
+    /** The IndexPage (required for relevancy). */
+    private IndexPage indexPage = new IndexPage();
+    
     /**
      * Creates a new ProcedureButton with a reference to a ProcedurePlugin.
      *
@@ -125,6 +128,7 @@ public class IndexPagePresenter extends Presenter {
     private void handleProcedureSelected() {
       presenterManager.updateSideMenuView(SideMenuTypes.MINI_MENU);
       presenterManager.updatePresenter(presenterFactory.createProcedureLayoutPresenter(procedure));
+      indexPage.increaseRelevancy(procedure);
     }
   }
 
