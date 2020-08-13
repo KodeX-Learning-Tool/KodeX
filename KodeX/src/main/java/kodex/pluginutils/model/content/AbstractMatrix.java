@@ -5,6 +5,9 @@ import kodex.plugininterface.Content;
 /**
  * This class holds data in matrix format. The Matrix is stored in a 2D Array with the format
  * [rows][cols].
+ * 
+ * @author Yannick Neubert
+ * @version 1.0
  */
 
 //This is a workaround for the isValid method since generics could not be
@@ -75,6 +78,12 @@ public abstract class AbstractMatrix<E> extends Content {
    * @param matrix The Matrix containing this Contents data
    */
   public void setMatrix(E[][] matrix) {
+    int len = matrix[0].length;
+    for (int i = 0; i < matrix.length; i++) {
+      if (matrix[i].length != len) {
+        throw new IllegalArgumentException();
+      }
+    }
     this.matrix = matrix;
   }
 
