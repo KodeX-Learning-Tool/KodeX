@@ -59,9 +59,11 @@ public class IndexPage {
     FilterStrategy strategy = null;
 
     if (filter.equals(Filter.ALPHABETIC)) {
+      resetSelectedProcedures();
       strategy = new AlphaNumericalSort();
 
     } else if (filter.equals(Filter.GRADE)) {
+      resetSelectedProcedures();
       strategy = new LabelSort();
 
     } else if (filter.equals(Filter.RELEVANCE)) {
