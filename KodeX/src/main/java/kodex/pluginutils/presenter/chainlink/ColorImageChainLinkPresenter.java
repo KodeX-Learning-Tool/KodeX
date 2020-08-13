@@ -78,8 +78,13 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
           // store selected (marked) pixel
           selectedX = e.getX();
           selectedY = e.getY();
-      
-          handleMark();
+          
+          // only call when click is on the image 
+          if (selectedX < colorImageView.getImage().getWidth()
+              && selectedY < colorImageView.getImage().getHeight()) {
+            handleMark();
+          }
+          
         });   
   }
 
@@ -99,8 +104,8 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
    * @param color the color which the "pixel" should be edited to
    */
   private void editPixelColor(PixelWriter writer, PixelReader reader, int id, Color color) {
-    int x = id % (int) Math.round(colorImageView.getImage().getWidth());
-    int y = (id / (int) Math.round(colorImageView.getImage().getWidth())) * scaleFactor;
+    int x = id % (int) colorImageView.getImage().getWidth();
+    int y = (id / (int) colorImageView.getImage().getWidth()) * scaleFactor;
 
     // store original color
     if (lastElementMarked != id) {
@@ -235,9 +240,8 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
       // mark(lastElementMarked / scaleFactor);
       
       // remember the new value
-      int x = lastElementMarked % (int) Math.round(colorImageView.getImage().getWidth());
-      int y = (lastElementMarked 
-          / (int) Math.round(colorImageView.getImage().getWidth())) * scaleFactor;
+      int x = lastElementMarked % (int) colorImageView.getImage().getWidth();
+      int y = (lastElementMarked / (int) colorImageView.getImage().getWidth()) * scaleFactor;
       
       lastMarkedColor = image.getPixelReader().getColor(x, y);
     } 
