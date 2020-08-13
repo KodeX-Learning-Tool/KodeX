@@ -9,7 +9,6 @@ import javafx.scene.text.TextFlow;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.LetterString;
-import kodex.pluginutils.presenter.chainlink.TupleStringPresenter.TupleText;
 
 public class LetterStringPresenter extends ChainLinkPresenter {
 

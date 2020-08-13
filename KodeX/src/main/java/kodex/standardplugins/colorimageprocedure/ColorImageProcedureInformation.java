@@ -22,7 +22,7 @@ public class ColorImageProcedureInformation extends ProcedureInformation {
             + " Daraufhin wandelt man diese in eine Liste um. Am Ende erhält man eine Binärfolge.";
     this.labels =
         FXCollections.observableArrayList(
-            "Klasse 7", "Kodierungsverfahren", "Kodieren und Dekodieren");
+            "7", "Kodierungsverfahren", "Kodieren und Dekodieren");
   }
 
   @Override

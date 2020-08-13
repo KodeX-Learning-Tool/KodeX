@@ -15,7 +15,7 @@ import kodex.standardplugins.greyscaleimageprocedure.GreyScaleImageProcedurePlug
 import kodex.standardplugins.qrcode.TextQRCodeProcedurePlugin;
 import kodex.standardplugins.rle.TextRLEProcedurePlugin;
 
-class AlphaNumericalSortTest {
+class RelevancySortTest {
 
   private static BWImageProcedurePlugin bw = new BWImageProcedurePlugin();
   private static GreyScaleImageProcedurePlugin gs = new GreyScaleImageProcedurePlugin();
@@ -24,37 +24,47 @@ class AlphaNumericalSortTest {
   private static ColorImageProcedurePlugin cl = new ColorImageProcedurePlugin();
 
   private static ObservableList<ProcedurePlugin> actual;
-  private static ObservableList<ProcedurePlugin> expected;
+  
+  private static FilterStrategy sort;
 
 
   @BeforeAll
   static void init() {
     actual = FXCollections.observableArrayList(bw, gs, qr, rle, cl);
-    expected = FXCollections.observableArrayList(cl, gs, rle, qr, bw);
-
-    AlphaNumericalSort sort = new AlphaNumericalSort();
-    sort.filterProcedures(actual);
+    sort = new RelevancySort();
   }
 
   @Test
-  void checkSize() {
-    assertTrue(actual.size() == expected.size());
+  void checkSizeNull() {
+    sort.filterProcedures(actual);
+    assertTrue(actual.size() == 0);
+  }
+  
+  @Test
+  void checkSizeClicked() {
+    IndexPage index = new IndexPage();
+    index.increaseRelevancy(gs);
+    index.increaseRelevancy(rle);
+    index.increaseRelevancy(cl);
+    sort.filterProcedures(actual);
+    assertTrue(actual.size() == 3);
   }
 
   @Test
   void checkContent() {
-    boolean same = true;
-    for (int i = 0; i < expected.size(); i++) {
-      if (actual.get(i) != expected.get(i)) {
-        same = false;
-      }
-    }
-    assertTrue(same);
+    IndexPage index = new IndexPage();
+    index.getValueProcedure().clear();
+    index.increaseRelevancy(gs);
+    index.increaseRelevancy(gs);
+    index.increaseRelevancy(bw);
+    new RelevancySort().filterProcedures(actual);
+    assertTrue(actual.size() == 2 && actual.get(0).toString().equals(gs.toString())
+        && actual.get(1).toString().equals(bw.toString()));
   }
   
   @AfterAll
   static void clean() {
     actual.clear();
-    expected.clear();
   }
+
 }

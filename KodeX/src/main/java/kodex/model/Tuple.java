@@ -55,6 +55,10 @@ public class Tuple<A, B> {
 
   @Override
   public String toString() {
-    return first.toString() + ":" + second.toString();
+    if (first != null && second != null) {
+      return first.toString() + ":" + second.toString();
+    } else {
+      return null;
+    }
   }
 }

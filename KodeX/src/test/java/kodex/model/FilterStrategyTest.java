@@ -2,7 +2,6 @@ package kodex.model;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +14,7 @@ import kodex.standardplugins.greyscaleimageprocedure.GreyScaleImageProcedurePlug
 import kodex.standardplugins.qrcode.TextQRCodeProcedurePlugin;
 import kodex.standardplugins.rle.TextRLEProcedurePlugin;
 
-class AlphaNumericalSortTest {
+class FilterStrategyTest {
 
   private static BWImageProcedurePlugin bw = new BWImageProcedurePlugin();
   private static GreyScaleImageProcedurePlugin gs = new GreyScaleImageProcedurePlugin();
@@ -24,37 +23,41 @@ class AlphaNumericalSortTest {
   private static ColorImageProcedurePlugin cl = new ColorImageProcedurePlugin();
 
   private static ObservableList<ProcedurePlugin> actual;
-  private static ObservableList<ProcedurePlugin> expected;
+  
+  private FilterStrategy alphabetic = new AlphaNumericalSort();
+  private FilterStrategy grade = new LabelSort();
+  private FilterStrategy relevancy = new RelevancySort();
 
 
   @BeforeAll
   static void init() {
     actual = FXCollections.observableArrayList(bw, gs, qr, rle, cl);
-    expected = FXCollections.observableArrayList(cl, gs, rle, qr, bw);
-
-    AlphaNumericalSort sort = new AlphaNumericalSort();
-    sort.filterProcedures(actual);
-  }
-
-  @Test
-  void checkSize() {
-    assertTrue(actual.size() == expected.size());
-  }
-
-  @Test
-  void checkContent() {
-    boolean same = true;
-    for (int i = 0; i < expected.size(); i++) {
-      if (actual.get(i) != expected.get(i)) {
-        same = false;
-      }
-    }
-    assertTrue(same);
   }
   
-  @AfterAll
-  static void clean() {
-    actual.clear();
-    expected.clear();
+  @Test
+  void testInstances() {
+    assertTrue(alphabetic instanceof AlphaNumericalSort && grade instanceof LabelSort
+        && relevancy instanceof RelevancySort);
   }
+  
+  //Only tests size. The functionality is checked in the
+  //respective test classes of the sorting process
+  @Test
+  void testFilterProceduresAlphabetic() {
+    alphabetic.filterProcedures(actual);
+    assertTrue(actual.size() == 5);
+  }
+  
+  @Test
+  void testFilterProceduresGrade() {
+    grade.filterProcedures(actual);
+    assertTrue(actual.size() == 5);
+  }
+  
+  @Test
+  void testFilterProceduresRelevancy() {
+    relevancy.filterProcedures(actual);
+    assertTrue(actual.size() == 0);
+  }
+
 }

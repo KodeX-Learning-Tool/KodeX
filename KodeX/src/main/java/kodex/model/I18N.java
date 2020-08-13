@@ -23,12 +23,8 @@ import javafx.scene.control.Alert.AlertType;
 import kodex.presenter.PresenterManager;
 
 /**
- * I18N utility class..
- *
- * <p>
+ * I18N utility class.
  * This class is inspired by:
- *
- * <p>
  * https://www.sothawo.com/2016/09/how-to-implement-a-javafx-ui-where-the-language-can-be-changed-dynamically/
  *
  * @author Leonhard Kraft
@@ -56,7 +52,8 @@ public class I18N {
    * but for running the program in the IDE it is necessary to edit the file
    * manually.
    */
-  private static final String LANGUAGE_FILE_LIST_PATH = LANGUAGE_FOLDER_PATH + "language-files-list.json";
+  private static final String LANGUAGE_FILE_LIST_PATH
+      = LANGUAGE_FOLDER_PATH + "language-files-list.json";
 
   private static final String DEFAULT_LOCALE = "en";
 
@@ -156,13 +153,15 @@ public class I18N {
     return supportedLocales;
   }
 
-  private static void loadSupportedLocales() throws FileNotFoundException, FileAlreadyExistsException {
+  private static void loadSupportedLocales() 
+      throws FileNotFoundException, FileAlreadyExistsException {
 
     List<String> fileNames = new ArrayList<>();
 
     Gson gson = new Gson();
 
-    try (InputStreamReader in = new InputStreamReader(I18N.class.getResourceAsStream(LANGUAGE_FILE_LIST_PATH));
+    try (InputStreamReader in = 
+        new InputStreamReader(I18N.class.getResourceAsStream(LANGUAGE_FILE_LIST_PATH));
         BufferedReader br = new BufferedReader(in)) {
 
       String[] jsonFileNames = gson.fromJson(br, String[].class);
@@ -228,7 +227,8 @@ public class I18N {
 
         // there should only be one language property file of each language
         throw new FileAlreadyExistsException(
-            "Language property file for language " + fileLocale.getDisplayLanguage() + "is not unique.");
+            "Language property file for language " 
+        + fileLocale.getDisplayLanguage() + "is not unique.");
 
       }
 
@@ -258,8 +258,5 @@ public class I18N {
   public static void setLocale(Locale locale) {
     localeProperty().set(locale);
     Locale.setDefault(locale);
-  }
-
-  private I18N() {
   }
 }

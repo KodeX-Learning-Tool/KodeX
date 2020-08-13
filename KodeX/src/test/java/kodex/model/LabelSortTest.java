@@ -15,13 +15,13 @@ import kodex.standardplugins.greyscaleimageprocedure.GreyScaleImageProcedurePlug
 import kodex.standardplugins.qrcode.TextQRCodeProcedurePlugin;
 import kodex.standardplugins.rle.TextRLEProcedurePlugin;
 
-class AlphaNumericalSortTest {
+class LabelSortTest {
 
-  private static BWImageProcedurePlugin bw = new BWImageProcedurePlugin();
-  private static GreyScaleImageProcedurePlugin gs = new GreyScaleImageProcedurePlugin();
-  private static TextQRCodeProcedurePlugin qr = new TextQRCodeProcedurePlugin();
-  private static TextRLEProcedurePlugin rle = new TextRLEProcedurePlugin();
-  private static ColorImageProcedurePlugin cl = new ColorImageProcedurePlugin();
+  private static BWImageProcedurePlugin bw = new BWImageProcedurePlugin(); //Label: 7
+  private static GreyScaleImageProcedurePlugin gs = new GreyScaleImageProcedurePlugin(); //Label: 7
+  private static TextQRCodeProcedurePlugin qr = new TextQRCodeProcedurePlugin(); //Label: 8
+  private static TextRLEProcedurePlugin rle = new TextRLEProcedurePlugin(); //Label: 8
+  private static ColorImageProcedurePlugin cl = new ColorImageProcedurePlugin(); //Label: 7
 
   private static ObservableList<ProcedurePlugin> actual;
   private static ObservableList<ProcedurePlugin> expected;
@@ -30,9 +30,9 @@ class AlphaNumericalSortTest {
   @BeforeAll
   static void init() {
     actual = FXCollections.observableArrayList(bw, gs, qr, rle, cl);
-    expected = FXCollections.observableArrayList(cl, gs, rle, qr, bw);
+    expected = FXCollections.observableArrayList(cl, bw, gs, qr, rle);
 
-    AlphaNumericalSort sort = new AlphaNumericalSort();
+    LabelSort sort = new LabelSort();
     sort.filterProcedures(actual);
   }
 
@@ -57,4 +57,5 @@ class AlphaNumericalSortTest {
     actual.clear();
     expected.clear();
   }
+
 }
