@@ -1,8 +1,12 @@
 package kodex.plugininterface;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser.ExtensionFilter;
+import kodex.model.I18N;
 import kodex.presenter.IPresenter;
 
 /**
@@ -10,6 +14,7 @@ import kodex.presenter.IPresenter;
  * content, and request the presenter for the view of a content. Every link must expand this class.
  *
  * @author Patrick Spiesberger
+ * @author Raimon Gramlich
  * @version 1.0
  */
 public abstract class ChainLinkPresenter implements IPresenter {
@@ -140,7 +145,7 @@ public abstract class ChainLinkPresenter implements IPresenter {
   /**
    * Updates the view.
    */
-  public abstract void updateView();
+  protected abstract void updateView();
   
   /**
    * Gets the name of the chain link.
@@ -154,7 +159,7 @@ public abstract class ChainLinkPresenter implements IPresenter {
    * belonging to the id in the view and ensures that the corresponding element is recursively
    * marked in all other links of the procedure.
    */
-  public void handleMark() {
+  protected void handleMark() {
     int id = calculateID();
     if (id != -1) {
       mark(id);
@@ -255,5 +260,16 @@ public abstract class ChainLinkPresenter implements IPresenter {
       previous.updateView();
       previous.updatePrevChainLink();
     }
+  }
+
+  /**
+   * Gets the extensions filter for exporting.
+   *
+   * @return the extensions filter
+   */
+  public List<ExtensionFilter> getExtensionsFilter() {
+    List<ExtensionFilter> extensionFilters = new ArrayList<>();
+    extensionFilters.add(new ExtensionFilter(I18N.get("files.all"), "*.*"));
+    return extensionFilters;
   }
 }
