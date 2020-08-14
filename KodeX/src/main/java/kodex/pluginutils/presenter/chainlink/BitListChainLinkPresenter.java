@@ -25,6 +25,9 @@ public class BitListChainLinkPresenter extends ChainLinkPresenter {
   /** The rgb list view. */
   private ListView<Integer> bitListView;
 
+  /** Whether to listen for changes or not. */
+  private boolean listenForChanges = true;
+
   /**
    * Instantiates a new RGB list chain link presenter.
    *
@@ -61,7 +64,11 @@ public class BitListChainLinkPresenter extends ChainLinkPresenter {
     bitListView
         .getSelectionModel()
         .selectedIndexProperty()
-        .addListener((obs, old, newV) -> handleMark());
+        .addListener((obs, old, newV) -> {
+          if (listenForChanges && newV.intValue() != -1) {
+            handleMark();
+          }
+        });
 
     AnchorPane chainLinkPane = new AnchorPane();
     
@@ -77,7 +84,10 @@ public class BitListChainLinkPresenter extends ChainLinkPresenter {
 
   @Override
   protected void mark(int id) {
+    listenForChanges = false;
     bitListView.getSelectionModel().select(id);
+    bitListView.scrollTo(id);
+    listenForChanges = true;
     chainLinkEditPresenter.setMarkID(id);
   }
 

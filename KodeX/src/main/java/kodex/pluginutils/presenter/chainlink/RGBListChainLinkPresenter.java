@@ -73,13 +73,9 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
    * @return the rgb string
    */
   private String colorToRGBString(Color color) {
-    return "("
-        + String.valueOf((int) Math.round(color.getRed() * 255))
-        + ", "
-        + String.valueOf((int) Math.round(color.getGreen() * 255))
-        + ", "
-        + String.valueOf((int) Math.round(color.getBlue() * 255))
-        + ")";
+    return "(" + ((int) Math.round(color.getRed() * 255)) + ", "
+        + (int) Math.round(color.getGreen() * 255) + ", "
+        + (int) Math.round(color.getBlue() * 255)  + ")";
   }
 
   @Override
@@ -99,6 +95,7 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
     lastElementMarked = id;
     listenForChanges = false;
     rgbListView.getSelectionModel().select(id);
+    rgbListView.scrollTo(id);
     listenForChanges = true;
     chainLinkEditPresenter.setMarkID(id);
   }

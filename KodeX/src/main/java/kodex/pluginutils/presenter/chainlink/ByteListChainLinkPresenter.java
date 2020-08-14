@@ -22,6 +22,9 @@ public class ByteListChainLinkPresenter extends ChainLinkPresenter {
 
   /** The rgb byte list view. */
   private ListView<String> byteListView;
+  
+  /** Whether to listen for changes or not. */
+  private boolean listenForChanges = true;
 
   /**
    * Instantiates a new RGB byte list chain link presenter.
@@ -53,7 +56,11 @@ public class ByteListChainLinkPresenter extends ChainLinkPresenter {
 
     // adds listener to list view items
     byteListView.getSelectionModel()
-          .selectedIndexProperty().addListener((obs, old, newV) -> handleMark());
+          .selectedIndexProperty().addListener((obs, old, newV) -> {
+            if (listenForChanges && newV.intValue() != -1) {
+              handleMark();
+            }
+          });
 
     AnchorPane chainLinkPane = new AnchorPane();
 
@@ -70,7 +77,10 @@ public class ByteListChainLinkPresenter extends ChainLinkPresenter {
 
   @Override
   protected void mark(int id) {
+    listenForChanges = false;
     byteListView.getSelectionModel().select(id);
+    byteListView.scrollTo(id);
+    listenForChanges = true;
     chainLinkEditPresenter.setMarkID(id);
   }
 
