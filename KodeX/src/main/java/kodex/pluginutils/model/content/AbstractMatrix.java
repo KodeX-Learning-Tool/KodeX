@@ -78,6 +78,10 @@ public abstract class AbstractMatrix<E> extends Content {
    * @param matrix The Matrix containing this Contents data
    */
   public void setMatrix(E[][] matrix) {
+    if (matrix == null) {
+      throw new IllegalArgumentException();
+    }
+    
     int len = matrix[0].length;
     for (int i = 0; i < matrix.length; i++) {
       if (matrix[i].length != len) {

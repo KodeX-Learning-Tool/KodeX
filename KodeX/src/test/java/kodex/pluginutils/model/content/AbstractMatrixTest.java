@@ -36,6 +36,7 @@ class AbstractMatrixTest {
   
   @Test
   void testSetandGet() {
+    assertThrows(IllegalArgumentException.class, () -> bmtx.setMatrix(null));
     bmtx.setMatrix(mtx);
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
