@@ -5,6 +5,9 @@ import kodex.plugininterface.Content;
 /**
  * This class holds data in string format. It adds validation and exporting capabilities to Javas
  * String.
+ * 
+ * @author Yannick Neubert
+ * @version 1.0
  */
 public abstract class AbstractString extends Content<String> {
 
@@ -31,6 +34,10 @@ public abstract class AbstractString extends Content<String> {
    * @param data The String containing this Contents data
    */
   public void setString(String data) {
+    if (data == null) {
+      throw new IllegalArgumentException();
+    }
+    
     this.data = data;
   }
 }
