@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
+import org.apache.commons.io.FilenameUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -107,12 +107,23 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
 
   @Override
   public void handleDecodeImport() {
+    // supported extensions
+    ArrayList<String> extensions = new ArrayList<>();
+    extensions.add("*.txt");
+    
+    // extensions filter for the FileChooser
     ArrayList<ExtensionFilter> extensionFilters = new ArrayList<>();
-    extensionFilters.add(new ExtensionFilter(I18N.get("files.text"), "*.txt"));
+    extensionFilters.add(new ExtensionFilter(I18N.get("files.all"), "*.*"));
+    extensionFilters.add(new ExtensionFilter(I18N.get("files.text"), extensions));
     
     File file = importFile(false, extensionFilters);
 
     if (file != null) {
+      if (!extensions.contains("*." + FilenameUtils.getExtension(file.getName()))) {
+        importAlert(file, "text");
+        return;
+      }
+
       if (!parseTextFile(file)) {
         return;
       }
@@ -124,12 +135,24 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
 
   @Override
   public void handleEncodeImport() {
+    // supported extensions
+    ArrayList<String> extensions = new ArrayList<>();
+    extensions.add("*.png");
+    extensions.add("*.jpg");
+    
+    // extensions filter for the FileChooser
     ArrayList<ExtensionFilter> extensionFilters = new ArrayList<>();
-    extensionFilters.add(new ExtensionFilter(I18N.get("files.image"), "*.png", "*.jpg", "*.gif"));
+    extensionFilters.add(new ExtensionFilter(I18N.get("files.all"), "*.*"));
+    extensionFilters.add(new ExtensionFilter(I18N.get("files.image"), extensions));
     
     File file = importFile(false, extensionFilters);
 
     if (file != null) {
+      if (!extensions.contains("*." + FilenameUtils.getExtension(file.getName()))) {
+        importAlert(file, "image");
+        return;
+      }
+      
       // Creating an image
       Image image = new Image(file.toURI().toString());
       int width = (int) image.getWidth();
@@ -201,12 +224,12 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
    * @param type the type (i.e. Decode/Encode)
    * @return the chosen file
    */
-  private File importFile(Boolean encoding, ArrayList<ExtensionFilter> extensionFilters) {
+  private File importFile(boolean encoding, ArrayList<ExtensionFilter> extensionFilters) {
     FileChooser fileChooser = new FileChooser();
     fileChooser.getExtensionFilters().addAll(extensionFilters);
     String propertyName;
     
-    if (Boolean.TRUE.equals(encoding)) {
+    if (encoding) {
       propertyName = "importexample.filechooser.encode.title";
     } else {
       propertyName = "importexample.filechooser.decode.title";
@@ -215,6 +238,21 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
     fileChooser.titleProperty().bind(I18N.createStringBinding(propertyName));
     
     return fileChooser.showOpenDialog(null);
+  }
+  
+  /**
+   * Shows an alert window concerning file extensions.
+   *
+   * @param givenFileExtension the given file
+   * @param expectedFileType the expected file type
+   */
+  private void importAlert(File file, String expectedFileType) {
+    Alert alert = new Alert(AlertType.ERROR);
+    alert.titleProperty().bind(I18N.createStringBinding(ERROR_PROPERTY_KEY));
+    alert.headerTextProperty().bind(I18N.createStringBinding(INVALID_IMPORT_PROPERTY_KEY));
+    alert.setContentText("The extension ." + FilenameUtils.getExtension(file.getName()) 
+        +  " does not belong to a supported " + expectedFileType + " file type.");
+    PresenterManager.showAlertDialog(alert);
   }
   
   @Override
