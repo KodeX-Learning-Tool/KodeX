@@ -50,5 +50,4 @@ public abstract class Content<T> {
   public void setHeader(Map<String, Object> header) {
     this.header = header;
   }
-  
 }
