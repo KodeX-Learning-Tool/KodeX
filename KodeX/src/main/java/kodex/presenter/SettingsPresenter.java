@@ -3,10 +3,10 @@ package kodex.presenter;
 import java.io.File;
 import java.util.Locale;
 import java.util.Optional;
+
 import javafx.collections.FXCollections;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -130,13 +130,13 @@ public class SettingsPresenter extends Presenter {
   @FXML
   public void handleRestoreDefaultSettings() {
 
-    Alert alert = new Alert(AlertType.CONFIRMATION);
-    alert.titleProperty().bind(I18N.createStringBinding("alert.title.confirmation"));
-    alert.headerTextProperty().bind(I18N.createStringBinding("alert.settings.reset"));
-    alert.setContentText("Restore default settings? "
-        + " All changes made to the settings will be lost.");
-
-    Optional<ButtonType> result = PresenterManager.showAlertDialog(alert);
+    Optional<ButtonType> result =
+        presenterManager.showAlertDialog(
+            AlertType.CONFIRMATION,
+            I18N.get("alert.title.confirmation"),
+            I18N.get("alert.settings.reset"),
+            I18N.get(
+                "Restore default settings? " + " All changes made to the settings will be lost."));
 
     if (result.isPresent() && result.get() == ButtonType.OK) {
       defaultSettings.reset();
@@ -160,12 +160,12 @@ public class SettingsPresenter extends Presenter {
 
       setErrorPseudoClass(portTextField, true);
 
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("The input is not a valid port. "
-          + "The number has to be between 0 and 65535.");
-      PresenterManager.showAlertDialog(alert);
+      presenterManager.showAlertDialog(
+          AlertType.ERROR,
+          I18N.get("alert.title.error"),
+          I18N.get("alert.input.invalid"),
+          I18N.get(
+              "The input is not a valid port. " + "The number has to be between 0 and 65535."));
 
       return;
     }

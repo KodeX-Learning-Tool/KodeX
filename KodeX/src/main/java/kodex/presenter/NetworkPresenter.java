@@ -16,11 +16,11 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.concurrent.CompletableFuture;
+
 import javafx.application.Platform;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
@@ -356,11 +356,11 @@ public class NetworkPresenter extends Presenter {
    * @param message the message
    */
   private void showInformationDialog(String messageKey, Object... args) {
-    Alert alert = new Alert(AlertType.INFORMATION);
-    alert.titleProperty().bind(I18N.createStringBinding("alert.title.information"));
-    alert.headerTextProperty().bind(I18N.createStringBinding("alert.header.network"));
-    alert.contentTextProperty().bind(I18N.createStringBinding(messageKey, args));
-    PresenterManager.showAlertDialog(alert);
+    presenterManager.showAlertDialog(
+        AlertType.INFORMATION,
+        I18N.get("alert.title.information"),
+        I18N.get("alert.header.network"),
+        I18N.get(messageKey, args));
   }
 
   /**
@@ -369,11 +369,11 @@ public class NetworkPresenter extends Presenter {
    * @param message the message
    */
   private void showErrorDialog(String titleKey, String messageKey, Object... args) {
-    Alert alert = new Alert(AlertType.ERROR);
-    alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-    alert.headerTextProperty().bind(I18N.createStringBinding(titleKey));
-    alert.contentTextProperty().bind(I18N.createStringBinding(messageKey, args));
-    PresenterManager.showAlertDialog(alert);
+    presenterManager.showAlertDialog(
+        AlertType.ERROR,
+        I18N.get("alert.title.error"),
+        I18N.get(titleKey),
+        I18N.get(messageKey, args));
   }
 
   /**

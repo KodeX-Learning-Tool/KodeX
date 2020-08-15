@@ -116,6 +116,7 @@ public class ChainPresenter implements IPresenter {
       try {  
         loader.load();
       } catch (IOException e) {
+        
         Alert alert = new Alert(AlertType.ERROR);
         alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
         alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));

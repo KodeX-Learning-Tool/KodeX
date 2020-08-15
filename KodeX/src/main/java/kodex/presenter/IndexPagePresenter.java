@@ -1,11 +1,11 @@
 package kodex.presenter;
 
 import java.io.IOException;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -71,7 +71,7 @@ public class IndexPagePresenter extends Presenter {
 
     /** The IndexPage (required for relevancy). */
     private IndexPage indexPage = new IndexPage();
-    
+
     /**
      * Creates a new ProcedureButton with a reference to a ProcedurePlugin.
      *
@@ -84,19 +84,24 @@ public class IndexPagePresenter extends Presenter {
 
       // loads the template
       String fileName = "procedurebuttontemplate.fxml";
-      
+
       FXMLLoader loader = new FXMLLoader(getClass().getResource(fileName));
       loader.setController(this);
       loader.setRoot(this);
       try {
         loader.load();
       } catch (IOException exc) {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-        alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
-        alert.setContentText("Failed creating procedure button for " 
-            + procedurePlugin.pluginNameProperty().get() + " with " + fileName + ".");
-        PresenterManager.showAlertDialog(alert);
+
+        presenterManager.showAlertDialog(
+            AlertType.ERROR,
+            I18N.get("alert.title.error"),
+            I18N.get("alert.load.failed"),
+            I18N.get(
+                "Failed creating procedure button for "
+                    + procedurePlugin.pluginNameProperty().get()
+                    + " with "
+                    + fileName
+                    + "."));
       }
 
       procedureLabel.setText(procedureInformation.getName());
