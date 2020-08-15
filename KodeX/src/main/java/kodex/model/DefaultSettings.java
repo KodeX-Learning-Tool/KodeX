@@ -107,10 +107,9 @@ public class DefaultSettings extends Settings {
       settingsDir = new File(getParentPath() + fileSeparator + (SETTINGS_DIRECTORY));
 
       if (!settingsDir.exists() && settingsDir.mkdir()) {
-        // do something
+        //TODO: do something
       }
     } catch (UnsupportedEncodingException e4) {
-      // TODO Auto-generated catch block
       e4.printStackTrace();
     }
   
@@ -118,7 +117,6 @@ public class DefaultSettings extends Settings {
     try {
       userSettingsFile = new File(getParentPath() + (fileSeparator.concat(USER_SETTINGS_PATH)));
     } catch (UnsupportedEncodingException e3) {
-      // TODO Auto-generated catch block
       e3.printStackTrace();
     }
     
@@ -126,7 +124,6 @@ public class DefaultSettings extends Settings {
       try {
         defaultProperties.load(DefaultSettings.class.getResourceAsStream(DEFAULT_SETTINGS_PATH));
       } catch (IOException e2) {
-        // TODO Auto-generated catch block
         e2.printStackTrace();
       }
       
@@ -135,10 +132,8 @@ public class DefaultSettings extends Settings {
         FileOutputStream fileOut = new FileOutputStream(userSettingsFile);
         defaultProperties.store(fileOut, null);
       } catch (FileNotFoundException e1) {
-        // TODO Auto-generated catch block
         e1.printStackTrace();
       } catch (IOException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
     }
@@ -147,7 +142,6 @@ public class DefaultSettings extends Settings {
     try {
       input = new InputStreamReader(new FileInputStream(userSettingsFile), "UTF-8");
     } catch (UnsupportedEncodingException | FileNotFoundException e1) {
-      // TODO Auto-generated catch block
       e1.printStackTrace();
     }
 
