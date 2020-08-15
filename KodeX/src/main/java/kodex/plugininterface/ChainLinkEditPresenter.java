@@ -1,6 +1,7 @@
 package kodex.plugininterface;
 
 import javafx.scene.layout.AnchorPane;
+import kodex.InvalidInputException;
 import kodex.presenter.IPresenter;
 
 /**
@@ -39,8 +40,10 @@ public abstract class ChainLinkEditPresenter implements IPresenter {
   @Override
   public abstract AnchorPane getView();
 
-  /** This method is called when the user changes the Contents of a link and handles this change. */
-  public abstract void handleSubmit();
+  /** This method is called when the user changes the Contents of a link and handles this change. 
+   * @throws InvalidInputException thrown if the user input is invalid
+   */
+  public abstract void handleSubmit() throws InvalidInputException;
   
   /** Update the marked element in the edit-view. */
   protected abstract void updateMarkedElement();
