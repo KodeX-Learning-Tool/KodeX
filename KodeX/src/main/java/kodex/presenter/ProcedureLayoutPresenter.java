@@ -1,7 +1,6 @@
 package kodex.presenter;
 
 import java.io.IOException;
-
 import javafx.animation.TranslateTransition;
 import javafx.beans.binding.DoubleBinding;
 import javafx.fxml.FXML;
@@ -17,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import kodex.InvalidInputException;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
@@ -115,10 +115,16 @@ public class ProcedureLayoutPresenter extends Presenter {
       hideEditor();
     }
 
-    /** This method is executed if the user clicks on the button to submit the changes. */
+    /** This method is executed if the user clicks on the button to submit the changes. 
+     * @throws InvalidInputException if the user input is invalid
+     */
     @FXML
     private void handleSubmit() {
-      editPresenter.handleSubmit();
+      try {
+        editPresenter.handleSubmit();
+      } catch (InvalidInputException e) {
+        presenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+      }
     }
 
     /** Plays the slide in animation at a normal rate in reverse. */
@@ -353,16 +359,28 @@ public class ProcedureLayoutPresenter extends Presenter {
     }
   }
 
-  /** This method displays the chain view with the fitting items in the overview bar. */
+  /** This method displays the chain view with the fitting items in the overview bar. 
+   * 
+   *  @throws FailedLoadException if the program failed loading the FXML file
+   */
   public void switchToChainPresenter(boolean encoding) {
     // switches the import presenter with a new chain presenter
-    activePresenter = new ChainPresenter(activeProcedure.getChainHead(), this);
+    try {
+      activePresenter = new ChainPresenter(activeProcedure.getChainHead(), this);
+    } catch (FailedLoadException e) {
+      presenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+    }
+    
 
     // fills the overview bar with items
     addOverviewItems(encoding);
 
     // fills the chain view with chain links, then display it
-    ((ChainPresenter) activePresenter).createChainView(activeProcedure, encoding);
-    procedurePane.setCenter(activePresenter.getView());
+    try {
+      ((ChainPresenter) activePresenter).createChainView(activeProcedure, encoding);
+      procedurePane.setCenter(activePresenter.getView());
+    } catch (FailedLoadException e) {
+      presenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+    }
   }
 }
