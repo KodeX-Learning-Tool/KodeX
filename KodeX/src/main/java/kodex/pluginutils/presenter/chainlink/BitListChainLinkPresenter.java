@@ -23,7 +23,7 @@ public class BitListChainLinkPresenter extends ChainLinkPresenter {
   private static final String CHAIN_LINK_NAME = "Bit-Liste";
 
   /** The rgb list view. */
-  private ListView<Integer> bitListView;
+  private ListView<Integer> bitListView = new ListView<>();
 
   /**
    * Instantiates a new RGB list chain link presenter.
@@ -47,8 +47,6 @@ public class BitListChainLinkPresenter extends ChainLinkPresenter {
 
   @Override
   public AnchorPane getView() {
-    bitListView = new ListView<>();
-
     ObservableList<Integer> list = FXCollections.observableArrayList();
 
     for (Integer color : ((BitList) getContent()).getList()) {
@@ -83,7 +81,12 @@ public class BitListChainLinkPresenter extends ChainLinkPresenter {
 
   @Override
   public void updateView() {
-    // TODO Auto-generated method stub
-    
+    ObservableList<Integer> list = FXCollections.observableArrayList();
+
+    for (Integer color : ((BitList) getContent()).getList()) {
+      list.add(color);
+    }
+
+    bitListView.setItems(list); 
   }
 }
