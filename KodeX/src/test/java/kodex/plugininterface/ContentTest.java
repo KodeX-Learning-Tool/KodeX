@@ -1,4 +1,4 @@
-package plugininterface;
+package kodex.plugininterface;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -8,8 +8,6 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import kodex.plugininterface.Content;
 
 class ContentTest {
   

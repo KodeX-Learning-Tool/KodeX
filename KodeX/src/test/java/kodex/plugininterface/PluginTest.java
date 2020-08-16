@@ -1,4 +1,4 @@
-package plugininterface;
+package kodex.plugininterface;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import kodex.plugininterface.Plugin;
 
 class PluginTest {
   
