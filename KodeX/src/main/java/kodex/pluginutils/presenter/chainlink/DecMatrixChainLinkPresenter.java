@@ -30,16 +30,15 @@ public class DecMatrixChainLinkPresenter extends ChainLinkPresenter {
      * Instantiates a new matrix button.
      *
      * @param text the text to be set
-     * @param id the id of the button
+     * @param id   the id of the button
      */
     MatrixButton(String text, int id) {
       this.getStyleClass().add("matrix__button");
       this.setText(text);
-      this.setOnAction(
-          e -> {
-            selectedElementID = id;
-            handleMark();
-          });
+      this.setOnAction(e -> {
+        selectedElementID = id;
+        handleMark();
+      });
     }
   }
 
@@ -61,12 +60,12 @@ public class DecMatrixChainLinkPresenter extends ChainLinkPresenter {
   /**
    * Instantiates a new RGB matrix chain link presenter.
    *
-   * @param previous the previous ChainLinkPresenter
+   * @param previous     the previous ChainLinkPresenter
    * @param previousStep the previous step
-   * @param nextStep the next step
+   * @param nextStep     the next step
    */
-  public DecMatrixChainLinkPresenter(
-      ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
+  public DecMatrixChainLinkPresenter(ChainLinkPresenter
+      previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
     chainLinkEditPresenter = new DecMatrixEditPresenter(this);
     content = new DecMatrix(3, 3);
@@ -81,7 +80,7 @@ public class DecMatrixChainLinkPresenter extends ChainLinkPresenter {
   /**
    * Edits the font color of the button.
    *
-   * @param id the universal id
+   * @param id    the universal id
    * @param color the color to be set
    */
   private void editMatrixElementColor(int id, Color color) {
@@ -100,13 +99,13 @@ public class DecMatrixChainLinkPresenter extends ChainLinkPresenter {
     // create buttons for each element in the 2d array
     for (int j = 0; j < matrix.getHeight(); j++) {
       for (int i = 0; i < matrix.getWidth(); i++) {
-        MatrixButton btn =
-            new MatrixButton(String.valueOf(matrix.get(i, j)), i + j * matrix.getWidth());
+        MatrixButton btn 
+            = new MatrixButton(String.valueOf(matrix.get(i, j)), i + j * matrix.getWidth());
 
         matrixPane.getChildren().add(btn);
       }
     }
-    
+
     AnchorPane chainLinkPane = new AnchorPane();
 
     chainLinkPane.getChildren().add(matrixPane);
@@ -141,7 +140,20 @@ public class DecMatrixChainLinkPresenter extends ChainLinkPresenter {
 
   @Override
   public void updateView() {
-    // TODO Auto-generated method stub
+    DecMatrix matrix = (DecMatrix) content;
 
+    matrixPane.setPrefColumns(matrix.getWidth());
+    matrixPane.setPrefHeight(matrix.getHeight());
+    matrixPane.getChildren().clear();
+
+    // create buttons for each element in the 2d array
+    for (int j = 0; j < matrix.getHeight(); j++) {
+      for (int i = 0; i < matrix.getWidth(); i++) {
+        MatrixButton btn 
+            = new MatrixButton(String.valueOf((matrix.get(i, j))), i + j * matrix.getWidth());
+
+        matrixPane.getChildren().add(btn);
+      }
+    }
   }
 }

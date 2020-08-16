@@ -74,13 +74,12 @@ public class BinaryStringEditPresenter extends ChainLinkEditPresenter {
   @Override
   public void handleSubmit() {
     String input = binaryStringArea.getText();
-    System.out.println(input);
     // strip leading zeros to verify whether the number is in range
-    if (input == null || !(input.equals("0") || input.equals("1"))) {
+    if (input == null || !input.matches("[0-1]*") || input.length() != unitLength) {
       Alert alert = new Alert(AlertType.ERROR);
       alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("This binary string has a max length of " + unitLength);
+      alert.setContentText("This binary string is not valid!");
       PresenterManager.showAlertDialog(alert);
       
       return;

@@ -2,6 +2,7 @@ package kodex.pluginutils.presenter.chainlink;
 
 import java.util.List;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import kodex.plugininterface.ChainLinkPresenter;
@@ -21,7 +22,7 @@ public class ByteListChainLinkPresenter extends ChainLinkPresenter {
   private static final String CHAIN_LINK_NAME = "Byte-Liste";
 
   /** The rgb byte list view. */
-  private ListView<String> byteListView;
+  private ListView<String> byteListView = new ListView<>();
 
   /**
    * Instantiates a new RGB byte list chain link presenter.
@@ -45,8 +46,6 @@ public class ByteListChainLinkPresenter extends ChainLinkPresenter {
 
   @Override
   public AnchorPane getView() {
-    byteListView = new ListView<>();
-
     List<String> list = ((ByteList) getContent()).getList();
 
     byteListView.setItems(FXCollections.observableArrayList(list));
@@ -71,12 +70,17 @@ public class ByteListChainLinkPresenter extends ChainLinkPresenter {
   @Override
   protected void mark(int id) {
     byteListView.getSelectionModel().select(id);
-    chainLinkEditPresenter.setMarkID(id);
+    chainLinkEditPresenter.setMarkID(id / 8);
   }
 
   @Override
   public void updateView() {
-    // TODO Auto-generated method stub
-    
+    ObservableList<String> list = FXCollections.observableArrayList();
+
+    for (String color : ((ByteList) getContent()).getList()) {
+      list.add(color);
+    }
+
+    byteListView.setItems(list);
   }
 }

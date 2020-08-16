@@ -1,15 +1,20 @@
 package kodex.pluginutils.presenter.edit;
 
 import java.util.function.UnaryOperator;
+
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.pluginutils.model.content.DecMatrix;
+import kodex.presenter.PresenterManager;
 
 /**
  * This class manages the edit view and is responsible for editing a RGB matrix.
@@ -26,7 +31,7 @@ public class DecMatrixEditPresenter extends ChainLinkEditPresenter {
   private int selectedX;
   private int selectedY;
   
-  private TextField valueField;
+  private TextField valueField = new TextField();
   
   /** The text formatter which only allows binary input. */
   private TextFormatter<String> valueFormatter;
@@ -43,10 +48,10 @@ public class DecMatrixEditPresenter extends ChainLinkEditPresenter {
     
     // only allows 0 to 255 as input
     UnaryOperator<TextFormatter.Change> filter = change -> {
-      if (change.getControlNewText().matches("[0-255]")) {
+      if (change.getControlNewText().matches("\\b(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\b")) {
         return change;
       } else if (change.getControlNewText().isEmpty()) {
-        change.setText("0");
+        change.setText("");
         return change;
       } else {
         return null;
@@ -55,8 +60,6 @@ public class DecMatrixEditPresenter extends ChainLinkEditPresenter {
     
     valueFormatter = new TextFormatter<>(filter);
     
-    
-    valueField = new TextField();
     valueField.setTextFormatter(valueFormatter);
     
     Label valueLabel = new Label("Value: ");
@@ -75,7 +78,17 @@ public class DecMatrixEditPresenter extends ChainLinkEditPresenter {
 
   @Override
   public void handleSubmit() {
-    content.set(selectedX, selectedY, Integer.parseInt(valueField.getText()) / 255);
+    String input = valueField.getText();
+    if (input == null || input.equals("")) {
+      Alert alert = new Alert(AlertType.ERROR);
+      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+      alert.setContentText("This string is empty");
+      PresenterManager.showAlertDialog(alert);
+      
+      return;
+    }
+    content.set(selectedX, selectedY, Integer.parseInt(valueField.getText()));
     
     chainLinkPresenter.updateChain();
   }
