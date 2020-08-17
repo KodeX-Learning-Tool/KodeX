@@ -1,6 +1,9 @@
 package kodex.pluginutils.model.content;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import kodex.plugininterface.Content;
 
 public class LetterString extends Content<String> {
@@ -38,7 +41,14 @@ public class LetterString extends Content<String> {
 
   @Override
   public void export(File file) {
-    // TODO Auto-generated method stub
+    try {
+      FileWriter writer = new FileWriter(file);
+
+      //content
+      writer.write(letterString);
+      writer.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
-  
 }
