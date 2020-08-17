@@ -1,6 +1,10 @@
 package kodex.pluginutils.model.content;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.StringJoiner;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -102,7 +106,18 @@ public class TupleString extends Content<String> {
 
   @Override
   public void export(File file) {
-    // TODO Auto-generated method stub
+    try {
+      FileWriter writer = new FileWriter(file);
+      
+      StringJoiner content = new StringJoiner(" ");
+      
+      Arrays.asList(tuples).forEach(t -> content.add(t.toString()));
+      
+      //content
+      writer.write(content.toString());
+      writer.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
-  
 }
