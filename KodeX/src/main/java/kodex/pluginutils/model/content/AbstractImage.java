@@ -9,6 +9,7 @@ import kodex.plugininterface.Content;
  * WritableImage.
  *
  * @author Raimon Gramlich
+ * @version 1.0
  */
 public abstract class AbstractImage extends Content<WritableImage> {
 
