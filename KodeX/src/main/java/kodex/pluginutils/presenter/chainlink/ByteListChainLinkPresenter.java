@@ -1,9 +1,12 @@
 package kodex.pluginutils.presenter.chainlink;
 
+import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser.ExtensionFilter;
+import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.ByteList;
@@ -22,6 +25,9 @@ public class ByteListChainLinkPresenter extends ChainLinkPresenter {
 
   /** The rgb byte list view. */
   private ListView<String> byteListView;
+  
+  /** Whether to listen for changes or not. */
+  private boolean listenForChanges = true;
 
   /**
    * Instantiates a new RGB byte list chain link presenter.
@@ -53,7 +59,11 @@ public class ByteListChainLinkPresenter extends ChainLinkPresenter {
 
     // adds listener to list view items
     byteListView.getSelectionModel()
-          .selectedIndexProperty().addListener((obs, old, newV) -> handleMark());
+          .selectedIndexProperty().addListener((obs, old, newV) -> {
+            if (listenForChanges && newV.intValue() != -1) {
+              handleMark();
+            }
+          });
 
     AnchorPane chainLinkPane = new AnchorPane();
 
@@ -70,7 +80,10 @@ public class ByteListChainLinkPresenter extends ChainLinkPresenter {
 
   @Override
   protected void mark(int id) {
+    listenForChanges = false;
     byteListView.getSelectionModel().select(id);
+    byteListView.scrollTo(id);
+    listenForChanges = true;
     chainLinkEditPresenter.setMarkID(id);
   }
 
@@ -78,5 +91,12 @@ public class ByteListChainLinkPresenter extends ChainLinkPresenter {
   public void updateView() {
     // TODO Auto-generated method stub
     
+  }
+  
+  @Override
+  public List<ExtensionFilter> getExtensionsFilter() {
+    List<ExtensionFilter> extensionFilters = new ArrayList<>();
+    extensionFilters.add(new ExtensionFilter(I18N.get("files.text"), "*.txt"));
+    return extensionFilters;
   }
 }

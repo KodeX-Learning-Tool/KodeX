@@ -1,16 +1,15 @@
 package kodex.pluginutils.presenter.edit;
 
 import javafx.scene.control.ColorPicker;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import kodex.InvalidInputException;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.pluginutils.model.content.GreyScaleImage;
-import kodex.presenter.PresenterManager;
 
 /**
  * This class manages the edit view and is responsible for editing a color image.
@@ -56,31 +55,30 @@ public class GreyScaleImageEditPresenter extends ChainLinkEditPresenter {
   }
 
   @Override
-  public void handleSubmit() {
+  public void handleSubmit() throws InvalidInputException {
     Color newColor = colorPicker.getValue();
     
+    boolean showWarning = false;
+    
     if (newColor.getRed() != newColor.getGreen() || newColor.getGreen() != newColor.getBlue())  {
-      Alert alert = new Alert(AlertType.WARNING);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.warning"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("This isn't a valid grey scale. Please check if R = G = B");
-      PresenterManager.showAlertDialog(alert);
-      return;
+      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"),
+          I18N.get("alert.input.invalid"), 
+          "This isn't a valid grey scale. Please check if R = G = B");
     }
     
     // ignores opacity and uses only RGB values
     if (newColor.getOpacity() != 1) {
       newColor = new Color(newColor.getRed(), newColor.getGreen(), newColor.getBlue(), 1d);
-      Alert alert = new Alert(AlertType.WARNING);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.warning"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("Opacity changes are not supported and won't be saved.");
-      PresenterManager.showAlertDialog(alert);
-      return;
+      showWarning = true;
     }
     
     content.setColor(selectedX, selectedY, newColor);
     chainLinkPresenter.updateChain();
+   
+    if (showWarning) {
+      throw new InvalidInputException(AlertType.WARNING, I18N.get("alert.title.warning"),
+          I18N.get("alert.input.invalid"), "Opacity changes are not supported and won't be saved.");
+    }
   }
   
   protected void updateMarkedElement() {

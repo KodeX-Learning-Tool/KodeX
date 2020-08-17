@@ -1,10 +1,7 @@
 package kodex.model;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+import java.util.HashMap;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -31,15 +28,24 @@ public class IndexPage {
   /* List of all procedures according to the desired restriction */
   private ObservableList<ProcedurePlugin> selectedProcedures = FXCollections.observableArrayList();
 
+  /* Map with all procedures and the number of times they were clicked */
+  private static HashMap<ProcedurePlugin, Integer> valueProcedure 
+      = new HashMap<ProcedurePlugin, Integer>();
+  
   /**
    * Constructor of class IndexPage. Loads the current list of all activated procededures from
    * PluginLoader.
    */
   public IndexPage() {
-    availableProcedures = PluginLoader.getInstance().getEnabledProcedurePlugins();
-
-    // all procedures are selected at the start
-    selectedProcedures = FXCollections.observableArrayList(availableProcedures);
+    try {
+      availableProcedures = PluginLoader.getInstance().getEnabledProcedurePlugins();
+      // all procedures are selected at the start
+      selectedProcedures = FXCollections.observableArrayList(availableProcedures);
+    } catch (ExceptionInInitializerError e) {
+      e.printStackTrace();
+    } catch (NoClassDefFoundError e) {
+      e.printStackTrace();
+    }
   }
 
   /**
@@ -53,9 +59,11 @@ public class IndexPage {
     FilterStrategy strategy = null;
 
     if (filter.equals(Filter.ALPHABETIC)) {
+      resetSelectedProcedures();
       strategy = new AlphaNumericalSort();
 
     } else if (filter.equals(Filter.GRADE)) {
+      resetSelectedProcedures();
       strategy = new LabelSort();
 
     } else if (filter.equals(Filter.RELEVANCE)) {
@@ -113,37 +121,25 @@ public class IndexPage {
   }
 
   /**
-   * Increases the entered value for relevance in Sorting_relevancy.properties for the given plugin.
+   * Increases the entered value for relevance for the given plugin.
    *
    * @param plugin : The procedure whose relevance should be increased
    */
   public void increaseRelevancy(ProcedurePlugin plugin) {
-    String url = "sorting_relevancy.properties";
-    InputStream input = getClass().getResourceAsStream(url);
-    Properties prop = new Properties();
-
-    try {
-      prop.load(input);
-
-      // plugin already stored in property file
-      if (prop.getProperty(plugin.createProcedureInformation().getName()) != null) {
-        int value =
-            Integer.parseInt(prop.getProperty(plugin.createProcedureInformation().getName()));
-        prop.setProperty(plugin.createProcedureInformation().getName(), String.valueOf(value + 1));
-      } else {
-        // plugin not stored in property file --> first call
-        prop.setProperty(plugin.createProcedureInformation().getName(), String.valueOf(1));
-      }
-
-      storeProperties(prop);
-
-    } catch (IOException e) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("Relevancy could not be increased");
-      PresenterManager.showAlertDialog(alert);
+    if (!valueProcedure.containsKey(plugin)) {
+      valueProcedure.put(plugin, 1);
+    } else {
+      valueProcedure.put(plugin, valueProcedure.get(plugin) + 1);
     }
+  }
+  
+  /**
+   * Returns HashMap "valueProcedure".
+   * 
+   * @return valueProcedure
+   */
+  public HashMap<ProcedurePlugin, Integer> getValueProcedure() {
+    return valueProcedure;
   }
 
   private void resetSelectedProcedures() {
@@ -151,21 +147,5 @@ public class IndexPage {
     // all references
     selectedProcedures.clear();
     selectedProcedures.addAll(availableProcedures);
-  }
-
-  /*
-   * Stores changed properties
-   */
-  private void storeProperties(Properties prop) {
-    try {
-      prop.store(
-          new FileOutputStream(
-              getClass().getResource("").getPath() + "/sorting_relevancy.properties"),
-          null);
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
   }
 }

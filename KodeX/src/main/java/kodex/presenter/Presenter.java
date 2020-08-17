@@ -3,8 +3,8 @@ package kodex.presenter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -50,13 +50,9 @@ public abstract class Presenter implements IPresenter {
   public Pane getView() {
     return this.view;
   }
-  
-  /**
-   * This method is called by the PresenterManager when a presenter is no longer needed.
-   */
-  public void onExit() {
-    
-  }
+
+  /** This method is called by the PresenterManager when a presenter is no longer needed. */
+  public void onExit() {}
 
   /*
    * Loads the FXML from the given FXML file name.
@@ -73,11 +69,6 @@ public abstract class Presenter implements IPresenter {
       this.view = loader.load();
 
     } catch (IOException e) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
-      alert.setContentText("Failed creating view for " + fileName + ".fxml.");
-
       // Create expandable Exception.
       StringWriter sw = new StringWriter();
       PrintWriter pw = new PrintWriter(sw);
@@ -92,7 +83,7 @@ public abstract class Presenter implements IPresenter {
       textArea.setMaxHeight(Double.MAX_VALUE);
       GridPane.setVgrow(textArea, Priority.ALWAYS);
       GridPane.setHgrow(textArea, Priority.ALWAYS);
-      
+
       Label label = new Label("The exception stacktrace was:");
 
       GridPane expContent = new GridPane();
@@ -100,11 +91,12 @@ public abstract class Presenter implements IPresenter {
       expContent.add(label, 0, 0);
       expContent.add(textArea, 0, 1);
 
-      // Set expandable Exception into the dialog pane.
-      alert.getDialogPane().setExpandableContent(expContent);
-      
-      
-      PresenterManager.showAlertDialog(alert);
+      presenterManager.showExpandableAlertDialog(
+          AlertType.ERROR,
+          I18N.get("alert.title.error"),
+          I18N.get("alert.load.failed"),
+          I18N.get("Failed creating view for " + fileName + ".fxml."),
+          expContent);
     }
   }
 }

@@ -1,5 +1,7 @@
 package kodex.pluginutils.presenter.chainlink;
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -9,6 +11,8 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser.ExtensionFilter;
+import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.ColorImage;
@@ -78,8 +82,13 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
           // store selected (marked) pixel
           selectedX = e.getX();
           selectedY = e.getY();
-      
-          handleMark();
+          
+          // only call when click is on the image 
+          if (selectedX < colorImageView.getImage().getWidth()
+              && selectedY < colorImageView.getImage().getHeight()) {
+            handleMark();
+          }
+          
         });   
   }
 
@@ -99,8 +108,8 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
    * @param color the color which the "pixel" should be edited to
    */
   private void editPixelColor(PixelWriter writer, PixelReader reader, int id, Color color) {
-    int x = id % (int) Math.round(colorImageView.getImage().getWidth());
-    int y = (id / (int) Math.round(colorImageView.getImage().getWidth())) * scaleFactor;
+    int x = id % (int) colorImageView.getImage().getWidth();
+    int y = (id / (int) colorImageView.getImage().getWidth()) * scaleFactor;
 
     // store original color
     if (lastElementMarked != id) {
@@ -235,11 +244,17 @@ public class ColorImageChainLinkPresenter extends ChainLinkPresenter {
       // mark(lastElementMarked / scaleFactor);
       
       // remember the new value
-      int x = lastElementMarked % (int) Math.round(colorImageView.getImage().getWidth());
-      int y = (lastElementMarked 
-          / (int) Math.round(colorImageView.getImage().getWidth())) * scaleFactor;
+      int x = lastElementMarked % (int) colorImageView.getImage().getWidth();
+      int y = (lastElementMarked / (int) colorImageView.getImage().getWidth()) * scaleFactor;
       
       lastMarkedColor = image.getPixelReader().getColor(x, y);
     } 
+  }
+  
+  @Override
+  public List<ExtensionFilter> getExtensionsFilter() {
+    List<ExtensionFilter> extensionFilters = new ArrayList<>();
+    extensionFilters.add(new ExtensionFilter(I18N.get("files.image"), "*.png", "*.jpg"));
+    return extensionFilters;
   }
 }

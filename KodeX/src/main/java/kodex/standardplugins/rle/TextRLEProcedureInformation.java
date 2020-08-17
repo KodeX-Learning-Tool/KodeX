@@ -20,7 +20,7 @@ public class TextRLEProcedureInformation extends ProcedureInformation {
             + "mit der Lauflängencodierung komprimiert oder dekomprimiert werden.";
     this.labels =
         FXCollections.observableArrayList(
-            "Klasse 7", "Komprimierungsverfahren", "Kodieren und Dekodieren");
+            "8", "Komprimierungsverfahren", "Kodieren und Dekodieren");
   }
 
   @Override

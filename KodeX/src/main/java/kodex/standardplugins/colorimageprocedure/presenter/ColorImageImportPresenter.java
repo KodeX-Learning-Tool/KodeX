@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import org.apache.commons.io.FilenameUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
@@ -22,6 +22,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import kodex.model.I18N;
 import kodex.plugininterface.ImportPresenter;
+import kodex.plugininterface.InvalidImportException;
 import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.content.BinaryString;
 import kodex.pluginutils.model.content.ColorImage;
@@ -68,6 +69,12 @@ public class ColorImageImportPresenter extends ImportPresenter {
   
   /** The Constant INVALID_CONTENT_PROPERTY_KEY. */
   private static final String INVALID_CONTENT_PROPERTY_KEY = "alert.content.invalid";
+  
+  /** The Constant MAXIMUM_OPACITY_VALUE as defined in the JavaFX Color class. */
+  private static final double MAXIMUM_OPACITY_VALUE = 1;
+  
+  /** The Constant MINIMUM_OPACITY_VALUE as defined in the JavaFX Color class. */
+  private static final double MINIMUM_OPACITY_VALUE = 0;
 
   /**
    * Instantiates a new color image import presenter.
@@ -105,16 +112,26 @@ public class ColorImageImportPresenter extends ImportPresenter {
   }
 
   @Override
-  public void handleDecodeImport() {
+  public void handleDecodeImport() throws InvalidImportException {
+    // supported extensions
+    ArrayList<String> extensions = new ArrayList<>();
+    extensions.add("*.txt");
+    
+    // extensions filter for the FileChooser
     ArrayList<ExtensionFilter> extensionFilters = new ArrayList<>();
-    extensionFilters.add(new ExtensionFilter(I18N.get("files.text"), "*.txt"));
+    extensionFilters.add(new ExtensionFilter(I18N.get("files.all"), "*.*"));
+    extensionFilters.add(new ExtensionFilter(I18N.get("files.text"), extensions));
     
     File file = importFile(false, extensionFilters);
 
     if (file != null) {
-      if (!parseTextFile(file)) {
+      if (!extensions.contains("*." + FilenameUtils.getExtension(file.getName()))) {
+        importAlert(file, "text");
         return;
       }
+
+      parseTextFile(file);
+      
       if (validateDecodeImport()) {
         procedureLayoutPresenter.switchToChainPresenter(false);
       }
@@ -122,25 +139,34 @@ public class ColorImageImportPresenter extends ImportPresenter {
   }
 
   @Override
-  public void handleEncodeImport() {
+  public void handleEncodeImport() throws InvalidImportException {
+    // supported extensions
+    ArrayList<String> extensions = new ArrayList<>();
+    extensions.add("*.png");
+    extensions.add("*.jpg");
+
+    // extensions filter for the FileChooser
     ArrayList<ExtensionFilter> extensionFilters = new ArrayList<>();
-    extensionFilters.add(new ExtensionFilter(I18N.get("files.image"), "*.png", "*.jpg", "*.gif"));
+    extensionFilters.add(new ExtensionFilter(I18N.get("files.all"), "*.*"));
+    extensionFilters.add(new ExtensionFilter(I18N.get("files.image"), extensions));
     
     File file = importFile(false, extensionFilters);
 
-    if (file != null) {
+    if (file != null) {    
+      if (!extensions.contains("*." + FilenameUtils.getExtension(file.getName()))) {
+        importAlert(file, "image");
+        return;
+      }
+      
       // Creating an image
       Image image = new Image(file.toURI().toString());
       int width = (int) image.getWidth();
       int height = (int) image.getHeight();
       
-      if (width <= 0 || height <= 0) {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.titleProperty().bind(I18N.createStringBinding(ERROR_PROPERTY_KEY));
-        alert.headerTextProperty().bind(I18N.createStringBinding(INVALID_IMPORT_PROPERTY_KEY));
-        alert.setContentText("The content has dimensions less or equal to 0.");
-        PresenterManager.showAlertDialog(alert);
-        return;
+      if (width <= 0 || height <= 0) {       
+        throw new InvalidImportException(AlertType.ERROR, I18N.get(ERROR_PROPERTY_KEY),
+            I18N.get(INVALID_IMPORT_PROPERTY_KEY),
+            "The content has dimensions less or equal to 0.");
       }
 
       // Creating a writable image
@@ -151,12 +177,28 @@ public class ColorImageImportPresenter extends ImportPresenter {
 
       // getting the pixel writer
       PixelWriter writer = writableImage.getPixelWriter();
+      
+      boolean containedAlpha = false;
 
       // Reading the color of the image
       for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
           // Retrieving the color of the pixel of the loaded image
           Color color = pixelReader.getColor(x, y);
+          
+          // remove alpha (opacity values) because this procedure uses only RGB values
+          if (color.getOpacity() == MINIMUM_OPACITY_VALUE) {
+            color = Color.WHITE;
+            containedAlpha = true;
+          } else if (color.getOpacity() != MAXIMUM_OPACITY_VALUE) {
+            // adjust the RGB values since the background is white
+            color = new Color(
+                color.getRed() * color.getOpacity() + MAXIMUM_OPACITY_VALUE - color.getOpacity(),
+                color.getGreen() * color.getOpacity() + MAXIMUM_OPACITY_VALUE - color.getOpacity(),
+                color.getBlue() * color.getOpacity() + MAXIMUM_OPACITY_VALUE - color.getOpacity(),
+                MAXIMUM_OPACITY_VALUE);
+            containedAlpha = true;
+          }
 
           // Setting the color to the writable image
           writer.setColor(x, y, color);
@@ -164,6 +206,16 @@ public class ColorImageImportPresenter extends ImportPresenter {
       }
 
       if (validateEncodeImport()) {
+        if (containedAlpha) {
+          // This is only an information. Does it continue here after catching the exception?
+          // Alert alert = new Alert(AlertType.INFORMATION);
+          // alert.titleProperty().bind(I18N.createStringBinding("alert.title.information"));
+          // alert.headerTextProperty().bind(I18N.createStringBinding("alert.import.image"));
+          // alert.setContentText("The imported Image contained alpha values. Colors of pixel with "
+          // + "alpha values were converted since this procedure only uses RGB values.");
+          // PresenterManager.showAlertDialog(alert);
+        }
+        
         procedureLayoutPresenter.switchToChainPresenter(true);
       }
     }
@@ -172,16 +224,16 @@ public class ColorImageImportPresenter extends ImportPresenter {
   /**
    * Open a FileChooser to import a file.
    *
-   * @param encoding the encoding
+   * @param encoding whether encoding or decoding was chosen
    * @param extensionFilters the extension filters
    * @return the chosen file
    */
-  private File importFile(Boolean encoding, ArrayList<ExtensionFilter> extensionFilters) {
+  private File importFile(boolean encoding, ArrayList<ExtensionFilter> extensionFilters) {
     FileChooser fileChooser = new FileChooser();
     fileChooser.getExtensionFilters().addAll(extensionFilters);
     String propertyName;
     
-    if (Boolean.TRUE.equals(encoding)) {
+    if (encoding) {
       propertyName = "importexample.filechooser.encode.title";
     } else {
       propertyName = "importexample.filechooser.decode.title";
@@ -189,7 +241,21 @@ public class ColorImageImportPresenter extends ImportPresenter {
     
     fileChooser.titleProperty().bind(I18N.createStringBinding(propertyName));
     
-    return fileChooser.showOpenDialog(null);
+    return PresenterManager.showOpenFileChooser(fileChooser);
+  }
+  
+  /**
+   * Shows an alert window concerning file extensions.
+   *
+   * @param givenFileExtension the given file
+   * @param expectedFileType the expected file type
+   * @throws InvalidImportException if the import is invalid
+   */
+  private void importAlert(File file, String expectedFileType) throws InvalidImportException {
+    throw new InvalidImportException(AlertType.ERROR, I18N.get(ERROR_PROPERTY_KEY),
+        I18N.get(INVALID_IMPORT_PROPERTY_KEY),
+        "The extension ." + FilenameUtils.getExtension(file.getName()) 
+        +  " does not belong to a supported " + expectedFileType + " file type.");
   }
 
   @Override
@@ -221,7 +287,7 @@ public class ColorImageImportPresenter extends ImportPresenter {
     return false;
   }
   
-  private boolean parseTextFile(File file) {
+  private void parseTextFile(File file) throws InvalidImportException {
     try (Scanner in = new Scanner(file)) {
       
       //header
@@ -243,25 +309,13 @@ public class ColorImageImportPresenter extends ImportPresenter {
       binaryString = in.nextLine();
 
     } catch (InputMismatchException e) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding(ERROR_PROPERTY_KEY));
-      alert.headerTextProperty().bind(I18N.createStringBinding(INVALID_CONTENT_PROPERTY_KEY));
-      alert.setContentText(
+      throw new InvalidImportException(AlertType.ERROR, I18N.get(ERROR_PROPERTY_KEY),
+          I18N.get(INVALID_CONTENT_PROPERTY_KEY),
           "The file doesn't have a valid format. Check if the header or content has been damaged.");
-      PresenterManager.showAlertDialog(alert);
-      
-      return false;
     } catch (FileNotFoundException e1) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding(ERROR_PROPERTY_KEY));
-      alert.headerTextProperty().bind(I18N.createStringBinding(INVALID_IMPORT_PROPERTY_KEY));
-      alert.setContentText(
+      throw new InvalidImportException(AlertType.ERROR, I18N.get(ERROR_PROPERTY_KEY),
+          I18N.get(INVALID_CONTENT_PROPERTY_KEY),
           "The content could not be parsed because the program couldn't find the file.");
-      PresenterManager.showAlertDialog(alert);
-      
-      return false;
-    } 
-    
-    return true;
+    }
   }
 }

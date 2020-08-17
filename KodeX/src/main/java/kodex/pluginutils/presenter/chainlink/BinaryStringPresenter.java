@@ -1,9 +1,13 @@
 package kodex.pluginutils.presenter.chainlink;
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.stage.FileChooser.ExtensionFilter;
+import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.BinaryString;
@@ -103,5 +107,12 @@ public class BinaryStringPresenter extends ChainLinkPresenter {
     if (lastElementMarked != NOT_MARKED) {
       mark(lastElementMarked);
     }
+  }
+  
+  @Override
+  public List<ExtensionFilter> getExtensionsFilter() {
+    List<ExtensionFilter> extensionFilters = new ArrayList<>();
+    extensionFilters.add(new ExtensionFilter(I18N.get("files.text"), "*.txt"));
+    return extensionFilters;
   }
 }

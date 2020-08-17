@@ -1,12 +1,10 @@
 package kodex.presenter;
 
 import java.io.IOException;
-
 import javafx.animation.TranslateTransition;
 import javafx.beans.binding.DoubleBinding;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import kodex.InvalidInputException;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
@@ -46,13 +45,13 @@ public class ProcedureLayoutPresenter extends Presenter {
 
     /** The VBox which displays the concrete view for a chain link.. */
     @FXML private VBox editItemsBox;
-    
+
     /** The submit button for applying the changes to the chain if they are valid. */
     @FXML private Button submitButton;
-    
+
     /** The header label of the editor. */
     @FXML private Label editLabel;
-    
+
     /** Contains the actual edit utils. */
     @FXML private BorderPane editContent;
 
@@ -70,7 +69,7 @@ public class ProcedureLayoutPresenter extends Presenter {
 
     /** The Constant REVERSE_TRANSITION_RATE plays the transition at a normal rate in reverse. */
     private static final int REVERSE_TRANSITION_RATE = -1;
-    
+
     /** The TranslateTransition for sliding the editor window in and out. */
     private TranslateTransition editorTranslation;
 
@@ -79,7 +78,7 @@ public class ProcedureLayoutPresenter extends Presenter {
 
     /** Whether the editor is moving at the moment. */
     private boolean moving = false;
-    
+
     private ChainLinkEditPresenter editPresenter;
 
     /**
@@ -90,19 +89,20 @@ public class ProcedureLayoutPresenter extends Presenter {
     Editor() {
       // loads the template file
       String fileName = "editlayout.fxml";
-      
+
       FXMLLoader loader = new FXMLLoader(getClass().getResource(fileName));
       loader.setController(this);
       loader.setRoot(this);
-      
+
       try {
         loader.load();
       } catch (IOException exc) {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-        alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
-        alert.setContentText("Failed creating Editor-view with " + fileName + ".");
-        PresenterManager.showAlertDialog(alert);
+
+        presenterManager.showAlertDialog(
+            AlertType.ERROR,
+            I18N.get("alert.title.error"),
+            I18N.get("alert.load.failed"),
+            I18N.get("Failed creating Editor-view with " + fileName + "."));
       }
     }
 
@@ -114,13 +114,17 @@ public class ProcedureLayoutPresenter extends Presenter {
     private void handleCloseEditor() {
       hideEditor();
     }
-    
-    /**
-     * This method is executed if the user clicks on the button to submit the changes.
+
+    /** This method is executed if the user clicks on the button to submit the changes. 
+     * @throws InvalidInputException if the user input is invalid
      */
     @FXML
     private void handleSubmit() {
-      editPresenter.handleSubmit();
+      try {
+        editPresenter.handleSubmit();
+      } catch (InvalidInputException e) {
+        presenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+      }
     }
 
     /** Plays the slide in animation at a normal rate in reverse. */
@@ -143,10 +147,10 @@ public class ProcedureLayoutPresenter extends Presenter {
       // language support
       editLabel.textProperty().bind(I18N.createStringBinding("editlayout.edit.lbl"));
       submitButton.textProperty().bind(I18N.createStringBinding("editlayout.submitbutton"));
-      
+
       // calculate editor width from total procedure view width
-      //TODO: maybe use the prefered width of the editor as
-      //long as it is smaller than a constant max width?
+      // TODO: maybe use the prefered width of the editor as
+      // long as it is smaller than a constant max width?
       int editorWidth = (int) Math.round(procedureRootPane.getWidth() / EDITOR_RATIO);
 
       // set size and hide the pane outside the visible area
@@ -156,7 +160,7 @@ public class ProcedureLayoutPresenter extends Presenter {
 
       // creates a new TranslateTransition to move the window on the x-axis
       editorTranslation = new TranslateTransition(Duration.millis(ANIMATION_LENGTH), this);
-      
+
       editorTranslation.fromXProperty().bind(overlayPane.widthProperty().add(editorWidth));
       editorTranslation.toXProperty().bind(overlayPane.widthProperty().subtract(editorWidth));
     }
@@ -182,7 +186,7 @@ public class ProcedureLayoutPresenter extends Presenter {
      */
     private void setEditorPresenter(ChainLinkEditPresenter editorPresenter) {
       editPresenter = editorPresenter;
-      
+
       // gets and adds the concrete editor items for the chain link
       editContent.setCenter(editorPresenter.getView());
     }
@@ -200,9 +204,6 @@ public class ProcedureLayoutPresenter extends Presenter {
     /** An icon or a thumb nail representing a chain link. */
     @FXML private ImageView thumbnail;
 
-    /** The abbreviation of the chain link name. It is displayed if there is no symbol. */
-    private String chainLinkNameAbbreviation;
-
     /** The id of the chain link it represents in the chain. */
     private int id;
 
@@ -218,8 +219,6 @@ public class ProcedureLayoutPresenter extends Presenter {
     OverviewItem(ChainLinkPresenter chainLinkPresenter, int id) {
       this.id = id;
       this.chainLinkPresenter = chainLinkPresenter;
-      
-      this.chainLinkNameAbbreviation = chainLinkPresenter.getName().substring(0, 1);
 
       // loads the template file
       String fileName = "overviewbuttontemplate.fxml";
@@ -227,16 +226,20 @@ public class ProcedureLayoutPresenter extends Presenter {
       FXMLLoader loader = new FXMLLoader(getClass().getResource(fileName));
       loader.setController(this);
       loader.setRoot(this);
-      
+
       try {
         loader.load();
       } catch (IOException exc) {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-        alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
-        alert.setContentText("Failed creating Overview item for " 
-            + chainLinkPresenter.getName() + " with " + fileName + ".");
-        PresenterManager.showAlertDialog(alert);
+        presenterManager.showAlertDialog(
+            AlertType.ERROR,
+            I18N.get("alert.title.error"),
+            I18N.get("alert.load.failed"),
+            I18N.get(
+                "Failed creating Overview item for "
+                    + chainLinkPresenter.getName()
+                    + " with "
+                    + fileName
+                    + "."));
       }
     }
 
@@ -255,7 +258,7 @@ public class ProcedureLayoutPresenter extends Presenter {
      */
     @FXML
     private void initialize() {
-      
+
       thumbnail.setPreserveRatio(true);
       thumbnail.fitHeightProperty().bind(this.heightProperty().subtract(16));
       thumbnail.fitWidthProperty().bind(this.widthProperty().subtract(16));
@@ -311,13 +314,13 @@ public class ProcedureLayoutPresenter extends Presenter {
 
   /** This creates and adds the items to the overview bar. */
   private void addOverviewItems(boolean encoding) {
-    
-    ChainLinkPresenter chainLinkPresenter = 
+
+    ChainLinkPresenter chainLinkPresenter =
         encoding ? activeProcedure.getChainHead() : activeProcedure.getChainTail();
 
     Double padding = overviewBox.getPadding().getTop() + overviewBox.getPadding().getBottom();
     DoubleBinding boxSize = overviewBox.heightProperty().subtract(padding);
-    
+
     // loops over the chain link presenter and keeps adding newly created overview
     // items
     int i = 0;
@@ -335,7 +338,7 @@ public class ProcedureLayoutPresenter extends Presenter {
       chainLinkPresenter = encoding ? chainLinkPresenter.getNext() : chainLinkPresenter.getPrev();
       i++;
     }
-  } 
+  }
 
   /**
    * This method sets the Edit-Presenter in order to show an Edit-Window.
@@ -356,16 +359,28 @@ public class ProcedureLayoutPresenter extends Presenter {
     }
   }
 
-  /** This method displays the chain view with the fitting items in the overview bar. */
+  /** This method displays the chain view with the fitting items in the overview bar. 
+   * 
+   *  @throws FailedLoadException if the program failed loading the FXML file
+   */
   public void switchToChainPresenter(boolean encoding) {
     // switches the import presenter with a new chain presenter
-    activePresenter = new ChainPresenter(activeProcedure.getChainHead(), this);
+    try {
+      activePresenter = new ChainPresenter(activeProcedure.getChainHead(), this);
+    } catch (FailedLoadException e) {
+      presenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+    }
+    
 
     // fills the overview bar with items
     addOverviewItems(encoding);
 
     // fills the chain view with chain links, then display it
-    ((ChainPresenter) activePresenter).createChainView(activeProcedure, encoding);
-    procedurePane.setCenter(activePresenter.getView());
+    try {
+      ((ChainPresenter) activePresenter).createChainView(activeProcedure, encoding);
+      procedurePane.setCenter(activePresenter.getView());
+    } catch (FailedLoadException e) {
+      presenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+    }
   }
 }

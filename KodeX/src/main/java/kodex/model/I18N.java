@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
 import javafx.beans.binding.Bindings;
@@ -22,11 +23,9 @@ import javafx.scene.control.Alert.AlertType;
 import kodex.presenter.PresenterManager;
 
 /**
- * I18N utility class..
- *
- * <p>This class is inspired by:
- *
- * <p>https://www.sothawo.com/2016/09/how-to-implement-a-javafx-ui-where-the-language-can-be-changed-dynamically/
+ * I18N utility class.
+ * This class is inspired by:
+ * https://www.sothawo.com/2016/09/how-to-implement-a-javafx-ui-where-the-language-can-be-changed-dynamically/
  *
  * @author Leonhard Kraft
  * @author Patrick Spiesberger
@@ -42,8 +41,8 @@ public class I18N {
 
   private static final String LANGUAGE_FILE_NAME = "Languages";
 
-  private static final String LANGUAGE_FOLDER_PATH =  "/kodex/model/languages/";
-  
+  private static final String LANGUAGE_FOLDER_PATH = "/kodex/model/languages/";
+
   private static final String LANGUAGE_PROPERTY_PATH = "kodex.model.languages.";
 
   /**
@@ -53,8 +52,8 @@ public class I18N {
    * but for running the program in the IDE it is necessary to edit the file
    * manually.
    */
-  private static final String LANGUAGE_FILE_LIST_PATH = LANGUAGE_FOLDER_PATH
-      + "language-files-list.json";
+  private static final String LANGUAGE_FILE_LIST_PATH
+      = LANGUAGE_FOLDER_PATH + "language-files-list.json";
 
   private static final String DEFAULT_LOCALE = "en";
 
@@ -83,7 +82,8 @@ public class I18N {
   }
 
   /**
-   * Creates a String Binding to a localized String that is computed by calling the given func.
+   * Creates a String Binding to a localized String that is computed by calling
+   * the given func.
    *
    * @param func The function called on every change.
    * @return StringBinding A String Binding to the current locale.
@@ -93,7 +93,8 @@ public class I18N {
   }
 
   /**
-   * Creates a String binding to a localized String for the given resource bundle key.
+   * Creates a String binding to a localized String for the given resource bundle
+   * key.
    *
    * @param key The key used to get the string from the Property file.
    * @return String binding A String Binding to the current locale.
@@ -103,23 +104,28 @@ public class I18N {
   }
 
   /**
-   * Gets the string with the given key from the resource bundle for the current locale and uses it
-   * as first argument to MessageFormat.format, passing in the optional args and returning the
-   * result.
+   * Gets the string with the given key from the resource bundle for the current
+   * locale and uses it as first argument to MessageFormat.format, passing in the
+   * optional args and returning the result.
    *
-   * @param key The key used to get the string from the Property file.
+   * @param key  The key used to get the string from the Property file.
    * @param args Optional arguments for the retrieved message.
    * @return Localized and formatted string.
    */
   public static String get(final String key, final Object... args) {
-    ResourceBundle bundle = ResourceBundle.getBundle(
-        LANGUAGE_PROPERTY_PATH + LANGUAGE_FILE_NAME, getLocale());
-    return MessageFormat.format(bundle.getString(key), args);
+    ResourceBundle bundle = ResourceBundle.getBundle(LANGUAGE_PROPERTY_PATH 
+        + LANGUAGE_FILE_NAME, getLocale());
+    try {
+      return MessageFormat.format(bundle.getString(key), args);
+    } catch (MissingResourceException e) {
+      return "Missing text";
+    }
   }
 
   /**
-   * Get the default locale. This is the systems default if contained in the supported Locales,
-   * english otherwise. Should be used when language property is empty.
+   * Get the default locale. This is the systems default if contained in the
+   * supported Locales, english otherwise. Should be used when language property
+   * is empty.
    *
    * @return The default Loacle.
    */
@@ -147,19 +153,18 @@ public class I18N {
     return supportedLocales;
   }
 
-  private static void loadSupportedLocales()
+  private static void loadSupportedLocales() 
       throws FileNotFoundException, FileAlreadyExistsException {
 
     List<String> fileNames = new ArrayList<>();
-    
+
     Gson gson = new Gson();
 
-    try (
-        InputStreamReader in = new InputStreamReader(
-            I18N.class.getResourceAsStream(LANGUAGE_FILE_LIST_PATH));
+    try (InputStreamReader in = 
+        new InputStreamReader(I18N.class.getResourceAsStream(LANGUAGE_FILE_LIST_PATH));
         BufferedReader br = new BufferedReader(in)) {
 
-      String[] jsonFileNames = gson.fromJson(br, String[].class);      
+      String[] jsonFileNames = gson.fromJson(br, String[].class);
       fileNames = Arrays.asList(jsonFileNames);
 
     } catch (FileNotFoundException e) {
@@ -171,23 +176,23 @@ public class I18N {
     if (fileNames.isEmpty()) {
       throw new FileNotFoundException("No language file has been found.");
     }
-    
+
     String[] fileNameParts;
     Locale fileLocale;
     boolean defaultFound = false;
     int exPos;
-    
+
     /*
      * Get Locale from all available files.
      */
-    for (String fileName : fileNames) {      
+    for (String fileName : fileNames) {
       exPos = fileName.lastIndexOf(".");
 
       // strip file name of file extension
       fileName = fileName.substring(0, exPos);
 
       if (fileName.equals(LANGUAGE_FILE_NAME)) {
-        
+
         if (defaultFound) {
           Alert alert = new Alert(AlertType.ERROR);
           alert.setTitle("Error");
@@ -222,10 +227,9 @@ public class I18N {
 
         // there should only be one language property file of each language
         throw new FileAlreadyExistsException(
-            "Language property file for language "
-                + fileLocale.getDisplayLanguage()
-                + "is not unique.");
-        
+            "Language property file for language " 
+        + fileLocale.getDisplayLanguage() + "is not unique.");
+
       }
 
       supportedLocales.add(fileLocale);
@@ -254,8 +258,5 @@ public class I18N {
   public static void setLocale(Locale locale) {
     localeProperty().set(locale);
     Locale.setDefault(locale);
-  }
-
-  private I18N() {
   }
 }

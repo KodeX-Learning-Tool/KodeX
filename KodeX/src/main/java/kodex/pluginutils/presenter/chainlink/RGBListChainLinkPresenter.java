@@ -1,10 +1,14 @@
 package kodex.pluginutils.presenter.chainlink;
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser.ExtensionFilter;
+import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.RGBList;
@@ -30,6 +34,9 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
   /** The ID of the last element marked. */
   private int lastElementMarked = NOT_MARKED;
 
+  /** Whether to listen for changes or not. */
+  private boolean listenForChanges = true;
+
   /**
    * Instantiates a new RGB list chain link presenter.
    *
@@ -50,7 +57,11 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
     rgbListView
         .getSelectionModel()
         .selectedIndexProperty()
-        .addListener((obs, old, newV) -> handleMark());
+        .addListener((obs, old, newV) -> {
+          if (listenForChanges && newV.intValue() != -1) {
+            handleMark();
+          }
+        });
     
   }
 
@@ -66,13 +77,9 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
    * @return the rgb string
    */
   private String colorToRGBString(Color color) {
-    return "("
-        + String.valueOf((int) Math.round(color.getRed() * 255))
-        + ", "
-        + String.valueOf((int) Math.round(color.getGreen() * 255))
-        + ", "
-        + String.valueOf((int) Math.round(color.getBlue() * 255))
-        + ")";
+    return "(" + ((int) Math.round(color.getRed() * 255)) + ", "
+        + (int) Math.round(color.getGreen() * 255) + ", "
+        + (int) Math.round(color.getBlue() * 255)  + ")";
   }
 
   @Override
@@ -90,7 +97,10 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
   @Override
   protected void mark(int id) {
     lastElementMarked = id;
+    listenForChanges = false;
     rgbListView.getSelectionModel().select(id);
+    rgbListView.scrollTo(id);
+    listenForChanges = true;
     chainLinkEditPresenter.setMarkID(id);
   }
 
@@ -102,11 +112,20 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
       list.add(colorToRGBString(color));
     }
     
+    listenForChanges = false;
     rgbListView.setItems(list);
+    listenForChanges = true;
     
     // remarks the view
     if (lastElementMarked !=  NOT_MARKED) {
       mark(lastElementMarked);
     }
+  }
+  
+  @Override
+  public List<ExtensionFilter> getExtensionsFilter() {
+    List<ExtensionFilter> extensionFilters = new ArrayList<>();
+    extensionFilters.add(new ExtensionFilter(I18N.get("files.text"), "*.txt"));
+    return extensionFilters;
   }
 }

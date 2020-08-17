@@ -2,6 +2,8 @@ package kodex.pluginutils.presenter.chainlink;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
@@ -11,6 +13,8 @@ import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser.ExtensionFilter;
+import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.QRCode;
@@ -132,5 +136,12 @@ public class QRCodeChainLinkPresenter extends ChainLinkPresenter {
       scaleFactor = 1;
     }
     qrView.setImage(image);
+  }
+
+  @Override
+  public List<ExtensionFilter> getExtensionsFilter() {
+    List<ExtensionFilter> extensionFilters = new ArrayList<>();
+    extensionFilters.add(new ExtensionFilter(I18N.get("files.image"), "*.png", "*.jpg"));
+    return extensionFilters;
   }
 }

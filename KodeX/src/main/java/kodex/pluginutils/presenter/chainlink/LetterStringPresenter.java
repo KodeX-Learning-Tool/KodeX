@@ -1,7 +1,12 @@
 package kodex.pluginutils.presenter.chainlink;
 
-import javafx.scene.control.Label;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+import javafx.stage.FileChooser.ExtensionFilter;
+import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.LetterString;
@@ -10,6 +15,12 @@ public class LetterStringPresenter extends ChainLinkPresenter {
 
   /** The chain link name. */
   private static final String CHAIN_LINK_NAME = "Buchstabenkette";
+  
+  private List<Text> textStrings;
+
+  private int id;
+  
+  private Text oldMark;
 
   public LetterStringPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
@@ -21,11 +32,73 @@ public class LetterStringPresenter extends ChainLinkPresenter {
   public AnchorPane getView() {
 
     AnchorPane ap = new AnchorPane();
-    Label displaytext = new Label();
+    
+    String letterString = ((LetterString) content).getLetterString();
+    
+    if (letterString.isEmpty()) {
+      return ap;
+    }
+    
+    textStrings = new ArrayList<>();
+    
+    char currentChar = letterString.charAt(0);
+    char newChar;
+    int count = 1;
+    
+    int id = 0;
 
-    displaytext.setText(((LetterString) content).getLetterString());
-    ap.getChildren().add(displaytext);
+    for (int i = 1; i < letterString.length(); i++) {
+      
+      newChar = letterString.charAt(i);
+
+      if (newChar != currentChar) {
+        
+        final int index = id;
+        
+        Text text = new Text(Character.toString(currentChar).repeat(count));
+        text.setOnMouseClicked(e -> {
+          this.id = index;
+          toggleMark(text);
+          handleMark();
+        });
+        textStrings.add(text);
+        
+        currentChar = newChar;
+        count = 1;
+        
+        id++;
+
+      } else {
+        count++;
+      }
+    }
+    final int index = id;
+    
+    Text text = new Text(Character.toString(currentChar).repeat(count));
+    text.setOnMouseClicked(e -> {
+      this.id = index;
+      toggleMark(text);
+      handleMark();
+    });
+    textStrings.add(text);
+    
+    TextFlow tf = new TextFlow();
+    
+    tf.setPrefWidth(400);
+    tf.setStyle("-fx-font-size: 18;");
+    
+    tf.getChildren().addAll(textStrings);
+
+    ap.getChildren().add(tf);
     return ap;
+  }
+  
+  private void toggleMark(Text text) {
+    if (oldMark != null) {
+      oldMark.setStyle("-fx-fill: black;");
+    }
+    text.setStyle("-fx-fill: red;");
+    this.oldMark = text;
   }
 
   @Override
@@ -35,13 +108,24 @@ public class LetterStringPresenter extends ChainLinkPresenter {
 
   @Override
   protected void mark(int id) {
-    // TODO Auto-generated method stub
-
+    toggleMark(textStrings.get(id));
+  }
+  
+  @Override
+  protected int calculateID() {
+    return id;
   }
 
   @Override
   public void updateView() {
     // TODO Auto-generated method stub
     
+  }
+  
+  @Override
+  public List<ExtensionFilter> getExtensionsFilter() {
+    List<ExtensionFilter> extensionFilters = new ArrayList<>();
+    extensionFilters.add(new ExtensionFilter(I18N.get("files.text"), "*.txt"));
+    return extensionFilters;
   }
 }

@@ -41,11 +41,17 @@ public abstract class ImportPresenter implements IPresenter {
   @Override
   public abstract AnchorPane getView();
 
-  /** Called if input for decoding is loaded and handles it. */
-  public abstract void handleDecodeImport();
+  /** Called if input for decoding is loaded and handles it. 
+   * 
+   *  @throws InvalidImportException if the imported file is invalid
+   */
+  public abstract void handleDecodeImport() throws InvalidImportException;
 
-  /** Called if input for encoding is loaded and handles it. */
-  public abstract void handleEncodeImport();
+  /** Called if input for encoding is loaded and handles it. 
+   *
+   *  @throws InvalidImportException if the imported file is invalid
+   */
+  public abstract void handleEncodeImport() throws InvalidImportException;
 
   /**
    * Sets the LayoutPresenter for this import in order to initiate a switch to the ChainPresenter if

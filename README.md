@@ -5,7 +5,7 @@
 
 [![pipeline status](https://git.scc.kit.edu/pse-kodierungstheorie-tool/kodex/badges/master/pipeline.svg)](https://git.scc.kit.edu/pse-kodierungstheorie-tool/kodex/-/commits/master) [![coverage report](https://git.scc.kit.edu/pse-kodierungstheorie-tool/kodex/badges/master/coverage.svg)](https://git.scc.kit.edu/pse-kodierungstheorie-tool/kodex/-/commits/master)
 
-KodeX is a result of a univeristy project, where a team of students has to build an application for a given task.
+KodeX is a result of a university project, where a team of students has to build an application for a given task.
 In our case, we created a tool that is supposed to help students and teachers to develop a deeper understanding about the theory behind data encoding.
 This is a crutial part of the computer sience curriculum for grade 7 and beyond. Students should learn, that all kinds of produced and received data has to be encoded
 to be processed by machines.
