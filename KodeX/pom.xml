@@ -140,7 +140,15 @@
 					<configuration>
 						<argLine>
 							--add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
+							--add-opens javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
+							--add-opens kodex.KodeX/kodex.plugininterface=ALL-UNNAMED
+							--add-opens kodex.KodeX/kodex.presenter=ALL-UNNAMED
+							--add-opens kodex.KodeX/kodex.standardplugins=ALL-UNNAMED
+							--add-opens kodex.KodeX/kodex.standardplugins.colorimageprocedure=ALL-UNNAMED
+							--add-opens kodex.KodeX/kodex.standardplugins.colorimageprocedure.presenter=ALL-UNNAMED
 						</argLine>
+						<useManifestOnlyJar>false</useManifestOnlyJar>
+						<useSystemClassLoader>true</useSystemClassLoader>
 					</configuration>
 				</plugin>
 				<plugin>
