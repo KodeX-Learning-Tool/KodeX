@@ -171,7 +171,7 @@ public class RLEImportPresenter extends ImportPresenter {
    * @param extensionFilters the extension filters
    * @return the chosen file
    */
-  private File importFile(boolean encoding, ArrayList<ExtensionFilter> extensionFilters) {
+  File importFile(boolean encoding, ArrayList<ExtensionFilter> extensionFilters) {
     FileChooser fileChooser = new FileChooser();
     fileChooser.getExtensionFilters().addAll(extensionFilters);
     String propertyName;
@@ -188,7 +188,7 @@ public class RLEImportPresenter extends ImportPresenter {
   }
 
   @Override
-  public boolean validateDecodeImport() {
+  protected boolean validateDecodeImport() {
     ChainLinkPresenter clp = plugin.getChainHead();
 
     while (clp.getNext() != null) {
@@ -205,7 +205,7 @@ public class RLEImportPresenter extends ImportPresenter {
   }
 
   @Override
-  public boolean validateEncodeImport() {
+  protected boolean validateEncodeImport() {
 
     LetterString content = (LetterString) plugin.getChainHead().getContent();
 

@@ -173,7 +173,7 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
    * @param isEncoding whether the file is used for encoding or decoding
    * @return the chosen file
    */
-  private File importFile(boolean encoding, ArrayList<ExtensionFilter> extensionFilters) {
+  File importFile(boolean encoding, ArrayList<ExtensionFilter> extensionFilters) {
     FileChooser fileChooser = new FileChooser();
     fileChooser.getExtensionFilters().addAll(extensionFilters);
     String propertyName;
@@ -205,7 +205,7 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
   }
 
   @Override
-  public boolean validateDecodeImport() {
+  protected boolean validateDecodeImport() {
     ChainLinkPresenter clp = plugin.getChainTail();
     QRCode content = new QRCode();
 
@@ -219,7 +219,7 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
   }
 
   @Override
-  public boolean validateEncodeImport() {
+  protected boolean validateEncodeImport() {
     ChainLinkPresenter clp = plugin.getChainHead();
     CharacterString content = new CharacterString();
     

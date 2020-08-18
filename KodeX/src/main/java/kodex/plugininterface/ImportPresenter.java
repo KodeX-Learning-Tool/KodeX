@@ -62,12 +62,12 @@ public abstract class ImportPresenter implements IPresenter {
    *
    * @return true, if input valid, otherwise false
    */
-  public abstract boolean validateDecodeImport();
+  protected abstract boolean validateDecodeImport();
 
   /**
    * Validates the entry of a method that is to be encoded.
    *
    * @return true, if input valid, otherwise false
    */
-  public abstract boolean validateEncodeImport();
+  protected abstract boolean validateEncodeImport();
 }
