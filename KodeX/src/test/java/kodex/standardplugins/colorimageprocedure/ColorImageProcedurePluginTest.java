@@ -127,8 +127,8 @@ class ColorImageProcedurePluginTest {
     ColorImage image = (ColorImage) (colorImageProcedurePlugin.getChainHead().getContent());
     
     // check if procedure is initialized
-    assertTrue(image.getHeight() == width && image.getWidth() == height
-        && image.getColor(width - 1, height - 1).equals(Color.WHITE));
+    assertTrue(image.getHeight() == height & image.getWidth() == width
+        & image.getColor(width - 1, height - 1).equals(Color.WHITE));
   }
 
   /**
@@ -162,9 +162,8 @@ class ColorImageProcedurePluginTest {
     
     // check if procedure is initialized
     int rgbLength = 24;
-    System.out.println("length: " + binaryString.length());
-    System.out.println("string: " + binaryString.getString());
-    assertTrue(binaryString.length() == 2 * rgbLength
+    int pixelNumber = 2;
+    assertTrue(binaryString.length() == pixelNumber * rgbLength
         && binaryString.getString().equals("111111110000000011111111111111111111111111111111"));
   }
 
