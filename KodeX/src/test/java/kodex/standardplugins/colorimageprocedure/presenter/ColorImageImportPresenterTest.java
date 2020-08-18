@@ -1,6 +1,7 @@
 package kodex.standardplugins.colorimageprocedure.presenter;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -8,7 +9,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.mockito.Mock;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 import javafx.scene.Scene;
@@ -28,9 +28,6 @@ class ColorImageImportPresenterTest {
   
   private ColorImageImportPresenter colorImageImportPresenter;
   private ColorImageProcedurePlugin colorImageProcedurePlugin;
-  
-  @Mock
-  ColorImageProcedurePlugin plugin;
   
   @Start
   void setUp(Stage stage) throws Exception {

@@ -14,7 +14,7 @@ import javafx.collections.ObservableList;
  */
 class ColorImageProcedureInformationTest {
   
-  ColorImageProcedureInformation colorImageProcedureInformation;
+  private ColorImageProcedureInformation colorImageProcedureInformation;
 
   @BeforeEach
   void setUp() {
@@ -40,9 +40,9 @@ class ColorImageProcedureInformationTest {
    */
   @Test
   void testGetDescription() {
-    String description = "Es wird zunächst das Bild in eine Matrix umgewandelt."
+    String expectedDescription = "Es wird zunächst das Bild in eine Matrix umgewandelt."
         + " Daraufhin wandelt man diese in eine Liste um. Am Ende erhält man eine Binärfolge.";
-    assertEquals(description, colorImageProcedureInformation.getDescription());
+    assertEquals(expectedDescription, colorImageProcedureInformation.getDescription());
   }
 
   /**

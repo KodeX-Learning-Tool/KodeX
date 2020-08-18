@@ -2,7 +2,6 @@ package kodex.standardplugins.colorimageprocedure;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +9,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
@@ -47,11 +45,8 @@ class ColorImageProcedurePluginTest {
     
     procedureLayoutPresenter = new ProcedureLayoutPresenter(pm, colorImageProcedurePlugin);
 
-    Field view = procedureLayoutPresenter.getClass().getSuperclass().getDeclaredField("view");
-    view.setAccessible(true);
-
     BorderPane layout = new BorderPane();
-    layout.setCenter((Node) view.get(procedureLayoutPresenter));
+    layout.setCenter(procedureLayoutPresenter.getView());
     stage.setScene(new Scene(layout));
     stage.show();
   }
@@ -59,6 +54,8 @@ class ColorImageProcedurePluginTest {
   @AfterEach
   void tearDown() {
     colorImageProcedurePlugin = null;
+    pm = null;
+    procedureLayoutPresenter = null;
   }
 
   /**
@@ -67,9 +64,9 @@ class ColorImageProcedurePluginTest {
    */
   @Test
   void testPluginDescriptionProperty() {
-    String description = "Das Kodierungsverfahren Bild-zu-Bitfolge.";
-    
-    assertEquals(colorImageProcedurePlugin.pluginDescriptionProperty().get(), description);
+    String expectedDescription = "Das Kodierungsverfahren Bild-zu-Bitfolge.";
+
+    assertEquals(expectedDescription, colorImageProcedurePlugin.pluginDescriptionProperty().get());
   }
 
   /**
@@ -78,9 +75,9 @@ class ColorImageProcedurePluginTest {
    */
   @Test
   void testPluginNameProperty() {
-    String pluginName = "Farbbildverfahrensplugin";
+    String expectedPluginName = "Farbbildverfahrensplugin";
     
-    assertEquals(colorImageProcedurePlugin.pluginNameProperty().get(), pluginName);
+    assertEquals(expectedPluginName, colorImageProcedurePlugin.pluginNameProperty().get());
   }
 
   /**
@@ -109,12 +106,13 @@ class ColorImageProcedurePluginTest {
   void testInitDecodeProcedure() {
     int width = 1;
     int height = 1;
+    int rgbUnitLength = 24;
 
     // initialize header
     HashMap<String, Object> header = new HashMap<>();
     header.put("width", width);
     header.put("height", height);
-    header.put("unit-length", 24);
+    header.put("unit-length", rgbUnitLength);
 
     // initialize content
     BinaryString content = new BinaryString("111111111111111111111111");
@@ -161,9 +159,9 @@ class ColorImageProcedurePluginTest {
         (BinaryString) (colorImageProcedurePlugin.getChainTail().getContent());
     
     // check if procedure is initialized
-    int rgbLength = 24;
+    int rgbUnitLength = 24;
     int pixelNumber = 2;
-    assertTrue(binaryString.length() == pixelNumber * rgbLength
+    assertTrue(binaryString.length() == pixelNumber * rgbUnitLength
         && binaryString.getString().equals("111111110000000011111111111111111111111111111111"));
   }
 
@@ -193,7 +191,7 @@ class ColorImageProcedurePluginTest {
   @Test
   void testHashCode() {
     int hash = 7 * 17 + colorImageProcedurePlugin.pluginNameProperty().get().hashCode();
-    assertEquals(colorImageProcedurePlugin.hashCode(), hash);
+    assertEquals(hash, colorImageProcedurePlugin.hashCode());
   }
 
   /**
@@ -221,14 +219,14 @@ class ColorImageProcedurePluginTest {
    */
   @Test
   void testCompareTo() {
-    int compareToResult = -13;
+    int expectedResult = -13;
     BWImageProcedurePlugin secondProcedurePlugin = Mockito.mock(BWImageProcedurePlugin.class);
     BWImageProcedureInformation bwInformation = Mockito.mock(BWImageProcedureInformation.class);
     Mockito.when(bwInformation.getName()).thenReturn("Schwarz & Weiß - Bild");
     Mockito.when(secondProcedurePlugin.createProcedureInformation())
           .thenReturn(bwInformation);
 
-    assertEquals(compareToResult, colorImageProcedurePlugin.compareTo(secondProcedurePlugin));
+    assertEquals(expectedResult, colorImageProcedurePlugin.compareTo(secondProcedurePlugin));
   }
 
 }
