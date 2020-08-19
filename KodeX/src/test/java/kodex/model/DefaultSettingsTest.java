@@ -24,14 +24,6 @@ class DefaultSettingsTest {
   
   @Disabled
   @Test
-  void testReset() {
-    settings.reset();
-    assertTrue(DefaultSettings.getPort() == 1337 
-        && settings.getSavedLanguage().equals(new Locale("DE"))
-        && settings.getDefaultPath().equals(System.getProperty("user.home")));
-  }
-
-  @Test
   void testSetDefaultPath() {
     settings.setDefaultPath("Test/Kodex/Plugin");
     assertTrue(settings.getDefaultPath().equals("Test/Kodex/Plugin"));

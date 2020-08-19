@@ -26,9 +26,10 @@ public class BitListToBinaryString implements ChainStep {
     leftlist.getList().clear();
 
     String input = rightstring.getString();
+    
     for (int i = 0; i < input.length(); i++) {
-      String rgb = input.substring(i, i + 1);
-      leftlist.add(Integer.valueOf(rgb));
+      String value = input.substring(i, i + 1);
+      leftlist.add(Integer.valueOf(value));
     }
 
     if (leftlist.getHeader() == null || leftlist.getHeader().isEmpty()) {
@@ -53,6 +54,7 @@ public class BitListToBinaryString implements ChainStep {
     BinaryString rightstring = (BinaryString) right;
 
     StringBuilder builder = new StringBuilder();
+    
     for (int i = 0; i < leftlist.getList().size(); i++) {
       builder.append(leftlist.get(i));
     }
