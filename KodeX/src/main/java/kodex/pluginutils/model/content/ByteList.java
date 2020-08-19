@@ -6,15 +6,14 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import kodex.InvalidInputException;
 import kodex.model.I18N;
-import kodex.presenter.PresenterManager;
 
 /**
  * This class holds data in LinkedList format. An List consists of Strings.
  * Extending AbstractList, it adds validation and exporting capabilities to
- * Javas List.
+ * Java's List.
  * 
  * @author Patrick Spiesberger
  * @author Raimon Gramlich
@@ -29,32 +28,24 @@ public class ByteList extends AbstractList<String> {
   }
 
   @Override
-  public boolean isValid(Object input) {    
+  public boolean isValid(Object input) throws InvalidInputException {    
     if (input == null) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("Input is empty");
-      PresenterManager.showAlertDialog(alert);
-      return false;
+      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+          I18N.get("alert.input.invalid"), 
+          "Content validation input is empty");
     }
+    
     String byteValue = (String) input;
     
     if (byteValue.length() != 8) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("This is not a byte");
-      PresenterManager.showAlertDialog(alert);
-      return false;
+      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+          I18N.get("alert.input.invalid"), 
+          "This is not a valid byte:\n" + byteValue);
     }
     if (!byteValue.matches("[01]+")) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("This is not a byte");
-      PresenterManager.showAlertDialog(alert);
-      return false;
+      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+          I18N.get("alert.input.invalid"), 
+          "This is not a valid byte:\n" + byteValue);
     }
     return true;
   }

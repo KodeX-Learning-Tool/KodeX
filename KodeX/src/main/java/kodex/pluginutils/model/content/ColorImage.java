@@ -5,11 +5,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.WritableImage;
+import kodex.InvalidInputException;
 import kodex.model.I18N;
-import kodex.presenter.PresenterManager;
 
 /**
  * This class holds data in Image format. A ColorImage consists of a Writable RGB Image. Extending
@@ -35,32 +34,19 @@ public class ColorImage extends AbstractImage {
   }
 
   @Override
-  public boolean isValid(WritableImage input) {
+  public boolean isValid(WritableImage input) throws InvalidInputException {
     if (input == null) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("Input is empty");
-      PresenterManager.showAlertDialog(alert);
-      return false;
+      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+          I18N.get("alert.input.invalid"), 
+          "Content validation input is empty");
     }
 
-    if (input.getWidth() > MAX_IMAGE_WIDTH || MIN_IMAGE_WIDTH > input.getWidth()) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("File is too large");
-      PresenterManager.showAlertDialog(alert);
-      return false;
-    }
-
-    if (input.getHeight() > MAX_IMAGE_HEIGHT || MIN_IMAGE_HEIGHT > input.getHeight()) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("File is to large");
-      PresenterManager.showAlertDialog(alert);
-      return false;
+    if (input.getWidth() > MAX_IMAGE_WIDTH || MIN_IMAGE_WIDTH > input.getWidth() 
+          || input.getHeight() > MAX_IMAGE_HEIGHT || MIN_IMAGE_HEIGHT > input.getHeight()) {
+      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+          I18N.get("alert.input.invalid"), 
+          "An image can be no larger than " 
+          + MAX_IMAGE_HEIGHT + " by " + MAX_IMAGE_WIDTH + "pixels");
     }
 
     image = input;

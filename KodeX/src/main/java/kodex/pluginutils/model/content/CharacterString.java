@@ -4,10 +4,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import kodex.InvalidInputException;
 import kodex.model.I18N;
-import kodex.presenter.PresenterManager;
 
 /**
  * This class holds data in string format. A CharacterString consists of characters. 
@@ -36,14 +35,11 @@ public class CharacterString extends AbstractString {
   }
 
   @Override
-  public boolean isValid(String input) {
+  public boolean isValid(String input) throws InvalidInputException {
     if (input == null) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("Input is empty");
-      PresenterManager.showAlertDialog(alert);
-      return false;
+      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+          I18N.get("alert.input.invalid"), 
+          "Content validation input is empty");
     }
     return true;
   }
@@ -68,12 +64,7 @@ public class CharacterString extends AbstractString {
       writer.write(data);
       writer.close();
     } catch (IOException e) {
-      Alert alert = new Alert(AlertType.ERROR);
-      
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("Something went wrong creating this file");
-      PresenterManager.showAlertDialog(alert);
+      e.printStackTrace();
     }
   }
   

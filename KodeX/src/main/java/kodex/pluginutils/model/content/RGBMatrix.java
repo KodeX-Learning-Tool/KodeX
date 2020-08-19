@@ -5,11 +5,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.paint.Color;
+import kodex.InvalidInputException;
 import kodex.model.I18N;
-import kodex.presenter.PresenterManager;
 
 /**
  * This class holds data in Matrix format. An RGBMatrix consists of a 2D array [rows][cols]
@@ -35,37 +34,28 @@ public class RGBMatrix extends AbstractMatrix<Color> {
   }
 
   @Override
-  public boolean isValid(Object input) {
+  public boolean isValid(Object input) throws InvalidInputException {
     RGBMatrix object;
 
-    Alert alert = new Alert(AlertType.ERROR);
-    alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-    alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-    
     if (input == null) {
-      alert.setContentText("Input is empty");
-      PresenterManager.showAlertDialog(alert);
-      return false;
+      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+          I18N.get("alert.input.invalid"), 
+          "Content validation input is empty");
     }
 
     try {
       object = ((RGBMatrix) input);
     } catch (ClassCastException e) {
-      alert.setContentText("Import is of wrong type");
-      PresenterManager.showAlertDialog(alert);
-      return false;
+      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+          I18N.get("alert.input.invalid"), 
+          "Input is of wrong type");
     }
 
-    if (object.getWidth() > MAX_MATRIX_WIDTH || MIN_MATRIX_WIDTH > object.getWidth()) {
-      alert.setContentText("Wrong dimensions");
-      PresenterManager.showAlertDialog(alert);
-      return false;
-    }
-
-    if (object.getHeight() > MAX_MATRIX_HEIGHT || MIN_MATRIX_HEIGHT > object.getHeight()) {
-      alert.setContentText("Wrong dimensions");
-      PresenterManager.showAlertDialog(alert);
-      return false;
+    if (object.getWidth() > MAX_MATRIX_WIDTH || MIN_MATRIX_WIDTH > object.getWidth()
+        || object.getHeight() > MAX_MATRIX_HEIGHT || MIN_MATRIX_HEIGHT > object.getHeight()) {
+      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+          I18N.get("alert.input.invalid"), 
+          "An RGB Matrix can be no larger than " + MAX_MATRIX_HEIGHT + " by " + MAX_MATRIX_WIDTH);
     }
 
     return true;

@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import kodex.InvalidInputException;
 import kodex.model.I18N;
 import kodex.presenter.PresenterManager;
 
@@ -39,11 +40,9 @@ public class DecMatrix extends AbstractMatrix<Integer> {
   @Override
   public boolean isValid(Object input) {
     if (input == null) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("File is empty");
-      PresenterManager.showAlertDialog(alert);
+      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+          I18N.get("alert.input.invalid"), 
+          "Content validation input is empty");
     }
     
     int value = (Integer) input;

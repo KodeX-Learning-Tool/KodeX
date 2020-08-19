@@ -2,12 +2,11 @@ package kodex.pluginutils.model.content;
 
 import java.io.File;
 
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import kodex.InvalidInputException;
 import kodex.model.I18N;
 import kodex.model.Tuple;
 import kodex.plugininterface.Content;
-import kodex.presenter.PresenterManager;
 
 public class TupleString extends Content<String> {
 
@@ -24,8 +23,14 @@ public class TupleString extends Content<String> {
 
   @SuppressWarnings("unchecked")
   @Override
-  public boolean isValid(String input) {
+  public boolean isValid(String input) throws InvalidInputException {
 
+    if (input == null) {
+      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+          I18N.get("alert.input.invalid"), 
+          "Content validation input is empty");
+    }
+    
     String[] inputStrings = input.split(" ");
     
     tuples = new Tuple[inputStrings.length];
@@ -34,26 +39,22 @@ public class TupleString extends Content<String> {
 
       String[] tupleParts = inputStrings[i].split(":");
       
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-
       if (tupleParts.length != 2) {
-        alert.setContentText("Import is not a tupel");
-        PresenterManager.showAlertDialog(alert);
-        return false;
+        throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+            I18N.get("alert.input.invalid"), 
+            "Invalid input, input contains unpaired elements");
       }
 
       if (!isValidLetter(tupleParts[0])) {
-        alert.setContentText("invalid letter at position 0");
-        PresenterManager.showAlertDialog(alert);
-        return false;
+        throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+            I18N.get("alert.input.invalid"), 
+            "Invalid input, no letter at position " + 0);
       }
 
       if (!isValidNumber(tupleParts[1])) {
-        alert.setContentText("invalid letter at position 1");
-        PresenterManager.showAlertDialog(alert);
-        return false;
+        throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+            I18N.get("alert.input.invalid"), 
+            "Invalid input, no number at position " + 1);
       }
 
       tuples[i] = new Tuple<>(tupleParts[0], Integer.parseInt(tupleParts[1]));
