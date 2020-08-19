@@ -81,12 +81,12 @@ public class BWImageProcedurePlugin extends ProcedurePlugin {
 
   @Override
   public void initDecodeProcedure(Content<?> content) {
-    chainLinks[chainLinks.length - 1].updateChain();
+    chainLinks[chainLinks.length - 1].setContent(content);
   }
 
   @Override
   public void initEncodeProcedure(Content<?> content) {
-    chainLinks[0].updateChain();
+    chainLinks[0].setContent(content);
   }
 
   @Override
