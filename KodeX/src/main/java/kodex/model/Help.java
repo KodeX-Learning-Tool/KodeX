@@ -7,9 +7,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import kodex.presenter.PresenterManager;
+import kodex.exceptions.LoadingException;
 
 /**
  * This class manages the FAQ. A fixed set of questions is stored locally in KodeX.Help_DE or
@@ -41,19 +40,20 @@ public class Help {
    * Sets the language in which the entries for the FAQ should be loaded.
    *
    * @param locale : selected Language
+   * @throws LoadingException Thrown when help property file could not be loaded.
    */
-  public Help(Locale locale) {
+  public Help(Locale locale) throws LoadingException {
     String url = "help/Help_" + locale + ".properties";
     input = getClass().getResourceAsStream(url);
     try {
       prop.load(input);
     } catch (IOException e) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
-      alert.setContentText("Couldn't load help page property files.");
       
-      PresenterManager.showAlertDialog(alert);
+      throw new LoadingException(
+          AlertType.ERROR,
+          I18N.get("alert.title.error"),
+          I18N.get("alert.load.failed"),
+          "Couldn't load help page property files.");
     }
     
     load();

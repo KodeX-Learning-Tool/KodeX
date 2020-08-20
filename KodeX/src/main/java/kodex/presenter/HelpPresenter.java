@@ -11,6 +11,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import kodex.exceptions.LoadingException;
 import kodex.model.Help;
 import kodex.model.I18N;
 
@@ -91,7 +92,12 @@ public class HelpPresenter extends Presenter {
 
     faq = new ArrayList<>();
 
-    help = new Help(I18N.getLocale());
+    try {
+      help = new Help(I18N.getLocale());
+    } catch (LoadingException e) {
+      e.printStackTrace();
+      presenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+    }
 
     // get the lists of questions and answers
     questions = help.getQuestions();

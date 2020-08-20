@@ -20,6 +20,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import kodex.exceptions.LoadingException;
 import kodex.presenter.PresenterManager;
 
 /**
@@ -67,11 +68,13 @@ public class I18N {
     try {
       loadSupportedLocales();
     } catch (FileAlreadyExistsException | FileNotFoundException e) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.setTitle("Error");
-      alert.setHeaderText("Failed Loading");
-      alert.setContentText("Language files or the file list are missing!");
-      PresenterManager.showAlertDialog(alert);
+      
+      throw new LoadingException(
+          AlertType.ERROR,
+          I18N.get("alert.title.error"),
+          I18N.get("alert.load.failed"),
+          "Language files or the file list are missing!",
+          e);
     }
 
     // set language loaded by the settings
@@ -196,6 +199,13 @@ public class I18N {
       if (fileName.equals(LANGUAGE_FILE_NAME)) {
 
         if (defaultFound) {
+          
+          throw new LoadingException(
+              AlertType.ERROR,
+              I18N.get("alert.title.error"),
+              I18N.get("alert.load.failed"),
+              "Language files or the file list are missing!");
+          
           Alert alert = new Alert(AlertType.ERROR);
           alert.setTitle("Error");
           alert.setHeaderText("Load Failed");
