@@ -1,7 +1,7 @@
 package kodex.plugininterface;
 
 import javafx.scene.control.Alert.AlertType;
-import kodex.AlertWindowException;
+import kodex.exceptions.AlertWindowException;
 
 /**
  * The Class InvalidImportException. This Exception is thrown if the import is invalid.
