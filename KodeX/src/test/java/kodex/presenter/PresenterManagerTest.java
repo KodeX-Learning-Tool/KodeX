@@ -40,9 +40,7 @@ class PresenterManagerTest {
   }
 
   @Test
-  void setNullSMPonExitNotCalled()
-      throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException,
-          SecurityException {
+  void setNullSMPonExitNotCalled() throws Exception {
 
     SideMenuPresenter oldSMP = Mockito.mock(SideMenuPresenter.class);
     SideMenuPresenter newSMP = null;
@@ -54,9 +52,7 @@ class PresenterManagerTest {
   }
 
   @Test
-  void setSMPTypeChanged()
-      throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException,
-          SecurityException {
+  void setSMPTypeChanged() throws Exception {
 
     SideMenuPresenter smp = Mockito.mock(SideMenuPresenter.class);
 
@@ -70,7 +66,7 @@ class PresenterManagerTest {
   }
 
   @Test
-  void updateSMView(FxRobot robot) {
+  void updateSMView() {
     SideMenuPresenter smp = Mockito.mock(SideMenuPresenter.class);
 
     pm.setSideMenuPresenter(smp);
@@ -97,10 +93,8 @@ class PresenterManagerTest {
   }
 
   @Test
-  void testUpdatePresenterNullOnExitCall()
-      throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException,
-          SecurityException {
-    
+  void testUpdatePresenterNullOnExitCall() throws Exception {
+
     Presenter presenter = Mockito.mock(Presenter.class);
     pm.updatePresenter(presenter);
 
