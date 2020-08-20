@@ -77,7 +77,7 @@ public class BWMatrixEditPresenter extends ChainLinkEditPresenter {
 
   @Override
   public void handleSubmit() {
-    content.set(selectedX, selectedY, Integer.parseInt(blackField.getText()) / 255);
+    content.set(selectedX, selectedY, Integer.parseInt(blackField.getText()));
     chainLinkPresenter.updateChain();
   }
 
@@ -89,6 +89,6 @@ public class BWMatrixEditPresenter extends ChainLinkEditPresenter {
     selectedY = (markID / content.getWidth());
 
     int markedPixel = content.get(selectedX, selectedY);
-    blackField.setText(String.valueOf(Math.round(markedPixel * 255)));
+    blackField.setText(String.valueOf(markedPixel));
   }
 }

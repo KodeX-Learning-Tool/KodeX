@@ -14,11 +14,12 @@ import kodex.pluginutils.model.content.BinaryMatrix;
 import kodex.pluginutils.presenter.edit.BWMatrixEditPresenter;
 import kodex.pluginutils.presenter.header.RGBMatrixHeaderPresenter;
 
-/** 
- *  The Class BWMatrixChainLinkPresenter manages the view for the black & white matrix.
+/**
+ * The Class BWMatrixChainLinkPresenter manages the view for the black & white
+ * matrix.
  * 
- *  @author Raimon Gramlich
- *  @author Patrick Spiesberger
+ * @author Raimon Gramlich
+ * @author Patrick Spiesberger
  */
 public class BWMatrixChainLinkPresenter extends ChainLinkPresenter {
 
@@ -34,7 +35,7 @@ public class BWMatrixChainLinkPresenter extends ChainLinkPresenter {
      * Instantiates a new matrix button.
      *
      * @param text the text to be set
-     * @param id the id of the button
+     * @param id   the id of the button
      */
     MatrixButton(String text, int id) {
       this.getStyleClass().add("matrix__button");
@@ -45,7 +46,7 @@ public class BWMatrixChainLinkPresenter extends ChainLinkPresenter {
       });
     }
   }
-  
+
   /** The chain link name. */
   private static final String CHAIN_LINK_NAME = "Binär-Matrix";
 
@@ -64,12 +65,12 @@ public class BWMatrixChainLinkPresenter extends ChainLinkPresenter {
   /**
    * Instantiates a new RGB matrix chain link presenter.
    *
-   * @param previous the previous ChainLinkPresenter
+   * @param previous     the previous ChainLinkPresenter
    * @param previousStep the previous step
-   * @param nextStep the next step
+   * @param nextStep     the next step
    */
-  public BWMatrixChainLinkPresenter(
-      ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
+  public BWMatrixChainLinkPresenter(ChainLinkPresenter 
+      previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
     chainLinkEditPresenter = new BWMatrixEditPresenter(this);
     content = new BinaryMatrix(3, 3);
@@ -84,19 +85,19 @@ public class BWMatrixChainLinkPresenter extends ChainLinkPresenter {
   /**
    * Edits the font color of the button.
    *
-   * @param id the universal id
+   * @param id    the universal id
    * @param color the color to be set
    */
-  private void editMatrixElementColor(int id, Color color) {    
+  private void editMatrixElementColor(int id, Color color) {
     MatrixButton element = (MatrixButton) matrixPane.getChildren().get(id);
     element.setTextFill(color);
   }
 
   @Override
   public AnchorPane getView() {
-    
+
     BinaryMatrix matrix = (BinaryMatrix) content;
-    
+
     matrixPane.setPrefColumns(matrix.getWidth());
     matrixPane.setPrefHeight(matrix.getHeight());
     matrixPane.getChildren().clear();
@@ -104,13 +105,12 @@ public class BWMatrixChainLinkPresenter extends ChainLinkPresenter {
     // create buttons for each element in the 2d array
     for (int j = 0; j < matrix.getHeight(); j++) {
       for (int i = 0; i < matrix.getWidth(); i++) {
-        MatrixButton btn =
-            new MatrixButton(matrix.get(i, j).toString(), i + j * matrix.getWidth());
+        MatrixButton btn = new MatrixButton(matrix.get(i, j).toString(), i + j * matrix.getWidth());
 
         matrixPane.getChildren().add(btn);
       }
     }
-    
+
     AnchorPane chainLinkPane = new AnchorPane();
 
     chainLinkPane.getChildren().add(matrixPane);
@@ -145,8 +145,21 @@ public class BWMatrixChainLinkPresenter extends ChainLinkPresenter {
 
   @Override
   public void updateView() {
-    // TODO Auto-generated method stub
+    BinaryMatrix matrix = (BinaryMatrix) content;
     
+    matrixPane.setPrefColumns(matrix.getWidth());
+    matrixPane.setPrefHeight(matrix.getHeight());
+    matrixPane.getChildren().clear();
+    
+    // create buttons for each element in the 2d array
+    for (int j = 0; j < matrix.getHeight(); j++) {
+      for (int i = 0; i < matrix.getWidth(); i++) {
+        MatrixButton btn = new MatrixButton(
+            String.valueOf((matrix.get(i, j))), i + j * matrix.getWidth());
+        
+        matrixPane.getChildren().add(btn);
+      }
+    }
   }
   
   @Override

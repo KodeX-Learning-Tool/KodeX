@@ -38,6 +38,8 @@ public class MatrixToBitList implements ChainStep {
     BinaryMatrix leftmtx = (BinaryMatrix) left;
     BitList rightlist = (BitList) right;
 
+    rightlist.getList().clear();
+    
     for (int y = 0; y < leftmtx.getHeight(); y++) {
       for (int x = 0; x < leftmtx.getWidth(); x++) {
         rightlist.add(leftmtx.get(x, y));

@@ -118,7 +118,9 @@ public class I18N {
     try {
       return MessageFormat.format(bundle.getString(key), args);
     } catch (MissingResourceException e) {
-      return "Missing text";
+      ResourceBundle defaultBundle = ResourceBundle.getBundle(LANGUAGE_PROPERTY_PATH 
+          + LANGUAGE_FILE_NAME, new Locale("EN"));
+      return MessageFormat.format(defaultBundle.getString(key), args);
     }
   }
 
