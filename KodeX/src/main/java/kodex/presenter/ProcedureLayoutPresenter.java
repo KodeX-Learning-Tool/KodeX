@@ -344,16 +344,19 @@ public class ProcedureLayoutPresenter extends Presenter {
    *     chain link.
    */
   public void setEditPresenter(ChainLinkEditPresenter editPresenter) {
-    if (editPresenter != null) {
-      // create a new editor if it is the first time
-      if (editor == null) {
-        editor = new Editor();
-        overlayPane.getChildren().add(editor);
-      }
-
-      editor.setEditorPresenter(editPresenter);
-      editor.showEditor();
+    
+    if (editPresenter == null) {
+      return;
     }
+    
+    // create a new editor if it is the first time
+    if (editor == null) {
+      editor = new Editor();
+      overlayPane.getChildren().add(editor);
+    }
+
+    editor.setEditorPresenter(editPresenter);
+    editor.showEditor();
   }
 
   /** This method displays the chain view with the fitting items in the overview bar. */
