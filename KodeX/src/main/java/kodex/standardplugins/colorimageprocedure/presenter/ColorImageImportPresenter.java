@@ -151,7 +151,7 @@ public class ColorImageImportPresenter extends ImportPresenter {
     extensionFilters.add(new ExtensionFilter(I18N.get("files.all"), "*.*"));
     extensionFilters.add(new ExtensionFilter(I18N.get("files.image"), extensions));
     
-    File file = importFile(false, extensionFilters);
+    File file = importFile(true, extensionFilters);
 
     if (file != null) {    
       if (!extensions.contains("*." + FilenameUtils.getExtension(file.getName()))) {
@@ -231,7 +231,7 @@ public class ColorImageImportPresenter extends ImportPresenter {
    * @param extensionFilters the extension filters
    * @return the chosen file
    */
-  private File importFile(boolean encoding, ArrayList<ExtensionFilter> extensionFilters) {
+  File importFile(boolean encoding, ArrayList<ExtensionFilter> extensionFilters) {
     FileChooser fileChooser = new FileChooser();
     fileChooser.getExtensionFilters().addAll(extensionFilters);
     String propertyName;
@@ -263,7 +263,7 @@ public class ColorImageImportPresenter extends ImportPresenter {
   }
 
   @Override
-  public boolean validateDecodeImport() {
+  protected boolean validateDecodeImport() {
     BinaryString content = (BinaryString) plugin.getChainTail().getContent();
     
     if (content.isValid(binaryString)) {
@@ -276,7 +276,7 @@ public class ColorImageImportPresenter extends ImportPresenter {
   }
 
   @Override
-  public boolean validateEncodeImport() {
+  protected boolean validateEncodeImport() {
     ColorImage content = (ColorImage) plugin.getChainHead().getContent();
 
     if (content.isValid(writableImage)) {

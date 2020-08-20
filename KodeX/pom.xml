@@ -37,13 +37,29 @@
 			<artifactId>javafx-fxml</artifactId>
 			<version>13</version>
 		</dependency>
-		<!-- <dependency> <groupId>org.openjfx</groupId> <artifactId>javafx-graphics 
-			</artifactId> <version>13</version> <classifier>win</classifier> <scope>packaging</scope> 
-			</dependency> <dependency> <groupId>org.openjfx</groupId> <artifactId>javafx-graphics 
-			</artifactId> <version>13</version> <classifier>linux</classifier> <scope>packaging</scope> 
-			</dependency> <dependency> <groupId>org.openjfx</groupId> <artifactId>javafx-graphics 
-			</artifactId> <version>13</version> <classifier>mac</classifier> <scope>packaging</scope> 
-			</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.openjfx</groupId> -->
+<!-- 			<artifactId>javafx-graphics  -->
+<!-- 				</artifactId> -->
+<!-- 			<version>13</version> -->
+<!-- 			<classifier>win</classifier> -->
+<!-- 			<scope>packaging</scope> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.openjfx</groupId> -->
+<!-- 			<artifactId>javafx-graphics  -->
+<!-- 				</artifactId> -->
+<!-- 			<version>13</version> -->
+<!-- 			<classifier>linux</classifier> -->
+<!-- 			<scope>packaging</scope> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.openjfx</groupId> -->
+<!-- 			<artifactId>javafx-graphics</artifactId> -->
+<!-- 			<version>13</version> -->
+<!-- 			<classifier>mac</classifier> -->
+<!-- 			<scope>packaging</scope> -->
+<!-- 		</dependency> -->
 		<dependency>
 			<groupId>org.kordamp.ikonli</groupId>
 			<artifactId>ikonli-materialdesign-pack</artifactId>
@@ -140,7 +156,24 @@
 					<configuration>
 						<argLine>
 							--add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
+							--add-opens javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
+							--add-opens kodex.KodeX/kodex.plugininterface=ALL-UNNAMED
+							--add-opens kodex.KodeX/kodex.presenter=ALL-UNNAMED
+							--add-opens kodex.KodeX/kodex.standardplugins=ALL-UNNAMED
+							--add-opens kodex.KodeX/kodex.standardplugins.colorimageprocedure=ALL-UNNAMED
+							--add-opens kodex.KodeX/kodex.standardplugins.colorimageprocedure.presenter=ALL-UNNAMED
+                            --add-opens kodex.KodeX/kodex.standardplugins.rle=ALL-UNNAMED
+                            --add-opens kodex.KodeX/kodex.standardplugins.rle.presenter=ALL-UNNAMED
+                            --add-opens kodex.KodeX/kodex.standardplugins.rle.model.steps=ALL-UNNAMED
+                            --add-opens kodex.KodeX/kodex.standardplugins.qrcode=ALL-UNNAMED
+                            --add-opens kodex.KodeX/kodex.standardplugins.qrcode.presenter=ALL-UNNAMED
+                            --add-opens kodex.KodeX/kodex.standardplugins.bwimageprocedure=ALL-UNNAMED
+                            --add-opens kodex.KodeX/kodex.standardplugins.bwimageprocedure.presenter=ALL-UNNAMED
+                            --add-opens kodex.KodeX/kodex.standardplugins.greyscaleimageprocedure=ALL-UNNAMED
+                            --add-opens kodex.KodeX/kodex.standardplugins.greyscaleimageprocedure.presenter=ALL-UNNAMED
 						</argLine>
+						<useManifestOnlyJar>false</useManifestOnlyJar>
+						<useSystemClassLoader>true</useSystemClassLoader>
 					</configuration>
 				</plugin>
 				<plugin>

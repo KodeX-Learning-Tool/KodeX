@@ -59,22 +59,12 @@ public class BWImageEditPresenter extends ChainLinkEditPresenter {
   public void handleSubmit() {
     Color newColor = colorPicker.getValue();
     
-    if (newColor != Color.BLACK & newColor != Color.WHITE)  {
+    if (!newColor.toString().equals(Color.BLACK.toString()) 
+        && !newColor.toString().equals(Color.WHITE.toString()))  {
       Alert alert = new Alert(AlertType.WARNING);
       alert.titleProperty().bind(I18N.createStringBinding("alert.title.warning"));
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
       alert.setContentText("This isn't a valid black or white value");
-      PresenterManager.showAlertDialog(alert);
-      return;
-    }
-    
-    // ignores opacity and uses only RGB values
-    if (newColor.getOpacity() != 1) {
-      newColor = new Color(newColor.getRed(), newColor.getGreen(), newColor.getBlue(), 1d);
-      Alert alert = new Alert(AlertType.WARNING);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.warning"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("Opacity changes are not supported and won't be saved.");
       PresenterManager.showAlertDialog(alert);
       return;
     }

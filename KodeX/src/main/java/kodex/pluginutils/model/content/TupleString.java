@@ -5,7 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.StringJoiner;
-
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import kodex.model.I18N;
@@ -38,25 +37,20 @@ public class TupleString extends Content<String> {
 
       String[] tupleParts = inputStrings[i].split(":");
       
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+
 
       if (tupleParts.length != 2) {
-        alert.setContentText("Import is not a tupel");
-        PresenterManager.showAlertDialog(alert);
+        showAlert("Import is not a tupel");
         return false;
       }
 
       if (!isValidLetter(tupleParts[0])) {
-        alert.setContentText("invalid letter at position 0");
-        PresenterManager.showAlertDialog(alert);
+        showAlert("invalid letter at position 0");
         return false;
       }
 
       if (!isValidNumber(tupleParts[1])) {
-        alert.setContentText("invalid letter at position 1");
-        PresenterManager.showAlertDialog(alert);
+        showAlert("invalid letter at position 1");
         return false;
       }
 
@@ -64,6 +58,19 @@ public class TupleString extends Content<String> {
     }
 
     return true;
+  }
+  
+  /**
+   * Show an alert for invalid input.
+   *
+   * @param contentText the content text
+   */
+  private void showAlert(String contentText) {
+    Alert alert = new Alert(AlertType.ERROR);
+    alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+    alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+    alert.setContentText(contentText);
+    PresenterManager.showAlertDialog(alert);
   }
 
   /**
@@ -119,5 +126,28 @@ public class TupleString extends Content<String> {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    
+    if (!(obj instanceof TupleString)) {
+      return false;
+    }
+    
+    TupleString other = (TupleString) obj;
+    
+    return Arrays.equals(tuples, other.getTuples());
+  }
+  
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((tuples == null) ? 0 : Arrays.hashCode(tuples));
+    return result;
   }
 }

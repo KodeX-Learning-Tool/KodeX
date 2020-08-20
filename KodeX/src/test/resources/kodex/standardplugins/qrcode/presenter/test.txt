@@ -1,0 +1,2 @@
+Diese Datei ist eine Testdatei für das Verfahren "QR-Code".
+Dieser lässt sich nun abscannen und es erscheint dieser Text :)
