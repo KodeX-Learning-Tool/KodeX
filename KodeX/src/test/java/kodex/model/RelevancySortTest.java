@@ -26,6 +26,8 @@ class RelevancySortTest {
   private static ObservableList<ProcedurePlugin> actual;
   
   private static FilterStrategy sort;
+  
+  private static IndexPage index = new IndexPage();
 
 
   @BeforeAll
@@ -42,7 +44,7 @@ class RelevancySortTest {
   
   @Test
   void checkSizeClicked() {
-    IndexPage index = new IndexPage();
+    index.getValueProcedure().clear();
     index.increaseRelevancy(gs);
     index.increaseRelevancy(rle);
     index.increaseRelevancy(cl);
@@ -52,7 +54,6 @@ class RelevancySortTest {
 
   @Test
   void checkContent() {
-    IndexPage index = new IndexPage();
     index.getValueProcedure().clear();
     index.increaseRelevancy(gs);
     index.increaseRelevancy(gs);
@@ -65,6 +66,7 @@ class RelevancySortTest {
   @AfterAll
   static void clean() {
     actual.clear();
+    index.getValueProcedure().clear();
   }
 
 }

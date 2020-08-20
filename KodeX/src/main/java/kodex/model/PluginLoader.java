@@ -43,7 +43,7 @@ public class PluginLoader {
   private static PluginLoader instance = new PluginLoader();
 
   /**
-   * Retruns current instance of PluginLoader.
+   * Returns current instance of PluginLoader.
    *
    * @return
    */
