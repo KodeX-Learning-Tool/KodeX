@@ -14,7 +14,7 @@ variables:
   
 before_script:
     - cd KodeX/
-    - apt-get update && apt-get install -y openjfx
+    - apt-get update && apt-get install -y openjfx unzip && rm -f /var/lib/apt/lists/*_dists_*
 
 
 # Cache downloaded dependencies and plugins between builds.
