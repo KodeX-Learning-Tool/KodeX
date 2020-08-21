@@ -22,7 +22,7 @@ class AbstractMatrixTest {
     mtx = new Integer[height][width];
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
-        mtx[y][x] = ((int) Math.random() * width * height);
+        mtx[y][x] = (int) (Math.random() * width * height);
       }
     }
     

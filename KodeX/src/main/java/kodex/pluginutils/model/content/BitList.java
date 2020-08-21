@@ -11,9 +11,9 @@ import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
 
 /**
- * This class holds data in LinkedList format. An BitList consists of Intergers.
+ * This class holds data in LinkedList format. An BitList consists of Integers.
  * Extending AbstractList, it adds validation and exporting capabilities to
- * Javas List.
+ * Java's List.
  * 
  * @author Patrick Spiesberger
  * @author Raimon Gramlich
@@ -22,7 +22,7 @@ import kodex.model.I18N;
  */
 public class BitList extends AbstractList<Integer> {
 
-  /** Creates a new RGBList. */
+  /** Creates a new BitList. */
   public BitList() {
     super.list = new LinkedList<Integer>();
   }
@@ -30,13 +30,36 @@ public class BitList extends AbstractList<Integer> {
 
   @Override
   public boolean isValid(Object input) throws InvalidInputException {
+    BitList object;
+
     if (input == null) {
       throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
           I18N.get("alert.input.invalid"), 
           "Content validation input is empty");
     }
-    int bit = (Integer) input;
-    return (bit == 0 || bit == 1);
+
+    try {
+      object = ((BitList) input);
+      if (object.size() > MAX_LIST_LENGTH) {
+        throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+            I18N.get("alert.input.invalid"), 
+            "A BitList cannot be larger than" + MAX_LIST_LENGTH);
+      }
+    } catch (ClassCastException e) {
+      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+          I18N.get("alert.input.invalid"), 
+          "Input is of wrong type");
+    }
+    
+    for (int i = 0; i < object.size(); i++) {
+      if (!(object.get(i) == 0 || object.get(i) == 1)) {
+        throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+            I18N.get("alert.input.invalid"), 
+            "Input contains nonbinary values");
+      }
+    }
+
+    return true;
   }
 
 

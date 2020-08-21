@@ -22,30 +22,40 @@ import kodex.model.I18N;
  */
 public class ByteList extends AbstractList<String> {
 
-  /** Creates a new RGBList. */
+  /** Creates a new ByteList. */
   public ByteList() {
     super.list = new LinkedList<String>();
   }
 
   @Override
-  public boolean isValid(Object input) throws InvalidInputException {    
+  public boolean isValid(Object input) throws InvalidInputException {   
+    ByteList object;
+    
     if (input == null) {
       throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
           I18N.get("alert.input.invalid"), 
           "Content validation input is empty");
     }
     
-    String byteValue = (String) input;
-    
-    if (byteValue.length() != 8) {
+    try {
+      object = ((ByteList) input);
+      if (object.size() > MAX_LIST_LENGTH) {
+        throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+            I18N.get("alert.input.invalid"), 
+            "A BitList cannot be larger than" + MAX_LIST_LENGTH);
+      }
+    } catch (ClassCastException e) {
       throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
           I18N.get("alert.input.invalid"), 
-          "This is not a valid byte:\n" + byteValue);
+          "Input is of wrong type");
     }
-    if (!byteValue.matches("[01]+")) {
-      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
-          I18N.get("alert.input.invalid"), 
-          "This is not a valid byte:\n" + byteValue);
+    
+    for (int i = 0; i < object.size(); i++) {
+      if (!object.get(i).matches("[01]+") || object.get(i).length() != 8) {
+        throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+            I18N.get("alert.input.invalid"), 
+            "This is not a valid byte:\n" + object.get(i));
+      }
     }
     return true;
   }

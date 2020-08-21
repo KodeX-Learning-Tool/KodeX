@@ -58,7 +58,7 @@ public class RGBByteList extends AbstractList<String> {
       }
 
       for (int j = 0; j < rgb.length(); j++) {
-        if (rgb.charAt(i) != '0' && rgb.charAt(i) != '1') {
+        if (rgb.charAt(j) != '0' && rgb.charAt(j) != '1') {
           throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
               I18N.get("alert.input.invalid"), 
              "Invalid import, import does not excludingly contain rgb values");

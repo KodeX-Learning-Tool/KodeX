@@ -23,7 +23,7 @@ class ByteMatrixTest {
     testmtx = new Integer[height][width];
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
-        testmtx[y][x] = ((int) Math.random());
+        testmtx[y][x] = (int) (Math.random() * 256);
       }
     }
     
