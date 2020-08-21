@@ -14,7 +14,7 @@ variables:
   
 before_script:
     - cd KodeX/
-    - apt-get update && apt-get install -y openfx
+    - apt-get update && apt-get install -y openjfx
 
 
 # Cache downloaded dependencies and plugins between builds.
