@@ -163,6 +163,12 @@ public abstract class ChainLinkPresenter implements IPresenter {
     int id = calculateID();
     if (id != -1) {
       mark(id);
+      
+      // set marked element id for editing
+      if (this.chainLinkEditPresenter != null) {
+        this.chainLinkEditPresenter.setMarkID(id);
+      }
+      
       if (previous != null) {
         previous.markPrev(id);
       }

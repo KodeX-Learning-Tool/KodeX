@@ -101,7 +101,6 @@ public class RGBListChainLinkPresenter extends ChainLinkPresenter {
     rgbListView.getSelectionModel().select(id);
     rgbListView.scrollTo(id);
     listenForChanges = true;
-    chainLinkEditPresenter.setMarkID(id);
   }
 
   @Override

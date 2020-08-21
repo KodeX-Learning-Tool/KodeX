@@ -138,9 +138,6 @@ public class BWMatrixChainLinkPresenter extends ChainLinkPresenter {
     // mark selected element
     editMatrixElementColor(id, Color.RED);
     lastElementMarked = id;
-
-    // set mark id for editing
-    chainLinkEditPresenter.setMarkID(id);
   }
 
   @Override

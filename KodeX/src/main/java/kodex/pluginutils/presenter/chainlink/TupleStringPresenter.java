@@ -114,10 +114,7 @@ public class TupleStringPresenter extends ChainLinkPresenter {
 
   @Override
   protected void mark(int id) {
-
     toggleMark(tupeTexts.get(id));
-    
-    chainLinkEditPresenter.setMarkID(id);
   }
 
   @Override
