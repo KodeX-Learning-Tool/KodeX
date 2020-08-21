@@ -38,6 +38,8 @@ public class DecMatrixToByteList implements ChainStep {
   public void encode(Content<?> left, Content<?> right) {
     DecMatrix leftmtx = (DecMatrix) left;
     ByteList rightlist = (ByteList) right;
+    
+    rightlist.getList().clear();
 
     for (int y = 0; y < leftmtx.getHeight(); y++) {
       for (int x = 0; x < leftmtx.getWidth(); x++) {

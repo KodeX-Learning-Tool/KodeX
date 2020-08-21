@@ -77,7 +77,7 @@ public class BinaryStringEditPresenter extends ChainLinkEditPresenter {
     // strip leading zeros to verify whether the number is in range
     input = input.replaceFirst("^0+(?!$)", "");
     
-    if (input.length() <= unitLength) {
+    if (input != null && input.length() <= unitLength) {
       // add leading zeros
       while (input.length() < unitLength) {
         input = "0".concat(input);
@@ -86,7 +86,7 @@ public class BinaryStringEditPresenter extends ChainLinkEditPresenter {
       Alert alert = new Alert(AlertType.ERROR);
       alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("This binary string has a max length of " + unitLength);
+      alert.setContentText("This binary string is not valid!");
       PresenterManager.showAlertDialog(alert);
       
       return;
