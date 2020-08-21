@@ -9,7 +9,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkPresenter;
@@ -162,29 +161,6 @@ public class RLEImportPresenter extends ImportPresenter {
     alert.setContentText("The chosen file ("
         + file.getName() +  ") is not a text file with valid content.");
     PresenterManager.showAlertDialog(alert);
-  }
-
-  /**
-   * Open a FileChooser to import a file.
-   *
-   * @param encoding whether encoding or decoding was chosen
-   * @param extensionFilters the extension filters
-   * @return the chosen file
-   */
-  private File importFile(boolean encoding, ArrayList<ExtensionFilter> extensionFilters) {
-    FileChooser fileChooser = new FileChooser();
-    fileChooser.getExtensionFilters().addAll(extensionFilters);
-    String propertyName;
-    
-    if (encoding) {
-      propertyName = "importexample.filechooser.encode.title";
-    } else {
-      propertyName = "importexample.filechooser.decode.title";
-    }
-    
-    fileChooser.titleProperty().bind(I18N.createStringBinding(propertyName));
-    
-    return PresenterManager.showOpenFileChooser(fileChooser);
   }
 
   @Override
