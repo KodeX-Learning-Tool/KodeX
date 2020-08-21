@@ -161,6 +161,7 @@
 					<configuration>
 						<argLine>
 							--add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
+							--add-exports javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
 							--add-opens javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
 							--add-opens kodex.KodeX/kodex.plugininterface=ALL-UNNAMED
 							--add-opens kodex.KodeX/kodex.presenter=ALL-UNNAMED
