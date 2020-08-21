@@ -14,8 +14,7 @@ variables:
   
 before_script:
     - cd KodeX/
-    - apt-get update && apt-get install -y libxtst6 libgtk2.0-0 && rm -f /var/lib/apt/lists/*_dists_*
-    - find / -name "libprism_sw.so" 2>/dev/null;
+    - apt-get update && apt-get install -y libxtst6 libgtk2.0-0 unzip && rm -f /var/lib/apt/lists/*_dists_*
 
 
 # Cache downloaded dependencies and plugins between builds.
