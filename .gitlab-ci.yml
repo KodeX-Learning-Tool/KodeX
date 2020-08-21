@@ -15,8 +15,7 @@ variables:
 before_script:
     - cd KodeX/
     - apt-get update && apt-get install -y openjfx unzip && rm -f /var/lib/apt/lists/*_dists_*
-    - apt-get update
-    - apt install -y xvfb
+    - apt-get update && apt-get install -y xvfb
 
 
 # Cache downloaded dependencies and plugins between builds.
@@ -40,7 +39,7 @@ java-test:
   stage: test
   script:
     # surefire blocks propagation of properties that are not set inside argLine
-    - 'mvn $MAVEN_CLI_OPTS test -DargLine=\"$HEADLESS_TESTFX\"'
+    - 'mvn verify -f kodex/pom.xml $MAVEN_CLI_OPTS test -DargLine=\"$HEADLESS_TESTFX\"'
     - 'cat target/jacoco-report/index.html'
       
 java-checkstyle:
