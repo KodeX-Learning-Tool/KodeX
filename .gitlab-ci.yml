@@ -15,6 +15,8 @@ variables:
 before_script:
     - cd KodeX/
     - apt-get update && apt-get install -y libxtst6 libgtk2.0-0 unzip && rm -f /var/lib/apt/lists/*_dists_*
+    - dpkg -L libxtst6
+    - dpkg -L libgtk2.0-0
 
 
 # Cache downloaded dependencies and plugins between builds.
