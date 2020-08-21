@@ -3,7 +3,6 @@ package kodex.standardplugins.colorimageprocedure;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import kodex.plugininterface.ChainLinkPresenter;
-import kodex.plugininterface.Content;
 import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.steps.ColorImageToRGBMatrix;
 import kodex.pluginutils.model.steps.RGBByteListToBinaryString;
@@ -24,17 +23,15 @@ import kodex.standardplugins.colorimageprocedure.presenter.ColorImageImportPrese
  */
 public class ColorImageProcedurePlugin extends ProcedurePlugin {
 
-  private ChainLinkPresenter[] chainLinks; // [2..*]
-
   /** Creates a new instance of the ColorImageProcedurePlugin. */
   public ColorImageProcedurePlugin() {
-    // does nothing because the procedure plugin is initalized when creating a new import presenter
+    // does nothing because the procedure plugin is initalized using the initializeProcedure method
   }
   
   /**
    * Initialize the procedure plugin.
    */
-  private void initialize() {
+  public void initializeProcedure() {
     this.chainLinks = new ChainLinkPresenter[5];
 
     ColorImageToRGBMatrix colorImageToRGBMatrix = new ColorImageToRGBMatrix();
@@ -62,33 +59,12 @@ public class ColorImageProcedurePlugin extends ProcedurePlugin {
 
   @Override
   public ColorImageImportPresenter createImportPresenter() {
-    initialize();
     return new ColorImageImportPresenter(this);
   }
 
   @Override
   public ColorImageProcedureInformation createProcedureInformation() {
     return new ColorImageProcedureInformation();
-  }
-
-  @Override
-  public ChainLinkPresenter getChainHead() {
-    return chainLinks[0];
-  }
-
-  @Override
-  public ChainLinkPresenter getChainTail() {
-    return chainLinks[chainLinks.length - 1];
-  }
-
-  @Override
-  public void initDecodeProcedure(Content<?> content) {
-    chainLinks[chainLinks.length - 1].setContent(content);
-  }
-
-  @Override
-  public void initEncodeProcedure(Content<?> content) {
-    chainLinks[0].setContent(content);
   }
 
   @Override

@@ -13,7 +13,10 @@ import javafx.beans.property.SimpleBooleanProperty;
  * @version 1.0
  */
 public abstract class ProcedurePlugin extends Plugin implements Comparable<ProcedurePlugin> {
-
+  
+  /** The array of ChainLinkPresenter chainLinks stores the chain links for fast access. */
+  protected ChainLinkPresenter[] chainLinks;
+  
   /** The BooleanProperty activated stores the state of the procedure. */
   protected final BooleanProperty activated = new SimpleBooleanProperty(false);
 
@@ -51,6 +54,16 @@ public abstract class ProcedurePlugin extends Plugin implements Comparable<Proce
 
     return ourInfo.getName().compareTo(theirInfo.getName());
   }
+  
+  /**
+   * Initializes the Procedure. This method is called when a procedure is selected
+   * on the index page. It should initialize the procedure by creating all chain
+   * link presenter and storing them in the {@link ProcedurePlugin#chainLinks}
+   * array (default) or any other data structure which is used to get the
+   * ChainLinkPresenter. If the user has selected the same procedure during a
+   * single session more than once then this method clears the data each time.
+   */
+  public abstract void initializeProcedure();
 
   /**
    * Creates and returns a new ImportPresenter instance.
@@ -67,35 +80,45 @@ public abstract class ProcedurePlugin extends Plugin implements Comparable<Proce
   public abstract ProcedureInformation createProcedureInformation();
 
   /**
-   * Returns the start link of the procedure, whereby the stages are saved internally as a
+   * Returns the start chain link of the procedure, whereby the stages are saved internally as a
    * double-linked list and are linked accordingly.
    *
    * @return presenter for first link of procedure
    */
-  public abstract ChainLinkPresenter getChainHead();
+  public ChainLinkPresenter getChainHead() {
+    return chainLinks[0];
+  }
   
 
   /**
-   * Returns the last link of the procedure, whereby the stages are saved internally as a
+   * Returns the last chain link of the procedure, whereby the stages are saved internally as a
    * double-linked list and are linked accordingly.
    *
    * @return presenter for last link of procedure
    */
-  public abstract ChainLinkPresenter getChainTail();
+  public ChainLinkPresenter getChainTail() {
+    return chainLinks[chainLinks.length - 1];
+  }
+
 
   /**
-   * Sets the content for the first link of the process when decoding. In addition, the method
+   * Sets the content for the first chain link of the process when decoding. In addition, the method
    * creates all linkes of the process and thus initializes them
    *
    * @param content : Content for the first step of the procedure
    */
-  public abstract void initDecodeProcedure(Content<?> content);
+  public void initDecodeProcedure(Content<?> content) {
+    chainLinks[chainLinks.length - 1].setContent(content);
+  }
+
 
   /**
-   * Sets the content for the first link of the process when encoding. In addition, the method
+   * Sets the content for the first chain link of the process when encoding. In addition, the method
    * creates all linkes of the process and thus initializes them
    *
    * @param content : Content for the first step of the procedure
    */
-  public abstract void initEncodeProcedure(Content<?> content);
+  public void initEncodeProcedure(Content<?> content) {
+    chainLinks[0].setContent(content);
+  }
 }
