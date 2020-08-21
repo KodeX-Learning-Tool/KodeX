@@ -223,29 +223,6 @@ public class ColorImageImportPresenter extends ImportPresenter {
       }
     }
   }
-
-  /**
-   * Open a FileChooser to import a file.
-   *
-   * @param encoding whether encoding or decoding was chosen
-   * @param extensionFilters the extension filters
-   * @return the chosen file
-   */
-  private File importFile(boolean encoding, ArrayList<ExtensionFilter> extensionFilters) {
-    FileChooser fileChooser = new FileChooser();
-    fileChooser.getExtensionFilters().addAll(extensionFilters);
-    String propertyName;
-    
-    if (encoding) {
-      propertyName = "importexample.filechooser.encode.title";
-    } else {
-      propertyName = "importexample.filechooser.decode.title";
-    }
-    
-    fileChooser.titleProperty().bind(I18N.createStringBinding(propertyName));
-    
-    return PresenterManager.showOpenFileChooser(fileChooser);
-  }
   
   /**
    * Shows an alert window concerning file extensions.
