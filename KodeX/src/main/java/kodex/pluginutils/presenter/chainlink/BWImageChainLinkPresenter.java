@@ -1,5 +1,7 @@
 package kodex.pluginutils.presenter.chainlink;
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -9,6 +11,8 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser.ExtensionFilter;
+import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.BlackWhiteImage;
@@ -244,5 +248,12 @@ public class BWImageChainLinkPresenter extends ChainLinkPresenter {
       
       lastMarkedColor = image.getPixelReader().getColor(x, y);
     } 
+  }
+  
+  @Override
+  public List<ExtensionFilter> getExtensionsFilter() {
+    List<ExtensionFilter> extensionFilters = new ArrayList<>();
+    extensionFilters.add(new ExtensionFilter(I18N.get("files.image"), "*.png", "*.jpg"));
+    return extensionFilters;
   }
 }

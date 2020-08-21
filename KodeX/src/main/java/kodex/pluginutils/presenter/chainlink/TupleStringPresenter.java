@@ -8,9 +8,12 @@ import java.util.List;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.stage.FileChooser.ExtensionFilter;
+import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
 import kodex.pluginutils.model.content.TupleString;
+import kodex.pluginutils.presenter.edit.TupleStringEditPresenter;
 
 /**
  * This class provides a chain link presenter for an array of string tuples that should be
@@ -27,44 +30,62 @@ public class TupleStringPresenter extends ChainLinkPresenter {
   
   private Text oldMark;
 
-  private ArrayList<TupleText> tupeTexts;
-  
-  class TupleText extends Text {
-    
-    private int id;
-    
-    public TupleText(int id, String text) {
-      super(text);
-      this.id = id;
-    }
-  }
+  private ArrayList<Text> tupeTexts;
+
+  private TextFlow tf;
   
   @Override
   protected int calculateID() {
     return id;
   }
-
+  
+  /**
+   * Instantiates a new tuple string presenter.
+   *
+   * @param previous     the previous ChainLinkPresenter
+   * @param previousStep the previous step
+   * @param nextStep     the next step
+   */
   public TupleStringPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
     this.content = new TupleString();
+    this.chainLinkEditPresenter = new TupleStringEditPresenter(this);
   }
 
   @Override
   public AnchorPane getView() {
 
-    TextFlow tf = new TextFlow();
+    updateTextFlow();
     
-    tf.setPrefWidth(400);
-    tf.setStyle("-fx-font-size: 18;");
+    AnchorPane ap = new AnchorPane();
+    ap.getChildren().add(tf);
+    return ap;
+  }
+  
+  private void updateTextFlow() {
+    
+    if (tf == null) {
+      tf = new TextFlow();
+      tf.setPrefWidth(400);
+      tf.setStyle("-fx-font-size: 18;");
+    }
+    
+    refreshViewList();
+    
+    tf.getChildren().clear();
+    tf.getChildren().addAll(tupeTexts);
+  }
+  
+  private void refreshViewList() {
     
     List<String> tupleStrings = new LinkedList<>();
     Arrays.stream(((TupleString) content).getTuples()).forEach(t -> tupleStrings.add(t.toString()));
     
-    this.tupeTexts = new ArrayList<>();
+    tupeTexts = new ArrayList<>();
     
     for (int i = 0; i < tupleStrings.size(); i++) {
-      TupleText text = new TupleText(i, tupleStrings.get(i) + " ");
+      Text text = new Text(tupleStrings.get(i) + " ");
       final int index = i;
       
       text.setOnMouseClicked(e -> {
@@ -76,10 +97,6 @@ public class TupleStringPresenter extends ChainLinkPresenter {
       tupeTexts.add(text);
       tf.getChildren().add(text);
     }
-    
-    AnchorPane ap = new AnchorPane();
-    ap.getChildren().add(tf);
-    return ap;
   }
 
   @Override
@@ -87,7 +104,7 @@ public class TupleStringPresenter extends ChainLinkPresenter {
     return CHAIN_LINK_NAME;
   }
   
-  private void toggleMark(TupleText text) {
+  private void toggleMark(Text text) {
     if (oldMark != null) {
       oldMark.setStyle("-fx-fill: black;");
     }
@@ -99,11 +116,19 @@ public class TupleStringPresenter extends ChainLinkPresenter {
   protected void mark(int id) {
 
     toggleMark(tupeTexts.get(id));
+    
+    chainLinkEditPresenter.setMarkID(id);
   }
 
   @Override
   public void updateView() {
-    // TODO Auto-generated method stub
-    
+    updateTextFlow();
+  }
+  
+  @Override
+  public List<ExtensionFilter> getExtensionsFilter() {
+    List<ExtensionFilter> extensionFilters = new ArrayList<>();
+    extensionFilters.add(new ExtensionFilter(I18N.get("files.text"), "*.txt"));
+    return extensionFilters;
   }
 }

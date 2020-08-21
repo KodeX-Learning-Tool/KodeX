@@ -142,6 +142,7 @@ public class ChainPresenter implements IPresenter {
     private void handleExport() {
       // opens save dialog to choose where you want to save the file
       FileChooser chooser = new FileChooser();
+      chooser.getExtensionFilters().addAll(chainLinkPresenter.getExtensionsFilter());
       chooser.setTitle("Choose export location");
       File exportLocation = PresenterManager.showSaveFileChooser(chooser);
       if (exportLocation == null) {

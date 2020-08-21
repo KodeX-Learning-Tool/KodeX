@@ -75,7 +75,14 @@ public class BinaryStringEditPresenter extends ChainLinkEditPresenter {
   public void handleSubmit() {
     String input = binaryStringArea.getText();
     // strip leading zeros to verify whether the number is in range
-    if (input == null || !input.matches("[0-1]*") || input.length() != unitLength) {
+    input = input.replaceFirst("^0+(?!$)", "");
+    
+    if (input != null && input.length() <= unitLength) {
+      // add leading zeros
+      while (input.length() < unitLength) {
+        input = "0".concat(input);
+      }
+    } else {
       Alert alert = new Alert(AlertType.ERROR);
       alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
@@ -89,7 +96,7 @@ public class BinaryStringEditPresenter extends ChainLinkEditPresenter {
 
     String binaryString = content.getString();
     String prefix = binaryString.substring(0, unitLength * markID);
-    String suffix = binaryString.substring((markID + 1));
+    String suffix = binaryString.substring(unitLength * (markID + 1));
     
     binaryString = prefix.concat(input.concat(suffix));
     
