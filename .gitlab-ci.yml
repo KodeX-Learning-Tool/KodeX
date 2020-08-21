@@ -14,8 +14,7 @@ variables:
   
 before_script:
     - cd KodeX/
-    - apt-get update && apt-get install -y openjfx unzip && rm -f /var/lib/apt/lists/*_dists_*
-    - dpkg -L openjfx
+
 
 
 # Cache downloaded dependencies and plugins between builds.
@@ -38,6 +37,8 @@ java-compile:
 java-test:
   stage: test
   script:
+    - apt-get update && apt-get install -y openjfx unzip && rm -f /var/lib/apt/lists/*_dists_*
+    - dpkg -L openjfx
     # surefire blocks propagation of properties that are not set inside argLine
     - 'mvn verify -f pom.xml $MAVEN_CLI_OPTS test -DargLine=\"$HEADLESS_TESTFX\"'
     - 'cat target/jacoco-report/index.html'
