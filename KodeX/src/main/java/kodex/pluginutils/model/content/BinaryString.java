@@ -38,7 +38,9 @@ public class BinaryString extends AbstractString {
     }
     for (int i = 0; i < input.length(); i++) {
       if (input.charAt(i) != '0' && input.charAt(i) != '1') {
-        return false;
+        throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+            I18N.get("alert.input.invalid"), 
+            "Input contains nonbinary values");
       }
     }
     return true;

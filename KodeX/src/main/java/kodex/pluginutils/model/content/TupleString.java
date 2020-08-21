@@ -12,7 +12,7 @@ import kodex.model.I18N;
 import kodex.model.Tuple;
 import kodex.plugininterface.Content;
 
-public class TupleString extends Content<String> {
+public class TupleString extends AbstractString {
 
   private Tuple<String, Integer>[] tuples;
 

@@ -24,7 +24,7 @@ public class RLEStep implements ChainStep {
       letters.append(tuple.getFirst().repeat(tuple.getSecond()));
     }
 
-    letterString.setLetterString(letters.toString());
+    letterString.setString(letters.toString());
   }
 
   @Override

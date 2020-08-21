@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import kodex.plugininterface.Content;
+import javafx.scene.control.Alert.AlertType;
+import kodex.exceptions.InvalidInputException;
+import kodex.model.I18N;
 
-public class LetterString extends Content<String> {
+public class LetterString extends AbstractString {
 
   private String letterString;
 
@@ -20,23 +22,22 @@ public class LetterString extends Content<String> {
   }
 
   @Override
-  public boolean isValid(String input) {
-    boolean valid = input.chars().allMatch(Character::isLetter);
-
-    if (valid) {
-      this.letterString = input;
+  public boolean isValid(String input) throws InvalidInputException {
+    if (input == null) {
+      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+          I18N.get("alert.input.invalid"), 
+          "Content validation input is empty");
     }
 
-    return valid;
-  }
+    if (!input.chars().allMatch(Character::isLetter)) {
+      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+          I18N.get("alert.input.invalid"), 
+          "Input contains characters other than letters");
+    }
 
-  /**
-   * Sets the letter string.
-   *
-   * @param letterString the letterString to set
-   */
-  public void setLetterString(String letterString) {
-    this.letterString = letterString;
+    this.letterString = input;
+
+    return true;
   }
 
   @Override

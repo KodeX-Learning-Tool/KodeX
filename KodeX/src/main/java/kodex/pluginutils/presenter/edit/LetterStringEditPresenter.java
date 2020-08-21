@@ -61,7 +61,7 @@ public class LetterStringEditPresenter extends ChainLinkEditPresenter {
 
   @Override
   public void handleSubmit() {
-    content.setLetterString(letterStringArea.getText());
+    content.setString(letterStringArea.getText());
     
     chainLinkPresenter.updateChain();
   }
