@@ -6,7 +6,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import kodex.InvalidInputException;
+import kodex.exceptions.InvalidInputException;
 
 class BinaryMatrixTest {
   private static int width = 5;
@@ -34,13 +34,8 @@ class BinaryMatrixTest {
   }
 
   @Test
-  void testIsValidObject() {
-    try {
-      assertTrue(bmtx.isValid(mtx));
-    } catch (InvalidInputException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
+  void testIsValidObject() throws InvalidInputException {
+    assertTrue(bmtx.isValid(mtx));
   }
 
 }

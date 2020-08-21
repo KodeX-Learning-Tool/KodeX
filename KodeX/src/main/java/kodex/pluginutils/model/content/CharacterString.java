@@ -5,7 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import javafx.scene.control.Alert.AlertType;
-import kodex.InvalidInputException;
+import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
 
 /**

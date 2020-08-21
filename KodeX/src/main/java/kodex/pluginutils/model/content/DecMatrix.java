@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import kodex.InvalidInputException;
+import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
 import kodex.presenter.PresenterManager;
 
@@ -38,7 +38,7 @@ public class DecMatrix extends AbstractMatrix<Integer> {
 
 
   @Override
-  public boolean isValid(Object input) {
+  public boolean isValid(Object input) throws InvalidInputException {
     if (input == null) {
       throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
           I18N.get("alert.input.invalid"), 
@@ -51,11 +51,11 @@ public class DecMatrix extends AbstractMatrix<Integer> {
       return true;
     }
     
-    Alert alert = new Alert(AlertType.ERROR);
-    alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-    alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-    alert.setContentText("This is not a byte");
-    PresenterManager.showAlertDialog(alert);
+//    Alert alert = new Alert(AlertType.ERROR);
+//    alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+//    alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
+//    alert.setContentText("This is not a byte");
+//    PresenterManager.showAlertDialog(alert);
     return false;
   }
 

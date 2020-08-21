@@ -10,7 +10,6 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import kodex.exceptions.LoadingException;
 import kodex.model.I18N;
@@ -18,7 +17,6 @@ import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.CharacterString;
 import kodex.pluginutils.model.content.QRCode;
-import kodex.presenter.PresenterManager;
 
 /** 
  * This class represents the bidirectional step between CharacterString and QRCode.
@@ -44,7 +42,7 @@ public class CharacterStringToQRCode implements ChainStep {
           AlertType.ERROR,
           I18N.get("alert.title.error"),
           I18N.get("alert.input.invalid"),
-          "Something went wrong decoding the QR-Code");
+          "An error occured decoding the QR-Code");
     }
     
     if (string.getHeader() == null || string.getHeader().isEmpty()) {  
@@ -78,7 +76,7 @@ public class CharacterStringToQRCode implements ChainStep {
           AlertType.ERROR,
           I18N.get("alert.title.error"),
           I18N.get("alert.input.invalid"),
-          "Something went wrong encoding the textfile");
+          "An error occured encoding the textfile");
     }
     
     if (qrcode.getHeader() == null || qrcode.getHeader().isEmpty()) {  

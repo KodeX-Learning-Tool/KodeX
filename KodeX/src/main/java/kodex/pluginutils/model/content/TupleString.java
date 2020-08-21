@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.StringJoiner;
 
 import javafx.scene.control.Alert.AlertType;
-import kodex.InvalidInputException;
+import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
 import kodex.model.Tuple;
 import kodex.plugininterface.Content;

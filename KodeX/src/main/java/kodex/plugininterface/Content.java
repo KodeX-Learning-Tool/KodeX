@@ -3,7 +3,7 @@ package kodex.plugininterface;
 import java.io.File;
 import java.util.Map;
 
-import kodex.InvalidInputException;
+import kodex.exceptions.InvalidInputException;
 
 /**
  * This abstract class is the superclass to every type of Content. It manages the content of a level

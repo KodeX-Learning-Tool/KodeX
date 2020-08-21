@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import javafx.scene.control.Alert.AlertType;
-import kodex.InvalidInputException;
+import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
 
 /**
