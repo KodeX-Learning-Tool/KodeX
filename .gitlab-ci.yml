@@ -9,9 +9,15 @@ variables:
   # when running from the command line.
   # `installAtEnd` and `deployAtEnd` are only effective with recent version of the corresponding plugins.
   MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
+  HEADLESS_TESTFX: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dglass.platform=Monocle -Dmonocle.platform=Headless -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=2500 -Dprism.verbose=true"
+
   
 before_script:
     - cd KodeX/
+    - apt-get update;
+    - apt-get install -y --no-install-recommends libxtst6 libgtk2.0-0;
+    - rm -rf /var/lib/apt/lists/*
+
 
 # Cache downloaded dependencies and plugins between builds.
 # To keep cache across branches add 'key: "$CI_JOB_NAME"'
@@ -33,7 +39,8 @@ java-compile:
 java-test:
   stage: test
   script:
-    - 'mvn $MAVEN_CLI_OPTS test'
+    # surefire blocks propagation of properties that are not set inside argLine
+    - 'mvn $MAVEN_CLI_OPTS test -DargLine=\"$HEADLESS_TESTFX\"'
     - 'cat target/jacoco-report/index.html'
       
 java-checkstyle:
