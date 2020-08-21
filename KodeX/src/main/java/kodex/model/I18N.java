@@ -70,12 +70,12 @@ public class I18N {
       loadSupportedLocales();
     } catch (FileAlreadyExistsException | FileNotFoundException e) {
       
-//      throw new LoadingException(
-//          AlertType.ERROR,
-//          I18N.get("alert.title.error"),
-//          I18N.get("alert.load.failed"),
-//          "Language files or the file list are missing!",
-//          e);
+      throw new LoadingException(
+          AlertType.ERROR,
+          I18N.get("alert.title.error"),
+          I18N.get("alert.load.failed"),
+          "Language files or the file list are missing!",
+          e);
     }
 
     // set language loaded by the settings
@@ -210,17 +210,17 @@ public class I18N {
 
         if (defaultFound) {
           
-//          throw new LoadingException(
-//              AlertType.ERROR,
-//              I18N.get("alert.title.error"),
-//              I18N.get("alert.load.failed"),
-//              "Language files or the file list are missing!");
+          throw new LoadingException(
+              AlertType.ERROR,
+              I18N.get("alert.title.error"),
+              I18N.get("alert.load.failed"),
+              "Language files or the file list are missing!");
           
-//          Alert alert = new Alert(AlertType.ERROR);
-//          alert.setTitle("Error");
-//          alert.setHeaderText("Load Failed");
-//          alert.setContentText("Language default property file " + fileName + "is not unique.");
-//          PresenterManager.showAlertDialog(alert);
+          Alert alert = new Alert(AlertType.ERROR);
+          alert.setTitle("Error");
+          alert.setHeaderText("Load Failed");
+          alert.setContentText("Language default property file " + fileName + "is not unique.");
+          PresenterManager.showAlertDialog(alert);
         }
 
         defaultFound = true;
@@ -230,11 +230,11 @@ public class I18N {
       fileNameParts = fileName.split("_");
 
       if (fileNameParts.length != VALID_NAME_PART_NUMBER) {
-//        Alert alert = new Alert(AlertType.ERROR);
-//        alert.setTitle("Error");
-//        alert.setHeaderText("Load Failed");
-//        alert.setContentText("Please check name of File: " + fileName);
-//        PresenterManager.showAlertDialog(alert);
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Load Failed");
+        alert.setContentText("Please check name of File: " + fileName);
+        PresenterManager.showAlertDialog(alert);
         continue;
       }
 
