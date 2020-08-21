@@ -4,7 +4,7 @@ package kodex.pluginutils.model.steps;
 import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.ByteList;
-import kodex.pluginutils.model.content.DecMatrix;
+import kodex.pluginutils.model.content.ByteMatrix;
 
 /**
  * Step from Matrix (decimal) to List (byte) bidirectional.
@@ -13,12 +13,12 @@ import kodex.pluginutils.model.content.DecMatrix;
  * 
  * @version 1.0
  */
-public class DecMatrixToByteList implements ChainStep {
+public class ByteMatrixToByteList implements ChainStep {
 
   @SuppressWarnings("unchecked")
   @Override
   public void decode(Content<?> right, Content<?> left) {
-    DecMatrix leftmtx = (DecMatrix) left;
+    ByteMatrix leftmtx = (ByteMatrix) left;
     ByteList rightlist = (ByteList) right;
 
     int width = (int) rightlist.getHeader().get("width");
@@ -36,7 +36,7 @@ public class DecMatrixToByteList implements ChainStep {
   @SuppressWarnings("unchecked")
   @Override
   public void encode(Content<?> left, Content<?> right) {
-    DecMatrix leftmtx = (DecMatrix) left;
+    ByteMatrix leftmtx = (ByteMatrix) left;
     ByteList rightlist = (ByteList) right;
 
     for (int y = 0; y < leftmtx.getHeight(); y++) {

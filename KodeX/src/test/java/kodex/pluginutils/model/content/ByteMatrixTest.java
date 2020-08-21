@@ -9,16 +9,16 @@ import org.junit.jupiter.api.Test;
 
 import kodex.exceptions.InvalidInputException;
 
-class BinaryMatrixTest {
+class ByteMatrixTest {
   private static int width = 5;
   private static int height = 10;
-  private static BinaryMatrix bmtx;
+  private static ByteMatrix bytemtx;
   private static Integer[][] testmtx;
   private static Integer[][] failmtx = {{1, 2, 3}, {1, 2}, {1}};
   
   @BeforeAll
   static void setUpBeforeClass() throws Exception {
-    bmtx = new BinaryMatrix(width, height);
+    bytemtx = new ByteMatrix(width, height);
     
     testmtx = new Integer[height][width];
     for (int y = 0; y < height; y++) {
@@ -37,27 +37,31 @@ class BinaryMatrixTest {
   @Test
   void testIsValidObject() throws InvalidInputException {
     //invalid type
-    assertThrows(InvalidInputException.class, () -> bmtx.isValid(1));
+    assertThrows(InvalidInputException.class, () -> bytemtx.isValid(1));
     //not a matrix
-    assertThrows(IllegalArgumentException.class, () -> bmtx.setMatrix(failmtx));
+    assertThrows(IllegalArgumentException.class, () -> bytemtx.setMatrix(failmtx));
     //no matrix
-    assertThrows(IllegalArgumentException.class, () -> bmtx.setMatrix(null));
-    assertThrows(InvalidInputException.class, () -> bmtx.isValid(null));
+    assertThrows(IllegalArgumentException.class, () -> bytemtx.setMatrix(null));
+    assertThrows(InvalidInputException.class, () -> bytemtx.isValid(null));
     //valid matrix
-    bmtx.setMatrix(testmtx);
-    assertTrue(bmtx.isValid(bmtx));
+    bytemtx.setMatrix(testmtx);
+    assertTrue(bytemtx.isValid(bytemtx));
     //invalid value
     testmtx[0][0] = -1;
-    bmtx.setMatrix(testmtx);
-    assertThrows(InvalidInputException.class, () -> bmtx.isValid(bmtx));
+    bytemtx.setMatrix(testmtx);
+    assertThrows(InvalidInputException.class, () -> bytemtx.isValid(bytemtx));
+    //invalid value
+    testmtx[0][0] = 256;
+    bytemtx.setMatrix(testmtx);
+    assertThrows(InvalidInputException.class, () -> bytemtx.isValid(bytemtx));
     //not initialized
     testmtx = new Integer[1][1];
-    bmtx.setMatrix(testmtx);
-    assertThrows(InvalidInputException.class, () -> bmtx.isValid(bmtx));
+    bytemtx.setMatrix(testmtx);
+    assertThrows(InvalidInputException.class, () -> bytemtx.isValid(bytemtx));
     //invalid size
     testmtx = new Integer[501][1];
-    bmtx.setMatrix(testmtx);
-    assertThrows(InvalidInputException.class, () -> bmtx.isValid(bmtx));
+    bytemtx.setMatrix(testmtx);
+    assertThrows(InvalidInputException.class, () -> bytemtx.isValid(bytemtx));
   }
 
 }

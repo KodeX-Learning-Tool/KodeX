@@ -10,8 +10,8 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
-import kodex.pluginutils.model.content.DecMatrix;
-import kodex.pluginutils.presenter.edit.DecMatrixEditPresenter;
+import kodex.pluginutils.model.content.ByteMatrix;
+import kodex.pluginutils.presenter.edit.ByteMatrixEditPresenter;
 import kodex.pluginutils.presenter.header.RGBMatrixHeaderPresenter;
 
 /**
@@ -20,7 +20,7 @@ import kodex.pluginutils.presenter.header.RGBMatrixHeaderPresenter;
  * @author Raimon Gramlich
  * @author Patrick Spiesberger
  */
-public class DecMatrixChainLinkPresenter extends ChainLinkPresenter {
+public class ByteMatrixChainLinkPresenter extends ChainLinkPresenter {
 
   /**
    * The Class MatrixButton.
@@ -69,11 +69,11 @@ public class DecMatrixChainLinkPresenter extends ChainLinkPresenter {
    * @param previousStep the previous step
    * @param nextStep the next step
    */
-  public DecMatrixChainLinkPresenter(
+  public ByteMatrixChainLinkPresenter(
       ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
     super(previous, previousStep, nextStep);
-    chainLinkEditPresenter = new DecMatrixEditPresenter(this);
-    content = new DecMatrix(3, 3);
+    chainLinkEditPresenter = new ByteMatrixEditPresenter(this);
+    content = new ByteMatrix(3, 3);
     chainLinkHeaderPresenter = new RGBMatrixHeaderPresenter(this.getContent());
   }
 
@@ -95,7 +95,7 @@ public class DecMatrixChainLinkPresenter extends ChainLinkPresenter {
 
   @Override
   public AnchorPane getView() {
-    DecMatrix matrix = (DecMatrix) content;
+    ByteMatrix matrix = (ByteMatrix) content;
 
     matrixPane.setPrefColumns(matrix.getWidth());
     matrixPane.setPrefHeight(matrix.getHeight());

@@ -58,6 +58,16 @@ public class RGBMatrix extends AbstractMatrix<Color> {
           "An RGB Matrix can be no larger than " + MAX_MATRIX_HEIGHT + " by " + MAX_MATRIX_WIDTH);
     }
 
+    for (int y = 0; y < object.getHeight(); y++) {
+      for (int x = 0; x < object.getWidth(); x++) {
+        if (object.get(x, y) == null) {
+          throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+              I18N.get("alert.input.invalid"), 
+              "Input contains uninitialized values");
+        }
+      }
+    }
+    
     return true;
 
   }

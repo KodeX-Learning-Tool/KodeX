@@ -9,7 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
-import kodex.pluginutils.model.content.DecMatrix;
+import kodex.pluginutils.model.content.ByteMatrix;
 
 /**
  * This class manages the edit view and is responsible for editing a RGB matrix.
@@ -19,9 +19,9 @@ import kodex.pluginutils.model.content.DecMatrix;
  *  
  *  @version 1.0
  */
-public class DecMatrixEditPresenter extends ChainLinkEditPresenter {
+public class ByteMatrixEditPresenter extends ChainLinkEditPresenter {
   
-  private DecMatrix content;
+  private ByteMatrix content;
   
   private int selectedX;
   private int selectedY;
@@ -38,7 +38,7 @@ public class DecMatrixEditPresenter extends ChainLinkEditPresenter {
    *
    * @param chainLinkPresenter the corresponding chain link presenter
    */
-  public DecMatrixEditPresenter(ChainLinkPresenter chainLinkPresenter) {
+  public ByteMatrixEditPresenter(ChainLinkPresenter chainLinkPresenter) {
     super(chainLinkPresenter);
     
     // only allows 0 to 255 as input
@@ -82,7 +82,7 @@ public class DecMatrixEditPresenter extends ChainLinkEditPresenter {
 
   @Override
   protected void updateMarkedElement() {   
-    content = (DecMatrix) chainLinkPresenter.getContent();
+    content = (ByteMatrix) chainLinkPresenter.getContent();
     
     selectedX = markID % content.getWidth();
     selectedY = (markID / content.getWidth());

@@ -56,11 +56,25 @@ public class BinaryMatrix extends AbstractMatrix<Integer> {
         || object.getHeight() > MAX_MATRIX_HEIGHT || MIN_MATRIX_HEIGHT > object.getHeight()) {
       throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
           I18N.get("alert.input.invalid"), 
-          "An RGB Matrix can be no larger than " + MAX_MATRIX_HEIGHT + " by " + MAX_MATRIX_WIDTH);
+          "A Binary Matrix can be no larger than " + MAX_MATRIX_HEIGHT + " by " + MAX_MATRIX_WIDTH);
     }
     
-    int bit = (Integer) input;
-    return (bit == 0 || bit == 1);
+    for (int y = 0; y < object.getHeight(); y++) {
+      for (int x = 0; x < object.getWidth(); x++) {
+        if (object.get(x, y) == null) {
+          throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+              I18N.get("alert.input.invalid"), 
+              "Input contains uninitialized values");
+        }
+        if (!(object.get(x, y) == 0 || object.get(x, y) == 1)) {
+          throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+              I18N.get("alert.input.invalid"), 
+              "Input contains nonbinary values");
+        }
+      }
+    }
+    
+    return true;
   }
 
   @Override

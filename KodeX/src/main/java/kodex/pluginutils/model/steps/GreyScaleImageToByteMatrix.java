@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.GreyScaleImage;
-import kodex.pluginutils.model.content.DecMatrix;
+import kodex.pluginutils.model.content.ByteMatrix;
 
 /*
  * Step from Image (GreyScale) to Matrix (decimal) bidirectional
@@ -14,13 +14,13 @@ import kodex.pluginutils.model.content.DecMatrix;
  * 
  * @version 1.0
  */
-public class GreyScaleImageToDecMatrix implements ChainStep {
+public class GreyScaleImageToByteMatrix implements ChainStep {
 
   @SuppressWarnings("unchecked")
   @Override
   public void decode(Content<?> right, Content<?> left) {
     GreyScaleImage leftimg = (GreyScaleImage) left;
-    DecMatrix rightmtx = (DecMatrix) right;
+    ByteMatrix rightmtx = (ByteMatrix) right;
 
     int width = (int) rightmtx.getHeader().get("width");
     int height = (int) rightmtx.getHeader().get("height");
@@ -41,7 +41,7 @@ public class GreyScaleImageToDecMatrix implements ChainStep {
   @Override
   public void encode(Content<?> left, Content<?> right) {
     GreyScaleImage leftimg = (GreyScaleImage) left;
-    DecMatrix rightmtx = (DecMatrix) right;
+    ByteMatrix rightmtx = (ByteMatrix) right;
 
     rightmtx.setSize(leftimg.getWidth(), leftimg.getHeight());
     for (int y = 0; y < leftimg.getHeight(); y++) {
