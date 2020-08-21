@@ -19,10 +19,10 @@ before_script:
 
 # Cache downloaded dependencies and plugins between builds.
 # To keep cache across branches add 'key: "$CI_JOB_NAME"'
-#cache:
-#  paths:
-#    - .m2/repository
-#  key: $CI_COMMIT_REF_SLUG
+cache:
+  key: $CI_COMMIT_REF_SLUG
+  paths:
+    - ${CI_PROJECT_DIR}/.m2
   
 stages:
   - compile
