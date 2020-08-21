@@ -68,7 +68,7 @@ public class ByteListToBinaryString implements ChainStep {
         header.put(entry.getKey(), entry.getValue());
       }
 
-      header.put("unit-length", 1); //Length of a Bit
+      header.put("unit-length", 8); //Length of a Bit
       rightstring.setHeader(header);
     }
   }
