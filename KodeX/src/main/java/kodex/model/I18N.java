@@ -20,6 +20,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import kodex.exceptions.InvalidInputException;
 import kodex.exceptions.LoadingException;
 import kodex.presenter.PresenterManager;
 
@@ -36,7 +37,7 @@ import kodex.presenter.PresenterManager;
 public class I18N {
 
   /** the current selected Locale. */
-  private static final ObjectProperty<Locale> locale;
+  private static  ObjectProperty<Locale> locale = null;
 
   private static final List<Locale> supportedLocales = new ArrayList<>();
 
@@ -69,19 +70,28 @@ public class I18N {
       loadSupportedLocales();
     } catch (FileAlreadyExistsException | FileNotFoundException e) {
       
-      throw new LoadingException(
-          AlertType.ERROR,
-          I18N.get("alert.title.error"),
-          I18N.get("alert.load.failed"),
-          "Language files or the file list are missing!",
-          e);
+//      throw new LoadingException(
+//          AlertType.ERROR,
+//          I18N.get("alert.title.error"),
+//          I18N.get("alert.load.failed"),
+//          "Language files or the file list are missing!",
+//          e);
     }
 
     // set language loaded by the settings
-    locale = new SimpleObjectProperty<>(DefaultSettings.getInstance().getSavedLanguage());
+    try {
+      locale = new SimpleObjectProperty<>(DefaultSettings.getInstance().getSavedLanguage());
+      // change the locale for this instance of the JVM
+      locale.addListener((observable, oldValue, newValue) -> Locale.setDefault(newValue));
+    } catch (LoadingException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (InvalidInputException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
 
-    // change the locale for this instance of the JVM
-    locale.addListener((observable, oldValue, newValue) -> Locale.setDefault(newValue));
+   
   }
 
   /**
@@ -200,17 +210,17 @@ public class I18N {
 
         if (defaultFound) {
           
-          throw new LoadingException(
-              AlertType.ERROR,
-              I18N.get("alert.title.error"),
-              I18N.get("alert.load.failed"),
-              "Language files or the file list are missing!");
+//          throw new LoadingException(
+//              AlertType.ERROR,
+//              I18N.get("alert.title.error"),
+//              I18N.get("alert.load.failed"),
+//              "Language files or the file list are missing!");
           
-          Alert alert = new Alert(AlertType.ERROR);
-          alert.setTitle("Error");
-          alert.setHeaderText("Load Failed");
-          alert.setContentText("Language default property file " + fileName + "is not unique.");
-          PresenterManager.showAlertDialog(alert);
+//          Alert alert = new Alert(AlertType.ERROR);
+//          alert.setTitle("Error");
+//          alert.setHeaderText("Load Failed");
+//          alert.setContentText("Language default property file " + fileName + "is not unique.");
+//          PresenterManager.showAlertDialog(alert);
         }
 
         defaultFound = true;
@@ -220,11 +230,11 @@ public class I18N {
       fileNameParts = fileName.split("_");
 
       if (fileNameParts.length != VALID_NAME_PART_NUMBER) {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText("Load Failed");
-        alert.setContentText("Please check name of File: " + fileName);
-        PresenterManager.showAlertDialog(alert);
+//        Alert alert = new Alert(AlertType.ERROR);
+//        alert.setTitle("Error");
+//        alert.setHeaderText("Load Failed");
+//        alert.setContentText("Please check name of File: " + fileName);
+//        PresenterManager.showAlertDialog(alert);
         continue;
       }
 
