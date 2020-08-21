@@ -17,6 +17,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
+import kodex.exceptions.LoadingException;
 import kodex.model.Filter;
 import kodex.model.I18N;
 import kodex.model.IndexPage;
@@ -184,7 +185,13 @@ public class IndexPagePresenter extends Presenter {
 
   /** Filters or sorts the list of enabled procedure plugins according to the selected filter. */
   private void filterProcedures() {
-    indexPage.filterProcedures(filterComboBox.getSelectionModel().getSelectedItem());
+    try {
+      indexPage.filterProcedures(filterComboBox.getSelectionModel().getSelectedItem());
+    } catch (LoadingException e) {
+      e.printStackTrace();
+      presenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+      return;
+    }
     updateProcedureButtons();
   }
 

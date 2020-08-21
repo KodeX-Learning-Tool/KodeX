@@ -23,6 +23,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import kodex.exceptions.LoadingException;
 import kodex.plugininterface.Plugin;
 import kodex.plugininterface.ProcedurePlugin;
 import kodex.presenter.PresenterManager;
@@ -235,19 +236,22 @@ public class PluginLoader {
    * Import an external plugin.
    *
    * @param externalPlugin : the external plugin to be imported
+   * @throws LoadingException Thrown when new plugin couldn't be copied into plugins folder.
    */
-  public void importPlugin(File externalPlugin) {
+  public void importPlugin(File externalPlugin) throws LoadingException {
     // copy to plugin folder
     try {
       FileUtils.copyFileToDirectory(externalPlugin, pluginsDir);
 
       loadExternalPlugins();
     } catch (IOException e) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.copy.failed"));
-      alert.setContentText("Couldn't copy plugin to plugins folder.");
-      PresenterManager.showAlertDialog(alert);
+      
+      throw new LoadingException(
+          AlertType.ERROR,
+          I18N.get("alert.title.error"),
+          I18N.get("alert.copy.failed"),
+          "Couldn't copy plugin to plugins folder.",
+          e);
     }
   }
 
@@ -345,11 +349,12 @@ public class PluginLoader {
    * Removes plugin from list of all plugin.
    *
    * @param plugin : plugin which should be removed
+   * @throws LoadingException Thrown when the plugin couldn't be removed.
    */
   // Note: is added again when the program starts If you want to delete it, you
   // have to remove it
   // from the plugin folder
-  public void removePlugin(Plugin plugin) {
+  public void removePlugin(Plugin plugin) throws LoadingException {
     deactivatePlugin(plugin);
     allPlugins.remove(plugin);
     enabledPlugins.remove(plugin);
@@ -366,16 +371,22 @@ public class PluginLoader {
         
     try {
       if (!Files.deleteIfExists(Paths.get(pluginsDir.getPath(), pluginName + ".jar"))) {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-        alert.headerTextProperty().bind(I18N.createStringBinding("alert.delete.failed"));
-        alert.setContentText("Couldn't delete " + pluginName 
-            + ".jar. Make sure that the name of the .jar file matches the internal plugin name.");
-        PresenterManager.showAlertDialog(alert);
+        
+        throw new LoadingException(
+            AlertType.ERROR,
+            I18N.get("alert.title.error"),
+            I18N.get("alert.delete.failed"),
+            "Couldn't delete " + pluginName 
+                + ".jar. Make sure that the name"
+                + "of the .jar file matches the internal plugin name.");
       }
     } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      
+      throw new LoadingException(
+          AlertType.ERROR,
+          I18N.get("alert.title.error"),
+          I18N.get("alert.delete.failed"),
+          "Couldn't access " + pluginName + ".jar");
     }
   }
 
@@ -400,6 +411,7 @@ public class PluginLoader {
       }
 
     } catch (IOException e) {
+      
       Alert alert = new Alert(AlertType.ERROR);
       alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
       alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));

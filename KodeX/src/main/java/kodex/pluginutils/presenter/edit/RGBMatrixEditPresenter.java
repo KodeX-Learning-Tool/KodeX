@@ -9,7 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import kodex.InvalidInputException;
+import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ChainLinkPresenter;

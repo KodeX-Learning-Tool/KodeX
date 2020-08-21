@@ -1,4 +1,4 @@
-package kodex;
+package kodex.exceptions;
 
 import javafx.scene.control.Alert.AlertType;
 
@@ -11,7 +11,7 @@ public class InvalidInputException extends AlertWindowException {
   private static final long serialVersionUID = 1L;
 
   /**
-   * Instantiates a new invalid import exception with a specified cause.
+   * Instantiates a new invalid import exception without a specified cause.
    *
    * @param type the alert type
    * @param title the alert window title

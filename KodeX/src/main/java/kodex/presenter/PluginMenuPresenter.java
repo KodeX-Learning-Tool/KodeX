@@ -14,6 +14,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import kodex.exceptions.LoadingException;
 import kodex.model.I18N;
 import kodex.model.PluginLoader;
 import kodex.plugininterface.Plugin;
@@ -124,7 +125,13 @@ public class PluginMenuPresenter extends Presenter {
                       + ".jar? The plugin will be permanently deleted from the plugins folder."));
 
       if (result.isPresent() && result.get() == ButtonType.OK) {
-        pluginLoader.removePlugin(plugin);
+        try {
+          pluginLoader.removePlugin(plugin);
+        } catch (LoadingException e) {
+          e.printStackTrace();
+          presenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(),
+              e.getContent());
+        }
       }
     }
   }

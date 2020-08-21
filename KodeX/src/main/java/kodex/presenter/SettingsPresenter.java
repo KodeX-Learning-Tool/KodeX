@@ -16,6 +16,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.util.StringConverter;
+import kodex.exceptions.InvalidInputException;
+import kodex.exceptions.LoadingException;
 import kodex.model.DefaultSettings;
 import kodex.model.I18N;
 import kodex.model.validator.PortNumValidator;
@@ -139,7 +141,25 @@ public class SettingsPresenter extends Presenter {
                 "Restore default settings? " + " All changes made to the settings will be lost."));
 
     if (result.isPresent() && result.get() == ButtonType.OK) {
-      defaultSettings.reset();
+      try {
+        defaultSettings.reset();
+        
+      } catch (NumberFormatException e) {
+        e.printStackTrace();
+        
+        presenterManager.showAlertDialog(
+            AlertType.ERROR,
+            I18N.get("alert.title.error"),
+            I18N.get("alert.input.invalid"),
+            "Saved port is corrupted and not a well formated number.");
+        
+        return;
+        
+      } catch (LoadingException | InvalidInputException e) {
+        e.printStackTrace();
+        presenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+        return;
+      }
 
       // initialize all settings again to display the reset
       this.initialize();
@@ -172,7 +192,13 @@ public class SettingsPresenter extends Presenter {
 
     int portNumber = Integer.parseInt(portText);
 
-    defaultSettings.setPort(portNumber);
+    try {
+      defaultSettings.setPort(portNumber);
+    } catch (InvalidInputException e) {
+      e.printStackTrace();
+      presenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+      return;
+    }
   }
 
   /** Initializes the view-object created by the FXMLLoader. */

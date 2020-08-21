@@ -1,4 +1,4 @@
-package kodex;
+package kodex.exceptions;
 
 import javafx.scene.control.Alert.AlertType;
 

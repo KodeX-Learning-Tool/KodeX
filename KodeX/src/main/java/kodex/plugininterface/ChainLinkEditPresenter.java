@@ -1,7 +1,7 @@
 package kodex.plugininterface;
 
 import javafx.scene.layout.AnchorPane;
-import kodex.InvalidInputException;
+import kodex.exceptions.InvalidInputException;
 import kodex.presenter.IPresenter;
 
 /**

@@ -1,7 +1,7 @@
 package kodex.presenter;
 
 import javafx.scene.control.Alert.AlertType;
-import kodex.AlertWindowException;
+import kodex.exceptions.AlertWindowException;
 
 /**
  * The Class FailedLoadException. This exception is thrown if the program failed loading a file.
