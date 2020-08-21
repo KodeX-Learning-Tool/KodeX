@@ -41,7 +41,6 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>11</version>
-            <scope>compile</scope>
         </dependency>
 		<dependency>
 			<groupId>org.openjfx</groupId>
@@ -49,7 +48,6 @@
 				</artifactId>
 			<version>11</version>
 			<classifier>win</classifier>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.openjfx</groupId>
@@ -57,14 +55,12 @@
 				</artifactId>
 			<version>11</version>
 			<classifier>linux</classifier>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-graphics</artifactId>
 			<version>11</version>
 			<classifier>mac</classifier>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.kordamp.ikonli</groupId>
