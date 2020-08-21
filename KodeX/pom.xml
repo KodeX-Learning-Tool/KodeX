@@ -35,19 +35,19 @@
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-fxml</artifactId>
-			<version>13</version>
+			<version>11</version>
 		</dependency>
 		<dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>13</version>
+            <version>11</version>
             <scope>compile</scope>
         </dependency>
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-graphics 
 				</artifactId>
-			<version>13</version>
+			<version>11</version>
 			<classifier>win</classifier>
 			<scope>compile</scope>
 		</dependency>
@@ -55,14 +55,14 @@
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-graphics 
 				</artifactId>
-			<version>13</version>
+			<version>11</version>
 			<classifier>linux</classifier>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-graphics</artifactId>
-			<version>13</version>
+			<version>11</version>
 			<classifier>mac</classifier>
 			<scope>compile</scope>
 		</dependency>
