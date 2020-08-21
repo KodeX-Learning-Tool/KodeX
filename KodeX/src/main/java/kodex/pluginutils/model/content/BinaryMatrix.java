@@ -11,7 +11,7 @@ import kodex.model.I18N;
 
 /**
  * This class holds data in Matrix format. An BinaryMatrix consists of a 2D array [rows][cols]
- * containing elements of the type Integer.
+ * containing elements of the type Integer with the value 0 or 1.
  * 
  * @author Patrick Spiesberger
  * @author Raimon Gramlich
@@ -36,11 +36,29 @@ public class BinaryMatrix extends AbstractMatrix<Integer> {
 
   @Override
   public boolean isValid(Object input) throws InvalidInputException {
+    BinaryMatrix object;
+    
     if (input == null) {
       throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
           I18N.get("alert.input.invalid"), 
           "Content validation input is empty");
     }
+    
+    try {
+      object = ((BinaryMatrix) input);
+    } catch (ClassCastException e) {
+      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+          I18N.get("alert.input.invalid"), 
+          "Input is of wrong type");
+    }
+
+    if (object.getWidth() > MAX_MATRIX_WIDTH || MIN_MATRIX_WIDTH > object.getWidth()
+        || object.getHeight() > MAX_MATRIX_HEIGHT || MIN_MATRIX_HEIGHT > object.getHeight()) {
+      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+          I18N.get("alert.input.invalid"), 
+          "An RGB Matrix can be no larger than " + MAX_MATRIX_HEIGHT + " by " + MAX_MATRIX_WIDTH);
+    }
+    
     int bit = (Integer) input;
     return (bit == 0 || bit == 1);
   }
