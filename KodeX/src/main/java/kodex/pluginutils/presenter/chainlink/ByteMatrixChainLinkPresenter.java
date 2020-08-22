@@ -15,7 +15,7 @@ import kodex.pluginutils.presenter.edit.ByteMatrixEditPresenter;
 import kodex.pluginutils.presenter.header.RGBMatrixHeaderPresenter;
 
 /**
- * The Class DecMatrixChainLinkPresenter manages the view for the dec matrix.
+ * The Class DecMatrixChainLinkPresenter manages the view for the byte matrix.
  *
  * @author Raimon Gramlich
  * @author Patrick Spiesberger
@@ -144,7 +144,7 @@ public class ByteMatrixChainLinkPresenter extends ChainLinkPresenter {
 
   @Override
   public void updateView() {
-    DecMatrix matrix = (DecMatrix) content;
+    ByteMatrix matrix = (ByteMatrix) content;
 
     matrixPane.setPrefColumns(matrix.getWidth());
     matrixPane.setPrefHeight(matrix.getHeight());

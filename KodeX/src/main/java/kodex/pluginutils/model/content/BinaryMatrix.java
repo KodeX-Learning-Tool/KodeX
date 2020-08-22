@@ -96,7 +96,6 @@ public class BinaryMatrix extends AbstractMatrix<Integer> {
         });
       }
       
-
       //content
       writer.write("CONTENT\n");
       String row = "";

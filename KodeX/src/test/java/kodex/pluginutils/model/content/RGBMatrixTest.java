@@ -22,7 +22,7 @@ class RGBMatrixTest {
   private static Color[][] testmtx;
   
   @BeforeEach
-  void setUpBeforeClass() throws Exception {
+  void setUp() throws Exception {
     rgbmtx = new RGBMatrix(width, height);
     
     testmtx = new Color[height][width];

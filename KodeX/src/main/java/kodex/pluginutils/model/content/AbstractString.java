@@ -3,7 +3,7 @@ package kodex.pluginutils.model.content;
 import kodex.plugininterface.Content;
 
 /**
- * This class holds data in string format. It adds validation and exporting capabilities to Javas
+ * This class holds data in string format. It adds validation and exporting capabilities to Java's
  * String.
  * 
  * @author Yannick Neubert

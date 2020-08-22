@@ -70,6 +70,6 @@ public class LetterStringEditPresenter extends ChainLinkEditPresenter {
   protected void updateMarkedElement() {
     content = (LetterString) chainLinkPresenter.getContent();
     
-    letterStringArea.setText(content.getLetterString());
+    letterStringArea.setText(content.getString());
   }
 }

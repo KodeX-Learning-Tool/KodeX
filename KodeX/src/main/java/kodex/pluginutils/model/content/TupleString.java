@@ -4,13 +4,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.StringJoiner;
 
 import javafx.scene.control.Alert.AlertType;
 import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
 import kodex.model.Tuple;
-import kodex.plugininterface.Content;
 
 public class TupleString extends AbstractString {
 
@@ -110,6 +110,22 @@ public class TupleString extends AbstractString {
     try {
       FileWriter writer = new FileWriter(file);
       
+      //header
+      writer.write("HEADER\n");
+      if (header != null) {
+        HashMap<String, Object> map = (HashMap<String, Object>) header;
+        map.forEach((key, value) -> { 
+          try {
+            writer.write(key + " " + value + "\n");
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        });
+      }
+
+      //content
+      writer.write("CONTENT\n");
+
       StringJoiner content = new StringJoiner(" ");
       
       Arrays.asList(tuples).forEach(t -> content.add(t.toString()));

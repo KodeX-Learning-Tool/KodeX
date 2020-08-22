@@ -42,7 +42,7 @@ public class LetterStringPresenter extends ChainLinkPresenter {
   @Override
   public AnchorPane getView() {
 
-    String letterString = ((LetterString) content).getLetterString();
+    String letterString = ((LetterString) content).getString();
 
     updateTextFlow(letterString);
     
@@ -144,7 +144,7 @@ public class LetterStringPresenter extends ChainLinkPresenter {
 
   @Override
   public void updateView() {
-    updateTextFlow(((LetterString) content).getLetterString());
+    updateTextFlow(((LetterString) content).getString());
   }
 
   @Override

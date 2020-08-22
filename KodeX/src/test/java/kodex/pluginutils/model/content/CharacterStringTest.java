@@ -1,10 +1,14 @@
 package kodex.pluginutils.model.content;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
-import org.junit.jupiter.api.BeforeAll;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import kodex.exceptions.InvalidInputException;
@@ -13,15 +17,23 @@ class CharacterStringTest {
   private static CharacterString cstr;
   private static String teststr;
   
-  @BeforeAll
-  static void setUpBeforeClass() throws Exception {
+  @BeforeEach
+  void setUp() throws Exception {
     cstr = new CharacterString();
     teststr = "012abcXYZ";
   }
 
   @Test
-  void testExport() {
-    fail("Not yet implemented");
+  void testExport() throws FileNotFoundException {
+    cstr.setString(teststr);
+    File f = new File("export test");
+    cstr.export(f);
+    Scanner scanner = new Scanner(f);
+    assertEquals("HEADER", scanner.nextLine());
+    assertEquals("CONTENT", scanner.nextLine());
+    assertEquals(teststr, scanner.nextLine());
+    scanner.close();
+    f.delete();
   }
 
   @Test

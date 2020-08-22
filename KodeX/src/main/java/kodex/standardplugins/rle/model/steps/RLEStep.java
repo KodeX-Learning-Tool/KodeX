@@ -35,7 +35,7 @@ public class RLEStep implements ChainStep {
 
     List<Tuple<String, Integer>> tuples = new ArrayList<>();
     
-    char[] letterStringChars = letterString.getLetterString().toCharArray();
+    char[] letterStringChars = letterString.getString().toCharArray();
     
     char currentChar = letterStringChars[0];
     char newChar;
