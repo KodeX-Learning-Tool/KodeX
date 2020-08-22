@@ -115,7 +115,6 @@
 			<artifactId>javafx-maven-plugin</artifactId>
 			<version>0.0.4</version>
 			<type>maven-plugin</type>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.zxing</groupId>
