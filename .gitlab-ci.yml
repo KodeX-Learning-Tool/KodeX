@@ -15,8 +15,6 @@ variables:
 before_script:
     - cd KodeX/
 
-
-
 # Cache downloaded dependencies and plugins between builds.
 # To keep cache across branches add 'key: "$CI_JOB_NAME"'
 cache:
@@ -38,6 +36,8 @@ java-test:
   stage: test
   script:
     - apt-get update && apt-get install -y openjfx unzip && rm -f /var/lib/apt/lists/*_dists_*
+    - if [[ "${TRAVIS_OS_NAME}" == linux ]]; then export DISPLAY=:99.0; sh -e /etc/init.d/xvfb start; fi
+    - if [[ "${TRAVIS_OS_NAME}" == osx ]]; then brew update; brew cask reinstall caskroom/versions/java8; fi
     # surefire blocks propagation of properties that are not set inside argLine
     - 'mvn clean install -Dtestfx.robot=glass -Dglass.platform=Monocle -Dmonocle.platform=Headless -Dprism.order=es2'
     - 'mvn verify -f pom.xml $MAVEN_CLI_OPTS test -DargLine=\"$HEADLESS_TESTFX\"'
