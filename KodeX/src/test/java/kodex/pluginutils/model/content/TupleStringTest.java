@@ -34,6 +34,7 @@ class TupleStringTest {
     assertEquals("CONTENT", scanner.nextLine());
     assertEquals(teststr, scanner.nextLine());
     scanner.close();
+    f.delete();
   }
 
   @Test
