@@ -39,7 +39,7 @@ java-test:
   script:
     - apt-get update && apt-get install -y openjfx unzip && rm -f /var/lib/apt/lists/*_dists_*
     # surefire blocks propagation of properties that are not set inside argLine
-    - 'mvn clean install -Dtestfx.robot=glass -Dglass.platform=Monocle -Dmonocle.platform=Headless -Dprism.order=sw'
+    - 'mvn clean install -Dtestfx.robot=glass -Dglass.platform=Monocle -Dmonocle.platform=Headless -Dprism.order=es2'
     - 'mvn verify -f pom.xml $MAVEN_CLI_OPTS test -DargLine=\"$HEADLESS_TESTFX\"'
     - 'cat target/jacoco-report/index.html'
       
