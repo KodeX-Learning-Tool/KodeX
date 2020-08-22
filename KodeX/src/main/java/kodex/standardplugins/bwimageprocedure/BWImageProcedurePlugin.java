@@ -3,7 +3,6 @@ package kodex.standardplugins.bwimageprocedure;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import kodex.plugininterface.ChainLinkPresenter;
-import kodex.plugininterface.Content;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedureInformation;
 import kodex.plugininterface.ProcedurePlugin;
@@ -26,9 +25,6 @@ import kodex.standardplugins.bwimageprocedure.presenter.BWImageImportPresenter;
  */
 public class BWImageProcedurePlugin extends ProcedurePlugin {
 
-  /* steps of this coding chain */
-  private ChainLinkPresenter[] chainLinks; // [2..*]
-
   /** Constructor of class BWImageProecedure. Sets all chainLinks */
   public BWImageProcedurePlugin() {
 
@@ -37,7 +33,7 @@ public class BWImageProcedurePlugin extends ProcedurePlugin {
   /**
    * Initialize the procedure plugin.
    */
-  private void initialize() {
+  public void initializeProcedure() {
     chainLinks = new ChainLinkPresenter[4];
     BWImageToMatrix bwImageToMatrix = new BWImageToMatrix();
     MatrixToBitList matrixToBitList = new MatrixToBitList();
@@ -60,33 +56,12 @@ public class BWImageProcedurePlugin extends ProcedurePlugin {
   
   @Override
   public ImportPresenter createImportPresenter() {
-    initialize();
     return new BWImageImportPresenter(this);
   }
 
   @Override
   public ProcedureInformation createProcedureInformation() {
     return new BWImageProcedureInformation();
-  }
-
-  @Override
-  public ChainLinkPresenter getChainHead() {
-    return chainLinks[0];
-  }
-
-  @Override
-  public ChainLinkPresenter getChainTail() {
-    return chainLinks[chainLinks.length - 1];
-  }
-
-  @Override
-  public void initDecodeProcedure(Content<?> content) {
-    chainLinks[chainLinks.length - 1].updateChain();
-  }
-
-  @Override
-  public void initEncodeProcedure(Content<?> content) {
-    chainLinks[0].updateChain();
   }
 
   @Override

@@ -3,7 +3,6 @@ package kodex.standardplugins.greyscaleimageprocedure;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import kodex.plugininterface.ChainLinkPresenter;
-import kodex.plugininterface.Content;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedureInformation;
 import kodex.plugininterface.ProcedurePlugin;
@@ -26,9 +25,6 @@ import kodex.standardplugins.greyscaleimageprocedure.presenter.GreyScaleImageImp
  */
 public class GreyScaleImageProcedurePlugin extends ProcedurePlugin {
 
-  /* steps of this coding chain */
-  private ChainLinkPresenter[] chainLinks; // [2..*]
-
   /** Constructor of class GreyScaleImageProecedurePlugin. Sets all chainLinks */
   public GreyScaleImageProcedurePlugin() {
 
@@ -37,7 +33,7 @@ public class GreyScaleImageProcedurePlugin extends ProcedurePlugin {
   /**
    * Initialize the procedure plugin.
    */
-  private void initialize() {
+  public void initializeProcedure() {
     chainLinks = new ChainLinkPresenter[4];
 
     GreyScaleImageToByteMatrix greyScaleImageToByteMatrix = new GreyScaleImageToByteMatrix();
@@ -59,33 +55,12 @@ public class GreyScaleImageProcedurePlugin extends ProcedurePlugin {
   
   @Override
   public ImportPresenter createImportPresenter() {
-    initialize();
     return new GreyScaleImageImportPresenter(this);
   }
 
   @Override
   public ProcedureInformation createProcedureInformation() {
     return new GreyScaleProcedureInformation();
-  }
-
-  @Override
-  public ChainLinkPresenter getChainHead() {
-    return chainLinks[0];
-  }
-
-  @Override
-  public ChainLinkPresenter getChainTail() {
-    return chainLinks[chainLinks.length - 1];
-  }
-
-  @Override
-  public void initDecodeProcedure(Content<?> content) {
-    chainLinks[chainLinks.length - 1].updateChain();
-  }
-
-  @Override
-  public void initEncodeProcedure(Content<?> content) {
-    chainLinks[0].updateChain();
   }
 
   @Override

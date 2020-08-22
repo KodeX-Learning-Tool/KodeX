@@ -308,6 +308,7 @@ public class ProcedureLayoutPresenter extends Presenter {
 
     // creates and displays a new import presenter based on the selected procedure
     this.activePresenter = activeProcedure.createImportPresenter();
+    this.activeProcedure.initializeProcedure();
     ((ImportPresenter) activePresenter).setLayoutPresenter(this);
     procedurePane.setCenter(activePresenter.getView());
   }

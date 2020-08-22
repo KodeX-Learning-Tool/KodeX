@@ -1,7 +1,14 @@
 package kodex.plugininterface;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import kodex.model.I18N;
 import kodex.presenter.IPresenter;
+import kodex.presenter.PresenterManager;
 import kodex.presenter.ProcedureLayoutPresenter;
 
 /**
@@ -76,4 +83,27 @@ public abstract class ImportPresenter implements IPresenter {
    * @return true, if input valid, otherwise false
    */
   public abstract boolean validateEncodeImport();
+  
+  /**
+   * Open a FileChooser to import a file.
+   *
+   * @param encoding whether encoding or decoding was chosen
+   * @param extensionFilters the extension filters
+   * @return the chosen file
+   */
+  protected File importFile(boolean encoding, ArrayList<ExtensionFilter> extensionFilters) {
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.getExtensionFilters().addAll(extensionFilters);
+    String propertyName;
+    
+    if (encoding) {
+      propertyName = "importexample.filechooser.encode.title";
+    } else {
+      propertyName = "importexample.filechooser.decode.title";
+    }
+    
+    fileChooser.titleProperty().bind(I18N.createStringBinding(propertyName));
+    
+    return PresenterManager.showOpenFileChooser(fileChooser);
+  }
 }

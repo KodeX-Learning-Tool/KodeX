@@ -18,7 +18,6 @@ import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import kodex.model.I18N;
 import kodex.plugininterface.ImportPresenter;
@@ -213,28 +212,6 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
         procedureLayoutPresenter.switchToChainPresenter(true);
       }
     }
-  }
-
-  /**
-   * Open a FileChooser to import a file.
-   *
-   * @param type the type (i.e. Decode/Encode)
-   * @return the chosen file
-   */
-  private File importFile(boolean encoding, ArrayList<ExtensionFilter> extensionFilters) {
-    FileChooser fileChooser = new FileChooser();
-    fileChooser.getExtensionFilters().addAll(extensionFilters);
-    String propertyName;
-    
-    if (encoding) {
-      propertyName = "importexample.filechooser.encode.title";
-    } else {
-      propertyName = "importexample.filechooser.decode.title";
-    }
-    
-    fileChooser.titleProperty().bind(I18N.createStringBinding(propertyName));
-    
-    return fileChooser.showOpenDialog(null);
   }
   
   /**

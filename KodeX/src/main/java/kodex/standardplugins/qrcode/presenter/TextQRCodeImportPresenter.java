@@ -11,7 +11,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkPresenter;
@@ -154,28 +153,6 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
 
   }
 
-  /**
-   * Open a FileChooser to import a file.
-   *
-   * @param isEncoding whether the file is used for encoding or decoding
-   * @return the chosen file
-   */
-  private File importFile(boolean encoding, ArrayList<ExtensionFilter> extensionFilters) {
-    FileChooser fileChooser = new FileChooser();
-    fileChooser.getExtensionFilters().addAll(extensionFilters);
-    String propertyName;
-    
-    if (encoding) {
-      propertyName = "importexample.filechooser.encode.title";
-    } else {
-      propertyName = "importexample.filechooser.decode.title";
-    }
-    
-    fileChooser.titleProperty().bind(I18N.createStringBinding(propertyName));
-    
-    return PresenterManager.showOpenFileChooser(fileChooser);
-  }
-  
   /**
    * Shows an alert window concerning file extensions.
    *
