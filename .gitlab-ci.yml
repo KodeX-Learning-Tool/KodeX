@@ -35,7 +35,9 @@ java-compile:
 java-test:
   stage: test
   script:
-    - apt-get update && apt-get install -y openjfx libopenjfx-java unzip && rm -f /var/lib/apt/lists/*_dists_*
+    # - apt-get update && apt-get install -y openjfx libopenjfx-java unzip && rm -f /var/lib/apt/lists/*_dists_*
+    - apt-get update && apt-get install -y xvfb && apt-get install -y openjfx openjfx-source libopenjfx-java libopenjfx-jni && apt-get install -y -f libgtk-3-dev
+
     # surefire blocks propagation of properties that are not set inside argLine
     - 'mvn clean install -Dtestfx.robot=glass -Dglass.platform=Monocle -Dmonocle.platform=Headless -Dprism.order=sw'
     - 'mvn verify -f pom.xml $MAVEN_CLI_OPTS -DargLine=\"$HEADLESS_TESTFX\" -X'
