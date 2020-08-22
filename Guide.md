@@ -1,4 +1,4 @@
-﻿
+
 
 # Anleitung zum Schreiben von Verfahren-Plugins
 
@@ -31,7 +31,7 @@ Diese Klasse benötigt einen Konstruktor, welcher wie folgt aussieht:
 
 Außerdem muss die Methode getView() : AnchorPane überschrieben werden.  Diese soll eine AnchorPane zurück geben, welche ein Menü zum Importieren von Dateien ermöglicht. FXML Dateien bieten sich hierfür an. Ein Beispiel für "Encoding" und "Decoding" lässt sich unter src/main/resources/standardplugins/colorimageprocedure/presenter finden.
 
-Es werden nun die Methoden für die Behandlung von Klicks auf "Encoding" und "Decoding" benötigt. Dafür müssen die Methoden "handleDecodeImport" und "handelEncodeImport" überschrieben werden. Diese Methoden haben die Aufgabe eine Datei zu laden (z.B. dynamisch über den FileChooser) und müssen den Inhalt validieren (Abfrage auf Gültigkeit empfehlenswert). Für die Validierung müssen die Methoden "validateEncodeImport" und "validateDecodeImport" überschrieben werden. Diese geben einen Boolean zurück, welcher genau dann wahr sein soll, wenn der Import gültig ist.
+Es werden nun die Methoden für die Behandlung von Klicks auf "Encoding" und "Decoding" benötigt. Dafür müssen die Methoden "handleDecodeImport" und "handelEncodeImport" überschrieben werden. Diese Methoden haben die Aufgabe einen Inhalt zu laden (z.B. dynamisch über den FileChooser) und müssen diesen validieren (Abfrage auf Gültigkeit empfehlenswert). Für die Validierung müssen die Methoden "validateEncodeImport" und "validateDecodeImport" überschrieben werden. Diese geben einen Boolean zurück, welcher genau dann wahr sein soll, wenn der Import gültig ist.
 
 Es ist außerdem noch möglich private Methoden in dieser Klasse zu implementieren, um weitere Möglichkeiten, wie z.B. den Sprachwechsel oder das Auslesen einer Textdatei, zu ermöglicht. Beispiele für solche Methoden sind unter kodex.standardplugins.colorimageprocedure.presenter.ColorImagePresenter zu finden.
 
@@ -41,9 +41,9 @@ Hierfür wird eine Klasse benötigt. Diese soll den Namen *Verfahrensname*Proced
 
     public class ColorImageProcedureInformation extends ProcedureInformation { ... }
 
-In dem Konstruktor soll ein Symbol `this.icon = new Image(Pfad zum Bild)`, eine Beschreibung `this.description = "Kurzbeschreibung"` und die Labels gesetzt werden. Die Labels sollten als observableArrayList gespeichert werden. An erster Stelle sollte die Klassenstufe stehen, ab wann dieses Plugin geeignet ist. An zweiter Stelle sollte angegeben werden, um welchen Typ Verfahren es sich handelt und an dritter Stelle, welche Möglichkeiten dieses Plugin bietet. Weitere Felder können frei gewählt werden. Ein Beispiel für konkrete Labels eines Verfahrens wäre:
+In dem Konstruktor soll ein Symbol `this.icon = new Image(Pfad zum Bild)`, eine Beschreibung `this.description = "Kurzbeschreibung"` und die Labels gesetzt werden. Die Labels sollten als ArrayList gespeichert werden. Falls das Plugin für schulische Zwecke geeignet sein soll, sollte an erster Stelle die Klassenstufe stehen, ab wann dieses Plugin geeignet ist. Die Position ist für die Sortier-Funktion nach Klassenstufe wichtig. An zweiter Stelle sollte angegeben werden, um welchen Verfahrenstyp es sich handelt und an dritter Stelle, welche Möglichkeiten dieses Plugin bietet.  Weitere Felder können frei gewählt werden. 
+Ein Beispiel für konkrete Labels des Farbbild-Verfahrens wäre:
  `this.labels = FXCollections.observableArrayList("7", "Kodierungsverfahren", "Kodieren und Dekodieren")`
-ds
 Außerdem muss diese Klasse die Methode getName() : String überschreiben, welche einen String, mit dem Namen des Plugins zurück gibt:
 
     @Override
@@ -62,10 +62,6 @@ Folgende Methoden müssen nun überschrieben werden:
 - createImportPresenter (stellt die Klasse, welche für den Import zuständig ist, bereit) (siehe Punkt: Import von Dateien)
 - createProcedureInformation  (stellt die Klasse, welche für die Informationen zuständig ist, bereit) 
 	(siehe Punkt: Informationen über das Plugin)
-- getChainHead (gibt die erste Stufe des Verfahrens zurück)
-- getChainTail (gibt die letzte Stufe des Verfahrens zurück)
-- initDecodeProcedure (setzt den Content für die erste Stufe beim Dekodieren)
-- initEncodeProcedure (setzt den Content für die erste Stufe beim Kodieren)
 - pluginDescriptionProperty (gibt Beschreibung des Plugins zurück)
 - pluginNameProperty (gibt Name des Plugins zurück)
 
@@ -112,27 +108,12 @@ Als Orientierung, wie solch eine Klasse aussieht, folgende abstrakte Implementie
      public ProcedureInformation createProcedureInformation() {
 	     return new KonkreteProcedureInformation();
      }
-     
-     @Override
-     public ChainLinkPresenter getChainHead() {
-	     return chainLinks[0];
-     }
-     @Override
-     public ChainLinkPresenter getChainTail() {
-	     return chainLinks[chainLinks.length - 1];
-     }
-     @Override
-     public void initDecodeProcedure(Content<?> content) {
-	     chainLinks[chainLinks.length - 1].updateChain();
-     }
-     @Override
-     public void initEncodeProcedure(Content<?> content) {
-	     chainLinks[0].updateChain();
-     }
+    
      @Override
      public StringProperty pluginDescriptionProperty() {
 	     return new SimpleStringProperty("Kodierungsverfahren"); //Beispiel, Text beliebig
      }
+     
      @Override
      public StringProperty pluginNameProperty() {
 	     return new SimpleStringProperty("Farbbild");	//Beispiel, Text beliebig
@@ -305,6 +286,8 @@ Eine Warnung kann wie folgt ausgegeben werden:
 **Übersetzungen:**
 
 Unser Framework bietet eine komfortable Möglichkeit der Übersetzung. Dabei wird auf Bindings gesetzt. Konkret wird für jedes Element, welches übersetzt werden kann, ein Binding erstellt, welches in der entsprechenden Property-Datei nach diesem Namen sucht und den gewünschten Text ausgibt. Ist der Eintrag nicht vorhanden, wird automatisch Englisch als Standardsprache gewählt.
+
+> Da die Sprachdateien intern liegen, sollte ein Plugin nicht in diese schreiben. Das bedeutet, dass nur diejenigen Texte übersezetzt werden können, welche bereits in der Property-Datei vorhanden sind. Ein Sprachwechsel kann so beispielsweise das Import-Fenster übersetzen
 
 Die Initialisierung des Import-Presenters sieht beispielsweise folgendermaßen aus:
 
