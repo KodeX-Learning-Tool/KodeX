@@ -1,12 +1,15 @@
 package kodex.pluginutils.model.content;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.LinkedList;
+import java.util.Scanner;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import kodex.exceptions.InvalidInputException;
@@ -16,8 +19,8 @@ class RGBByteListTest {
   private static RGBByteList rgblist;
   private static LinkedList<String> testlist;
   
-  @BeforeAll
-  static void setUpBeforeClass() throws Exception {
+  @BeforeEach
+  void setUp() throws Exception {
     rgblist = new RGBByteList();
     testlist = new LinkedList<String>();
     for (int i = 0; i < len; i++) {
@@ -26,13 +29,29 @@ class RGBByteListTest {
         s += (int) (Math.random() * 2);
       }
       testlist.add(s);
-      System.out.println(testlist.get(i));
     }
   }
 
   @Test
-  void testExport() {
-    fail("Not yet implemented");
+  void testExport() throws FileNotFoundException {
+    rgblist.setList(testlist);
+    File f = new File("export test");
+    rgblist.export(f);
+    Scanner scanner = new Scanner(f);
+    assertEquals("HEADER", scanner.nextLine());
+    assertEquals("CONTENT", scanner.nextLine());
+    
+    int y = 0;
+    while (scanner.hasNextLine()) {
+      String in = scanner.nextLine();
+      String is = rgblist.get(y * 3).substring(0, 8);
+      is += " " + rgblist.get(y * 3 + 1).substring(0, 8);
+      is += " " + rgblist.get(y * 3 + 2).substring(0, 8);
+      assertEquals(is, in);
+      y++;
+    }
+    scanner.close();
+    f.delete();
   }
 
   @Test

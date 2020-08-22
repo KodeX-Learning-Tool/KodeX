@@ -67,15 +67,17 @@ public class ByteList extends AbstractList<String> {
 
       //header
       writer.write("HEADER\n");
-      @SuppressWarnings("unchecked")
-      HashMap<String, Object> map = (HashMap<String, Object>) header;
-      map.forEach((key, value) -> { 
-        try {
-          writer.write(key + " " + value + "\n");
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-      });
+      if (header != null) {
+        @SuppressWarnings("unchecked")
+        HashMap<String, Object> map = (HashMap<String, Object>) header;
+        map.forEach((key, value) -> { 
+          try {
+            writer.write(key + " " + value + "\n");
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        });
+      }
 
       //content
       writer.write("CONTENT\n");
