@@ -86,15 +86,17 @@ public class ByteMatrix extends AbstractMatrix<Integer> {
 
       //header
       writer.write("HEADER\n");
-      @SuppressWarnings("unchecked")
-      HashMap<String, Object> map = (HashMap<String, Object>) header;
-      map.forEach((key, value) -> { 
-        try {
-          writer.write(key + " " + value + "\n");
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-      });
+      if (header != null) {
+        @SuppressWarnings("unchecked")
+        HashMap<String, Object> map = (HashMap<String, Object>) header;
+        map.forEach((key, value) -> { 
+          try {
+            writer.write(key + " " + value + "\n");
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        });
+      }
 
       //content
       writer.write("CONTENT\n");
@@ -102,10 +104,17 @@ public class ByteMatrix extends AbstractMatrix<Integer> {
       for (int y = 0; y < getHeight(); y++) {
         row = "";
         for (int x = 0; x < getWidth(); x++) {
-          row += get(x, y).toString().substring(0, 3) + " ";
+          int i = get(x, y);
+          if (i < 10) {
+            row += i + "  " + " ";
+          } else if (i < 100) {
+            row += i + " " + " ";
+          } else {
+            row += i + "" + " ";
+          }
         }
         row = row.substring(0, row.length() - 1);
-
+        
         if (y != getHeight() - 1)  {
           writer.write(row + "\n");
         } else {
