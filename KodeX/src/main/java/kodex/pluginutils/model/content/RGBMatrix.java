@@ -79,19 +79,17 @@ public class RGBMatrix extends AbstractMatrix<Color> {
 
       //header
       writer.write("HEADER\n");
-      @SuppressWarnings("unchecked")
-      //the unchecked warning is suppressed since it has no negative effects
-      //it's caused by the lambda expression used in writing the header in combination with
-      //this class extending a generic superclass. There appears to be no way of avoiding this.
-      HashMap<String, Object> map = (HashMap<String, Object>) header;
-      map.forEach((key, value) -> { 
-        try {
-          writer.write(key + " " + value + "\n");
-        } catch (IOException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        }
-      });
+      if (header != null) {
+        @SuppressWarnings("unchecked")
+        HashMap<String, Object> map = (HashMap<String, Object>) header;
+        map.forEach((key, value) -> { 
+          try {
+            writer.write(key + " " + value + "\n");
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        });
+      }
 
       //content
       writer.write("CONTENT\n");
