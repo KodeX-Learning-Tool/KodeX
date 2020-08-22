@@ -9,7 +9,7 @@ variables:
   # when running from the command line.
   # `installAtEnd` and `deployAtEnd` are only effective with recent version of the corresponding plugins.
   MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
-  HEADLESS_TESTFX: "-Djava.awt.headless=false -Dtestfx.robot=glass -Dtestfx.headless=true -Dglass.platform=Monocle -Dmonocle.platform=Headless -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=2500 -Dprism.verbose=true -Dprism.debug=true -Djavafx.verbose=true -Djavafx.debug=true"
+  HEADLESS_TESTFX: "-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dglass.platform=Monocle -Dmonocle.platform=Headless -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=2500 -Dprism.verbose=true -Dprism.debug=true -Djavafx.verbose=true -Djavafx.debug=true"
 
   
 before_script:
@@ -40,7 +40,7 @@ java-test:
     - apt-get update && apt-get install -y openjfx unzip && rm -f /var/lib/apt/lists/*_dists_*
     - dpkg -L openjfx
     # surefire blocks propagation of properties that are not set inside argLine
-    - 'mvn install'
+    - 'mvn clean install'
     - 'mvn verify -f pom.xml $MAVEN_CLI_OPTS test -DargLine=\"$HEADLESS_TESTFX\"'
     - 'cat target/jacoco-report/index.html'
       
