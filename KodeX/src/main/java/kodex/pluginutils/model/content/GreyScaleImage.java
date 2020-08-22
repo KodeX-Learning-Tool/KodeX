@@ -87,14 +87,16 @@ public class GreyScaleImage extends AbstractImage {
 
       // header
       writer.write("HEADER\n");
-      HashMap<String, Object> map = (HashMap<String, Object>) header;
-      map.forEach((key, value) -> {
-        try {
-          writer.write(key + " " + value + "\n");
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-      });
+      if (header != null) {
+        HashMap<String, Object> map = (HashMap<String, Object>) header;
+        map.forEach((key, value) -> { 
+          try {
+            writer.write(key + " " + value + "\n");
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        });
+      }
 
       // content
       writer.write("CONTENT\n");
