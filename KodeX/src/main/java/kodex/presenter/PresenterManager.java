@@ -119,7 +119,7 @@ public class PresenterManager {
    * @param content The alert content.
    * @return The optional user input.
    */
-  public Optional<ButtonType> showAlertDialog(
+  public static Optional<ButtonType> showAlertDialog(
       AlertType type, String title, String header, String content) {
     
     Alert alert = new Alert(AlertType.ERROR);

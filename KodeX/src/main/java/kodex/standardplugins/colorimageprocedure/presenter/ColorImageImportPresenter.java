@@ -19,6 +19,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser.ExtensionFilter;
+import kodex.exceptions.AlertWindowException;
 import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
 import kodex.plugininterface.ImportPresenter;
@@ -207,13 +208,10 @@ public class ColorImageImportPresenter extends ImportPresenter {
 
       if (validateEncodeImport()) {
         if (containedAlpha) {
-          // This is only an information. Does it continue here after catching the exception?
-          // Alert alert = new Alert(AlertType.INFORMATION);
-          // alert.titleProperty().bind(I18N.createStringBinding("alert.title.information"));
-          // alert.headerTextProperty().bind(I18N.createStringBinding("alert.import.image"));
-          // alert.setContentText("The imported Image contained alpha values. Colors of pixel with "
-          // + "alpha values were converted since this procedure only uses RGB values.");
-          // PresenterManager.showAlertDialog(alert);
+          PresenterManager.showAlertDialog(AlertType.INFORMATION,
+              I18N.get("alert.title.information"), I18N.get("alert.import.image"),
+              "The imported Image contained alpha values. Colors of pixel with "
+                  + "alpha values were converted since this procedure only uses RGB values.");
         }
         
         procedureLayoutPresenter.switchToChainPresenter(true);
@@ -246,8 +244,8 @@ public class ColorImageImportPresenter extends ImportPresenter {
         plugin.initDecodeProcedure(content);
         return true;
       }
-    } catch (InvalidInputException e) {
-      pm.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+    } catch (AlertWindowException e) {
+      PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
     }
     return false;
   }
@@ -266,8 +264,8 @@ public class ColorImageImportPresenter extends ImportPresenter {
         plugin.initEncodeProcedure(content);
         return true;
       }
-    } catch (InvalidInputException e) {
-      pm.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+    } catch (AlertWindowException e) {
+      PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
     }
     return false;
   }

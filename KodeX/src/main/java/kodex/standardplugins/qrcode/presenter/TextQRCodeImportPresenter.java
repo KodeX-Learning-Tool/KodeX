@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser.ExtensionFilter;
+import kodex.exceptions.AlertWindowException;
 import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkPresenter;
@@ -176,7 +177,11 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
     if (content.isValid(qrcode)) {
       header = new HashMap<>();
       content.setHeader(header);
-      plugin.initDecodeProcedure(content);
+      try {
+        plugin.initDecodeProcedure(content);
+      } catch (AlertWindowException e) {
+        PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+      }
       return true;
     }
     return false;
@@ -195,8 +200,8 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
         plugin.initEncodeProcedure(content);
         return true;
       }
-    } catch (InvalidInputException e) {
-      pm.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+    } catch (AlertWindowException e) {
+      PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
     }
     return false;
   }

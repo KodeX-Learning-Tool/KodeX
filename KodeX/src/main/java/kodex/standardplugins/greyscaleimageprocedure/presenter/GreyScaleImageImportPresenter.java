@@ -19,6 +19,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser.ExtensionFilter;
+import kodex.exceptions.AlertWindowException;
 import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
 import kodex.plugininterface.ImportPresenter;
@@ -241,8 +242,8 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
         plugin.initDecodeProcedure(content);
         return true;
       }
-    } catch (InvalidInputException e) {
-      pm.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+    } catch (AlertWindowException e) {
+      PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
     }
     return false;
   }
@@ -261,9 +262,10 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
         plugin.initEncodeProcedure(content);
         return true;
       }
-    } catch (InvalidInputException e) {
-      pm.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+    } catch (AlertWindowException e) {
+      PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
     }
+
     return false;
   }
   

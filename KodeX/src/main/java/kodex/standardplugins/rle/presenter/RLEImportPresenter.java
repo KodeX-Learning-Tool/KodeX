@@ -9,6 +9,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser.ExtensionFilter;
+import kodex.exceptions.AlertWindowException;
+import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ImportPresenter;
@@ -170,10 +172,15 @@ public class RLEImportPresenter extends ImportPresenter {
 
     TupleString content = (TupleString) clp.getContent();
 
-    if (content.isValid(tupleString)) {
-      clp.updateChain();
-      return true;
+    try {
+      if (content.isValid(tupleString)) {
+        clp.updateChain();
+        return true;
+      }
+    } catch (AlertWindowException e) {
+      PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
     }
+
     return false;
   }
 
@@ -182,10 +189,15 @@ public class RLEImportPresenter extends ImportPresenter {
 
     LetterString content = (LetterString) plugin.getChainHead().getContent();
 
-    if (content.isValid(letterString)) {
-      plugin.getChainHead().updateChain();
-      return true;
+    try {
+      if (content.isValid(letterString)) {
+        plugin.getChainHead().updateChain();
+        return true;
+      }
+    } catch (AlertWindowException e) {
+      PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
     }
+
     return false;
   }
 }
