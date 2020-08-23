@@ -99,7 +99,7 @@ public class ProcedureLayoutPresenter extends Presenter {
         loader.load();
       } catch (IOException exc) {
 
-        presenterManager.showAlertDialog(
+        PresenterManager.showAlertDialog(
             AlertType.ERROR,
             I18N.get("alert.title.error"),
             I18N.get("alert.load.failed"),
@@ -124,7 +124,7 @@ public class ProcedureLayoutPresenter extends Presenter {
       try {
         editPresenter.handleSubmit();
       } catch (AlertWindowException e) {
-        presenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+        PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
       }
     }
 
@@ -231,7 +231,7 @@ public class ProcedureLayoutPresenter extends Presenter {
       try {
         loader.load();
       } catch (IOException exc) {
-        presenterManager.showAlertDialog(
+        PresenterManager.showAlertDialog(
             AlertType.ERROR,
             I18N.get("alert.title.error"),
             I18N.get("alert.load.failed"),
@@ -370,7 +370,7 @@ public class ProcedureLayoutPresenter extends Presenter {
     try {
       activePresenter = new ChainPresenter(activeProcedure.getChainHead(), this);
     } catch (FailedLoadException e) {
-      presenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+      PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
     }
     
 
@@ -382,7 +382,7 @@ public class ProcedureLayoutPresenter extends Presenter {
       ((ChainPresenter) activePresenter).createChainView(activeProcedure, encoding);
       procedurePane.setCenter(activePresenter.getView());
     } catch (FailedLoadException e) {
-      presenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+      PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
     }
   }
 }

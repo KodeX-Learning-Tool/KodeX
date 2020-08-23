@@ -134,7 +134,7 @@ public class SettingsPresenter extends Presenter {
   public void handleRestoreDefaultSettings() {
 
     Optional<ButtonType> result =
-        presenterManager.showAlertDialog(
+        PresenterManager.showAlertDialog(
             AlertType.CONFIRMATION,
             I18N.get("alert.title.confirmation"),
             I18N.get("alert.settings.reset"),
@@ -148,7 +148,7 @@ public class SettingsPresenter extends Presenter {
       } catch (NumberFormatException e) {
         e.printStackTrace();
         
-        presenterManager.showAlertDialog(
+        PresenterManager.showAlertDialog(
             AlertType.ERROR,
             I18N.get("alert.title.error"),
             I18N.get("alert.input.invalid"),
@@ -158,7 +158,7 @@ public class SettingsPresenter extends Presenter {
         
       } catch (LoadingException | InvalidInputException e) {
         e.printStackTrace();
-        presenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+        PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
         return;
       }
 

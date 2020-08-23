@@ -78,7 +78,7 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
 
 
   public GreyScaleImageImportPresenter(ProcedurePlugin plugin, PresenterManager pm) {
-    super(plugin, pm);
+    super(plugin);
   }
 
   @FXML

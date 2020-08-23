@@ -23,9 +23,6 @@ import kodex.presenter.ProcedureLayoutPresenter;
  * @version 1.0
  */
 public abstract class ImportPresenter implements IPresenter {
-
-  /** The reference to the Presenter Manager. */
-  protected PresenterManager pm;
   
   /** Specific plugin the import presenter is created for. */
   protected ProcedurePlugin plugin;
@@ -38,10 +35,8 @@ public abstract class ImportPresenter implements IPresenter {
    * procedure if input is valid.
    *
    * @param plugin : Plugin that uses this importer
-   * @param pm : PresenterManager to display alerts
    */
-  public ImportPresenter(ProcedurePlugin plugin, PresenterManager pm) {
-    this.pm = pm;
+  public ImportPresenter(ProcedurePlugin plugin) {
     this.plugin = plugin;
   }
 

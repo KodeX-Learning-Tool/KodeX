@@ -8,7 +8,8 @@ import javafx.scene.control.Alert.AlertType;
  * @author Leonhard Kraft
  */
 public class LoadingException extends AlertWindowException {
-
+  private static final long serialVersionUID = 1L;
+  
   /**
    * Instantiates a new invalid loading exception without a specified cause.
    *

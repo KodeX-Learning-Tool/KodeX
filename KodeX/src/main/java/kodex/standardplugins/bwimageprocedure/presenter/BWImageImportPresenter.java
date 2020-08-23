@@ -72,7 +72,7 @@ public class BWImageImportPresenter extends ImportPresenter {
   
 
   public BWImageImportPresenter(ProcedurePlugin plugin, PresenterManager pm) {
-    super(plugin, pm);
+    super(plugin);
   }
   
   @FXML

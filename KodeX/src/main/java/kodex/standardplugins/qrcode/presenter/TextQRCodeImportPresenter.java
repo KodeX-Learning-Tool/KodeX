@@ -60,7 +60,7 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
    * @param pm  the presenter manager reference
    */
   public TextQRCodeImportPresenter(ProcedurePlugin plugin, PresenterManager pm) {
-    super(plugin, pm);
+    super(plugin);
   }
 
   @FXML

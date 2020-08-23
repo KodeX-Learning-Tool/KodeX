@@ -10,7 +10,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser.ExtensionFilter;
 import kodex.exceptions.AlertWindowException;
-import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ImportPresenter;
@@ -38,7 +37,7 @@ public class RLEImportPresenter extends ImportPresenter {
    * @param pm the presenter manager reference
    */
   public RLEImportPresenter(ProcedurePlugin plugin, PresenterManager pm) {
-    super(plugin, pm);
+    super(plugin);
   }
 
   @Override

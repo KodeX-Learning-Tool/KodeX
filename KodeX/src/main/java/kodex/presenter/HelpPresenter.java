@@ -96,7 +96,7 @@ public class HelpPresenter extends Presenter {
       help = new Help(I18N.getLocale());
     } catch (LoadingException e) {
       e.printStackTrace();
-      presenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+      PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
     }
 
     // get the lists of questions and answers

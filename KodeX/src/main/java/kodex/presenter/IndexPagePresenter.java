@@ -93,7 +93,7 @@ public class IndexPagePresenter extends Presenter {
         loader.load();
       } catch (IOException exc) {
 
-        presenterManager.showAlertDialog(
+        PresenterManager.showAlertDialog(
             AlertType.ERROR,
             I18N.get("alert.title.error"),
             I18N.get("alert.load.failed"),
@@ -189,7 +189,7 @@ public class IndexPagePresenter extends Presenter {
       indexPage.filterProcedures(filterComboBox.getSelectionModel().getSelectedItem());
     } catch (LoadingException e) {
       e.printStackTrace();
-      presenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+      PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
       return;
     }
     updateProcedureButtons();
