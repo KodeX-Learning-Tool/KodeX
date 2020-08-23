@@ -2,6 +2,7 @@ package kodex.presenter;
 
 import java.io.File;
 import java.io.IOException;
+
 import org.kordamp.ikonli.javafx.FontIcon;
 
 import javafx.collections.ObservableList;
@@ -14,15 +15,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane.Divider;
 import javafx.scene.control.TitledPane;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkHeaderPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
