@@ -40,7 +40,7 @@ import kodex.presenter.PresenterManager;
 public class PluginLoader {
 
   /* current instance of PluginLoader */
-  private static PluginLoader instance = new PluginLoader();
+  private static PluginLoader instance;
 
   /**
    * Returns current instance of PluginLoader.
@@ -48,6 +48,10 @@ public class PluginLoader {
    * @return
    */
   public static PluginLoader getInstance() {
+    
+    if (instance == null) {
+      instance = new PluginLoader();
+    }
     return instance;
   }
 
@@ -88,9 +92,6 @@ public class PluginLoader {
   /** The list of default plugin names. */
   private List<String> defaultPluginNameList = new ArrayList<>();
 
-  /** Whether the program is initalizing. */
-  private boolean pluginFolderCreated = false;
-
   /**
    * Gets the current parent directory of the running jar.
    *
@@ -111,9 +112,8 @@ public class PluginLoader {
     try {
       pluginsDir = new File(getParentPath() + fileSeparator + (PLUGIN_DIRECTORY));
 
-      if (!pluginsDir.exists() && pluginsDir.mkdir()) {
-        pluginFolderCreated = true;
-      }
+      checkPluginsDir();
+      
     } catch (UnsupportedEncodingException e) {
       e.printStackTrace();
     }
@@ -250,53 +250,56 @@ public class PluginLoader {
       PresenterManager.showAlertDialog(alert);
     }
   }
+  
+  private boolean checkPluginsDir() {
+    
+    if (!pluginsDir.exists()) {
+      if (pluginsDir.mkdir()) {
+        return true;
+      } else {
+        //TODO Throw exception that folder couldn't be created
+        return false;
+      }
+    }
+    
+    if (pluginsDir.isDirectory()) {
+      return false;
+      //TODO Throw:
+      //    Alert alert = new Alert(AlertType.WARNING);
+      //    alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
+      //    alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
+      //    alert.setContentText("Check if the plugin folder exists.");
+      //    PresenterManager.showAlertDialog(alert);
+    }
+    
+    return true;
+  }
 
   /**
    * Loads external plugins in the plugins folder.
    */
   public void loadExternalPlugins() {
     URL[] urls = null;
-
     
-    // load all plugins from the plugin folder
-    if (pluginsDir.isDirectory()) {
-
-      // only load .jar files
-      File[] flist = pluginsDir.listFiles(file -> file.getPath().toLowerCase().endsWith(".jar"));
-
-      if (flist.length > 0) {
-        urls = new URL[flist.length];
-
-        for (int i = 0; i < flist.length; i++) {
-          try {
-            urls[i] = flist[i].toURI().toURL();
-          } catch (MalformedURLException e) {
-            throw new Error("Malformed URL");
-          }
-        }
-      } else if (!pluginFolderCreated) {
-        Alert alert = new Alert(AlertType.WARNING);
-        alert.titleProperty().bind(I18N.createStringBinding("alert.title.warning"));
-        alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
-        alert.setContentText("No external plugins which can be loaded.");
-        PresenterManager.showAlertDialog(alert);
-        
-        return;
-      } else {
-        // plugin folder was newly created
-        pluginFolderCreated = false;
-        
-        return;
-      }
-
-    } else {
-      Alert alert = new Alert(AlertType.WARNING);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
-      alert.setContentText("Check if the plugin folder exists.");
-      PresenterManager.showAlertDialog(alert);
-      
+    if (!checkPluginsDir()) {
       return;
+    }
+
+    // load all plugins from the plugin folder
+
+    // only load .jar files
+    File[] flist = pluginsDir.listFiles(file -> file.getPath().toLowerCase().endsWith(".jar"));
+
+    if (flist.length > 0) {
+      urls = new URL[flist.length];
+
+      for (int i = 0; i < flist.length; i++) {
+        try {
+          urls[i] = flist[i].toURI().toURL();
+        } catch (MalformedURLException e) {
+          throw new Error("Malformed URL");
+        }
+      }
     }
 
     URLClassLoader urlLoader = new URLClassLoader(urls);
