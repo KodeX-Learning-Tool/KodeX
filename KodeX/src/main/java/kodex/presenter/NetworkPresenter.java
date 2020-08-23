@@ -16,7 +16,6 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.concurrent.CompletableFuture;
-
 import javafx.application.Platform;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
@@ -26,6 +25,9 @@ import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
+import kodex.exceptions.AlertWindowException;
+import kodex.exceptions.InvalidInputException;
+import kodex.exceptions.LoadingException;
 import kodex.model.DefaultSettings;
 import kodex.model.I18N;
 import kodex.model.validator.IpAddrValidator;
@@ -91,9 +93,18 @@ public class NetworkPresenter extends Presenter {
     setConnectCancelDisable(true);
   }
 
-  /** Create a file from the directory saved as the default path. */
+  /** Create a file from the directory saved as the default path. 
+   * @throws InvalidInputException Thrown when settings can not be loaded
+   * @throws LoadingException Thrown when the port is not valid.
+   */
   private File getDefaultDirectoryAsFile() {
-    return new File(DefaultSettings.getInstance().getDefaultPath());
+    try {
+      return new File(DefaultSettings.getInstance().getDefaultPath());
+    } catch (AlertWindowException e) {
+      PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(),
+          e.getContent());
+      return new File(System.getProperty("user.dir"));
+    }
   }
 
   private void closeResources(Closeable... closeables) {
@@ -356,7 +367,7 @@ public class NetworkPresenter extends Presenter {
    * @param message the message
    */
   private void showInformationDialog(String messageKey, Object... args) {
-    presenterManager.showAlertDialog(
+    PresenterManager.showAlertDialog(
         AlertType.INFORMATION,
         I18N.get("alert.title.information"),
         I18N.get("alert.header.network"),
@@ -369,7 +380,7 @@ public class NetworkPresenter extends Presenter {
    * @param message the message
    */
   private void showErrorDialog(String titleKey, String messageKey, Object... args) {
-    presenterManager.showAlertDialog(
+    PresenterManager.showAlertDialog(
         AlertType.ERROR,
         I18N.get("alert.title.error"),
         I18N.get(titleKey),
