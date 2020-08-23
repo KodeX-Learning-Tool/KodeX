@@ -44,7 +44,6 @@ public class TextRLEProcedurePlugin extends ProcedurePlugin {
 
   @Override
   public ImportPresenter createImportPresenter(PresenterManager pm) {
-    initialize();
     return new RLEImportPresenter(this, pm);
   }
 

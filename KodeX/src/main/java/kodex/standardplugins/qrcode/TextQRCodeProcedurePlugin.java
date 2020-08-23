@@ -44,7 +44,6 @@ public class TextQRCodeProcedurePlugin extends ProcedurePlugin {
   
   @Override
   public ImportPresenter createImportPresenter(PresenterManager pm) {
-    initialize();
     return new TextQRCodeImportPresenter(this, pm);
   }
 

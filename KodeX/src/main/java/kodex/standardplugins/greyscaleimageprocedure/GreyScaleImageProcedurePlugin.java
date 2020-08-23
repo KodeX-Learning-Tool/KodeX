@@ -56,7 +56,6 @@ public class GreyScaleImageProcedurePlugin extends ProcedurePlugin {
   
   @Override
   public ImportPresenter createImportPresenter(PresenterManager pm) {
-    initialize();
     return new GreyScaleImageImportPresenter(this, pm);
   }
 

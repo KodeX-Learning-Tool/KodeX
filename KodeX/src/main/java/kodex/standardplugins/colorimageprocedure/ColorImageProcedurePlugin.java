@@ -60,7 +60,6 @@ public class ColorImageProcedurePlugin extends ProcedurePlugin {
 
   @Override
   public ColorImageImportPresenter createImportPresenter(PresenterManager pm) {
-    initialize();
     return new ColorImageImportPresenter(this, pm);
   }
 
