@@ -18,6 +18,7 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import kodex.exceptions.AlertWindowException;
 import kodex.pluginutils.model.content.CharacterString;
 import kodex.pluginutils.model.content.QRCode;
 import kodex.pluginutils.presenter.chainlink.CharacterStringChainLinkPresenter;
@@ -126,9 +127,10 @@ class TextQRCodeProcedurePluginTest {
   /**
    * Test method for {@link kodex.standardplugins.qrcode.TextQRCodeProcedurePlugin
    * #initDecodeProcedure(kodex.plugininterface.Content)}.
+   * @throws AlertWindowException if an error happens when calculating the chain
    */
   @Test
-  void testInitDecodeProcedure() {
+  void testInitDecodeProcedure() throws AlertWindowException {
     // initialize content
     QRCode content = new QRCode();
     
@@ -153,9 +155,10 @@ class TextQRCodeProcedurePluginTest {
   /**
    * Test method for {@link kodex.standardplugins.qrcode.TextQRCodeProcedurePlugin
    * #initEncodeProcedure(kodex.plugininterface.Content)}.
+   * @throws AlertWindowException if an error happens when calculating the chain
    */
   @Test
-  void testInitEncodeProcedure() {
+  void testInitEncodeProcedure() throws AlertWindowException {
     String testString = "KodeX";
     int size = 0;
     

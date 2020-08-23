@@ -15,6 +15,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import kodex.exceptions.AlertWindowException;
 import kodex.pluginutils.model.content.BinaryString;
 import kodex.pluginutils.model.content.GreyScaleImage;
 import kodex.pluginutils.presenter.chainlink.BinaryStringPresenter;
@@ -126,9 +127,10 @@ class GreyScaleImageProcedurePluginTest {
   /**
    * Test method for {@link kodex.standardplugins.greyscaleimageprocedure
    * .GreyScaleImageProcedurePlugin#initDecodeProcedure(kodex.plugininterface.Content)}.
+   * @throws AlertWindowException if an error happens when calculating the chain
    */
   @Test
-  void testInitDecodeProcedure() {
+  void testInitDecodeProcedure() throws AlertWindowException {
     int width = 1;
     int height = 1;
     int greyScaleUnitLength = 24; // TODO: should be 8
@@ -158,9 +160,10 @@ class GreyScaleImageProcedurePluginTest {
   /**
    * Test method for {@link kodex.standardplugins.greyscaleimageprocedure
    * .GreyScaleImageProcedurePlugin#initEncodeProcedure(kodex.plugininterface.Content)}.
+   * @throws AlertWindowException if an error happens when calculating the chain
    */
   @Test
-  void testInitEncodeProcedure() {
+  void testInitEncodeProcedure() throws AlertWindowException {
     int width = 1;
     int height = 2;
     

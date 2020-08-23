@@ -91,7 +91,7 @@ public abstract class ImportPresenter implements IPresenter {
    * @param extensionFilters the extension filters
    * @return the chosen file
    */
-  protected File importFile(boolean encoding, ArrayList<ExtensionFilter> extensionFilters) {
+  public File importFile(boolean encoding, ArrayList<ExtensionFilter> extensionFilters) {
     FileChooser fileChooser = new FileChooser();
     fileChooser.getExtensionFilters().addAll(extensionFilters);
     String propertyName;

@@ -60,7 +60,7 @@ class RLEStepTest {
     
     rleStep.decode(tupleString, letterString);
     
-    assertEquals(testString, letterString.getLetterString());
+    assertEquals(testString, letterString.getString());
   }
 
   /**
@@ -69,7 +69,7 @@ class RLEStepTest {
    */
   @Test
   void testEncode() {
-    letterString.setLetterString(testString);
+    letterString.setString(testString);
     
     rleStep.encode(letterString, tupleString);
     

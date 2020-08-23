@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import kodex.plugininterface.InvalidImportException;
 import kodex.presenter.ProcedureLayoutPresenter;
 import kodex.standardplugins.rle.TextRLEProcedurePlugin;
 
@@ -60,9 +61,10 @@ class RLEImportPresenterTest {
   /**
    * Test method for {@link kodex.standardplugins.rle.presenter.RLEImportPresenter
    * #handleDecodeImport()}.
+   * @throws InvalidImportException if the imported file is invalid
    */
   @Test
-  void testHandleDecodeImport() {
+  void testHandleDecodeImport() throws InvalidImportException {
     // test file
     File file = new File(RLEImportPresenterTest.class.getResource("test_rle.txt").getPath());
     
@@ -81,9 +83,10 @@ class RLEImportPresenterTest {
   /**
    * Test method for {@link kodex.standardplugins.rle.presenter.RLEImportPresenter
    * #handleEncodeImport()}.
+   * @throws InvalidImportException if the imported file is invalid
    */
   @Test
-  void testHandleEncodeImport() {
+  void testHandleEncodeImport() throws InvalidImportException {
     // test file
     File file = new File(RLEImportPresenterTest.class.getResource("test.txt").getPath());
     

@@ -15,6 +15,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import kodex.exceptions.AlertWindowException;
 import kodex.pluginutils.model.content.BinaryString;
 import kodex.pluginutils.model.content.BlackWhiteImage;
 import kodex.pluginutils.presenter.chainlink.BWImageChainLinkPresenter;
@@ -123,9 +124,10 @@ class BWImageProcedurePluginTest {
   /**
    * Test method for {@link kodex.standardplugins.bwimageprocedure.BWImageProcedurePlugin
    * #initDecodeProcedure(kodex.plugininterface.Content)}.
+   * @throws AlertWindowException if an error happens when calculating the chain
    */
   @Test
-  void testInitDecodeProcedure() {
+  void testInitDecodeProcedure() throws AlertWindowException {
     int width = 3;
     int height = 1;
     int bwUnitLength = 1;
@@ -154,9 +156,10 @@ class BWImageProcedurePluginTest {
   /**
    * Test method for {@link kodex.standardplugins.bwimageprocedure.BWImageProcedurePlugin
    * #initEncodeProcedure(kodex.plugininterface.Content)}.
+   * @throws AlertWindowException if an error happens when calculating the chain
    */
   @Test
-  void testInitEncodeProcedure() {
+  void testInitEncodeProcedure() throws AlertWindowException {
     int width = 1;
     int height = 2;
     

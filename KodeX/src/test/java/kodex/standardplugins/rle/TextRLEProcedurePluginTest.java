@@ -12,6 +12,7 @@ import org.testfx.framework.junit5.Start;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import kodex.exceptions.AlertWindowException;
 import kodex.model.Tuple;
 import kodex.pluginutils.model.content.LetterString;
 import kodex.pluginutils.model.content.TupleString;
@@ -117,9 +118,10 @@ class TextRLEProcedurePluginTest {
   /**
    * Test method for {@link kodex.standardplugins.rle.TextRLEProcedurePlugin
    * #initDecodeProcedure(kodex.plugininterface.Content)}.
+   * @throws AlertWindowException if an error happens when calculating the chain
    */
   @Test
-  void testInitDecodeProcedure() {
+  void testInitDecodeProcedure() throws AlertWindowException {
     // initialize content   
     ArrayList<Tuple<String, Integer>> tuples = new ArrayList<>();
     tuples.add(new Tuple<>("H", 1));
@@ -139,18 +141,19 @@ class TextRLEProcedurePluginTest {
     String expectedString = "HELLO";
     
     // check if procedure is initialized
-    assertEquals(expectedString, letterString.getLetterString());
+    assertEquals(expectedString, letterString.getString());
   }
 
   /**
    * Test method for {@link kodex.standardplugins.rle.TextRLEProcedurePlugin
    * #initEncodeProcedure(kodex.plugininterface.Content)}.
+   * @throws AlertWindowException if an error happens when calculating the chain
    */
   @Test
-  void testInitEncodeProcedure() {
+  void testInitEncodeProcedure() throws AlertWindowException {
     // initialize content
     LetterString content = new LetterString();
-    content.setLetterString("HELLO");
+    content.setString("HELLO");
     
     // call method to be tested
     textRLEProcedurePlugin.initEncodeProcedure(content);    

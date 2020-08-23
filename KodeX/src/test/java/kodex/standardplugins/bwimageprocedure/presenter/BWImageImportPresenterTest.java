@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import kodex.plugininterface.InvalidImportException;
 import kodex.presenter.ProcedureLayoutPresenter;
 import kodex.standardplugins.bwimageprocedure.BWImageProcedurePlugin;
 
@@ -60,9 +61,10 @@ class BWImageImportPresenterTest {
   /**
    * Test method for {@link kodex.standardplugins.bwimageprocedure.presenter.BWImageImportPresenter
    * #handleDecodeImport()}.
+   * @throws InvalidImportException if the imported file is invalid
    */
   @Test
-  void testHandleDecodeImport() {
+  void testHandleDecodeImport() throws InvalidImportException {
     // test file
     File file = new File(BWImageImportPresenterTest.class.getResource("test.txt").getPath());
     
@@ -81,9 +83,10 @@ class BWImageImportPresenterTest {
   /**
    * Test method for {@link kodex.standardplugins.bwimageprocedure.presenter.BWImageImportPresenter
    * #handleEncodeImport()}.
+   * @throws InvalidImportException if the imported file is invalid
    */
   @Test
-  void testHandleEncodeImport() {
+  void testHandleEncodeImport() throws InvalidImportException {
     // test file
     File file = new File(BWImageImportPresenterTest.class.getResource("test.png").getPath());
     

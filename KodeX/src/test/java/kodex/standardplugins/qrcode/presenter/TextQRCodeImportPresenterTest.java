@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import kodex.plugininterface.InvalidImportException;
 import kodex.presenter.ProcedureLayoutPresenter;
 import kodex.standardplugins.qrcode.TextQRCodeProcedurePlugin;
 
@@ -59,9 +60,10 @@ class TextQRCodeImportPresenterTest {
   /**
    * Test method for {@link kodex.standardplugins.qrcode.presenter.TextQRCodeImportPresenter
    * #handleDecodeImport()}.
+   * @throws InvalidImportException if the imported file is invalid
    */
   @Test
-  void testHandleDecodeImport() {
+  void testHandleDecodeImport() throws InvalidImportException {
     // test file
     File file = new File(TextQRCodeImportPresenterTest.class.getResource("test.png").getPath());
     
@@ -80,9 +82,10 @@ class TextQRCodeImportPresenterTest {
   /**
    * Test method for {@link kodex.standardplugins.qrcode.presenter.TextQRCodeImportPresenter
    * #handleEncodeImport()}.
+   * @throws InvalidImportException if the imported file is invalid
    */
   @Test
-  void testHandleEncodeImport() {
+  void testHandleEncodeImport() throws InvalidImportException {
     // test file
     File file = new File(TextQRCodeImportPresenterTest.class.getResource("test.txt").getPath());
     

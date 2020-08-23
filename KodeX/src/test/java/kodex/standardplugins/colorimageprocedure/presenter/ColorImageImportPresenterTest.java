@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import kodex.plugininterface.InvalidImportException;
 import kodex.presenter.ProcedureLayoutPresenter;
 import kodex.standardplugins.colorimageprocedure.ColorImageProcedurePlugin;
 
@@ -59,9 +60,10 @@ class ColorImageImportPresenterTest {
   /**
    * Test method for {@link kodex.standardplugins.colorimageprocedure.presenter
    * .ColorImageImportPresenter#handleDecodeImport()}.
+   * @throws InvalidImportException if an error happens when calculating the chain
    */
   @Test
-  void testHandleDecodeImport() {
+  void testHandleDecodeImport() throws InvalidImportException {
     // test file
     File file = new File(ColorImageImportPresenterTest.class.getResource("test.txt").getPath());
     
@@ -80,9 +82,10 @@ class ColorImageImportPresenterTest {
   /**
    * Test method for {@link kodex.standardplugins.colorimageprocedure.presenter
    * .ColorImageImportPresenter#handleEncodeImport()}.
+   * @throws InvalidImportException if an error happens when calculating the chain
    */
   @Test
-  void testHandleEncodeImport() {
+  void testHandleEncodeImport() throws InvalidImportException {
     // test file
     File file = new File(ColorImageImportPresenterTest.class.getResource("test.png").getPath());
     
