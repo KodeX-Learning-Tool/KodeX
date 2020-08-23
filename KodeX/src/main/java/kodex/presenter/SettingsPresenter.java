@@ -96,8 +96,6 @@ public class SettingsPresenter extends Presenter {
 
     DirectoryChooser dirChooser = new DirectoryChooser();
 
-    // TODO: change from null to stage to disable stage interactions while dialog is
-    // open
     File selectedDirectory = PresenterManager.showDirectoryChooser(dirChooser);
 
     if (selectedDirectory == null) {
