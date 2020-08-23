@@ -263,7 +263,7 @@ public class ColorImageImportPresenter extends ImportPresenter {
         map.put(HEIGHT_KEY, writableImage.getHeight());
         
         content.setHeader(map);
-        plugin.getChainHead().updateChain();
+        plugin.getChainHead().setContent(content);
         return true;
       }
     } catch (InvalidInputException e) {
