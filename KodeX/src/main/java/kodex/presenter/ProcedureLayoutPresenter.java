@@ -16,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import kodex.exceptions.AlertWindowException;
 import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkEditPresenter;
@@ -122,7 +123,7 @@ public class ProcedureLayoutPresenter extends Presenter {
     private void handleSubmit() {
       try {
         editPresenter.handleSubmit();
-      } catch (InvalidInputException e) {
+      } catch (AlertWindowException e) {
         presenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
       }
     }
