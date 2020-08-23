@@ -11,6 +11,8 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Locale;
 import java.util.Properties;
+
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import kodex.model.validator.PortNumValidator;
@@ -189,8 +191,8 @@ public class DefaultSettings extends Settings {
   public void reset() {
     try {
       prop.load(DefaultSettings.class.getResourceAsStream(DEFAULT_SETTINGS_PATH));
-
-      I18N.setLocale(new Locale(prop.getProperty("local")));
+      
+      Platform.runLater(() -> I18N.setLocale(new Locale(prop.getProperty("local"))));
 
       setPort(Integer.parseInt(prop.getProperty("port")));
 
