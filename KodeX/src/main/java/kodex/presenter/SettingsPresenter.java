@@ -16,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.util.StringConverter;
+import kodex.exceptions.AlertWindowException;
 import kodex.exceptions.InvalidInputException;
 import kodex.exceptions.LoadingException;
 import kodex.model.DefaultSettings;
@@ -179,12 +180,8 @@ public class SettingsPresenter extends Presenter {
       // port number is invalid
 
       setErrorPseudoClass(portTextField, true);
-
-      presenterManager.showAlertDialog(
-          AlertType.ERROR,
-          I18N.get("alert.title.error"),
-          I18N.get("alert.input.invalid"),
-          I18N.get(
+      PresenterManager.showAlertDialog(AlertType.ERROR, I18N.get("alert.title.error"),
+          I18N.get("alert.input.invalid"), I18N.get(
               "The input is not a valid port. " + "The number has to be between 0 and 65535."));
 
       return;
@@ -196,8 +193,7 @@ public class SettingsPresenter extends Presenter {
       defaultSettings.setPort(portNumber);
     } catch (InvalidInputException e) {
       e.printStackTrace();
-      presenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
-      return;
+      PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
     }
   }
 
@@ -205,7 +201,11 @@ public class SettingsPresenter extends Presenter {
   @FXML
   private void initialize() {
 
-    defaultSettings = DefaultSettings.getInstance();
+    try {
+      defaultSettings = DefaultSettings.getInstance();
+    } catch (AlertWindowException e) {
+      PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+    }
 
     lblHeader.textProperty().bind(I18N.createStringBinding("settingspage.header"));
     lblLanguage.textProperty().bind(I18N.createStringBinding("settingspage.language.header"));
