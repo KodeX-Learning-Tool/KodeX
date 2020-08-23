@@ -19,6 +19,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser.ExtensionFilter;
+import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.InvalidImportException;
@@ -233,11 +234,15 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
   public boolean validateDecodeImport() {
     BinaryString content = (BinaryString) plugin.getChainTail().getContent();
 
-    if (content.isValid(binaryString)) {
-      content.setString(binaryString);
-      content.setHeader(header);
-      plugin.getChainTail().setContent(content);
-      return true;
+    try {
+      if (content.isValid(binaryString)) {
+        content.setString(binaryString);
+        content.setHeader(header);
+        plugin.getChainTail().setContent(content);
+        return true;
+      }
+    } catch (InvalidInputException e) {
+      pm.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
     }
     return false;
   }
@@ -246,14 +251,18 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
   public boolean validateEncodeImport() {
     GreyScaleImage content = (GreyScaleImage) plugin.getChainHead().getContent();
 
-    if (content.isValid(img)) {
-      HashMap<String, Object> map = new HashMap<>();
-      map.put(WIDTH_KEY, img.getWidth());
-      map.put(HEIGHT_KEY, img.getHeight());
-      
-      content.setHeader(map);
-      plugin.getChainHead().updateChain();
-      return true;
+    try {
+      if (content.isValid(img)) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put(WIDTH_KEY, img.getWidth());
+        map.put(HEIGHT_KEY, img.getHeight());
+        
+        content.setHeader(map);
+        plugin.getChainHead().updateChain();
+        return true;
+      }
+    } catch (InvalidInputException e) {
+      pm.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
     }
     return false;
   }

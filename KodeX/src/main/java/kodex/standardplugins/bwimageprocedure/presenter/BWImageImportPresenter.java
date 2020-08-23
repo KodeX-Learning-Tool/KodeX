@@ -203,11 +203,15 @@ public class BWImageImportPresenter extends ImportPresenter {
   public boolean validateDecodeImport() {
     BinaryString content = (BinaryString) plugin.getChainTail().getContent();
 
-    if (content.isValid(binaryString)) {
-      content.setString(binaryString);
-      content.setHeader(header);
-      plugin.getChainTail().setContent(content);
-      return true;
+    try {
+      if (content.isValid(binaryString)) {
+        content.setString(binaryString);
+        content.setHeader(header);
+        plugin.getChainTail().setContent(content);
+        return true;
+      }
+    } catch (InvalidInputException e) {
+      pm.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
     }
     return false;
   }
@@ -227,7 +231,7 @@ public class BWImageImportPresenter extends ImportPresenter {
         return true;
       }
     } catch (InvalidInputException e) {
-      
+      pm.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
     }
     return false;
   }
