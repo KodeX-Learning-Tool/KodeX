@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
@@ -34,9 +33,6 @@ class ProcedureLayoutPresenterTest {
     
     importPresenter = Mockito.mock(ImportPresenter.class);
     
-    someView = Mockito.mock(AnchorPane.class);
-    Mockito.when(importPresenter.getView()).thenReturn(someView);
-    
     pm = Mockito.mock(PresenterManager.class);
     plugin = Mockito.mock(ProcedurePlugin.class);
     
@@ -47,7 +43,8 @@ class ProcedureLayoutPresenterTest {
 
   /**
    * Test method for {@link
-   * kodex.presenter.ProcedureLayoutPresenter#ProcedureLayoutPresenter(kodex.presenter.PresenterManager,
+   * kodex.presenter.ProcedureLayoutPresenter#ProcedureLayoutPresenter(
+   * kodex.presenter.PresenterManager,
    * kodex.plugininterface.ProcedurePlugin)}.
    * @throws Exception Thrown by refelction.
    */
@@ -62,7 +59,8 @@ class ProcedureLayoutPresenterTest {
   
   /**
    * Test method for {@link
-   * kodex.presenter.ProcedureLayoutPresenter#ProcedureLayoutPresenter(kodex.presenter.PresenterManager,
+   * kodex.presenter.ProcedureLayoutPresenter#ProcedureLayoutPresenter(
+   * kodex.presenter.PresenterManager,
    * kodex.plugininterface.ProcedurePlugin)}.
    * 
    * @throws Exception Thrown by refelction.
@@ -81,7 +79,8 @@ class ProcedureLayoutPresenterTest {
 
   /**
    * Test method for {@link
-   * kodex.presenter.ProcedureLayoutPresenter#setEditPresenter(kodex.plugininterface.ChainLinkEditPresenter)}.
+   * kodex.presenter.ProcedureLayoutPresenter#setEditPresenter(
+   * kodex.plugininterface.ChainLinkEditPresenter)}.
    * 
    * @throws Exception Thrown by refelction.
    */
@@ -109,13 +108,5 @@ class ProcedureLayoutPresenterTest {
    */
   @Test
   void testSwitchToChainPresenter() {
-  }
-
-  /**
-   * Test method for {@link kodex.presenter.Presenter#getView()}.
-   */
-  @Test
-  void testGetView() {
-    assertEquals(((BorderPane) plp.getView()).getCenter(), someView);
   }
 }
