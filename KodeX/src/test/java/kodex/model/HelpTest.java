@@ -9,12 +9,14 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import kodex.exceptions.LoadingException;
+
 class HelpTest {
   
   private static Help help;
   
   @BeforeAll
-  static void init() {
+  static void init() throws LoadingException {
     help = new Help(new Locale("DE"));
   }
 
@@ -46,41 +48,41 @@ class HelpTest {
   }
   
   @Test
-  void testHelpEN() {
+  void testHelpEN() throws LoadingException {
     Help helpEN = new Help(new Locale("EN"));
     assertTrue(helpEN instanceof Help);
   }
 
   @Test
-  void testGetAnswersEN() {
+  void testGetAnswersEN() throws LoadingException {
     Help helpEN = new Help(new Locale("EN"));
     assertTrue(helpEN.getAnswers().size() == 4 
         && helpEN.getAnswers().get(3) instanceof String);
   }
 
   @Test
-  void testGetInfoEN() {
+  void testGetInfoEN() throws LoadingException {
     Help helpEN = new Help(new Locale("EN"));
     assertTrue(helpEN.getInfo().size() == 3 
         && helpEN.getInfo().get(2) instanceof String);
   }
 
   @Test
-  void testGetQuestionsEN() {
+  void testGetQuestionsEN() throws LoadingException {
     Help helpEN = new Help(new Locale("EN"));
     assertTrue(helpEN.getQuestions().size() == 4 
         && helpEN.getQuestions().get(3) instanceof String);
   }
   
   @Test
-  void testGetSameAmountEN() {
+  void testGetSameAmountEN() throws LoadingException {
     Help helpEN = new Help(new Locale("EN"));
     assertTrue(helpEN.getQuestions().size() == helpEN.getAnswers().size());
   }
   
   @Test
   @Disabled
-  void testHelpInvalide() {
+  void testHelpInvalide() throws LoadingException {
     Help helpError = new Help(new Locale("ABC"));
     fail();
   }
