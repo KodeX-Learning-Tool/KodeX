@@ -9,6 +9,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import kodex.exceptions.InvalidInputException;
+import kodex.exceptions.LoadingException;
+
 class DefaultSettingsTest {
   
   private static DefaultSettings settings;
@@ -24,7 +27,7 @@ class DefaultSettingsTest {
   }
   
   @Test
-  void testGetInstance() {
+  void testGetInstance() throws LoadingException, InvalidInputException {
     assertTrue(DefaultSettings.getInstance() != null);
   }
   
@@ -42,14 +45,14 @@ class DefaultSettingsTest {
   }
 
   @Test
-  void testSetPort() {
+  void testSetPort() throws InvalidInputException {
     settings.setPort(12345);
     assertTrue(DefaultSettings.getPort() == 12345);
   }
 
   @Test
   @Disabled //Exception caused by Alert - manually tested 
-  void testSetUnvalidPort() {
+  void testSetUnvalidPort() throws InvalidInputException {
     settings.setPort(12345);
     settings.setPort(123456);
     assertTrue(DefaultSettings.getPort() == 12345);

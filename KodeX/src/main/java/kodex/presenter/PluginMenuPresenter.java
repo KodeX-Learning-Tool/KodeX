@@ -3,17 +3,18 @@ package kodex.presenter;
 import java.io.File;
 import java.util.List;
 import java.util.Optional;
+
 import javafx.fxml.FXML;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import kodex.exceptions.LoadingException;
 import kodex.model.I18N;
 import kodex.model.PluginLoader;
 import kodex.plugininterface.Plugin;
@@ -49,7 +50,7 @@ public class PluginMenuPresenter extends Presenter {
 
   /** The instance of the PluginLoader class which you can use to work with the loaded plugins. */
   private PluginLoader pluginLoader;
-  
+
   /** The list of default-plugin names. */
   private List<String> defaultPlugins;
 
@@ -76,7 +77,11 @@ public class PluginMenuPresenter extends Presenter {
     // add the plugin located at the given path
     File file = PresenterManager.showOpenFileChooser(chooser);
     if (file != null) {
-      PluginLoader.getInstance().importPlugin(file);
+      try {
+        PluginLoader.getInstance().importPlugin(file);
+      } catch (LoadingException e) {
+        PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+      }
     }
   }
 
@@ -97,29 +102,41 @@ public class PluginMenuPresenter extends Presenter {
   private void handleRemovePlugin() {
     // get selected table row
     Plugin plugin = pluginTable.getSelectionModel().getSelectedItem();
+
     if (plugin == null) {
-      Alert alert = new Alert(AlertType.INFORMATION);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.information"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.operation.invalid"));
-      alert.setContentText("No plugin selected.");
-      PresenterManager.showAlertDialog(alert);
+      PresenterManager.showAlertDialog(
+          AlertType.INFORMATION,
+          I18N.get("alert.title.information"),
+          I18N.get("alert.operation.invalid"),
+          I18N.get("No plugin selected."));
+
     } else if (defaultPlugins.contains(plugin.pluginNameProperty().get())) {
-      Alert alert = new Alert(AlertType.INFORMATION);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.information"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.operation.invalid"));
-      alert.setContentText("Default plugins can't be removed.");
-      PresenterManager.showAlertDialog(alert);
+      PresenterManager.showAlertDialog(
+          AlertType.INFORMATION,
+          I18N.get("alert.title.information"),
+          I18N.get("alert.operation.invalid"),
+          I18N.get("Default plugins can't be removed."));
+
     } else {
-      Alert alert = new Alert(AlertType.CONFIRMATION);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.confirmation"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.delete.plugin"));
-      alert.setContentText("Are you sure you want to delete " + plugin.pluginNameProperty().get()
-          + ".jar? The plugin will be permanently deleted from the plugins folder.");
-      Optional<ButtonType> result = PresenterManager.showAlertDialog(alert);
-      
+      Optional<ButtonType> result =
+          PresenterManager.showAlertDialog(
+              AlertType.CONFIRMATION,
+              I18N.get("alert.title.confirmation"),
+              I18N.get("alert.delete.plugin"),
+              I18N.get(
+                  "Are you sure you want to delete "
+                      + plugin.pluginNameProperty().get()
+                      + ".jar? The plugin will be permanently deleted from the plugins folder."));
+
       if (result.isPresent() && result.get() == ButtonType.OK) {
-        pluginLoader.removePlugin(plugin);
-      }      
+        try {
+          pluginLoader.removePlugin(plugin);
+        } catch (LoadingException e) {
+          e.printStackTrace();
+          PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(),
+              e.getContent());
+        }
+      }
     }
   }
 
@@ -140,7 +157,7 @@ public class PluginMenuPresenter extends Presenter {
 
     // get a PluginLoader instance this way since PluginLoader uses the singleton pattern
     pluginLoader = PluginLoader.getInstance();
-    
+
     defaultPlugins = pluginLoader.getDefaultPluginNames();
 
     // defines the check box column
@@ -157,25 +174,28 @@ public class PluginMenuPresenter extends Presenter {
                     }
                   });
           return c.getValue().activatedProperty();
-        });  
+        });
 
-    checkBoxColumn.setCellFactory(column ->
-        new CheckBoxTableCell<Plugin, Boolean>() {
-    
-          @Override
-          public void updateItem(Boolean item, boolean empty) {
-            super.updateItem(item, empty);
-    
-            // disables check-boxes for default / protected plugins
-            TableRow<Plugin> currentRow = getTableRow();
-            this.setDisable(false); // it is required to fit default state
-            if (currentRow != null && currentRow.getItem() != null && !empty
-                && defaultPlugins.contains(currentRow.getItem().pluginNameProperty().get())) {
-              this.setDisable(true);
-              this.getStyleClass().add("plugin__check-box-cell");
+    checkBoxColumn.setCellFactory(
+        column ->
+            new CheckBoxTableCell<Plugin, Boolean>() {
+
+            @Override
+            public void updateItem(Boolean item, boolean empty) {
+              super.updateItem(item, empty);
+
+              // disables check-boxes for default / protected plugins
+              TableRow<Plugin> currentRow = getTableRow();
+              this.setDisable(false); // it is required to fit default state
+              if (currentRow != null
+                  && currentRow.getItem() != null
+                  && !empty
+                  && defaultPlugins.contains(currentRow.getItem().pluginNameProperty().get())) {
+                this.setDisable(true);
+                this.getStyleClass().add("plugin__check-box-cell");
+              }
             }
-          }
-    });
+          });
 
     // defines the name and description column
     nameColumn.setCellValueFactory(cellData -> cellData.getValue().pluginNameProperty());

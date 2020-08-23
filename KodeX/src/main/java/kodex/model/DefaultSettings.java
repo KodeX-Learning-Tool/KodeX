@@ -13,10 +13,11 @@ import java.util.Locale;
 import java.util.Properties;
 
 import javafx.application.Platform;
-import javafx.scene.control.Alert;
+
 import javafx.scene.control.Alert.AlertType;
+import kodex.exceptions.InvalidInputException;
+import kodex.exceptions.LoadingException;
 import kodex.model.validator.PortNumValidator;
-import kodex.presenter.PresenterManager;
 
 /**
  * This class saves the user's settings. These are saved locally in a file so that they persist the
@@ -40,24 +41,24 @@ public class DefaultSettings extends Settings {
 
   /* instance of property file */
   private static Properties prop = new Properties();
-  
+
   private static Properties defaultProperties = new Properties();
-  
+
   private static final String SETTINGS_DIRECTORY = "settings";
-  
+
   private static final String USER_SETTINGS_PROPERTY = "User_Settings.properties";
-  
-  private static final String USER_SETTINGS_PATH = 
+
+  private static final String USER_SETTINGS_PATH =
       SETTINGS_DIRECTORY.concat("/".concat(USER_SETTINGS_PROPERTY));
-  
+
   // internal resource files need '/' as path delimiter
-  private static final String INTERNAL_SETTINGS_DIRECTORY = "/kodex/model/settings"; 
-  
+  private static final String INTERNAL_SETTINGS_DIRECTORY = "/kodex/model/settings";
+
   private static final String DEFAULT_SETTINGS_PROPERTY = "Default_Settings.properties";
-  
-  private static final String DEFAULT_SETTINGS_PATH  
-      = INTERNAL_SETTINGS_DIRECTORY.concat("/".concat(DEFAULT_SETTINGS_PROPERTY));
-  
+
+  private static final String DEFAULT_SETTINGS_PATH =
+      INTERNAL_SETTINGS_DIRECTORY.concat("/".concat(DEFAULT_SETTINGS_PROPERTY));
+
   private static File userSettingsFile;
 
   /**
@@ -65,8 +66,10 @@ public class DefaultSettings extends Settings {
    * from this
    *
    * @return instance of this class
+   * @throws LoadingException Thrown when settings can not be loaded.
+   * @throws InvalidInputException Thrown when the port is not valid.
    */
-  public static DefaultSettings getInstance() {
+  public static DefaultSettings getInstance() throws LoadingException, InvalidInputException {
     if (instance == null) {
       instance = new DefaultSettings();
     }
@@ -84,7 +87,7 @@ public class DefaultSettings extends Settings {
 
   /* necessary to read the property file */
   private InputStreamReader input = null;
-  
+
   /**
    * Gets the current parent directory of the running jar.
    *
@@ -96,39 +99,41 @@ public class DefaultSettings extends Settings {
     String jarPath = URLDecoder.decode(url.getFile(), "UTF-8");
     return new File(jarPath).getParentFile().getPath();
   }
-  
+
   /**
    * Constructor of the DefaultSettings class. However, since this class is a singleton, only one
    * instance can be created
+   * @throws LoadingException Thrown when settings can not be loaded.
+   * @throws InvalidInputException Thrown when the port is not valid.
    */
-  private DefaultSettings() {
-    String fileSeparator = System.getProperty("file.separator");     
-    
+  private DefaultSettings() throws LoadingException, InvalidInputException {
+    String fileSeparator = System.getProperty("file.separator");
+
     File settingsDir;
     try {
       settingsDir = new File(getParentPath() + fileSeparator + (SETTINGS_DIRECTORY));
 
       if (!settingsDir.exists() && settingsDir.mkdir()) {
-        //TODO: do something
+        // TODO: do something
       }
     } catch (UnsupportedEncodingException e4) {
       e4.printStackTrace();
     }
-  
+
     // makes a user settings property file with the default settings if necessary
     try {
       userSettingsFile = new File(getParentPath() + (fileSeparator.concat(USER_SETTINGS_PATH)));
     } catch (UnsupportedEncodingException e3) {
       e3.printStackTrace();
     }
-    
+
     if (!userSettingsFile.exists()) {
       try {
         defaultProperties.load(DefaultSettings.class.getResourceAsStream(DEFAULT_SETTINGS_PATH));
       } catch (IOException e2) {
         e2.printStackTrace();
       }
-      
+
       // write the default values to the file
       try {
         FileOutputStream fileOut = new FileOutputStream(userSettingsFile);
@@ -139,8 +144,7 @@ public class DefaultSettings extends Settings {
         e.printStackTrace();
       }
     }
-    
-    
+
     try {
       input = new InputStreamReader(new FileInputStream(userSettingsFile), "UTF-8");
     } catch (UnsupportedEncodingException | FileNotFoundException e1) {
@@ -157,11 +161,13 @@ public class DefaultSettings extends Settings {
       setDefaultPath(prop.getProperty("defaultPath"));
 
     } catch (IOException e) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("Settings can not be loaded");
-      PresenterManager.showAlertDialog(alert);
+
+      throw new LoadingException(
+          AlertType.ERROR,
+          I18N.get("alert.title.error"),
+          I18N.get("alert.input.invalid"),
+          "Settings can not be loaded",
+          e);
     }
   }
 
@@ -187,8 +193,13 @@ public class DefaultSettings extends Settings {
     return new Locale(prop.getProperty("local"));
   }
 
-  /** Resets all settings. */
-  public void reset() {
+  /** Resets all settings. 
+   * 
+   * @throws LoadingException Thrown when default setting could not be loaded.
+   * @throws InvalidInputException Thrown when the saved port is not valid.
+   * @throws NumberFormatException Thrown when the port was not a valid integer.
+   */
+  public void reset() throws LoadingException, NumberFormatException, InvalidInputException {
     try {
       prop.load(DefaultSettings.class.getResourceAsStream(DEFAULT_SETTINGS_PATH));
       
@@ -197,15 +208,17 @@ public class DefaultSettings extends Settings {
       setPort(Integer.parseInt(prop.getProperty("port")));
 
       setDefaultPath(prop.getProperty("defaultPath"));
-      
+
       PluginLoader.getInstance().resetActivePlugins();
 
     } catch (IOException e) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("Settings can not be loaded");
-      PresenterManager.showAlertDialog(alert);
+      
+      throw new LoadingException(
+          AlertType.ERROR,
+          I18N.get("alert.title.error"),
+          I18N.get("alert.input.invalid"),
+          "Settings can not be loaded",
+          e);
     } catch (ExceptionInInitializerError e) {
       e.printStackTrace();
     }
@@ -230,17 +243,18 @@ public class DefaultSettings extends Settings {
    * Sets port of local network.
    *
    * @param port : port of local network
+   * @throws InvalidInputException Thrown when the port is not valid.
    */
-  public void setPort(int port) {
+  public void setPort(int port) throws InvalidInputException {
     if (PortNumValidator.getInstance().isValid(String.valueOf(port))) {
       DefaultSettings.port = port;
     } else {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("Port is not valid");
-      PresenterManager.showAlertDialog(alert);
-      return;
+      
+      throw new InvalidInputException(
+          AlertType.ERROR,
+          I18N.get("alert.title.error"),
+          I18N.get("alert.input.invalid"),
+          "Port is not valid");
     }
     prop.setProperty("port", String.valueOf(getPort()));
     storeUserProperties();
@@ -256,9 +270,7 @@ public class DefaultSettings extends Settings {
     storeUserProperties();
   }
 
-  /**
-   * Stores all properties changed by the user in the external property file.
-   */
+  /** Stores all properties changed by the user in the external property file. */
   private void storeUserProperties() {
     try {
       prop.store(new FileOutputStream(userSettingsFile), null);

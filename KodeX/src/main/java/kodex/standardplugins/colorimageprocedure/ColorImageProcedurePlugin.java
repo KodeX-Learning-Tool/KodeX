@@ -13,6 +13,7 @@ import kodex.pluginutils.presenter.chainlink.ColorImageChainLinkPresenter;
 import kodex.pluginutils.presenter.chainlink.RGBByteListChainLinkPresenter;
 import kodex.pluginutils.presenter.chainlink.RGBListChainLinkPresenter;
 import kodex.pluginutils.presenter.chainlink.RGBMatrixChainLinkPresenter;
+import kodex.presenter.PresenterManager;
 import kodex.standardplugins.colorimageprocedure.presenter.ColorImageImportPresenter;
 
 /**
@@ -58,8 +59,8 @@ public class ColorImageProcedurePlugin extends ProcedurePlugin {
   }
 
   @Override
-  public ColorImageImportPresenter createImportPresenter() {
-    return new ColorImageImportPresenter(this);
+  public ColorImageImportPresenter createImportPresenter(PresenterManager pm) {
+    return new ColorImageImportPresenter(this, pm);
   }
 
   @Override

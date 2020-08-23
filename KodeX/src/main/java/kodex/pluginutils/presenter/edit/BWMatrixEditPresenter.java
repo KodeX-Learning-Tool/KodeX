@@ -7,6 +7,7 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import kodex.exceptions.AlertWindowException;
 import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.pluginutils.model.content.BinaryMatrix;
@@ -76,7 +77,7 @@ public class BWMatrixEditPresenter extends ChainLinkEditPresenter {
   }
 
   @Override
-  public void handleSubmit() {
+  public void handleSubmit() throws AlertWindowException {
     content.set(selectedX, selectedY, Integer.parseInt(blackField.getText()));
     chainLinkPresenter.updateChain();
   }

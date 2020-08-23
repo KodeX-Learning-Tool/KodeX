@@ -6,6 +6,9 @@ import kodex.plugininterface.Content;
 /**
  * This class holds data in list format. It adds validation and exporting capabilities to Javas
  * LinkedList.
+ * 
+ * @author Yannick Neubert
+ * @version 1.0
  */
 
 //This is a workaround for the isValid method since generics could not be
@@ -48,6 +51,10 @@ public abstract class AbstractList<E> extends Content {
    * @param list The LinkedList containing this Contents data
    */
   public void setList(List<E> list) {
+    if (list == null) {
+      throw new IllegalArgumentException();
+    }
+
     this.list = list;
   }
 

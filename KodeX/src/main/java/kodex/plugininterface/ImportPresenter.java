@@ -23,8 +23,8 @@ import kodex.presenter.ProcedureLayoutPresenter;
  * @version 1.0
  */
 public abstract class ImportPresenter implements IPresenter {
-
-  /* Specific plugin the import presenter is created for */
+  
+  /** Specific plugin the import presenter is created for. */
   protected ProcedurePlugin plugin;
 
   /** The reference to the procedure layout presenter. */
@@ -48,11 +48,17 @@ public abstract class ImportPresenter implements IPresenter {
   @Override
   public abstract AnchorPane getView();
 
-  /** Called if input for decoding is loaded and handles it. */
-  public abstract void handleDecodeImport();
+  /** Called if input for decoding is loaded and handles it. 
+   * 
+   *  @throws InvalidImportException if the imported file is invalid
+   */
+  public abstract void handleDecodeImport() throws InvalidImportException;
 
-  /** Called if input for encoding is loaded and handles it. */
-  public abstract void handleEncodeImport();
+  /** Called if input for encoding is loaded and handles it. 
+   *
+   *  @throws InvalidImportException if the imported file is invalid
+   */
+  public abstract void handleEncodeImport() throws InvalidImportException;
 
   /**
    * Sets the LayoutPresenter for this import in order to initiate a switch to the ChainPresenter if

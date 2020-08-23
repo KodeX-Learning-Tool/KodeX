@@ -3,11 +3,11 @@ package kodex.pluginutils.model.content;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
 
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
-import kodex.presenter.PresenterManager;
 
 /**
  * This class holds data in string format. A CharacterString consists of characters. 
@@ -36,14 +36,11 @@ public class CharacterString extends AbstractString {
   }
 
   @Override
-  public boolean isValid(String input) {
+  public boolean isValid(String input) throws InvalidInputException {
     if (input == null) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("Input is empty");
-      PresenterManager.showAlertDialog(alert);
-      return false;
+      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+          I18N.get("alert.input.invalid"), 
+          "Content validation input is empty");
     }
     return true;
   }
@@ -55,25 +52,23 @@ public class CharacterString extends AbstractString {
 
       //header
       writer.write("HEADER\n");
-      header.forEach((key, value) -> { 
-        try {
-          writer.write(key + " " + value + "\n");
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-      });
+      if (header != null) {
+        HashMap<String, Object> map = (HashMap<String, Object>) header;
+        map.forEach((key, value) -> { 
+          try {
+            writer.write(key + " " + value + "\n");
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        });
+      }
 
       //content
       writer.write("CONTENT\n");
       writer.write(data);
       writer.close();
     } catch (IOException e) {
-      Alert alert = new Alert(AlertType.ERROR);
-      
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("Something went wrong creating this file");
-      PresenterManager.showAlertDialog(alert);
+      e.printStackTrace();
     }
   }
   

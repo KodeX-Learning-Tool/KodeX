@@ -3,10 +3,10 @@ package kodex.presenter;
 import java.io.File;
 import java.util.Locale;
 import java.util.Optional;
+
 import javafx.collections.FXCollections;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -16,6 +16,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.util.StringConverter;
+import kodex.exceptions.AlertWindowException;
+import kodex.exceptions.InvalidInputException;
+import kodex.exceptions.LoadingException;
 import kodex.model.DefaultSettings;
 import kodex.model.I18N;
 import kodex.model.validator.PortNumValidator;
@@ -128,16 +131,34 @@ public class SettingsPresenter extends Presenter {
   @FXML
   private void handleRestoreDefaultSettings() {
 
-    Alert alert = new Alert(AlertType.CONFIRMATION);
-    alert.titleProperty().bind(I18N.createStringBinding("alert.title.confirmation"));
-    alert.headerTextProperty().bind(I18N.createStringBinding("alert.settings.reset"));
-    alert.setContentText("Restore default settings? "
-        + " All changes made to the settings will be lost.");
-
-    Optional<ButtonType> result = PresenterManager.showAlertDialog(alert);
+    Optional<ButtonType> result =
+        PresenterManager.showAlertDialog(
+            AlertType.CONFIRMATION,
+            I18N.get("alert.title.confirmation"),
+            I18N.get("alert.settings.reset"),
+            I18N.get(
+                "Restore default settings? " + " All changes made to the settings will be lost."));
 
     if (result.isPresent() && result.get() == ButtonType.OK) {
-      defaultSettings.reset();
+      try {
+        defaultSettings.reset();
+        
+      } catch (NumberFormatException e) {
+        e.printStackTrace();
+        
+        PresenterManager.showAlertDialog(
+            AlertType.ERROR,
+            I18N.get("alert.title.error"),
+            I18N.get("alert.input.invalid"),
+            "Saved port is corrupted and not a well formated number.");
+        
+        return;
+        
+      } catch (LoadingException | InvalidInputException e) {
+        e.printStackTrace();
+        PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+        return;
+      }
 
       // initialize all settings again to display the reset
       this.initialize();
@@ -157,27 +178,32 @@ public class SettingsPresenter extends Presenter {
       // port number is invalid
 
       setErrorPseudoClass(portTextField, true);
-
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("The input is not a valid port. "
-          + "The number has to be between 0 and 65535.");
-      PresenterManager.showAlertDialog(alert);
+      PresenterManager.showAlertDialog(AlertType.ERROR, I18N.get("alert.title.error"),
+          I18N.get("alert.input.invalid"), I18N.get(
+              "The input is not a valid port. " + "The number has to be between 0 and 65535."));
 
       return;
     }
 
     int portNumber = Integer.parseInt(portText);
 
-    defaultSettings.setPort(portNumber);
+    try {
+      defaultSettings.setPort(portNumber);
+    } catch (InvalidInputException e) {
+      e.printStackTrace();
+      PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+    }
   }
 
   /** Initializes the view-object created by the FXMLLoader. */
   @FXML
   private void initialize() {
 
-    defaultSettings = DefaultSettings.getInstance();
+    try {
+      defaultSettings = DefaultSettings.getInstance();
+    } catch (AlertWindowException e) {
+      PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+    }
 
     lblHeader.textProperty().bind(I18N.createStringBinding("settingspage.header"));
     lblLanguage.textProperty().bind(I18N.createStringBinding("settingspage.language.header"));

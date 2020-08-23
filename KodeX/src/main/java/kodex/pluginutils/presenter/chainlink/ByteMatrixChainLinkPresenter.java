@@ -2,25 +2,27 @@ package kodex.pluginutils.presenter.chainlink;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser.ExtensionFilter;
+
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ChainStep;
-import kodex.pluginutils.model.content.DecMatrix;
-import kodex.pluginutils.presenter.edit.DecMatrixEditPresenter;
+import kodex.pluginutils.model.content.ByteMatrix;
+import kodex.pluginutils.presenter.edit.ByteMatrixEditPresenter;
 import kodex.pluginutils.presenter.header.RGBMatrixHeaderPresenter;
 
 /**
- * The Class DecMatrixChainLinkPresenter manages the view for the dec matrix.
+ * The Class DecMatrixChainLinkPresenter manages the view for the byte matrix.
  *
  * @author Raimon Gramlich
  * @author Patrick Spiesberger
  */
-public class DecMatrixChainLinkPresenter extends ChainLinkPresenter {
+public class ByteMatrixChainLinkPresenter extends ChainLinkPresenter {
 
   /**
    * The Class MatrixButton.
@@ -68,11 +70,12 @@ public class DecMatrixChainLinkPresenter extends ChainLinkPresenter {
    * @param previousStep the previous step
    * @param nextStep     the next step
    */
-  public DecMatrixChainLinkPresenter(ChainLinkPresenter
-      previous, ChainStep previousStep, ChainStep nextStep) {
+  public ByteMatrixChainLinkPresenter(
+      ChainLinkPresenter previous, ChainStep previousStep, ChainStep nextStep) {
+
     super(previous, previousStep, nextStep);
-    chainLinkEditPresenter = new DecMatrixEditPresenter(this);
-    content = new DecMatrix(3, 3);
+    chainLinkEditPresenter = new ByteMatrixEditPresenter(this);
+    content = new ByteMatrix(3, 3);
     chainLinkHeaderPresenter = new RGBMatrixHeaderPresenter(this.getContent());
   }
 
@@ -94,7 +97,7 @@ public class DecMatrixChainLinkPresenter extends ChainLinkPresenter {
 
   @Override
   public AnchorPane getView() {
-    DecMatrix matrix = (DecMatrix) content;
+    ByteMatrix matrix = (ByteMatrix) content;
 
     matrixPane.setPrefColumns(matrix.getWidth());
     matrixPane.setPrefHeight(matrix.getHeight());
@@ -141,7 +144,7 @@ public class DecMatrixChainLinkPresenter extends ChainLinkPresenter {
 
   @Override
   public void updateView() {
-    DecMatrix matrix = (DecMatrix) content;
+    ByteMatrix matrix = (ByteMatrix) content;
 
     matrixPane.setPrefColumns(matrix.getWidth());
     matrixPane.setPrefHeight(matrix.getHeight());

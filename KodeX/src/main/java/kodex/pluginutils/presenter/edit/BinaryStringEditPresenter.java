@@ -2,16 +2,17 @@ package kodex.pluginutils.presenter.edit;
 
 import java.util.function.UnaryOperator;
 
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.AnchorPane;
+
+import kodex.exceptions.AlertWindowException;
+import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.pluginutils.model.content.BinaryString;
-import kodex.presenter.PresenterManager;
 
 /**
  * This class manages the edit view and is responsible for editing a binary string.
@@ -72,7 +73,7 @@ public class BinaryStringEditPresenter extends ChainLinkEditPresenter {
   }
 
   @Override
-  public void handleSubmit() {
+  public void handleSubmit() throws AlertWindowException {
     String input = binaryStringArea.getText();
     // strip leading zeros to verify whether the number is in range
     input = input.replaceFirst("^0+(?!$)", "");
@@ -83,13 +84,9 @@ public class BinaryStringEditPresenter extends ChainLinkEditPresenter {
         input = "0".concat(input);
       }
     } else {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("This binary string is not valid!");
-      PresenterManager.showAlertDialog(alert);
-      
-      return;
+
+      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"),
+          I18N.get("alert.input.invalid"), "This binary string has a max length of " + unitLength);
     }
     
     // replace and concatenate each part 

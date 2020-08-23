@@ -7,6 +7,7 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import kodex.exceptions.AlertWindowException;
 import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.pluginutils.model.content.BitList;
@@ -73,7 +74,7 @@ public class BitListEditPresenter extends ChainLinkEditPresenter {
   }
 
   @Override
-  public void handleSubmit() {
+  public void handleSubmit() throws AlertWindowException {
     content.getList().set(markID, Integer.parseInt(bitField.getText()));
     
     chainLinkPresenter.updateChain();

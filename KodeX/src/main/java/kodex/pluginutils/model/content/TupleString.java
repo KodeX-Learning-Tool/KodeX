@@ -4,15 +4,16 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.StringJoiner;
-import javafx.scene.control.Alert;
+
 import javafx.scene.control.Alert.AlertType;
+
+import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
 import kodex.model.Tuple;
-import kodex.plugininterface.Content;
-import kodex.presenter.PresenterManager;
 
-public class TupleString extends Content<String> {
+public class TupleString extends AbstractString {
 
   private Tuple<String, Integer>[] tuples;
 
@@ -27,8 +28,14 @@ public class TupleString extends Content<String> {
 
   @SuppressWarnings("unchecked")
   @Override
-  public boolean isValid(String input) {
+  public boolean isValid(String input) throws InvalidInputException {
 
+    if (input == null) {
+      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+          I18N.get("alert.input.invalid"), 
+          "Content validation input is empty");
+    }
+    
     String[] inputStrings = input.split(" ");
     
     tuples = new Tuple[inputStrings.length];
@@ -37,40 +44,28 @@ public class TupleString extends Content<String> {
 
       String[] tupleParts = inputStrings[i].split(":");
       
-
-
       if (tupleParts.length != 2) {
-        showAlert("Import is not a tupel");
-        return false;
+        throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+            I18N.get("alert.input.invalid"), 
+            "Invalid input, input contains unpaired elements");
       }
 
       if (!isValidLetter(tupleParts[0])) {
-        showAlert("invalid letter at position 0");
-        return false;
+        throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+            I18N.get("alert.input.invalid"), 
+            "Invalid input, no letter at position " + 0);
       }
 
       if (!isValidNumber(tupleParts[1])) {
-        showAlert("invalid letter at position 1");
-        return false;
+        throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+            I18N.get("alert.input.invalid"), 
+            "Invalid input, no number at position " + 1);
       }
 
       tuples[i] = new Tuple<>(tupleParts[0], Integer.parseInt(tupleParts[1]));
     }
 
     return true;
-  }
-  
-  /**
-   * Show an alert for invalid input.
-   *
-   * @param contentText the content text
-   */
-  private void showAlert(String contentText) {
-    Alert alert = new Alert(AlertType.ERROR);
-    alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-    alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-    alert.setContentText(contentText);
-    PresenterManager.showAlertDialog(alert);
   }
 
   /**
@@ -116,6 +111,22 @@ public class TupleString extends Content<String> {
     try {
       FileWriter writer = new FileWriter(file);
       
+      //header
+      writer.write("HEADER\n");
+      if (header != null) {
+        HashMap<String, Object> map = (HashMap<String, Object>) header;
+        map.forEach((key, value) -> { 
+          try {
+            writer.write(key + " " + value + "\n");
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        });
+      }
+
+      //content
+      writer.write("CONTENT\n");
+
       StringJoiner content = new StringJoiner(" ");
       
       Arrays.asList(tuples).forEach(t -> content.add(t.toString()));

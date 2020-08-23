@@ -5,6 +5,7 @@ import java.util.function.UnaryOperator;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.AnchorPane;
+import kodex.exceptions.AlertWindowException;
 import kodex.model.Tuple;
 import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
@@ -88,7 +89,7 @@ public class TupleStringEditPresenter extends ChainLinkEditPresenter {
   }
 
   @Override
-  public void handleSubmit() {
+  public void handleSubmit() throws AlertWindowException {
     
     String[] tupleParts = tupleStringArea.getText().split(":");
     

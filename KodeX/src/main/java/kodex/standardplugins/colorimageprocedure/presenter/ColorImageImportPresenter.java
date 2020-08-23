@@ -10,7 +10,6 @@ import java.util.Scanner;
 import org.apache.commons.io.FilenameUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
@@ -20,8 +19,10 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser.ExtensionFilter;
+import kodex.exceptions.AlertWindowException;
 import kodex.model.I18N;
 import kodex.plugininterface.ImportPresenter;
+import kodex.plugininterface.InvalidImportException;
 import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.content.BinaryString;
 import kodex.pluginutils.model.content.ColorImage;
@@ -80,7 +81,7 @@ public class ColorImageImportPresenter extends ImportPresenter {
    *
    * @param plugin the procedure plugin reference
    */
-  public ColorImageImportPresenter(ProcedurePlugin plugin) {
+  public ColorImageImportPresenter(ProcedurePlugin plugin, PresenterManager pm) {
     super(plugin);
   }
   
@@ -111,7 +112,7 @@ public class ColorImageImportPresenter extends ImportPresenter {
   }
 
   @Override
-  public void handleDecodeImport() {
+  public void handleDecodeImport() throws InvalidImportException {
     // supported extensions
     ArrayList<String> extensions = new ArrayList<>();
     extensions.add("*.txt");
@@ -129,9 +130,8 @@ public class ColorImageImportPresenter extends ImportPresenter {
         return;
       }
 
-      if (!parseTextFile(file)) {
-        return;
-      }
+      parseTextFile(file);
+      
       if (validateDecodeImport()) {
         procedureLayoutPresenter.switchToChainPresenter(false);
       }
@@ -139,7 +139,7 @@ public class ColorImageImportPresenter extends ImportPresenter {
   }
 
   @Override
-  public void handleEncodeImport() {
+  public void handleEncodeImport() throws InvalidImportException {
     // supported extensions
     ArrayList<String> extensions = new ArrayList<>();
     extensions.add("*.png");
@@ -163,13 +163,10 @@ public class ColorImageImportPresenter extends ImportPresenter {
       int width = (int) image.getWidth();
       int height = (int) image.getHeight();
       
-      if (width <= 0 || height <= 0) {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.titleProperty().bind(I18N.createStringBinding(ERROR_PROPERTY_KEY));
-        alert.headerTextProperty().bind(I18N.createStringBinding(INVALID_IMPORT_PROPERTY_KEY));
-        alert.setContentText("The content has dimensions less or equal to 0.");
-        PresenterManager.showAlertDialog(alert);
-        return;
+      if (width <= 0 || height <= 0) {       
+        throw new InvalidImportException(AlertType.ERROR, I18N.get(ERROR_PROPERTY_KEY),
+            I18N.get(INVALID_IMPORT_PROPERTY_KEY),
+            "The content has dimensions less or equal to 0.");
       }
 
       // Creating a writable image
@@ -210,12 +207,10 @@ public class ColorImageImportPresenter extends ImportPresenter {
 
       if (validateEncodeImport()) {
         if (containedAlpha) {
-          Alert alert = new Alert(AlertType.INFORMATION);
-          alert.titleProperty().bind(I18N.createStringBinding("alert.title.information"));
-          alert.headerTextProperty().bind(I18N.createStringBinding("alert.import.image"));
-          alert.setContentText("The imported Image contained alpha values. Colors of pixel with "
-              + "alpha values were converted since this procedure only uses RGB values.");
-          PresenterManager.showAlertDialog(alert);
+          PresenterManager.showAlertDialog(AlertType.INFORMATION,
+              I18N.get("alert.title.information"), I18N.get("alert.import.image"),
+              "The imported Image contained alpha values. Colors of pixel with "
+                  + "alpha values were converted since this procedure only uses RGB values.");
         }
         
         procedureLayoutPresenter.switchToChainPresenter(true);
@@ -228,25 +223,28 @@ public class ColorImageImportPresenter extends ImportPresenter {
    *
    * @param givenFileExtension the given file
    * @param expectedFileType the expected file type
+   * @throws InvalidImportException if the import is invalid
    */
-  private void importAlert(File file, String expectedFileType) {
-    Alert alert = new Alert(AlertType.ERROR);
-    alert.titleProperty().bind(I18N.createStringBinding(ERROR_PROPERTY_KEY));
-    alert.headerTextProperty().bind(I18N.createStringBinding(INVALID_IMPORT_PROPERTY_KEY));
-    alert.setContentText("The extension ." + FilenameUtils.getExtension(file.getName()) 
+  private void importAlert(File file, String expectedFileType) throws InvalidImportException {
+    throw new InvalidImportException(AlertType.ERROR, I18N.get(ERROR_PROPERTY_KEY),
+        I18N.get(INVALID_IMPORT_PROPERTY_KEY),
+        "The extension ." + FilenameUtils.getExtension(file.getName()) 
         +  " does not belong to a supported " + expectedFileType + " file type.");
-    PresenterManager.showAlertDialog(alert);
   }
 
   @Override
   public boolean validateDecodeImport() {
     BinaryString content = (BinaryString) plugin.getChainTail().getContent();
     
-    if (content.isValid(binaryString)) {
-      content.setString(binaryString);
-      content.setHeader(header);
-      plugin.getChainTail().setContent(content);
-      return true;
+    try {
+      if (content.isValid(binaryString)) {
+        content.setString(binaryString);
+        content.setHeader(header);
+        plugin.initDecodeProcedure(content);
+        return true;
+      }
+    } catch (AlertWindowException e) {
+      PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
     }
     return false;
   }
@@ -255,19 +253,23 @@ public class ColorImageImportPresenter extends ImportPresenter {
   public boolean validateEncodeImport() {
     ColorImage content = (ColorImage) plugin.getChainHead().getContent();
 
-    if (content.isValid(writableImage)) {
-      HashMap<String, Object> map = new HashMap<>();
-      map.put(WIDTH_KEY, writableImage.getWidth());
-      map.put(HEIGHT_KEY, writableImage.getHeight());
-      
-      content.setHeader(map);
-      plugin.getChainHead().updateChain();
-      return true;
+    try {
+      if (content.isValid(writableImage)) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put(WIDTH_KEY, writableImage.getWidth());
+        map.put(HEIGHT_KEY, writableImage.getHeight());
+        
+        content.setHeader(map);
+        plugin.initEncodeProcedure(content);
+        return true;
+      }
+    } catch (AlertWindowException e) {
+      PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
     }
     return false;
   }
   
-  private boolean parseTextFile(File file) {
+  private void parseTextFile(File file) throws InvalidImportException {
     try (Scanner in = new Scanner(file)) {
       
       //header
@@ -289,25 +291,13 @@ public class ColorImageImportPresenter extends ImportPresenter {
       binaryString = in.nextLine();
 
     } catch (InputMismatchException e) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding(ERROR_PROPERTY_KEY));
-      alert.headerTextProperty().bind(I18N.createStringBinding(INVALID_CONTENT_PROPERTY_KEY));
-      alert.setContentText(
+      throw new InvalidImportException(AlertType.ERROR, I18N.get(ERROR_PROPERTY_KEY),
+          I18N.get(INVALID_CONTENT_PROPERTY_KEY),
           "The file doesn't have a valid format. Check if the header or content has been damaged.");
-      PresenterManager.showAlertDialog(alert);
-      
-      return false;
     } catch (FileNotFoundException e1) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding(ERROR_PROPERTY_KEY));
-      alert.headerTextProperty().bind(I18N.createStringBinding(INVALID_IMPORT_PROPERTY_KEY));
-      alert.setContentText(
+      throw new InvalidImportException(AlertType.ERROR, I18N.get(ERROR_PROPERTY_KEY),
+          I18N.get(INVALID_CONTENT_PROPERTY_KEY),
           "The content could not be parsed because the program couldn't find the file.");
-      PresenterManager.showAlertDialog(alert);
-      
-      return false;
-    } 
-    
-    return true;
+    }
   }
 }

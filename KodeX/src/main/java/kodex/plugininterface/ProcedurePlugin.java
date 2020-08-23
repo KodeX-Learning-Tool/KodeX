@@ -2,6 +2,8 @@ package kodex.plugininterface;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import kodex.exceptions.AlertWindowException;
+import kodex.presenter.PresenterManager;
 
 /**
  * This class forms the communication interface between a plugin and the framework. All classes that
@@ -67,10 +69,11 @@ public abstract class ProcedurePlugin extends Plugin implements Comparable<Proce
 
   /**
    * Creates and returns a new ImportPresenter instance.
+   * @param pm the reference to the presenter manager
    *
    * @return created instance of ImportPresenter
    */
-  public abstract ImportPresenter createImportPresenter();
+  public abstract ImportPresenter createImportPresenter(PresenterManager pm);
 
   /**
    * Creates and returns a new ProcedureInformation instance.
@@ -106,8 +109,9 @@ public abstract class ProcedurePlugin extends Plugin implements Comparable<Proce
    * creates all linkes of the process and thus initializes them
    *
    * @param content : Content for the first step of the procedure
+   * @throws AlertWindowException if an error happens when calculating the chain
    */
-  public void initDecodeProcedure(Content<?> content) {
+  public void initDecodeProcedure(Content<?> content) throws AlertWindowException {
     chainLinks[chainLinks.length - 1].setContent(content);
   }
 
@@ -117,8 +121,9 @@ public abstract class ProcedurePlugin extends Plugin implements Comparable<Proce
    * creates all linkes of the process and thus initializes them
    *
    * @param content : Content for the first step of the procedure
+   * @throws AlertWindowException if an error happens when calculating the chain
    */
-  public void initEncodeProcedure(Content<?> content) {
+  public void initEncodeProcedure(Content<?> content) throws AlertWindowException {
     chainLinks[0].setContent(content);
   }
 }

@@ -1,7 +1,6 @@
 package kodex.pluginutils.presenter.edit;
 
 import java.util.function.UnaryOperator;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
@@ -10,11 +9,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import kodex.exceptions.AlertWindowException;
+import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.pluginutils.model.content.RGBMatrix;
-import kodex.presenter.PresenterManager;
 
 /**
  * This class manages the edit view and is responsible for editing a RGB matrix.
@@ -93,7 +93,7 @@ public class RGBMatrixEditPresenter extends ChainLinkEditPresenter {
   }
 
   @Override
-  public void handleSubmit() {
+  public void handleSubmit() throws AlertWindowException {
     
     if (validateColorValue(redField) && validateColorValue(greenField) 
         && validateColorValue(blueField)) {
@@ -101,13 +101,9 @@ public class RGBMatrixEditPresenter extends ChainLinkEditPresenter {
           Double.valueOf(redField.getText()) / 255d,
           Double.valueOf(greenField.getText()) / 255d,
           Double.valueOf(blueField.getText()) / 255d, 1d));
-    } else {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("RGB values have to be between 0 and 255.");
-      
-      PresenterManager.showAlertDialog(alert);
+    } else {    
+      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"),
+          I18N.get("alert.input.invalid"), "RGB values have to be between 0 and 255.");
     }
         
     chainLinkPresenter.updateChain();

@@ -6,13 +6,14 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import org.apache.commons.io.FilenameUtils;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser.ExtensionFilter;
+import kodex.exceptions.AlertWindowException;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ImportPresenter;
+import kodex.plugininterface.InvalidImportException;
 import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.content.LetterString;
 import kodex.pluginutils.model.content.TupleString;
@@ -33,8 +34,9 @@ public class RLEImportPresenter extends ImportPresenter {
    * Instantiates a new rle import presenter.
    *
    * @param plugin the procedure plugin reference
+   * @param pm the presenter manager reference
    */
-  public RLEImportPresenter(ProcedurePlugin plugin) {
+  public RLEImportPresenter(ProcedurePlugin plugin, PresenterManager pm) {
     super(plugin);
   }
 
@@ -56,7 +58,7 @@ public class RLEImportPresenter extends ImportPresenter {
   }
 
   @Override
-  public void handleDecodeImport() {
+  public void handleDecodeImport() throws InvalidImportException {
     // supported extensions
     ArrayList<String> extensions = new ArrayList<>();
     extensions.add("*.txt");
@@ -97,7 +99,7 @@ public class RLEImportPresenter extends ImportPresenter {
   }
 
   @Override
-  public void handleEncodeImport() {
+  public void handleEncodeImport() throws InvalidImportException {
     // supported extensions
     ArrayList<String> extensions = new ArrayList<>();
     extensions.add("*.txt");
@@ -143,24 +145,20 @@ public class RLEImportPresenter extends ImportPresenter {
    *
    * @param givenFileExtension the given file
    * @param expectedFileType the expected file type
+   * @throws InvalidImportException if the import is invalid
    */
-  private void importExtensionAlert(File file, String expectedFileType) {
-    Alert alert = new Alert(AlertType.ERROR);
-    alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-    alert.headerTextProperty().bind(I18N.createStringBinding("alert.import.invalid"));
-    alert.setContentText("The extension ." + FilenameUtils.getExtension(file.getName()) 
+  private void importExtensionAlert(File file, String expectedFileType) 
+      throws InvalidImportException {
+    throw new InvalidImportException(AlertType.ERROR, I18N.get("alert.title.error"),
+        I18N.get("alert.import.invalid"),
+        "The extension ." + FilenameUtils.getExtension(file.getName()) 
         +  " does not belong to a supported " + expectedFileType + " file type.");
-    PresenterManager.showAlertDialog(alert);
   }
   
-  private void importAlert(File file) {
-    
-    Alert alert = new Alert(AlertType.ERROR);
-    alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-    alert.headerTextProperty().bind(I18N.createStringBinding("alert.import.invalid"));
-    alert.setContentText("The chosen file ("
-        + file.getName() +  ") is not a text file with valid content.");
-    PresenterManager.showAlertDialog(alert);
+  private void importAlert(File file) throws InvalidImportException {    
+    throw new InvalidImportException(AlertType.ERROR, I18N.get("alert.title.error"),
+        I18N.get("alert.import.invalid"), "The chosen file (" + file.getName() 
+        + ") is not a text file with valid content.");
   }
 
   @Override
@@ -173,10 +171,15 @@ public class RLEImportPresenter extends ImportPresenter {
 
     TupleString content = (TupleString) clp.getContent();
 
-    if (content.isValid(tupleString)) {
-      clp.updateChain();
-      return true;
+    try {
+      if (content.isValid(tupleString)) {
+        clp.updateChain();
+        return true;
+      }
+    } catch (AlertWindowException e) {
+      PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
     }
+
     return false;
   }
 
@@ -185,10 +188,15 @@ public class RLEImportPresenter extends ImportPresenter {
 
     LetterString content = (LetterString) plugin.getChainHead().getContent();
 
-    if (content.isValid(letterString)) {
-      plugin.getChainHead().updateChain();
-      return true;
+    try {
+      if (content.isValid(letterString)) {
+        plugin.getChainHead().updateChain();
+        return true;
+      }
+    } catch (AlertWindowException e) {
+      PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
     }
+
     return false;
   }
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser.ExtensionFilter;
+import kodex.exceptions.AlertWindowException;
 import kodex.model.I18N;
 import kodex.presenter.IPresenter;
 
@@ -216,8 +217,9 @@ public abstract class ChainLinkPresenter implements IPresenter {
    * Sets the content for this link.
    *
    * @param content : content to be set
+   * @throws AlertWindowException if an error happens during updating the chain
    */
-  public void setContent(Content<?> content) {
+  public void setContent(Content<?> content) throws AlertWindowException {
     this.content = content;
     updateChain();
   }
@@ -243,15 +245,18 @@ public abstract class ChainLinkPresenter implements IPresenter {
   /**
    * Recursively updates the content of all links of the process chain from this link. Must always
    * be called when the content of the link has been edited.
+   * @throws AlertWindowException if an error happens during encoding or decoding 
    */
-  public void updateChain() {
+  public void updateChain() throws AlertWindowException {
     updateView();
     updateNextChainLink();
     updatePrevChainLink();
   }
 
-  /** Updates the next link. */
-  public void updateNextChainLink() {
+  /** Updates the next link. 
+   * @throws AlertWindowException if an error happens during encoding
+   */
+  public void updateNextChainLink() throws AlertWindowException {
     if (next != null) {
       nextStep.encode(content, next.getContent());
       next.updateView();
@@ -259,8 +264,10 @@ public abstract class ChainLinkPresenter implements IPresenter {
     }
   }
 
-  /** Updates the previous link. */
-  public void updatePrevChainLink() {
+  /** Updates the previous link. 
+   * @throws AlertWindowException if an error happens during decoding
+   */
+  public void updatePrevChainLink() throws AlertWindowException {
     if (previous != null) {
       previousStep.decode(content, previous.getContent());
       previous.updateView();

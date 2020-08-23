@@ -20,12 +20,14 @@ import javafx.application.Platform;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
+import kodex.exceptions.AlertWindowException;
+import kodex.exceptions.InvalidInputException;
+import kodex.exceptions.LoadingException;
 import kodex.model.DefaultSettings;
 import kodex.model.I18N;
 import kodex.model.validator.IpAddrValidator;
@@ -91,9 +93,18 @@ public class NetworkPresenter extends Presenter {
     setConnectCancelDisable(true);
   }
 
-  /** Create a file from the directory saved as the default path. */
+  /** Create a file from the directory saved as the default path. 
+   * @throws InvalidInputException Thrown when settings can not be loaded
+   * @throws LoadingException Thrown when the port is not valid.
+   */
   private File getDefaultDirectoryAsFile() {
-    return new File(DefaultSettings.getInstance().getDefaultPath());
+    try {
+      return new File(DefaultSettings.getInstance().getDefaultPath());
+    } catch (AlertWindowException e) {
+      PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(),
+          e.getContent());
+      return new File(System.getProperty("user.dir"));
+    }
   }
 
   private void closeResources(Closeable... closeables) {
@@ -357,11 +368,11 @@ public class NetworkPresenter extends Presenter {
    * @param message the message
    */
   private void showInformationDialog(String messageKey, Object... args) {
-    Alert alert = new Alert(AlertType.INFORMATION);
-    alert.titleProperty().bind(I18N.createStringBinding("alert.title.information"));
-    alert.headerTextProperty().bind(I18N.createStringBinding("alert.header.network"));
-    alert.contentTextProperty().bind(I18N.createStringBinding(messageKey, args));
-    PresenterManager.showAlertDialog(alert);
+    PresenterManager.showAlertDialog(
+        AlertType.INFORMATION,
+        I18N.get("alert.title.information"),
+        I18N.get("alert.header.network"),
+        I18N.get(messageKey, args));
   }
 
   /**
@@ -370,11 +381,11 @@ public class NetworkPresenter extends Presenter {
    * @param message the message
    */
   private void showErrorDialog(String titleKey, String messageKey, Object... args) {
-    Alert alert = new Alert(AlertType.ERROR);
-    alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-    alert.headerTextProperty().bind(I18N.createStringBinding(titleKey));
-    alert.contentTextProperty().bind(I18N.createStringBinding(messageKey, args));
-    PresenterManager.showAlertDialog(alert);
+    PresenterManager.showAlertDialog(
+        AlertType.ERROR,
+        I18N.get("alert.title.error"),
+        I18N.get(titleKey),
+        I18N.get(messageKey, args));
   }
 
   /**

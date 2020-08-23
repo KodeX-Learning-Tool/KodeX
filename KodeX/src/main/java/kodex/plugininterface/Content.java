@@ -3,6 +3,8 @@ package kodex.plugininterface;
 import java.io.File;
 import java.util.Map;
 
+import kodex.exceptions.InvalidInputException;
+
 /**
  * This abstract class is the superclass to every type of Content. It manages the content of a level
  * as well the associated header. Additionally, this class contains the functionality to export the
@@ -39,8 +41,9 @@ public abstract class Content<T> {
    * @param input : Input of the content Note: Must be defined more precisely by classes that
    *     implement this interface
    * @return true, if content is valid, otherwise false
+   * @throws InvalidInputException in case an AlertWindow should be shown
    */
-  public abstract boolean isValid(T input);
+  public abstract boolean isValid(T input) throws InvalidInputException;
 
   /**
    * Sets the header for this content.

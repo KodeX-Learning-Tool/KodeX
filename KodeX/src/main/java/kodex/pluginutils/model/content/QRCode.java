@@ -11,11 +11,7 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import kodex.model.I18N;
 import kodex.plugininterface.Content;
-import kodex.presenter.PresenterManager;
 
 /** 
  * This class holds a QRCode. A QRCode can be set via a File.
@@ -113,12 +109,7 @@ public class QRCode extends Content<File> {
     try {
       MatrixToImageWriter.writeToPath(matrix, "PNG", file.toPath());
     } catch (IOException | NullPointerException e) {
-      Alert alert = new Alert(AlertType.ERROR);
-      
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("Something went wrong creating this file");
-      PresenterManager.showAlertDialog(alert);
+      e.printStackTrace();
     }
   }
 
