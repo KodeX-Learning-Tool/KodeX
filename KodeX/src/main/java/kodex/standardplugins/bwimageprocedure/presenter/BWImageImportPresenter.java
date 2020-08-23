@@ -20,12 +20,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.InvalidImportException;
 import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.content.BinaryString;
 import kodex.pluginutils.model.content.BlackWhiteImage;
+import kodex.presenter.PresenterManager;
 
 /**
  * This class is responsible for managing the import of the black-and-white image or a binary
@@ -70,8 +72,8 @@ public class BWImageImportPresenter extends ImportPresenter {
   private static final String INVALID_CONTENT_PROPERTY_KEY = "alert.content.invalid";
   
 
-  public BWImageImportPresenter(ProcedurePlugin plugin) {
-    super(plugin);
+  public BWImageImportPresenter(ProcedurePlugin plugin, PresenterManager pm) {
+    super(plugin, pm);
   }
   
   @FXML
@@ -237,14 +239,18 @@ public class BWImageImportPresenter extends ImportPresenter {
   public boolean validateEncodeImport() {
     BlackWhiteImage content = (BlackWhiteImage) plugin.getChainHead().getContent();
 
-    if (content.isValid(img)) {
-      HashMap<String, Object> map = new HashMap<>();
-      map.put(WIDTH_KEY, img.getWidth());
-      map.put(HEIGHT_KEY, img.getHeight());
+    try {
+      if (content.isValid(img)) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put(WIDTH_KEY, img.getWidth());
+        map.put(HEIGHT_KEY, img.getHeight());
+        
+        content.setHeader(map);
+        plugin.getChainHead().updateChain();
+        return true;
+      }
+    } catch (InvalidInputException e) {
       
-      content.setHeader(map);
-      plugin.getChainHead().updateChain();
-      return true;
     }
     return false;
   }

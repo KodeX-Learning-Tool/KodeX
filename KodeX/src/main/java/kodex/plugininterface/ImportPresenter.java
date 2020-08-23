@@ -2,6 +2,7 @@ package kodex.plugininterface;
 
 import javafx.scene.layout.AnchorPane;
 import kodex.presenter.IPresenter;
+import kodex.presenter.PresenterManager;
 import kodex.presenter.ProcedureLayoutPresenter;
 
 /**
@@ -17,7 +18,10 @@ import kodex.presenter.ProcedureLayoutPresenter;
  */
 public abstract class ImportPresenter implements IPresenter {
 
-  /* Specific plugin the import presenter is created for */
+  /** The reference to the Presenter Manager. */
+  protected PresenterManager pm;
+  
+  /** Specific plugin the import presenter is created for. */
   protected ProcedurePlugin plugin;
 
   /** The reference to the procedure layout presenter. */
@@ -28,8 +32,10 @@ public abstract class ImportPresenter implements IPresenter {
    * procedure if input is valid.
    *
    * @param plugin : Plugin that uses this importer
+   * @param pm : PresenterManager to display alerts
    */
-  public ImportPresenter(ProcedurePlugin plugin) {
+  public ImportPresenter(ProcedurePlugin plugin, PresenterManager pm) {
+    this.pm = pm;
     this.plugin = plugin;
   }
 

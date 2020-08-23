@@ -26,6 +26,7 @@ import kodex.plugininterface.InvalidImportException;
 import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.content.BinaryString;
 import kodex.pluginutils.model.content.GreyScaleImage;
+import kodex.presenter.PresenterManager;
 
 /**
  * This class is responsible for managing the import of the greyscale image or a
@@ -76,8 +77,8 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
   private static final double MINIMUM_OPACITY_VALUE = 0;
 
 
-  public GreyScaleImageImportPresenter(ProcedurePlugin plugin) {
-    super(plugin);
+  public GreyScaleImageImportPresenter(ProcedurePlugin plugin, PresenterManager pm) {
+    super(plugin, pm);
   }
 
   @FXML

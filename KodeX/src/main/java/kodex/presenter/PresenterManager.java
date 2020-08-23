@@ -41,7 +41,7 @@ public class PresenterManager {
   /** Creates a new PresenterManaegr with a reference to the root stage. */
   public PresenterManager() {
 
-    // BorderPane is used, because it allowes to set the center (main page) and left
+    // BorderPane is used, because it allows to set the center (main page) and left
     // (side menu)
     this.rootLayout = new BorderPane();
 
@@ -132,7 +132,7 @@ public class PresenterManager {
   }
   
   /**
-   * Shows an alert dialog with the given params and the top level stage as the owner.
+   * Shows an alert dialog with the given parameters and the top level stage as the owner.
    *
    * @param type The alert type.
    * @param title The alert title.
