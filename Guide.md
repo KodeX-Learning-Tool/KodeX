@@ -23,8 +23,8 @@ Hierfür wird eine Klasse benötigt. Diese soll den Namen *Verfahrensname*Import
 
 Diese Klasse benötigt einen Konstruktor, welcher wie folgt aussieht:
 
-    public ColorImageImportPresenter(ProcedurePlugin plugin, PresenterManager pm) {
-	     super(plugin, pm);
+    public ColorImageImportPresenter(ProcedurePlugin plugin) {
+	     super(plugin);
 	}
 
 Außerdem muss die Methode getView() : AnchorPane überschrieben werden.  Diese soll eine AnchorPane zurück geben, welche ein Menü zum Importieren von Dateien ermöglicht. FXML Dateien bieten sich hierfür an. Ein Beispiel für "Encoding" und "Decoding" lässt sich unter src/main/resources/standardplugins/colorimageprocedure/presenter finden.
@@ -97,8 +97,8 @@ Als Orientierung, wie solch eine Klasse aussieht, folgende abstrakte Implementie
      }
       
      @Override
-     public ImportPresenter createImportPresenter(PresenterManager pm) {
-	     return new KonkreterImportPresenter(this, pm);
+     public ImportPresenter createImportPresenter() {
+	     return new KonkreterImportPresenter(this);
      }
      
      @Override
