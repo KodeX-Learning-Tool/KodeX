@@ -90,7 +90,6 @@ public class BitListChainLinkPresenter extends ChainLinkPresenter {
     bitListView.getSelectionModel().select(id);
     bitListView.scrollTo(id);
     listenForChanges = true;
-    chainLinkEditPresenter.setMarkID(id);
   }
 
   @Override

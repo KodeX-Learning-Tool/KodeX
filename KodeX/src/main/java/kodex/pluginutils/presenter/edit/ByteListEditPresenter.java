@@ -105,7 +105,7 @@ public class ByteListEditPresenter extends ChainLinkEditPresenter {
   protected void updateMarkedElement() {
     
     content = (ByteList) chainLinkPresenter.getContent();
-    
-    byteField.setText(String.valueOf(content.get(markID * unitLength)));
+
+    byteField.setText(String.valueOf(content.get(markID)));
   }
 }

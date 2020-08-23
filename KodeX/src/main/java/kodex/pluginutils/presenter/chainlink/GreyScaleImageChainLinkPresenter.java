@@ -150,10 +150,7 @@ public class GreyScaleImageChainLinkPresenter extends ChainLinkPresenter {
   }
 
   @Override
-  protected void mark(int id) {
-    // sets the mark id for editing
-    chainLinkEditPresenter.setMarkID(id);
-    
+  protected void mark(int id) {    
     id = id * scaleFactor;
     
     int width = (int) image.getWidth();

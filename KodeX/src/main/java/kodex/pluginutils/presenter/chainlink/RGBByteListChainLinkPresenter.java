@@ -87,7 +87,6 @@ public class RGBByteListChainLinkPresenter extends ChainLinkPresenter {
     rgbByteListView.getSelectionModel().select(id);
     rgbByteListView.scrollTo(id);
     listenForChanges = true;
-    chainLinkEditPresenter.setMarkID(id);
   }
 
   @Override

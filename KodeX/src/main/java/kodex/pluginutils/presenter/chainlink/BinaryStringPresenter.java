@@ -95,8 +95,6 @@ public class BinaryStringPresenter extends ChainLinkPresenter {
     suffix
         .setText(binaryString.substring(Math.min(unitLength * (id + 1),
             binaryString.length()), binaryString.length()));
-
-    chainLinkEditPresenter.setMarkID(id);
   }
 
   @Override

@@ -83,7 +83,6 @@ public class ByteListChainLinkPresenter extends ChainLinkPresenter {
     byteListView.getSelectionModel().select(id);
     byteListView.scrollTo(id);
     listenForChanges = true;
-    chainLinkEditPresenter.setMarkID(id / 8);
   }
 
   @Override
