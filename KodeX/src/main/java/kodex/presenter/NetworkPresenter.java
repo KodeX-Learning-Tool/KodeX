@@ -272,7 +272,8 @@ public class NetworkPresenter extends Presenter {
                     }
 
                     fileChooser.setInitialFileName(fileName);
-                    return fileChooser.showSaveDialog(null);
+                    
+                    return PresenterManager.showSaveFileChooser(fileChooser);
                   },
                       Platform::runLater)
                   .join(); // runs on FX thread and waits for result
