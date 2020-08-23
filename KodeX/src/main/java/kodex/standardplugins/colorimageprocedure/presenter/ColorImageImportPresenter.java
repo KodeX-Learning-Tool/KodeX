@@ -243,7 +243,7 @@ public class ColorImageImportPresenter extends ImportPresenter {
       if (content.isValid(binaryString)) {
         content.setString(binaryString);
         content.setHeader(header);
-        plugin.getChainTail().setContent(content);
+        plugin.initDecodeProcedure(content);
         return true;
       }
     } catch (InvalidInputException e) {
@@ -263,7 +263,7 @@ public class ColorImageImportPresenter extends ImportPresenter {
         map.put(HEIGHT_KEY, writableImage.getHeight());
         
         content.setHeader(map);
-        plugin.getChainHead().setContent(content);
+        plugin.initEncodeProcedure(content);
         return true;
       }
     } catch (InvalidInputException e) {

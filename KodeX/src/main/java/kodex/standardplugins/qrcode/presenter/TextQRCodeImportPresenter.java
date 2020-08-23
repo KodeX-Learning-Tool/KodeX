@@ -171,13 +171,12 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
 
   @Override
   public boolean validateDecodeImport() {
-    ChainLinkPresenter clp = plugin.getChainTail();
     QRCode content = new QRCode();
 
     if (content.isValid(qrcode)) {
       header = new HashMap<>();
       content.setHeader(header);
-      clp.setContent(content);
+      plugin.initDecodeProcedure(content);
       return true;
     }
     return false;
@@ -185,7 +184,6 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
 
   @Override
   public boolean validateEncodeImport() {
-    ChainLinkPresenter clp = plugin.getChainHead();
     CharacterString content = new CharacterString();
     
     try {
@@ -194,7 +192,7 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
         content.setString(string);
         header = new HashMap<>();
         content.setHeader(header);
-        clp.setContent(content);
+        plugin.initEncodeProcedure(content);
         return true;
       }
     } catch (InvalidInputException e) {

@@ -238,7 +238,7 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
       if (content.isValid(binaryString)) {
         content.setString(binaryString);
         content.setHeader(header);
-        plugin.getChainTail().setContent(content);
+        plugin.initDecodeProcedure(content);
         return true;
       }
     } catch (InvalidInputException e) {
@@ -258,7 +258,7 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
         map.put(HEIGHT_KEY, img.getHeight());
         
         content.setHeader(map);
-        plugin.getChainHead().setContent(content);
+        plugin.initEncodeProcedure(content);
         return true;
       }
     } catch (InvalidInputException e) {

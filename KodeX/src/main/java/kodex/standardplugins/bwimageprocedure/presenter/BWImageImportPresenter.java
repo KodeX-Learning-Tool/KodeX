@@ -207,7 +207,7 @@ public class BWImageImportPresenter extends ImportPresenter {
       if (content.isValid(binaryString)) {
         content.setString(binaryString);
         content.setHeader(header);
-        plugin.getChainTail().setContent(content);
+        plugin.initDecodeProcedure(content);
         return true;
       }
     } catch (InvalidInputException e) {
@@ -225,9 +225,8 @@ public class BWImageImportPresenter extends ImportPresenter {
         HashMap<String, Object> map = new HashMap<>();
         map.put(WIDTH_KEY, img.getWidth());
         map.put(HEIGHT_KEY, img.getHeight());
-        
         content.setHeader(map);
-        plugin.getChainHead().setContent(content);
+        plugin.initEncodeProcedure(content);
         return true;
       }
     } catch (InvalidInputException e) {
