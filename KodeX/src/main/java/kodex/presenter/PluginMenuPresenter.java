@@ -77,7 +77,11 @@ public class PluginMenuPresenter extends Presenter {
     // add the plugin located at the given path
     File file = PresenterManager.showOpenFileChooser(chooser);
     if (file != null) {
-      PluginLoader.getInstance().importPlugin(file);
+      try {
+        PluginLoader.getInstance().importPlugin(file);
+      } catch (LoadingException e) {
+        PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+      }
     }
   }
 
@@ -100,14 +104,14 @@ public class PluginMenuPresenter extends Presenter {
     Plugin plugin = pluginTable.getSelectionModel().getSelectedItem();
 
     if (plugin == null) {
-      presenterManager.showAlertDialog(
+      PresenterManager.showAlertDialog(
           AlertType.INFORMATION,
           I18N.get("alert.title.information"),
           I18N.get("alert.operation.invalid"),
           I18N.get("No plugin selected."));
 
     } else if (defaultPlugins.contains(plugin.pluginNameProperty().get())) {
-      presenterManager.showAlertDialog(
+      PresenterManager.showAlertDialog(
           AlertType.INFORMATION,
           I18N.get("alert.title.information"),
           I18N.get("alert.operation.invalid"),
@@ -115,7 +119,7 @@ public class PluginMenuPresenter extends Presenter {
 
     } else {
       Optional<ButtonType> result =
-          presenterManager.showAlertDialog(
+          PresenterManager.showAlertDialog(
               AlertType.CONFIRMATION,
               I18N.get("alert.title.confirmation"),
               I18N.get("alert.delete.plugin"),
@@ -129,7 +133,7 @@ public class PluginMenuPresenter extends Presenter {
           pluginLoader.removePlugin(plugin);
         } catch (LoadingException e) {
           e.printStackTrace();
-          presenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(),
+          PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(),
               e.getContent());
         }
       }
