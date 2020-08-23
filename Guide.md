@@ -1,5 +1,4 @@
 
-
 # Anleitung zum Schreiben von Verfahren-Plugins
 
 ## Einführung
@@ -25,8 +24,8 @@ Hierfür wird eine Klasse benötigt. Diese soll den Namen *Verfahrensname*Import
 
 Diese Klasse benötigt einen Konstruktor, welcher wie folgt aussieht:
 
-    public ColorImageImportPresenter(ProcedurePlugin plugin) {
-	    super(plugin);
+    public ColorImageImportPresenter(ProcedurePlugin plugin, PresenterManager pm) {
+	     super(plugin, pm);
 	}
 
 Außerdem muss die Methode getView() : AnchorPane überschrieben werden.  Diese soll eine AnchorPane zurück geben, welche ein Menü zum Importieren von Dateien ermöglicht. FXML Dateien bieten sich hierfür an. Ein Beispiel für "Encoding" und "Decoding" lässt sich unter src/main/resources/standardplugins/colorimageprocedure/presenter finden.
