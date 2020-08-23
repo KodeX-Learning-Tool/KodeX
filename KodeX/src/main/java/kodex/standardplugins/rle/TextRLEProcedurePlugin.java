@@ -3,7 +3,6 @@ package kodex.standardplugins.rle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import kodex.plugininterface.ChainLinkPresenter;
-import kodex.plugininterface.Content;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedureInformation;
 import kodex.plugininterface.ProcedurePlugin;
@@ -21,8 +20,6 @@ import kodex.standardplugins.rle.presenter.RLEImportPresenter;
  */
 public class TextRLEProcedurePlugin extends ProcedurePlugin {
 
-  private ChainLinkPresenter[] chainLinks; // [2..*]
-
   /** Creates a new instance of the TextRLEProcedurePlugin. */
   public TextRLEProcedurePlugin() {
 
@@ -31,7 +28,7 @@ public class TextRLEProcedurePlugin extends ProcedurePlugin {
   /**
    * Initialize the procedure plugin.
    */
-  private void initialize() {
+  public void initializeProcedure() {
     this.chainLinks = new ChainLinkPresenter[2];
 
     RLEStep rleStep = new RLEStep();
@@ -54,26 +51,6 @@ public class TextRLEProcedurePlugin extends ProcedurePlugin {
   @Override
   public ProcedureInformation createProcedureInformation() {
     return new TextRLEProcedureInformation();
-  }
-
-  @Override
-  public ChainLinkPresenter getChainHead() {
-    return chainLinks[0];
-  }
-
-  @Override
-  public ChainLinkPresenter getChainTail() {
-    return chainLinks[chainLinks.length - 1];
-  }
-
-  @Override
-  public void initDecodeProcedure(Content<?> content) {
-    chainLinks[chainLinks.length - 1].updateChain();
-  }
-
-  @Override
-  public void initEncodeProcedure(Content<?> content) {
-    chainLinks[0].updateChain();
   }
 
   @Override
