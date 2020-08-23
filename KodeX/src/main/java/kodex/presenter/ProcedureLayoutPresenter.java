@@ -3,9 +3,11 @@ package kodex.presenter;
 import java.io.IOException;
 
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.beans.binding.DoubleBinding;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -15,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
@@ -200,9 +203,6 @@ public class ProcedureLayoutPresenter extends Presenter {
     /** An icon or a thumb nail representing a chain link. */
     @FXML private ImageView thumbnail;
 
-    /** The abbreviation of the chain link name. It is displayed if there is no symbol. */
-    private String chainLinkNameAbbreviation;
-
     /** The id of the chain link it represents in the chain. */
     private int id;
 
@@ -219,8 +219,6 @@ public class ProcedureLayoutPresenter extends Presenter {
       this.id = id;
       this.chainLinkPresenter = chainLinkPresenter;
       
-      this.chainLinkNameAbbreviation = chainLinkPresenter.getName().substring(0, 1);
-
       // loads the template file
       String fileName = "overviewbuttontemplate.fxml";
 
@@ -259,7 +257,15 @@ public class ProcedureLayoutPresenter extends Presenter {
       thumbnail.setPreserveRatio(true);
       thumbnail.fitHeightProperty().bind(this.heightProperty().subtract(16));
       thumbnail.fitWidthProperty().bind(this.widthProperty().subtract(16));
-      thumbnail.setImage(chainLinkPresenter.getView().snapshot(null, null));
+    }
+
+    public boolean represents(ChainLinkPresenter link) {
+      return this.chainLinkPresenter.equals(link);
+    }
+
+    public void updateView(Pane view) {
+      Platform.runLater(
+          () -> thumbnail.setImage(view.snapshot(null, null)));
     }
   }
 
@@ -291,7 +297,7 @@ public class ProcedureLayoutPresenter extends Presenter {
 
   /** The editor displays the concrete edit-view. */
   private Editor editor;
-
+  
   /**
    * Creates a new Procedure-Layout-Presenter with a reference to a Presenter-Manager and a
    * Procedure Plugin.
@@ -325,7 +331,7 @@ public class ProcedureLayoutPresenter extends Presenter {
     while (chainLinkPresenter != null) {
 
       OverviewItem overviewItem = new OverviewItem(chainLinkPresenter, i);
-
+      
       overviewItem.minWidthProperty().bind(boxSize);
       overviewItem.maxWidthProperty().bind(boxSize);
       overviewItem.minHeightProperty().bind(boxSize);
@@ -336,7 +342,23 @@ public class ProcedureLayoutPresenter extends Presenter {
       chainLinkPresenter = encoding ? chainLinkPresenter.getNext() : chainLinkPresenter.getPrev();
       i++;
     }
-  } 
+  }
+
+  /**
+   * Used to signal that the view of a ChainLink has changed and the corresponding OverviewItem
+   * should be updated.
+   *
+   * @param link The ChainLink that has changed.
+   * @param view The new view.
+   */
+  public void updateOverviewItem(ChainLinkPresenter link, Pane view) {
+
+    for (Node item : overviewBox.getChildren()) {
+      if (((OverviewItem) item).represents(link)) {
+        ((OverviewItem) item).updateView(view);
+      }
+    }
+  }
 
   /**
    * This method sets the Edit-Presenter in order to show an Edit-Window.

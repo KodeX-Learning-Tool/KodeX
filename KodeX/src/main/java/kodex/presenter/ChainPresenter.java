@@ -5,10 +5,12 @@ import java.io.IOException;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -16,10 +18,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane.Divider;
 import javafx.scene.control.TitledPane;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkHeaderPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
@@ -200,10 +206,13 @@ public class ChainPresenter implements IPresenter {
       if (header != null) {
         informationBox.setCenter(header.getView());
       }
-
+      
+      AnchorPane view = chainLinkPresenter.getView();
+      
       // display the chain link content
-      chainlinkContent.setCenter(chainLinkPresenter.getView());
-
+      chainlinkContent.setCenter(view);
+      procedureLayoutPresenter.updateOverviewItem(chainLinkPresenter, view);
+      
       // disables the edit button if there is no edit presenter for the chain link
       if (chainLinkPresenter.getChainLinkEditPresenter() == null) {
         editButton.setDisable(true);
