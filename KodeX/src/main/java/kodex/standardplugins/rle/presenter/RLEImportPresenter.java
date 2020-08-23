@@ -34,9 +34,8 @@ public class RLEImportPresenter extends ImportPresenter {
    * Instantiates a new rle import presenter.
    *
    * @param plugin the procedure plugin reference
-   * @param pm the presenter manager reference
    */
-  public RLEImportPresenter(ProcedurePlugin plugin, PresenterManager pm) {
+  public RLEImportPresenter(ProcedurePlugin plugin) {
     super(plugin);
   }
 

@@ -77,7 +77,7 @@ public class GreyScaleImageImportPresenter extends ImportPresenter {
   private static final double MINIMUM_OPACITY_VALUE = 0;
 
 
-  public GreyScaleImageImportPresenter(ProcedurePlugin plugin, PresenterManager pm) {
+  public GreyScaleImageImportPresenter(ProcedurePlugin plugin) {
     super(plugin);
   }
 

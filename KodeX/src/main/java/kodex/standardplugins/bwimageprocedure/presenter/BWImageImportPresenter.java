@@ -71,7 +71,7 @@ public class BWImageImportPresenter extends ImportPresenter {
   private static final String INVALID_CONTENT_PROPERTY_KEY = "alert.content.invalid";
   
 
-  public BWImageImportPresenter(ProcedurePlugin plugin, PresenterManager pm) {
+  public BWImageImportPresenter(ProcedurePlugin plugin) {
     super(plugin);
   }
   

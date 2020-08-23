@@ -13,7 +13,6 @@ import kodex.pluginutils.presenter.chainlink.BinaryStringPresenter;
 import kodex.pluginutils.presenter.chainlink.ByteListChainLinkPresenter;
 import kodex.pluginutils.presenter.chainlink.ByteMatrixChainLinkPresenter;
 import kodex.pluginutils.presenter.chainlink.GreyScaleImageChainLinkPresenter;
-import kodex.presenter.PresenterManager;
 import kodex.standardplugins.greyscaleimageprocedure.presenter.GreyScaleImageImportPresenter;
 
 /**
@@ -55,8 +54,8 @@ public class GreyScaleImageProcedurePlugin extends ProcedurePlugin {
   }
   
   @Override
-  public ImportPresenter createImportPresenter(PresenterManager pm) {
-    return new GreyScaleImageImportPresenter(this, pm);
+  public ImportPresenter createImportPresenter() {
+    return new GreyScaleImageImportPresenter(this);
   }
 
   @Override

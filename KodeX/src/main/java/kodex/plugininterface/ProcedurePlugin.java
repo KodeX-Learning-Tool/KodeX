@@ -69,11 +69,10 @@ public abstract class ProcedurePlugin extends Plugin implements Comparable<Proce
 
   /**
    * Creates and returns a new ImportPresenter instance.
-   * @param pm the reference to the presenter manager
    *
    * @return created instance of ImportPresenter
    */
-  public abstract ImportPresenter createImportPresenter(PresenterManager pm);
+  public abstract ImportPresenter createImportPresenter();
 
   /**
    * Creates and returns a new ProcedureInformation instance.

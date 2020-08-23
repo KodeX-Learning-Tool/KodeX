@@ -81,7 +81,7 @@ public class ColorImageImportPresenter extends ImportPresenter {
    *
    * @param plugin the procedure plugin reference
    */
-  public ColorImageImportPresenter(ProcedurePlugin plugin, PresenterManager pm) {
+  public ColorImageImportPresenter(ProcedurePlugin plugin) {
     super(plugin);
   }
   

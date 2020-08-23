@@ -13,7 +13,6 @@ import kodex.pluginutils.presenter.chainlink.BWImageChainLinkPresenter;
 import kodex.pluginutils.presenter.chainlink.BWMatrixChainLinkPresenter;
 import kodex.pluginutils.presenter.chainlink.BinaryStringPresenter;
 import kodex.pluginutils.presenter.chainlink.BitListChainLinkPresenter;
-import kodex.presenter.PresenterManager;
 import kodex.standardplugins.bwimageprocedure.presenter.BWImageImportPresenter;
 
 /**
@@ -56,8 +55,8 @@ public class BWImageProcedurePlugin extends ProcedurePlugin {
   }
   
   @Override
-  public ImportPresenter createImportPresenter(PresenterManager pm) {
-    return new BWImageImportPresenter(this, pm);
+  public ImportPresenter createImportPresenter() {
+    return new BWImageImportPresenter(this);
   }
 
   @Override

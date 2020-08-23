@@ -22,7 +22,7 @@ class DefaultSettingsTest {
   }
   
   @AfterAll
-  static void cleanUp() {
+  static void cleanUp() throws Exception {
     settings.reset();
   }
   

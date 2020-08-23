@@ -43,8 +43,8 @@ public class TextRLEProcedurePlugin extends ProcedurePlugin {
   }
 
   @Override
-  public ImportPresenter createImportPresenter(PresenterManager pm) {
-    return new RLEImportPresenter(this, pm);
+  public ImportPresenter createImportPresenter() {
+    return new RLEImportPresenter(this);
   }
 
   @Override

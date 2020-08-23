@@ -57,9 +57,8 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
    * Instantiates a new color image import presenter.
    *
    * @param plugin the procedure plugin reference
-   * @param pm  the presenter manager reference
    */
-  public TextQRCodeImportPresenter(ProcedurePlugin plugin, PresenterManager pm) {
+  public TextQRCodeImportPresenter(ProcedurePlugin plugin) {
     super(plugin);
   }
 
