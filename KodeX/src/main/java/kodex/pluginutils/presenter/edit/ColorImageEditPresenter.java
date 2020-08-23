@@ -5,6 +5,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import kodex.exceptions.AlertWindowException;
 import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkEditPresenter;
@@ -52,7 +53,7 @@ public class ColorImageEditPresenter extends ChainLinkEditPresenter {
   }
 
   @Override
-  public void handleSubmit() throws InvalidInputException {
+  public void handleSubmit() throws AlertWindowException {
     Color newColor = colorPicker.getValue();
     boolean showWarning = false;
     

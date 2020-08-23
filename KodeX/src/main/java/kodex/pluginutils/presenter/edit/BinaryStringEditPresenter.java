@@ -5,6 +5,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.AnchorPane;
+import kodex.exceptions.AlertWindowException;
 import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkEditPresenter;
@@ -70,7 +71,7 @@ public class BinaryStringEditPresenter extends ChainLinkEditPresenter {
   }
 
   @Override
-  public void handleSubmit() throws InvalidInputException {
+  public void handleSubmit() throws AlertWindowException {
     String input = binaryStringArea.getText();
     // strip leading zeros to verify whether the number is in range
     input = input.replaceFirst("^0+(?!$)", "");

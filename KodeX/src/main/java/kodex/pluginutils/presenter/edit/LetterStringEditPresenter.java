@@ -5,6 +5,7 @@ import java.util.function.UnaryOperator;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.AnchorPane;
+import kodex.exceptions.AlertWindowException;
 import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.pluginutils.model.content.LetterString;
@@ -60,7 +61,7 @@ public class LetterStringEditPresenter extends ChainLinkEditPresenter {
   }
 
   @Override
-  public void handleSubmit() {
+  public void handleSubmit() throws AlertWindowException {
     content.setString(letterStringArea.getText());
     
     chainLinkPresenter.updateChain();

@@ -3,6 +3,7 @@ package kodex.pluginutils.presenter.edit;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
+import kodex.exceptions.AlertWindowException;
 import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkEditPresenter;
@@ -47,7 +48,7 @@ public class CharacterStringEditPresenter extends ChainLinkEditPresenter {
   }
 
   @Override
-  public void handleSubmit() throws InvalidInputException {
+  public void handleSubmit() throws AlertWindowException {
     String string = characterStringArea.getText();
     if (!string.isEmpty()) {
       content.setString(string);

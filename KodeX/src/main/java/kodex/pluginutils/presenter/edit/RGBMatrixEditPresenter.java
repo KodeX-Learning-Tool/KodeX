@@ -9,6 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import kodex.exceptions.AlertWindowException;
 import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkEditPresenter;
@@ -92,7 +93,7 @@ public class RGBMatrixEditPresenter extends ChainLinkEditPresenter {
   }
 
   @Override
-  public void handleSubmit() throws InvalidInputException {
+  public void handleSubmit() throws AlertWindowException {
     
     if (validateColorValue(redField) && validateColorValue(greenField) 
         && validateColorValue(blueField)) {

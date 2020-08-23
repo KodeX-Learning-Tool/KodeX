@@ -8,6 +8,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import kodex.exceptions.AlertWindowException;
 import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkEditPresenter;
@@ -99,7 +100,7 @@ public class RGBByteListEditPresenter extends ChainLinkEditPresenter {
   }
 
   @Override
-  public void handleSubmit() throws InvalidInputException {
+  public void handleSubmit() throws AlertWindowException {
     setBinaryColorString(markID * unitLength, redField.getText());
     setBinaryColorString(markID * unitLength + 1, greenField.getText());
     setBinaryColorString(markID * unitLength + 2, blueField.getText());
