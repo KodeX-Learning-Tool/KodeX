@@ -18,10 +18,11 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ServiceLoader;
+
 import org.apache.commons.io.FileUtils;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import kodex.exceptions.LoadingException;
 import kodex.plugininterface.Plugin;
@@ -261,19 +262,24 @@ public class PluginLoader {
       if (pluginsDir.mkdir()) {
         return true;
       } else {
-        //TODO Throw exception that folder couldn't be created
+
+        PresenterManager.showAlertDialog(
+            AlertType.ERROR,
+            I18N.get("alert.title.error"),
+            I18N.get("alert.load.failed"),
+            "Plugin folder doesn't exists and failed to be created."
+            + "Check if the location is protected.");
+
         return false;
       }
     }
     
     if (pluginsDir.isDirectory()) {
+      
+      PresenterManager.showAlertDialog(AlertType.WARNING, I18N.get("alert.title.error"),
+          I18N.get("alert.load.failed"), "Check if the plugin folder exists.");
+      
       return false;
-      //TODO Throw:
-      //    Alert alert = new Alert(AlertType.WARNING);
-      //    alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      //    alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
-      //    alert.setContentText("Check if the plugin folder exists.");
-      //    PresenterManager.showAlertDialog(alert);
     }
     
     return true;
@@ -283,6 +289,7 @@ public class PluginLoader {
    * Loads external plugins in the plugins folder.
    */
   public void loadExternalPlugins() {
+    
     URL[] urls = null;
     
     if (!checkPluginsDir()) {
@@ -295,12 +302,16 @@ public class PluginLoader {
     File[] flist = pluginsDir.listFiles(file -> file.getPath().toLowerCase().endsWith(".jar"));
 
     if (flist.length > 0) {
+      
       urls = new URL[flist.length];
 
       for (int i = 0; i < flist.length; i++) {
+        
         try {
           urls[i] = flist[i].toURI().toURL();
+          
         } catch (MalformedURLException e) {
+          
           throw new Error("Malformed URL");
         }
       }
@@ -314,7 +325,9 @@ public class PluginLoader {
     boolean addedPlugin = false;
 
     for (Plugin plugin : pluginLoader) {
+      
       if (!allPlugins.contains(plugin)) {
+        
         allPlugins.add(plugin);
         addedPlugin = true;
       }
@@ -322,18 +335,18 @@ public class PluginLoader {
     
     // the plugin was already loaded
     if (!addedPlugin) {
-      Alert alert = new Alert(AlertType.WARNING);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.warning"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.add.failed"));
-      alert.setContentText("Either the file is not a valid plugin " 
-          + "or a plugin with the same name is already loaded.");
-      PresenterManager.showAlertDialog(alert);
+      
+      PresenterManager.showAlertDialog(AlertType.WARNING, I18N.get("alert.title.warning"),
+          I18N.get("alert.load.failed"), "Either the file is not a valid plugin " 
+              + "or a plugin with the same name is already loaded.");
       
       return;
     }
     
     for (ProcedurePlugin plugin : procedureLoader) {
+      
       if (!allProcedurePlugins.contains(plugin)) {
+        
         allProcedurePlugins.add(plugin);
       }
     }
@@ -341,7 +354,9 @@ public class PluginLoader {
     // closes the class loader to free the files up for deleting
     try {
       urlLoader.close();
+      
     } catch (IOException e) {
+      
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
@@ -358,14 +373,19 @@ public class PluginLoader {
   // have to remove it
   // from the plugin folder
   public void removePlugin(Plugin plugin) throws LoadingException {
+    
     deactivatePlugin(plugin);
+    
     allPlugins.remove(plugin);
     enabledPlugins.remove(plugin);
+    
     String pluginName = plugin.pluginNameProperty().get();
     
     for (ProcedurePlugin p : allProcedurePlugins) {
+      
       if (p.pluginNameProperty().get().equals(pluginName)
           && !enabledProcedurePlugins.contains(p)) {
+        
         // allProcedurePlugins.remove(p);
         enabledProcedurePlugins.remove(p);
         removeFromPluginList(p);
@@ -373,6 +393,7 @@ public class PluginLoader {
     }
         
     try {
+      
       if (!Files.deleteIfExists(Paths.get(pluginsDir.getPath(), pluginName + ".jar"))) {
         
         throw new LoadingException(
@@ -398,16 +419,21 @@ public class PluginLoader {
    * default plugins to the default plugin list.
    */
   private void loadEnabledPluginList() {
+    
     try (BufferedReader reader = Files
         .newBufferedReader(Paths.get(getParentPath(), ENABLED_PLUGINS_PATH))) {
+      
       String line;
 
       while ((line = reader.readLine()) != null) {
+        
         // add the default plugins to a separate list and remove escape character if
         // necessary
         // activates each plugin in the list
         for (Plugin plugin : allPlugins) {
+          
           if (plugin.pluginNameProperty().get().equals(line)) {
+            
             activatePlugin(plugin);
           }
         }
@@ -415,11 +441,8 @@ public class PluginLoader {
 
     } catch (IOException e) {
       
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
-      alert.setContentText("Couldn't read enabled_plugins.txt.");
-      PresenterManager.showAlertDialog(alert);
+      PresenterManager.showAlertDialog(AlertType.ERROR, I18N.get("alert.title.error"),
+          I18N.get("alert.load.failed"), "Couldn't read enabled_plugins.txt.");
     }
   }
 
@@ -428,14 +451,19 @@ public class PluginLoader {
    * also get added to the default plugin list.
    */
   private void loadProtectedPluginList() {
+    
     try (InputStreamReader in = new InputStreamReader(PluginLoader.class
             .getResourceAsStream(INTERNAL_PLUGIN_DIRECTORY + "/" + PROTECTED_PLUGIN_LIST), "UTF-8");
         BufferedReader reader = new BufferedReader(in)) {
+      
       String line;
 
       while ((line = reader.readLine()) != null) {
+        
         for (Plugin plugin : allPlugins) {
+          
           if (plugin.pluginNameProperty().get().equals(line)) {
+            
             plugin.activatedProperty().set(true);
             activatePlugin(plugin);
             defaultPluginNameList.add(line);
@@ -443,11 +471,9 @@ public class PluginLoader {
         }
       }
     } catch (IOException e) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
-      alert.setContentText("Couldn't read protected_plugins.txt.");
-      PresenterManager.showAlertDialog(alert);
+      
+      PresenterManager.showAlertDialog(AlertType.ERROR, I18N.get("alert.title.error"),
+          I18N.get("alert.load.failed"), "Couldn't read protected_plugins.txt.");
     }
   }
 
@@ -457,12 +483,15 @@ public class PluginLoader {
    * @param pluginList the plugin list to be written
    */
   private void writeToPluginList(List<String> pluginList) {
+    
     try (BufferedWriter writer = Files
         .newBufferedWriter(Paths.get(getParentPath(), ENABLED_PLUGINS_PATH))) {
+      
       for (String pluginName : pluginList) {
         writer.write(pluginName);
         writer.newLine();
       }
+      
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -474,16 +503,16 @@ public class PluginLoader {
    * @return the list of enabled plugins
    */
   private List<String> readPluginList() {
+    
     List<String> pluginList = new ArrayList<>();
 
     try {
       pluginList = Files.readAllLines(Paths.get(getParentPath(), ENABLED_PLUGINS_PATH));
+      
     } catch (IOException e) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.titleProperty().bind(I18N.createStringBinding("alert.load.failed"));
-      alert.setContentText("Couldn't read enabled_plugins.txt.");
-      PresenterManager.showAlertDialog(alert);
+      
+      PresenterManager.showAlertDialog(AlertType.ERROR, I18N.get("alert.title.error"),
+          I18N.get("alert.load.failed"), "Couldn't read enabled_plugins.txt.");
     }
 
     return pluginList;
@@ -495,6 +524,7 @@ public class PluginLoader {
    * @param plugin the plugin to be activated
    */
   private void addToPluginList(Plugin plugin) {
+    
     // adds the plugin to the enabled_plugins.txt
     List<String> pluginList = readPluginList();
     String pluginName = plugin.pluginNameProperty().get();
@@ -524,19 +554,20 @@ public class PluginLoader {
    * Resets active plugins so that only the default plugins are active.
    */
   public void resetActivePlugins() {
+    
     if (!enabledPluginsFile.exists()) {
+      
       copyInternalPluginListToFolder();
     } else {
+      
       if (enabledPluginsFile.delete()) {
+        
         copyInternalPluginListToFolder();
       } else {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-        alert.titleProperty().bind(I18N.createStringBinding("alert.reset.failed"));
-        alert.setContentText("Couldn't reset the active plugins "
-            + "because the program failed deleting enabled_plugins.txt.");
-        PresenterManager.showAlertDialog(alert);
         
+        PresenterManager.showAlertDialog(AlertType.ERROR, I18N.get("alert.title.error"),
+            I18N.get("alert.load.failed"), "Couldn't reset the active plugins "
+                + "because the program failed deleting enabled_plugins.txt.");
         return;
       }
     }
@@ -553,15 +584,19 @@ public class PluginLoader {
    * Copy internal plugin list to the plugins folder.
    */
   private void copyInternalPluginListToFolder() {
+    
     try (InputStream input = PluginLoader.class.getResourceAsStream(INTERNAL_PLUGIN_DIRECTORY
         + "/" + ENABLED_PLUGIN_LIST);
+        
         FileOutputStream fileOut = new FileOutputStream(enabledPluginsFile)) {
 
       // write the default enabled-plugins list to the file
       input.transferTo(fileOut);
+      
     } catch (FileNotFoundException e1) {
       // TODO Auto-generated catch block
       e1.printStackTrace();
+      
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
