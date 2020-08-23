@@ -129,7 +129,7 @@ class TextQRCodeImportPresenterTest {
    *      access control and the underlying field is inaccessible.
    */
   @Test
-  void testSetLayoutPresenter() throws NoSuchFieldException, IllegalAccessException{
+  void testSetLayoutPresenter() throws NoSuchFieldException, IllegalAccessException {
     ProcedureLayoutPresenter plp = Mockito.mock(ProcedureLayoutPresenter.class);
     textQRCodeImportPresenter.setLayoutPresenter(plp);
     Field p = textQRCodeImportPresenter.getClass().getSuperclass()
