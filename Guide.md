@@ -1,4 +1,3 @@
-
 # Anleitung zum Schreiben von Verfahren-Plugins
 
 ## Einführung
@@ -81,7 +80,7 @@ Als Orientierung, wie solch eine Klasse aussieht, folgende abstrakte Implementie
      /**
 	  * Initalisierung der Schritte
       */
-     private void initialize() {
+    public void initializeProcedure() {
 	     chainLinks = new ChainLinkPresenter[Anzahl der Schritte]; 
 	     Stufe0zu1 schritt0 = new Stufe0zu1();
 	     Stufe1zu2 schritt1 = new Stufe1zu2();
@@ -98,9 +97,8 @@ Als Orientierung, wie solch eine Klasse aussieht, folgende abstrakte Implementie
      }
       
      @Override
-     public ImportPresenter createImportPresenter() {
-	     initialize();
-	     return new KonkreterImportPresenter(this);
+     public ImportPresenter createImportPresenter(PresenterManager pm) {
+	     return new KonkreterImportPresenter(this, pm);
      }
      
      @Override
