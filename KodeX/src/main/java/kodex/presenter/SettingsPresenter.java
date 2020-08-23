@@ -92,12 +92,10 @@ public class SettingsPresenter extends Presenter {
    * files. Opens a dialog to change the path and saves it.
    */
   @FXML
-  public void handleBrowsePath() {
+  private void handleBrowsePath() {
 
     DirectoryChooser dirChooser = new DirectoryChooser();
 
-    // TODO: change from null to stage to disable stage interactions while dialog is
-    // open
     File selectedDirectory = PresenterManager.showDirectoryChooser(dirChooser);
 
     if (selectedDirectory == null) {
@@ -111,7 +109,7 @@ public class SettingsPresenter extends Presenter {
 
   /** This Method is called when a new Language is selected. Changes the language. */
   @FXML
-  public void handleChangeLanguage() {
+  private void handleChangeLanguage() {
 
     Locale chosenLanguage = languageChoiceBox.getValue();
 
@@ -128,7 +126,7 @@ public class SettingsPresenter extends Presenter {
    * the settings.
    */
   @FXML
-  public void handleRestoreDefaultSettings() {
+  private void handleRestoreDefaultSettings() {
 
     Alert alert = new Alert(AlertType.CONFIRMATION);
     alert.titleProperty().bind(I18N.createStringBinding("alert.title.confirmation"));
@@ -151,7 +149,7 @@ public class SettingsPresenter extends Presenter {
    * Saves the entered port.
    */
   @FXML
-  public void handleSubmitPort() {
+  private void handleSubmitPort() {
 
     String portText = portTextField.getText();
 

@@ -53,7 +53,7 @@ public class TextQRCodeProcedurePlugin extends ProcedurePlugin {
 
   @Override
   public StringProperty pluginDescriptionProperty() {
-    return new SimpleStringProperty("Das Kodierungs-Verfahren zum Generieren eines QRCodes");
+    return new SimpleStringProperty("Das Kodierungs-Verfahren zum Generieren eines QRCodes.");
   }
 
   @Override

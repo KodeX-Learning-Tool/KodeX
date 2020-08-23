@@ -57,6 +57,11 @@ public class PresenterManager {
    */
   public void setSideMenuPresenter(SideMenuPresenter sideMenuPresenter) {
     
+    if (sideMenuPresenter == null) {
+      //TODO what to do when it is null?
+      return;
+    }
+    
     if (this.sideMenuPresenter != null) {
       this.sideMenuPresenter.onExit();
     }

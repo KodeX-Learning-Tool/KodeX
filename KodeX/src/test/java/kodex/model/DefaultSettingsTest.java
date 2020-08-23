@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Locale;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -16,12 +17,18 @@ class DefaultSettingsTest {
   static void setUpBeforeClass() throws Exception {
     settings = DefaultSettings.getInstance();
   }
-
+  
+  @AfterAll
+  static void cleanUp() {
+    settings.reset();
+  }
+  
   @Test
   void testGetInstance() {
     assertTrue(DefaultSettings.getInstance() != null);
   }
-
+  
+  @Disabled
   @Test
   void testSetDefaultPath() {
     settings.setDefaultPath("Test/Kodex/Plugin");
