@@ -20,7 +20,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser.ExtensionFilter;
 import kodex.exceptions.AlertWindowException;
-import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.InvalidImportException;
