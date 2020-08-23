@@ -438,7 +438,7 @@ public class NetworkPresenter extends Presenter {
     // TODO what if entered credentials are invalid (server doesn't exist)
     try {
       sendSocket = new Socket(ipText, Integer.parseInt(portText));
-
+      
     } catch (UnknownHostException e) {
 
       // host name is not valid to connect to
@@ -486,6 +486,8 @@ public class NetworkPresenter extends Presenter {
             os.flush();
 
             sendSocket.close();
+            
+            sendSocket = null;
 
             setHostDisable(false);
 
@@ -500,8 +502,6 @@ public class NetworkPresenter extends Presenter {
     setHostDisable(true);
 
     clientSendThread.start();
-
-    sendSocket = null;
   }
 
   /** Initializes the view-object created by the FXMLLoader. */
