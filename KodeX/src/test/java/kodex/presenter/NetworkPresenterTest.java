@@ -52,7 +52,7 @@ class NetworkPresenterTest {
   @Test
   void testIpConnectTextField() {
     FxAssert.verifyThat(
-        "#header", (TextField text) ->
+        "#ipConnectTextField", (TextField text) ->
         text.getPromptText().equals(I18N.get("networkpage.connect.ip.prompt")));
   }
   
@@ -65,14 +65,14 @@ class NetworkPresenterTest {
   @Test
   void testPortConnectTextField() {
     FxAssert.verifyThat(
-        "#header", (TextField text) ->
+        "#portConnectTextField", (TextField text) ->
         text.getPromptText().equals(I18N.get("networkpage.connect.port.prompt")));
   }
   
   @Test
   void testConnectButton() {
     FxAssert.verifyThat(
-        "connectButton", LabeledMatchers.hasText(I18N.get("networkpage.connect.button")));
+        "#connectButton", LabeledMatchers.hasText(I18N.get("networkpage.connect.button")));
   }
   
   @Test
