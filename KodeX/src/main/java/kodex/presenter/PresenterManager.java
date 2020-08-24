@@ -81,6 +81,10 @@ public class PresenterManager {
    * @param newPresenter The main presenter that should display its view next.
    */
   public void updatePresenter(Presenter newPresenter) {
+    
+    if (sideMenuPresenter == null) {
+      return;
+    }
 
     if (this.currentPresenter != null) {
       this.currentPresenter.onExit();
