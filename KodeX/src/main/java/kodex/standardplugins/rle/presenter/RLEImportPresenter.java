@@ -6,10 +6,10 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import org.apache.commons.io.FilenameUtils;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser.ExtensionFilter;
+import kodex.exceptions.AlertWindowException;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ImportPresenter;
@@ -84,16 +84,14 @@ public class RLEImportPresenter extends ImportPresenter {
       e.printStackTrace();
       return;
     }
-
-    if (validateDecodeImport()) {
-      // TODO notify that we want to decode?
-      procedureLayoutPresenter.switchToChainPresenter(false);
-    } else {
-      
-      importAlert(file);
-      
-      System.err.println("File content not valid.");
+    
+    if (tupleString.startsWith("HEADER\nCONTENT\n")) {
+      tupleString = tupleString.substring(15);
     }
+    
+    if (validateDecodeImport()) {
+      procedureLayoutPresenter.switchToChainPresenter(false);
+    } 
   }
 
   @Override
@@ -126,16 +124,14 @@ public class RLEImportPresenter extends ImportPresenter {
       e.printStackTrace();
       return;
     }
-
-    if (validateEncodeImport()) {
-
-      procedureLayoutPresenter.switchToChainPresenter(true);
-    } else {
-      
-      importAlert(file);
-      
-      System.err.println("File content not valid.");
+    
+    if (letterString.startsWith("HEADER\nCONTENT\n")) {
+      letterString = letterString.substring(15);
     }
+    
+    if (validateEncodeImport()) {
+      procedureLayoutPresenter.switchToChainPresenter(true);
+    } 
   }
   
   /**
@@ -145,22 +141,16 @@ public class RLEImportPresenter extends ImportPresenter {
    * @param expectedFileType the expected file type
    */
   private void importExtensionAlert(File file, String expectedFileType) {
-    Alert alert = new Alert(AlertType.ERROR);
-    alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-    alert.headerTextProperty().bind(I18N.createStringBinding("alert.import.invalid"));
-    alert.setContentText("The extension ." + FilenameUtils.getExtension(file.getName()) 
+    PresenterManager.showAlertDialog(AlertType.ERROR, I18N.get("alert.title.error"),
+        I18N.get("alert.import.invalid"),
+        "The extension ." + FilenameUtils.getExtension(file.getName()) 
         +  " does not belong to a supported " + expectedFileType + " file type.");
-    PresenterManager.showAlertDialog(alert);
   }
   
-  private void importAlert(File file) {
-    
-    Alert alert = new Alert(AlertType.ERROR);
-    alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-    alert.headerTextProperty().bind(I18N.createStringBinding("alert.import.invalid"));
-    alert.setContentText("The chosen file ("
-        + file.getName() +  ") is not a text file with valid content.");
-    PresenterManager.showAlertDialog(alert);
+  private void importAlert(File file) {    
+    PresenterManager.showAlertDialog(AlertType.ERROR, I18N.get("alert.title.error"),
+        I18N.get("alert.import.invalid"), "The chosen file (" + file.getName() 
+        + ") is not a text file with valid content.");
   }
 
   @Override
@@ -173,10 +163,15 @@ public class RLEImportPresenter extends ImportPresenter {
 
     TupleString content = (TupleString) clp.getContent();
 
-    if (content.isValid(tupleString)) {
-      clp.updateChain();
-      return true;
+    try {
+      if (content.isValid(tupleString)) {
+        clp.updateChain();
+        return true;
+      }
+    } catch (AlertWindowException e) {
+      PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
     }
+
     return false;
   }
 
@@ -185,10 +180,15 @@ public class RLEImportPresenter extends ImportPresenter {
 
     LetterString content = (LetterString) plugin.getChainHead().getContent();
 
-    if (content.isValid(letterString)) {
-      plugin.getChainHead().updateChain();
-      return true;
+    try {
+      if (content.isValid(letterString)) {
+        plugin.getChainHead().updateChain();
+        return true;
+      }
+    } catch (AlertWindowException e) {
+      PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
     }
+
     return false;
   }
 }

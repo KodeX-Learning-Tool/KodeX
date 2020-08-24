@@ -5,14 +5,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
-import kodex.presenter.PresenterManager;
 
 /**
  * This class holds data in Matrix format. An BinaryMatrix consists of a 2D array [rows][cols]
- * containing elements of the type Integer.
+ * containing elements of the type Integer with the value 0 or 1.
  * 
  * @author Patrick Spiesberger
  * @author Raimon Gramlich
@@ -36,17 +35,46 @@ public class BinaryMatrix extends AbstractMatrix<Integer> {
   }
 
   @Override
-  public boolean isValid(Object input) {
+  public boolean isValid(Object input) throws InvalidInputException {
+    BinaryMatrix object;
+    
     if (input == null) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("Input is empty");
-      PresenterManager.showAlertDialog(alert);
-      return false;
+      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+          I18N.get("alert.input.invalid"), 
+          "Content validation input is empty");
     }
-    int bit = (Integer) input;
-    return (bit == 0 || bit == 1);
+    
+    try {
+      object = ((BinaryMatrix) input);
+    } catch (ClassCastException e) {
+      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+          I18N.get("alert.input.invalid"), 
+          "Input is of wrong type");
+    }
+
+    if (object.getWidth() > MAX_MATRIX_WIDTH || MIN_MATRIX_WIDTH > object.getWidth()
+        || object.getHeight() > MAX_MATRIX_HEIGHT || MIN_MATRIX_HEIGHT > object.getHeight()) {
+      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+          I18N.get("alert.input.invalid"), 
+          "A Binary Matrix can be no larger than " + MAX_MATRIX_HEIGHT + " by " + MAX_MATRIX_WIDTH);
+    }
+    
+    for (int y = 0; y < object.getHeight(); y++) {
+      for (int x = 0; x < object.getWidth(); x++) {
+        if (object.get(x, y) == null) {
+          throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+              I18N.get("alert.input.invalid"), 
+              "Input contains uninitialized values");
+        }
+        if (!(object.get(x, y) == 0 || object.get(x, y) == 1)) {
+          throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+              I18N.get("alert.input.invalid"), 
+              "Input contains nonbinary values");
+        }
+      }
+    }
+    
+    return true;
   }
 
   @Override
@@ -56,16 +84,18 @@ public class BinaryMatrix extends AbstractMatrix<Integer> {
 
       //header
       writer.write("HEADER\n");
-      @SuppressWarnings("unchecked")
-      HashMap<String, Object> map = (HashMap<String, Object>) header;
-      map.forEach((key, value) -> { 
-        try {
-          writer.write(key + " " + value + "\n");
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-      });
-
+      if (header != null) {
+        @SuppressWarnings("unchecked")
+        HashMap<String, Object> map = (HashMap<String, Object>) header;
+        map.forEach((key, value) -> { 
+          try {
+            writer.write(key + " " + value + "\n");
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        });
+      }
+      
       //content
       writer.write("CONTENT\n");
       String row = "";
@@ -85,6 +115,7 @@ public class BinaryMatrix extends AbstractMatrix<Integer> {
       }
       writer.close();
     } catch (IOException e) {
+      // TODO Auto-generated catch block
       e.printStackTrace();
     }
   }

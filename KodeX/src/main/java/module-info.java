@@ -16,7 +16,6 @@ module kodex.KodeX {
   requires com.google.zxing.javase;
   requires org.apache.commons.io;
   requires com.google.gson;
-  
 
   uses kodex.plugininterface.ProcedurePlugin;
   uses kodex.plugininterface.Plugin;

@@ -35,7 +35,7 @@
                               <Label fx:id="lblDefaultPortDescription" styleClass="settings__textfield__label" />
                               <TextField fx:id="portTextField" styleClass="settings__textfield"/>
                               <Region styleClass="settings__setting__input__spring" />
-                              <Button mnemonicParsing="false" onAction="#handleSubmitPort" styleClass="default-button--shadow">
+                              <Button fx:id="submitPortButton" mnemonicParsing="false" onAction="#handleSubmitPort" styleClass="default-button--shadow">
                                  <graphic>
                                     <FontIcon iconLiteral="mdi-check" iconSize="20" />
                                  </graphic>

@@ -1,12 +1,17 @@
 package kodex.model;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Locale;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
+import kodex.exceptions.InvalidInputException;
+import kodex.exceptions.LoadingException;
 
 class DefaultSettingsTest {
   
@@ -16,9 +21,14 @@ class DefaultSettingsTest {
   static void setUpBeforeClass() throws Exception {
     settings = DefaultSettings.getInstance();
   }
-
+  
+  @AfterAll
+  static void cleanUp() throws Exception {
+    settings.reset();
+  }
+  
   @Test
-  void testGetInstance() {
+  void testGetInstance() throws LoadingException, InvalidInputException {
     assertTrue(DefaultSettings.getInstance() != null);
   }
 
@@ -35,17 +45,19 @@ class DefaultSettingsTest {
   }
 
   @Test
-  void testSetPort() {
+  void testSetPort() throws InvalidInputException {
     settings.setPort(12345);
     assertTrue(DefaultSettings.getPort() == 12345);
   }
 
   @Test
-  @Disabled //Exception caused by Alert - manually tested 
-  void testSetUnvalidPort() {
+  void testSetUnvalidPort() throws InvalidInputException {
     settings.setPort(12345);
-    settings.setPort(123456);
-    assertTrue(DefaultSettings.getPort() == 12345);
+    Exception exception = assertThrows(InvalidInputException.class, () -> settings.setPort(123456));
+    String expectedMessage = "Port is not valid";
+    String actualMessage = exception.getMessage();
+    
+    assertTrue(actualMessage.contains(expectedMessage) && DefaultSettings.getPort() == 12345);
   }
   
   @Test

@@ -8,7 +8,12 @@ public class ChainSplitPane extends SplitPane {
   private double initialWidth;
   
   private ChainSplitPaneSkin skin;
-
+  
+  public ChainSplitPane() {
+    super();
+    this.initialWidth = this.getWidth();
+  }
+  
   /** 
    * {@inheritDoc}
    */

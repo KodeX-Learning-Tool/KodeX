@@ -2,7 +2,6 @@ package kodex.pluginutils.presenter.edit;
 
 import java.util.function.UnaryOperator;
 
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
@@ -10,11 +9,13 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+
+import kodex.exceptions.AlertWindowException;
+import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
-import kodex.pluginutils.model.content.DecMatrix;
-import kodex.presenter.PresenterManager;
+import kodex.pluginutils.model.content.ByteMatrix;
 
 /**
  * This class manages the edit view and is responsible for editing a RGB matrix.
@@ -24,9 +25,9 @@ import kodex.presenter.PresenterManager;
  *  
  *  @version 1.0
  */
-public class DecMatrixEditPresenter extends ChainLinkEditPresenter {
+public class ByteMatrixEditPresenter extends ChainLinkEditPresenter {
   
-  private DecMatrix content;
+  private ByteMatrix content;
   
   private int selectedX;
   private int selectedY;
@@ -43,7 +44,7 @@ public class DecMatrixEditPresenter extends ChainLinkEditPresenter {
    *
    * @param chainLinkPresenter the corresponding chain link presenter
    */
-  public DecMatrixEditPresenter(ChainLinkPresenter chainLinkPresenter) {
+  public ByteMatrixEditPresenter(ChainLinkPresenter chainLinkPresenter) {
     super(chainLinkPresenter);
     
     // only allows 0 to 255 as input
@@ -77,16 +78,12 @@ public class DecMatrixEditPresenter extends ChainLinkEditPresenter {
   }
 
   @Override
-  public void handleSubmit() {
+  public void handleSubmit() throws AlertWindowException {
     String input = valueField.getText();
     if (input == null || input.equals("")) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("This string is empty");
-      PresenterManager.showAlertDialog(alert);
-      
-      return;
+
+      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"),
+          I18N.get("alert.input.invalid"), "This string is empty");
     }
     content.set(selectedX, selectedY, Integer.parseInt(valueField.getText()));
     
@@ -95,7 +92,7 @@ public class DecMatrixEditPresenter extends ChainLinkEditPresenter {
 
   @Override
   protected void updateMarkedElement() {   
-    content = (DecMatrix) chainLinkPresenter.getContent();
+    content = (ByteMatrix) chainLinkPresenter.getContent();
     
     selectedX = markID % content.getWidth();
     selectedY = (markID / content.getWidth());

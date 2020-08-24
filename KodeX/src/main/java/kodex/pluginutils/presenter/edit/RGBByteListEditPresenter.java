@@ -4,16 +4,16 @@ import java.util.function.UnaryOperator;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import kodex.exceptions.AlertWindowException;
+import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.pluginutils.model.content.RGBByteList;
-import kodex.presenter.PresenterManager;
 
 /**
  * This class manages the edit view and is responsible for editing a RGB byte list.
@@ -100,7 +100,7 @@ public class RGBByteListEditPresenter extends ChainLinkEditPresenter {
   }
 
   @Override
-  public void handleSubmit() {
+  public void handleSubmit() throws AlertWindowException {
     setBinaryColorString(markID * unitLength, redField.getText());
     setBinaryColorString(markID * unitLength + 1, greenField.getText());
     setBinaryColorString(markID * unitLength + 2, blueField.getText());
@@ -122,20 +122,15 @@ public class RGBByteListEditPresenter extends ChainLinkEditPresenter {
    *
    * @param input the input string
    * @return the string with leading zeros if necessary
+   * @throws InvalidInputException if the user input is invalid
    */
-  private void setBinaryColorString(int index, String input) {
+  private void setBinaryColorString(int index, String input) throws InvalidInputException {
     // strip leading zeros to check if the string is equal to or less than max length
     input = input.replaceFirst("^0+(?!$)", "");
-    if (input.length() > RGB_BINARY_LENGTH) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText(
-          "RGB values range from 0 to 255." 
-              + " In Binary this means there can only be 8 digits without counting leading zeros.");
-      PresenterManager.showAlertDialog(alert);
-      
-      return;
+    if (input.length() > RGB_BINARY_LENGTH) {     
+      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"),
+          I18N.get("alert.input.invalid"), "RGB values range from 0 to 255." 
+          + " In Binary this means there can only be 8 digits without counting leading zeros.");
     } else if (input.length() < RGB_BINARY_LENGTH) {
       while (input.length() < RGB_BINARY_LENGTH) {
         input = "0".concat(input);

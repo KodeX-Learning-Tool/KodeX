@@ -4,11 +4,10 @@ import java.util.HashMap;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import kodex.exceptions.LoadingException;
 import kodex.plugininterface.ProcedureInformation;
 import kodex.plugininterface.ProcedurePlugin;
-import kodex.presenter.PresenterManager;
 
 /**
  * This class contains the list of selected procedure to be displayed on the start page. It can
@@ -53,8 +52,9 @@ public class IndexPage {
    * strategy that uses exactly the filtering method that matches the selected filter.
    *
    * @param filter : concrete strategy
+   * @throws LoadingException Thrown when the filter was not found.
    */
-  public void filterProcedures(Filter filter) {
+  public void filterProcedures(Filter filter) throws LoadingException {
 
     FilterStrategy strategy = null;
 
@@ -74,13 +74,14 @@ public class IndexPage {
       return;
 
     } else {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("no suitable filter found");
-      PresenterManager.showAlertDialog(alert);
+      
       resetSelectedProcedures();
-      return;
+      
+      throw new LoadingException(
+          AlertType.ERROR,
+          I18N.get("alert.title.error"),
+          I18N.get("alert.input.invalid"),
+          "No suitable filter found.");
     }
 
     strategy.filterProcedures(selectedProcedures);

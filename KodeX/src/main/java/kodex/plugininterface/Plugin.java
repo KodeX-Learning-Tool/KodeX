@@ -34,26 +34,27 @@ public abstract class Plugin {
    * @return name of plugin
    */
   public abstract StringProperty pluginNameProperty();
-  
+
   @Override
   public boolean equals(Object v) {
-    boolean retVal = false;
-    
+
     // use the plugin name for comparing two plugins
     if (v instanceof Plugin) {
       Plugin ptr = (Plugin) v;
-      retVal = ptr.pluginNameProperty().get().equals(this.pluginNameProperty().get());
+      return ptr.pluginNameProperty().get().equals(this.pluginNameProperty().get());
     }
-
-    return retVal;
+    
+    return false;
   }
 
   @Override
   public int hashCode() {
     int hash = 7;
-    hash = 17 * hash
-        + (this.pluginNameProperty().get() != null ? this.pluginNameProperty().get().hashCode()
-            : 0);
+    hash =
+        17 * hash
+            + ((this.pluginNameProperty() != null && this.pluginNameProperty().get() != null)
+                ? this.pluginNameProperty().get().hashCode()
+                : 0);
     return hash;
   }
 }

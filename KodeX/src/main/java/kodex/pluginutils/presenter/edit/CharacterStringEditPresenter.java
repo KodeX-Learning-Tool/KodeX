@@ -1,14 +1,14 @@
 package kodex.pluginutils.presenter.edit;
 
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
+import kodex.exceptions.AlertWindowException;
+import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.pluginutils.model.content.CharacterString;
-import kodex.presenter.PresenterManager;
 
 /**
  * This class manages the edit view and is responsible for editing a character string.
@@ -48,17 +48,14 @@ public class CharacterStringEditPresenter extends ChainLinkEditPresenter {
   }
 
   @Override
-  public void handleSubmit() {
+  public void handleSubmit() throws AlertWindowException {
     String string = characterStringArea.getText();
     if (!string.isEmpty()) {
       content.setString(string);
       chainLinkPresenter.updateChain();
     } else {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("The string cannot be empty");
-      PresenterManager.showAlertDialog(alert);
+      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"),
+          I18N.get("alert.input.invalid"), "The string cannot be empty.");
     }
   }
 

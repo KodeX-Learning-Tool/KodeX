@@ -5,14 +5,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import kodex.exceptions.InvalidInputException;
 import kodex.model.I18N;
-import kodex.presenter.PresenterManager;
 
 /**
  * This class holds data in string format. A BinaryString consists of only 1's and 0's. Extending
  * AbstractString, it adds validation and exporting capabilities to Java's String.
+ * 
+ * @author Patrick Spiesberger
+ * @version 1.0
  */
 public class BinaryString extends AbstractString {
 
@@ -28,18 +30,17 @@ public class BinaryString extends AbstractString {
   }
 
   @Override
-  public boolean isValid(String input) {
+  public boolean isValid(String input) throws InvalidInputException {
     if (input == null) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("Input is empty");
-      PresenterManager.showAlertDialog(alert);
-      return false;
+      throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+          I18N.get("alert.input.invalid"), 
+          "Content validation input is empty");
     }
     for (int i = 0; i < input.length(); i++) {
       if (input.charAt(i) != '0' && input.charAt(i) != '1') {
-        return false;
+        throw new InvalidInputException(AlertType.ERROR, I18N.get("alert.title.error"), 
+            I18N.get("alert.input.invalid"), 
+            "Input contains nonbinary values");
       }
     }
     return true;
@@ -52,13 +53,16 @@ public class BinaryString extends AbstractString {
 
       //header
       writer.write("HEADER\n");
-      header.forEach((key, value) -> { 
-        try {
-          writer.write(key + " " + value + "\n");
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-      });
+      if (header != null) {
+        HashMap<String, Object> map = (HashMap<String, Object>) header;
+        map.forEach((key, value) -> { 
+          try {
+            writer.write(key + " " + value + "\n");
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        });
+      }
 
       //content
       writer.write("CONTENT\n");

@@ -1,10 +1,11 @@
 package kodex.pluginutils.presenter.edit;
 
-import java.util.function.UnaryOperator;
-
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.AnchorPane;
+import kodex.exceptions.AlertWindowException;
+import kodex.exceptions.InvalidInputException;
+import kodex.model.I18N;
 import kodex.model.Tuple;
 import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
@@ -12,8 +13,8 @@ import kodex.pluginutils.model.content.TupleString;
 
 public class TupleStringEditPresenter extends ChainLinkEditPresenter {
 
+  private static final int MAX_NUM = 2000;
   private TextArea tupleStringArea;
-  private TextFormatter<String> tupleFormatter;
   private AnchorPane view;
   private TupleString content;
 
@@ -25,25 +26,8 @@ public class TupleStringEditPresenter extends ChainLinkEditPresenter {
   public TupleStringEditPresenter(ChainLinkPresenter chainLinkPresenter) {
     super(chainLinkPresenter);
 
-    // only allows letters followed by ":" and a number
-    UnaryOperator<TextFormatter.Change> filter =
-        change -> {
-          String[] tupleParts = change.getControlNewText().split(":");
-
-          if (tupleParts.length != 2
-              || !isValidLetter(tupleParts[0])
-              || !isValidNumber(tupleParts[1])) {
-
-            return null;
-          }
-
-          return change;
-        };
-
     tupleStringArea = new TextArea();
     tupleStringArea.setWrapText(true);
-    tupleFormatter = new TextFormatter<>(filter);
-    tupleStringArea.setTextFormatter(tupleFormatter);
 
     view = new AnchorPane(tupleStringArea);
 
@@ -59,7 +43,7 @@ public class TupleStringEditPresenter extends ChainLinkEditPresenter {
   private boolean isValidLetter(String input) {
 
     char[] charArray = input.toCharArray();
-
+    
     if (charArray.length != 1) {
       return false;
     }
@@ -76,6 +60,7 @@ public class TupleStringEditPresenter extends ChainLinkEditPresenter {
    * @return True if the string is a valid integer.
    */
   private boolean isValidNumber(String input) {
+    
     return input.matches("^[1-9]\\d*$");
   }
 
@@ -88,11 +73,33 @@ public class TupleStringEditPresenter extends ChainLinkEditPresenter {
   }
 
   @Override
-  public void handleSubmit() {
+  public void handleSubmit() throws AlertWindowException {
     
     String[] tupleParts = tupleStringArea.getText().split(":");
     
-    content.getTuples()[markID] = new Tuple(tupleParts[0], Integer.parseInt(tupleParts[1]));
+    if (tupleParts.length != 2
+        || !isValidLetter(tupleParts[0])
+        || !isValidNumber(tupleParts[1])) {
+
+      throw new InvalidInputException(
+          AlertType.ERROR,
+          I18N.get("alert.title.error"),
+          I18N.get("alert.input.invalid"),
+          "The entered text doesn't have the right format (someLetter:someNumber)!");
+    }
+    
+    //only use number smaller then the given max
+    if (Integer.parseInt(tupleParts[1]) > MAX_NUM) {
+      
+      throw new InvalidInputException(
+          AlertType.ERROR,
+          I18N.get("alert.title.error"),
+          I18N.get("alert.input.invalid"),
+          "Please only use numbers smaller or equal to 2000, to prevent lagging.");
+    }
+    
+    content.getTuples()[markID] = 
+        new Tuple<String, Integer>(tupleParts[0], Integer.parseInt(tupleParts[1]));
     
     chainLinkPresenter.updateChain();
   }

@@ -5,27 +5,21 @@ import java.io.IOException;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
-import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane.Divider;
 import javafx.scene.control.TitledPane;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkHeaderPresenter;
 import kodex.plugininterface.ChainLinkPresenter;
@@ -106,8 +100,9 @@ public class ChainPresenter implements IPresenter {
      * Creates a new ChainItem with a reference to its ChainLinkPresenter.
      *
      * @param chainLinkPresenter : The reference to the ChainLinkPresenter.
+     * @throws FailedLoadException if the program failed loading the FXML file
      */
-    ChainItem(ChainLinkPresenter chainLinkPresenter, int index) {
+    ChainItem(ChainLinkPresenter chainLinkPresenter, int index) throws FailedLoadException {
       this.chainLinkPresenter = chainLinkPresenter;
       this.index = index;
       
@@ -122,12 +117,9 @@ public class ChainPresenter implements IPresenter {
       try {  
         loader.load();
       } catch (IOException e) {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-        alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
-        alert.setContentText("Failed creating chain item " + chainLinkPresenter.getName() 
-            + " with " + fileName + ".");
-        PresenterManager.showAlertDialog(alert);
+        throw new FailedLoadException(AlertType.ERROR, I18N.get("alert.title.error"),
+            I18N.get("alert.load.failed"), "Failed creating chain item "
+                + chainLinkPresenter.getName() + " with " + fileName + ".");
       }
     }
 
@@ -293,9 +285,10 @@ public class ChainPresenter implements IPresenter {
    *
    * @param chainLinkPresenter : The reference to the first ChainLinkPresenter.
    * @param procedureLayoutPresenter : The reference to a ProcedureLayoutPresenter.
+   * @throws FailedLoadException if the program failed loading the FXML file
    */
-  public ChainPresenter(
-      ChainLinkPresenter chainLinkPresenter, ProcedureLayoutPresenter procedureLayoutPresenter) {
+  public ChainPresenter(ChainLinkPresenter chainLinkPresenter,
+      ProcedureLayoutPresenter procedureLayoutPresenter)throws FailedLoadException {
     
     this.firstChainLinkPresenter = chainLinkPresenter;
     this.procedureLayoutPresenter = procedureLayoutPresenter;
@@ -308,11 +301,8 @@ public class ChainPresenter implements IPresenter {
     try {
       viewScrollPane = fxmlLoader.load();
     } catch (IOException e) {
-      Alert alert = new Alert(AlertType.ERROR);
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.load.failed"));
-      alert.setContentText("Failed creating chain view with " + fileName + ".");
-      PresenterManager.showAlertDialog(alert);
+      throw new FailedLoadException(AlertType.ERROR, I18N.get("alert.title.error"),
+          I18N.get("alert.load.failed"), "Failed creating chain view with " + fileName + ".");
     }
     
     this.chainSplitPane.setMinWidth(0);
@@ -322,8 +312,10 @@ public class ChainPresenter implements IPresenter {
    * This method creates the view for a given Procedure-Plugin.
    *
    * @param activeProcedure the active Procedure-Plugin.
+   * @throws FailedLoadException if the program failed loading the FXML file
    */
-  public void createChainView(ProcedurePlugin activeProcedure, boolean encoding) {
+  public void createChainView(ProcedurePlugin activeProcedure, boolean encoding)
+      throws FailedLoadException {
     ChainLinkPresenter chainLinkPresenter = 
         encoding ? firstChainLinkPresenter : activeProcedure.getChainTail();
     
@@ -369,8 +361,6 @@ public class ChainPresenter implements IPresenter {
    */
   public void jumpToChainLink(int id) {
     // This sets the position of the vertical dividers between the Chain Links.
-    // TODO: expand the chain item
-
     ChainItem chainItem = (ChainItem) chainSplitPane.getItems().get(id);
     
     if (chainItem.hidden) {

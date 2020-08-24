@@ -10,14 +10,13 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import kodex.exceptions.LoadingException;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainStep;
 import kodex.plugininterface.Content;
 import kodex.pluginutils.model.content.CharacterString;
 import kodex.pluginutils.model.content.QRCode;
-import kodex.presenter.PresenterManager;
 
 /** 
  * This class represents the bidirectional step between CharacterString and QRCode.
@@ -30,7 +29,7 @@ import kodex.presenter.PresenterManager;
 public class CharacterStringToQRCode implements ChainStep {
 
   @Override
-  public void decode(Content<?> input, Content<?> output) {
+  public void decode(Content<?> input, Content<?> output) throws LoadingException {
     CharacterString string = (CharacterString) output;
     QRCode qrcode = (QRCode) input;
     
@@ -38,12 +37,12 @@ public class CharacterStringToQRCode implements ChainStep {
     try {
       string.setString(reader.decode(qrcode.getBinaryBitmap()).getText());
     } catch (NotFoundException e) {
-      Alert alert = new Alert(AlertType.ERROR);
       
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("Something went wrong decoding the QR-Code");
-      PresenterManager.showAlertDialog(alert);
+      throw new LoadingException(
+          AlertType.ERROR,
+          I18N.get("alert.title.error"),
+          I18N.get("alert.input.invalid"),
+          "An error occured decoding the QR-Code");
     }
     
     if (string.getHeader() == null || string.getHeader().isEmpty()) {  
@@ -60,7 +59,7 @@ public class CharacterStringToQRCode implements ChainStep {
   }
 
   @Override
-  public void encode(Content<?> input, Content<?> output) {
+  public void encode(Content<?> input, Content<?> output) throws LoadingException {
     CharacterString string = (CharacterString) input;
     QRCode qrcode = (QRCode) output;
     
@@ -72,12 +71,12 @@ public class CharacterStringToQRCode implements ChainStep {
           string.getString(), BarcodeFormat.QR_CODE, size, size);
       qrcode.setBitMatrix(bitMatrix);
     } catch (WriterException e) {
-      Alert alert = new Alert(AlertType.ERROR);
       
-      alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-      alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-      alert.setContentText("Something went wrong encoding the textfile");
-      PresenterManager.showAlertDialog(alert);    
+      throw new LoadingException(
+          AlertType.ERROR,
+          I18N.get("alert.title.error"),
+          I18N.get("alert.input.invalid"),
+          "An error occured encoding the textfile");
     }
     
     if (qrcode.getHeader() == null || qrcode.getHeader().isEmpty()) {  

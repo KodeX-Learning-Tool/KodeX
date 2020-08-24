@@ -8,13 +8,12 @@ import java.util.HashMap;
 import org.apache.commons.io.FilenameUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser.ExtensionFilter;
+import kodex.exceptions.AlertWindowException;
 import kodex.model.I18N;
-import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.content.CharacterString;
@@ -50,7 +49,7 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
    */
   private HashMap<String, Object> header;
   
-  /** the maximum amount of alpha numeric characters a QR-code can contain. (177*177) */
+  /** the maximum amount of alpha numeric characters a QR-code can contain. (177x177) */
   private static final int MAX_CHAR_ALPHANUMERICAL = 4296;
   
   /**
@@ -103,19 +102,15 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
     qrcode = importFile(false, extensionFilters);
     if (qrcode != null) {
       if (!extensions.contains("*." + FilenameUtils.getExtension(qrcode.getName()))) {
-        importAlert(qrcode, "image");
+        PresenterManager.showAlertDialog(AlertType.ERROR, I18N.get("alert.title.error"),
+            I18N.get("alert.import.invalid"),
+            "The extension ." + FilenameUtils.getExtension(qrcode.getName()) 
+            +  " does not belong to a supported image file type.");
         return;
       }
       
       if (validateDecodeImport()) {
         procedureLayoutPresenter.switchToChainPresenter(false);
-      } else {
-        Alert alert = new Alert(AlertType.ERROR);
-        
-        alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-        alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-        alert.setContentText("File content not valid");
-        PresenterManager.showAlertDialog(alert);
       }
     }
   }
@@ -136,7 +131,10 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
     if (file != null) {
       
       if (!extensions.contains("*." + FilenameUtils.getExtension(file.getName()))) {
-        importAlert(file, "text");
+        PresenterManager.showAlertDialog(AlertType.ERROR, I18N.get("alert.title.error"),
+            I18N.get("alert.import.invalid"),
+            "The extension ." + FilenameUtils.getExtension(file.getName()) 
+            +  " does not belong to a supported text file type.");
         return;
       }
       
@@ -144,52 +142,37 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
       try {
         string = Files.readString(file.toPath());
       } catch (IOException e) {
-        Alert alert = new Alert(AlertType.ERROR);
-        
-        alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-        alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-        alert.setContentText("File not valid");
-        PresenterManager.showAlertDialog(alert);
+        PresenterManager.showAlertDialog(AlertType.ERROR, I18N.get("alert.title.error"),
+            I18N.get("alert.import.invalid"), "File not valid");
         return;
       }
-      if (string != null && validateEncodeImport()) {
-        procedureLayoutPresenter.switchToChainPresenter(true);
-      } else {
-        Alert alert = new Alert(AlertType.ERROR);
-        
-        alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-        alert.headerTextProperty().bind(I18N.createStringBinding("alert.input.invalid"));
-        alert.setContentText("File content not valid");
-        PresenterManager.showAlertDialog(alert);
+      if (string == null) {
+        PresenterManager.showAlertDialog(AlertType.ERROR, I18N.get("alert.title.error"),
+            I18N.get("alert.import.invalid"), "File content not valid");
+        return;
       }
+      if (string.startsWith("HEADER\nCONTENT\n")) {
+        string = string.substring(15);
+      }
+      if (validateEncodeImport()) {
+        procedureLayoutPresenter.switchToChainPresenter(true);
+      }         
     }
 
   }
 
-  /**
-   * Shows an alert window concerning file extensions.
-   *
-   * @param givenFileExtension the given file
-   * @param expectedFileType the expected file type
-   */
-  private void importAlert(File file, String expectedFileType) {
-    Alert alert = new Alert(AlertType.ERROR);
-    alert.titleProperty().bind(I18N.createStringBinding("alert.title.error"));
-    alert.headerTextProperty().bind(I18N.createStringBinding("alert.import.invalid"));
-    alert.setContentText("The extension ." + FilenameUtils.getExtension(file.getName()) 
-        +  " does not belong to a supported " + expectedFileType + " file type.");
-    PresenterManager.showAlertDialog(alert);
-  }
-
   @Override
   public boolean validateDecodeImport() {
-    ChainLinkPresenter clp = plugin.getChainTail();
     QRCode content = new QRCode();
 
     if (content.isValid(qrcode)) {
       header = new HashMap<>();
       content.setHeader(header);
-      clp.setContent(content);
+      try {
+        plugin.initDecodeProcedure(content);
+      } catch (AlertWindowException e) {
+        PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
+      }
       return true;
     }
     return false;
@@ -197,16 +180,19 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
 
   @Override
   public boolean validateEncodeImport() {
-    ChainLinkPresenter clp = plugin.getChainHead();
     CharacterString content = new CharacterString();
     
-    if (!string.isEmpty() && string.length() <= MAX_CHAR_ALPHANUMERICAL
-        && content.isValid(string)) {
-      content.setString(string);
-      header = new HashMap<>();
-      content.setHeader(header);
-      clp.setContent(content);
-      return true;
+    try {
+      if (!string.isEmpty() && string.length() <= MAX_CHAR_ALPHANUMERICAL
+          && content.isValid(string)) {
+        content.setString(string);
+        header = new HashMap<>();
+        content.setHeader(header);
+        plugin.initEncodeProcedure(content);
+        return true;
+      }
+    } catch (AlertWindowException e) {
+      PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(), e.getContent());
     }
     return false;
   }
