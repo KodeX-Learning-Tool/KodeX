@@ -12,8 +12,6 @@ import java.net.URLDecoder;
 import java.util.Locale;
 import java.util.Properties;
 
-import javafx.application.Platform;
-
 import javafx.scene.control.Alert.AlertType;
 import kodex.exceptions.InvalidInputException;
 import kodex.exceptions.LoadingException;

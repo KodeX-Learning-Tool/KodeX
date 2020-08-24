@@ -1,12 +1,10 @@
 package kodex.model;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Locale;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import kodex.exceptions.LoadingException;
@@ -78,13 +76,6 @@ class HelpTest {
   void testGetSameAmountEN() throws LoadingException {
     Help helpEN = new Help(new Locale("EN"));
     assertTrue(helpEN.getQuestions().size() == helpEN.getAnswers().size());
-  }
-  
-  @Test
-  @Disabled
-  void testHelpInvalide() throws LoadingException {
-    Help helpError = new Help(new Locale("ABC"));
-    fail();
   }
 
 }

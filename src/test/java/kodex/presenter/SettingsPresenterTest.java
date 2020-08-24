@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.Locale;
 import java.util.Random;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,7 +17,6 @@ import org.testfx.framework.junit5.Start;
 import org.testfx.framework.junit5.Stop;
 import org.testfx.service.finder.NodeFinder;
 
-import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -26,9 +24,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import kodex.exceptions.AlertWindowException;
-import kodex.exceptions.InvalidInputException;
-import kodex.exceptions.LoadingException;
 import kodex.model.DefaultSettings;
 import kodex.model.I18N;
 
@@ -152,8 +147,6 @@ class SettingsPresenterTest {
     portTextField.clear();
 
     int port = -1;
-
-    int previousPort = DefaultSettings.getPort();
 
     robot.clickOn("#portTextField").write(Integer.toString(port));
 

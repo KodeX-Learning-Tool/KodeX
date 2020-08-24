@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import javafx.scene.layout.AnchorPane;
 import kodex.plugininterface.ChainLinkEditPresenter;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
@@ -26,7 +25,6 @@ class ProcedureLayoutPresenterTest {
   private static PresenterManager pm;
   private static ProcedurePlugin plugin;
   private static ImportPresenter importPresenter;
-  private static AnchorPane someView;
   
   @BeforeAll
   static void setUp() {
