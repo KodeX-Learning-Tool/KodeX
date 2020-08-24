@@ -203,7 +203,8 @@ public class DefaultSettings extends Settings {
     try {
       prop.load(DefaultSettings.class.getResourceAsStream(DEFAULT_SETTINGS_PATH));
       
-      Platform.runLater(() -> I18N.setLocale(new Locale(prop.getProperty("local"))));
+      //This causes tests to fail but if you use Platform.runLater() reset of language doesn't work
+      I18N.setLocale(new Locale(prop.getProperty("local")));
 
       setPort(Integer.parseInt(prop.getProperty("port")));
 
