@@ -22,7 +22,6 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import kodex.exceptions.AlertWindowException;
 import kodex.model.I18N;
 import kodex.plugininterface.ImportPresenter;
-import kodex.plugininterface.InvalidImportException;
 import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.content.BinaryString;
 import kodex.pluginutils.model.content.BlackWhiteImage;
@@ -102,7 +101,7 @@ public class BWImageImportPresenter extends ImportPresenter {
   }
 
   @Override
-  public void handleDecodeImport() throws InvalidImportException {
+  public void handleDecodeImport() {
     // supported extensions
     ArrayList<String> extensions = new ArrayList<>();
     extensions.add("*.txt");
@@ -129,7 +128,7 @@ public class BWImageImportPresenter extends ImportPresenter {
   }
 
   @Override
-  public void handleEncodeImport() throws InvalidImportException {
+  public void handleEncodeImport() {
     // supported extensions
     ArrayList<String> extensions = new ArrayList<>();
     extensions.add("*.png");
@@ -154,7 +153,7 @@ public class BWImageImportPresenter extends ImportPresenter {
       int height = (int) image.getHeight();
       
       if (width <= 0 || height <= 0) {
-        throw new InvalidImportException(AlertType.ERROR, I18N.get(ERROR_PROPERTY_KEY),
+        PresenterManager.showAlertDialog(AlertType.ERROR, I18N.get(ERROR_PROPERTY_KEY),
             I18N.get(INVALID_IMPORT_PROPERTY_KEY),
             "The content has dimensions less or equal to 0.");
       }
@@ -192,8 +191,8 @@ public class BWImageImportPresenter extends ImportPresenter {
    * @param expectedFileType the expected file type
    * @throws InvalidImportException if the import is invalid
    */
-  private void importAlert(File file, String expectedFileType) throws InvalidImportException {
-    throw new InvalidImportException(AlertType.ERROR, I18N.get(ERROR_PROPERTY_KEY),
+  private void importAlert(File file, String expectedFileType) {
+    PresenterManager.showAlertDialog(AlertType.ERROR, I18N.get(ERROR_PROPERTY_KEY),
         I18N.get(INVALID_IMPORT_PROPERTY_KEY),
         "The extension ." + FilenameUtils.getExtension(file.getName()) 
         +  " does not belong to a supported " + expectedFileType + " file type.");
@@ -237,7 +236,7 @@ public class BWImageImportPresenter extends ImportPresenter {
     return false;
   }
   
-  private void parseTextFile(File file) throws InvalidImportException {
+  private void parseTextFile(File file) {
     try (Scanner in = new Scanner(file)) {
       
       //header
@@ -259,11 +258,11 @@ public class BWImageImportPresenter extends ImportPresenter {
       binaryString = in.nextLine();
 
     } catch (InputMismatchException e) {
-      throw new InvalidImportException(AlertType.ERROR, I18N.get(ERROR_PROPERTY_KEY),
+      PresenterManager.showAlertDialog(AlertType.ERROR, I18N.get(ERROR_PROPERTY_KEY),
           I18N.get(INVALID_CONTENT_PROPERTY_KEY),
           "The file doesn't have a valid format. Check if the header or content has been damaged.");
     } catch (FileNotFoundException e1) {
-      throw new InvalidImportException(AlertType.ERROR, I18N.get(ERROR_PROPERTY_KEY),
+      PresenterManager.showAlertDialog(AlertType.ERROR, I18N.get(ERROR_PROPERTY_KEY),
           I18N.get(INVALID_CONTENT_PROPERTY_KEY),
           "The content could not be parsed because the program couldn't find the file.");
     }

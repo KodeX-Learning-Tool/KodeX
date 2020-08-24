@@ -13,7 +13,6 @@ import kodex.exceptions.AlertWindowException;
 import kodex.model.I18N;
 import kodex.plugininterface.ChainLinkPresenter;
 import kodex.plugininterface.ImportPresenter;
-import kodex.plugininterface.InvalidImportException;
 import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.content.LetterString;
 import kodex.pluginutils.model.content.TupleString;
@@ -57,7 +56,7 @@ public class RLEImportPresenter extends ImportPresenter {
   }
 
   @Override
-  public void handleDecodeImport() throws InvalidImportException {
+  public void handleDecodeImport() {
     // supported extensions
     ArrayList<String> extensions = new ArrayList<>();
     extensions.add("*.txt");
@@ -91,18 +90,12 @@ public class RLEImportPresenter extends ImportPresenter {
     }
     
     if (validateDecodeImport()) {
-      // TODO notify that we want to decode?
       procedureLayoutPresenter.switchToChainPresenter(false);
-    } else {
-      
-      importAlert(file);
-      
-      System.err.println("File content not valid.");
-    }
+    } 
   }
 
   @Override
-  public void handleEncodeImport() throws InvalidImportException {
+  public void handleEncodeImport() {
     // supported extensions
     ArrayList<String> extensions = new ArrayList<>();
     extensions.add("*.txt");
@@ -138,10 +131,7 @@ public class RLEImportPresenter extends ImportPresenter {
     
     if (validateEncodeImport()) {
       procedureLayoutPresenter.switchToChainPresenter(true);
-    } else {
-      importAlert(file);
-      System.err.println("File content not valid.");
-    }
+    } 
   }
   
   /**
@@ -149,18 +139,16 @@ public class RLEImportPresenter extends ImportPresenter {
    *
    * @param givenFileExtension the given file
    * @param expectedFileType the expected file type
-   * @throws InvalidImportException if the import is invalid
    */
-  private void importExtensionAlert(File file, String expectedFileType) 
-      throws InvalidImportException {
-    throw new InvalidImportException(AlertType.ERROR, I18N.get("alert.title.error"),
+  private void importExtensionAlert(File file, String expectedFileType) {
+    PresenterManager.showAlertDialog(AlertType.ERROR, I18N.get("alert.title.error"),
         I18N.get("alert.import.invalid"),
         "The extension ." + FilenameUtils.getExtension(file.getName()) 
         +  " does not belong to a supported " + expectedFileType + " file type.");
   }
   
-  private void importAlert(File file) throws InvalidImportException {    
-    throw new InvalidImportException(AlertType.ERROR, I18N.get("alert.title.error"),
+  private void importAlert(File file) {    
+    PresenterManager.showAlertDialog(AlertType.ERROR, I18N.get("alert.title.error"),
         I18N.get("alert.import.invalid"), "The chosen file (" + file.getName() 
         + ") is not a text file with valid content.");
   }

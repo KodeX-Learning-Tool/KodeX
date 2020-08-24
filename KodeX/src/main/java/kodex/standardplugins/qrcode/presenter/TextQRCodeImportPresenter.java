@@ -15,7 +15,6 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import kodex.exceptions.AlertWindowException;
 import kodex.model.I18N;
 import kodex.plugininterface.ImportPresenter;
-import kodex.plugininterface.InvalidImportException;
 import kodex.plugininterface.ProcedurePlugin;
 import kodex.pluginutils.model.content.CharacterString;
 import kodex.pluginutils.model.content.QRCode;
@@ -50,7 +49,7 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
    */
   private HashMap<String, Object> header;
   
-  /** the maximum amount of alpha numeric characters a QR-code can contain. (177*177) */
+  /** the maximum amount of alpha numeric characters a QR-code can contain. (177x177) */
   private static final int MAX_CHAR_ALPHANUMERICAL = 4296;
   
   /**
@@ -89,7 +88,7 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
   }
 
   @Override
-  public void handleDecodeImport() throws InvalidImportException {
+  public void handleDecodeImport() {
     // supported extensions
     ArrayList<String> extensions = new ArrayList<>();
     extensions.add("*.png");
@@ -103,21 +102,21 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
     qrcode = importFile(false, extensionFilters);
     if (qrcode != null) {
       if (!extensions.contains("*." + FilenameUtils.getExtension(qrcode.getName()))) {
-        importAlert(qrcode, "image");
+        PresenterManager.showAlertDialog(AlertType.ERROR, I18N.get("alert.title.error"),
+            I18N.get("alert.import.invalid"),
+            "The extension ." + FilenameUtils.getExtension(qrcode.getName()) 
+            +  " does not belong to a supported image file type.");
         return;
       }
       
       if (validateDecodeImport()) {
         procedureLayoutPresenter.switchToChainPresenter(false);
-      } else {       
-        throw new InvalidImportException(AlertType.ERROR, I18N.get("alert.title.error"),
-            I18N.get("alert.import.invalid"), "File content not valid");
       }
     }
   }
 
   @Override
-  public void handleEncodeImport() throws InvalidImportException {
+  public void handleEncodeImport() {
     // supported extensions
     ArrayList<String> extensions = new ArrayList<>();
     extensions.add("*.txt");
@@ -132,7 +131,10 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
     if (file != null) {
       
       if (!extensions.contains("*." + FilenameUtils.getExtension(file.getName()))) {
-        importAlert(file, "text");
+        PresenterManager.showAlertDialog(AlertType.ERROR, I18N.get("alert.title.error"),
+            I18N.get("alert.import.invalid"),
+            "The extension ." + FilenameUtils.getExtension(file.getName()) 
+            +  " does not belong to a supported text file type.");
         return;
       }
       
@@ -140,39 +142,23 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
       try {
         string = Files.readString(file.toPath());
       } catch (IOException e) {
-        throw new InvalidImportException(AlertType.ERROR, I18N.get("alert.title.error"),
+        PresenterManager.showAlertDialog(AlertType.ERROR, I18N.get("alert.title.error"),
             I18N.get("alert.import.invalid"), "File not valid");
+        return;
       }
       if (string == null) {
-        throw new InvalidImportException(AlertType.ERROR, I18N.get("alert.title.error"),
+        PresenterManager.showAlertDialog(AlertType.ERROR, I18N.get("alert.title.error"),
             I18N.get("alert.import.invalid"), "File content not valid");
+        return;
       }
       if (string.startsWith("HEADER\nCONTENT\n")) {
         string = string.substring(15);
       }
       if (validateEncodeImport()) {
         procedureLayoutPresenter.switchToChainPresenter(true);
-      } else {
-        throw new InvalidImportException(AlertType.ERROR, I18N.get("alert.title.error"),
-            I18N.get("alert.import.invalid"), "File content not valid");
-      }
-        
+      }         
     }
 
-  }
-
-  /**
-   * Shows an alert window concerning file extensions.
-   *
-   * @param givenFileExtension the given file
-   * @param expectedFileType the expected file type
-   * @throws InvalidImportException if the import is invalid
-   */
-  private void importAlert(File file, String expectedFileType) throws InvalidImportException {
-    throw new InvalidImportException(AlertType.ERROR, I18N.get("alert.title.error"),
-        I18N.get("alert.import.invalid"),
-        "The extension ." + FilenameUtils.getExtension(file.getName()) 
-        +  " does not belong to a supported " + expectedFileType + " file type.");
   }
 
   @Override
