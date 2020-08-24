@@ -97,12 +97,11 @@ public class IndexPagePresenter extends Presenter {
             AlertType.ERROR,
             I18N.get("alert.title.error"),
             I18N.get("alert.load.failed"),
-            I18N.get(
-                "Failed creating procedure button for "
-                    + procedurePlugin.pluginNameProperty().get()
-                    + " with "
-                    + fileName
-                    + "."));
+            "Failed creating procedure button for "
+                + procedurePlugin.pluginNameProperty().get()
+                + " with "
+                + fileName
+                + ".");
       }
 
       procedureLabel.setText(procedureInformation.getName());

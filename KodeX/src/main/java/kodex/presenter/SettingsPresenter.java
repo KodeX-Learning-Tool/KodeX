@@ -136,7 +136,8 @@ public class SettingsPresenter extends Presenter {
             AlertType.CONFIRMATION,
             I18N.get("alert.title.confirmation"),
             I18N.get("alert.settings.reset"),
-                "Restore default settings? " + " All changes made to the settings will be lost.");
+            "Restore default settings?"
+            + " All changes made to the settings will be lost.");
 
     if (result.isPresent() && result.get() == ButtonType.OK) {
       try {
@@ -177,9 +178,12 @@ public class SettingsPresenter extends Presenter {
       // port number is invalid
 
       setErrorPseudoClass(portTextField, true);
-      PresenterManager.showAlertDialog(AlertType.ERROR, I18N.get("alert.title.error"),
-          I18N.get("alert.input.invalid"), I18N.get(
-              "The input is not a valid port. " + "The number has to be between 0 and 65535."));
+      PresenterManager.showAlertDialog(
+          AlertType.ERROR,
+          I18N.get("alert.title.error"),
+          I18N.get("alert.input.invalid"),
+          "The input is not a valid port. "
+          + "The number has to be between 0 and 65535.");
 
       return;
     }

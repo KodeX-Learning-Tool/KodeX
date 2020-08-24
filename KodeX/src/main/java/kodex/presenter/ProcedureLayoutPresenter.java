@@ -108,7 +108,7 @@ public class ProcedureLayoutPresenter extends Presenter {
             AlertType.ERROR,
             I18N.get("alert.title.error"),
             I18N.get("alert.load.failed"),
-            I18N.get("Failed creating Editor-view with " + fileName + "."));
+            "Failed creating Editor-view with " + fileName + ".");
       }
     }
 
@@ -240,12 +240,11 @@ public class ProcedureLayoutPresenter extends Presenter {
             AlertType.ERROR,
             I18N.get("alert.title.error"),
             I18N.get("alert.load.failed"),
-            I18N.get(
-                "Failed creating Overview item for "
-                    + chainLinkPresenter.getName()
-                    + " with "
-                    + fileName
-                    + "."));
+            "Failed creating Overview item for "
+                + chainLinkPresenter.getName()
+                + " with "
+                + fileName
+                + ".");
       }
     }
 
