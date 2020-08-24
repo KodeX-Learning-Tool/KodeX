@@ -57,7 +57,11 @@ public class PresenterManager {
    * @param sideMenuPresenter The SideMenuPresenter for the displayed side menu.
    */
   public void setSideMenuPresenter(SideMenuPresenter sideMenuPresenter) {
-
+    
+    if (sideMenuPresenter == null) {
+      return;
+    }
+    
     if (this.sideMenuPresenter != null) {
       this.sideMenuPresenter.onExit();
     }
