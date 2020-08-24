@@ -1,5 +1,6 @@
 package kodex.model;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Locale;
@@ -30,8 +31,7 @@ class DefaultSettingsTest {
   void testGetInstance() throws LoadingException, InvalidInputException {
     assertTrue(DefaultSettings.getInstance() != null);
   }
-  
-  @Disabled
+
   @Test
   void testSetDefaultPath() {
     settings.setDefaultPath("Test/Kodex/Plugin");
@@ -51,11 +51,13 @@ class DefaultSettingsTest {
   }
 
   @Test
-  @Disabled //Exception caused by Alert - manually tested 
   void testSetUnvalidPort() throws InvalidInputException {
     settings.setPort(12345);
-    settings.setPort(123456);
-    assertTrue(DefaultSettings.getPort() == 12345);
+    Exception exception = assertThrows(InvalidInputException.class, () -> settings.setPort(123456));
+    String expectedMessage = "Port is not valid";
+    String actualMessage = exception.getMessage();
+    
+    assertTrue(actualMessage.contains(expectedMessage) && DefaultSettings.getPort() == 12345);
   }
   
   @Test
