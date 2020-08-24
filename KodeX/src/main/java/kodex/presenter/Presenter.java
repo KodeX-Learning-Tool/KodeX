@@ -95,7 +95,7 @@ public abstract class Presenter implements IPresenter {
           AlertType.ERROR,
           I18N.get("alert.title.error"),
           I18N.get("alert.load.failed"),
-          I18N.get("Failed creating view for " + fileName + ".fxml."),
+          "Failed creating view for " + fileName + ".fxml.",
           expContent);
     }
   }
