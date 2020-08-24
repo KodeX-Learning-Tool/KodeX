@@ -32,34 +32,29 @@
 	</reporting>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.openjfx</groupId>
-			<artifactId>javafx-fxml</artifactId>
-			<version>13</version>
-		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.openjfx</groupId> -->
-<!-- 			<artifactId>javafx-graphics  -->
-<!-- 				</artifactId> -->
-<!-- 			<version>13</version> -->
-<!-- 			<classifier>win</classifier> -->
-<!-- 			<scope>packaging</scope> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.openjfx</groupId> -->
-<!-- 			<artifactId>javafx-graphics  -->
-<!-- 				</artifactId> -->
-<!-- 			<version>13</version> -->
-<!-- 			<classifier>linux</classifier> -->
-<!-- 			<scope>packaging</scope> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.openjfx</groupId> -->
-<!-- 			<artifactId>javafx-graphics</artifactId> -->
-<!-- 			<version>13</version> -->
-<!-- 			<classifier>mac</classifier> -->
-<!-- 			<scope>packaging</scope> -->
-<!-- 		</dependency> -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>13</version>
+            <classifier>win</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>13</version>
+            <classifier>mac</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>13</version>
+            <classifier>linux</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>13</version>
+        </dependency>
 		<dependency>
 			<groupId>org.kordamp.ikonli</groupId>
 			<artifactId>ikonli-materialdesign-pack</artifactId>
@@ -179,6 +174,11 @@
 						</argLine>
 						<useManifestOnlyJar>false</useManifestOnlyJar>
 						<useSystemClassLoader>true</useSystemClassLoader>
+						<classpathDependencyExcludes>
+						    <!-- Exclude the libraries which are not for your OS during testing. They will still be packed into the fat jar. -->
+				            <classpathDependencyExclude>org.openjfx:javafx-graphics:mac</classpathDependencyExclude>
+				            <classpathDependencyExclude>org.openjfx:javafx-graphics:linux</classpathDependencyExclude>
+				        </classpathDependencyExcludes>
 					</configuration>
 				</plugin>
 				<plugin>
