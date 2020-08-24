@@ -82,7 +82,7 @@ public class PresenterManager {
    */
   public void updatePresenter(Presenter newPresenter) {
     
-    if (sideMenuPresenter == null) {
+    if (newPresenter == null) {
       return;
     }
 
