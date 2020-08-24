@@ -131,7 +131,7 @@ public class PresenterManager {
   public static Optional<ButtonType> showAlertDialog(
       AlertType type, String title, String header, String content) {
     
-    Alert alert = new Alert(AlertType.ERROR);
+    Alert alert = new Alert(type);
     alert.setTitle(title);
     alert.setHeaderText(header);
     alert.setContentText(content);
