@@ -3,7 +3,6 @@ package kodex.plugininterface;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import kodex.exceptions.AlertWindowException;
-import kodex.presenter.PresenterManager;
 
 /**
  * This class forms the communication interface between a plugin and the framework. All classes that

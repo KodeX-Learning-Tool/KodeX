@@ -93,7 +93,8 @@ public class TupleStringEditPresenter extends ChainLinkEditPresenter {
     
     String[] tupleParts = tupleStringArea.getText().split(":");
     
-    content.getTuples()[markID] = new Tuple(tupleParts[0], Integer.parseInt(tupleParts[1]));
+    content.getTuples()[markID] = 
+        new Tuple<String, Integer>(tupleParts[0], Integer.parseInt(tupleParts[1]));
     
     chainLinkPresenter.updateChain();
   }
