@@ -60,52 +60,6 @@ class RLEImportPresenterTest {
 
   /**
    * Test method for {@link kodex.standardplugins.rle.presenter.RLEImportPresenter
-   * #handleDecodeImport()}.
-   * @throws InvalidImportException if the imported file is invalid
-   */
-  @Test
-  void testHandleDecodeImport() throws InvalidImportException {
-    // test file
-    File file = new File(RLEImportPresenterTest.class.getResource("test_rle.txt").getPath());
-    
-    // spy on ColorImageImportPresenter to return test file instead of opening a FileChooser
-    RLEImportPresenter spy = Mockito.spy(rleImportPresenter);
-    Mockito.doReturn(file).when(spy).importFile(Mockito.eq(false), Mockito.any(ArrayList.class));
-    ProcedureLayoutPresenter plp = Mockito.mock(ProcedureLayoutPresenter.class);
-    textRLEProcedurePlugin.initializeProcedure();
-    spy.setLayoutPresenter(plp);
-
-    // verify if importing succeeded
-    Mockito.doNothing().when(plp).switchToChainPresenter(false);
-    spy.handleDecodeImport();
-    Mockito.verify(plp, Mockito.times(1)).switchToChainPresenter(false);
-  }
-
-  /**
-   * Test method for {@link kodex.standardplugins.rle.presenter.RLEImportPresenter
-   * #handleEncodeImport()}.
-   * @throws InvalidImportException if the imported file is invalid
-   */
-  @Test
-  void testHandleEncodeImport() throws InvalidImportException {
-    // test file
-    File file = new File(RLEImportPresenterTest.class.getResource("test.txt").getPath());
-    
-    // spy on ColorImageImportPresenter to return test file instead of opening a FileChooser
-    RLEImportPresenter spy = Mockito.spy(rleImportPresenter);
-    Mockito.doReturn(file).when(spy).importFile(Mockito.eq(true), Mockito.any(ArrayList.class));
-    ProcedureLayoutPresenter plp = Mockito.mock(ProcedureLayoutPresenter.class);
-    textRLEProcedurePlugin.initializeProcedure();
-    spy.setLayoutPresenter(plp);
-    
-    // verify if importing succeeded
-    Mockito.doNothing().when(plp).switchToChainPresenter(true);
-    spy.handleEncodeImport();
-    Mockito.verify(plp, Mockito.times(1)).switchToChainPresenter(true);
-  }
-
-  /**
-   * Test method for {@link kodex.standardplugins.rle.presenter.RLEImportPresenter
    * #RLEImportPresenter(kodex.plugininterface.ProcedurePlugin)}.
    * 
    * @throws NoSuchFieldException  if a field with the specified name is not found

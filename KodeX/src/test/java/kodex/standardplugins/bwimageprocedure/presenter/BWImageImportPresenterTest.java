@@ -61,52 +61,6 @@ class BWImageImportPresenterTest {
   }
 
   /**
-   * Test method for {@link kodex.standardplugins.bwimageprocedure.presenter.BWImageImportPresenter
-   * #handleDecodeImport()}.
-   * @throws InvalidImportException if the imported file is invalid
-   */
-  @Test
-  void testHandleDecodeImport() throws InvalidImportException {
-    // test file
-    File file = new File(BWImageImportPresenterTest.class.getResource("test.txt").getPath());
-    
-    // spy on BWImageImportPresenter to return test file instead of opening a FileChooser
-    BWImageImportPresenter spy = Mockito.spy(bwImageImportPresenter);
-    Mockito.doReturn(file).when(spy).importFile(Mockito.eq(false), Mockito.any(ArrayList.class));
-    ProcedureLayoutPresenter plp = Mockito.mock(ProcedureLayoutPresenter.class);
-    bwImageProcedurePlugin.initializeProcedure();
-    spy.setLayoutPresenter(plp);
-
-    // verify if importing succeeded
-    Mockito.doNothing().when(plp).switchToChainPresenter(false);
-    spy.handleDecodeImport();
-    Mockito.verify(plp, Mockito.times(1)).switchToChainPresenter(false);  
-  }
-
-  /**
-   * Test method for {@link kodex.standardplugins.bwimageprocedure.presenter.BWImageImportPresenter
-   * #handleEncodeImport()}.
-   * @throws InvalidImportException if the imported file is invalid
-   */
-  @Test
-  void testHandleEncodeImport() throws InvalidImportException {
-    // test file
-    File file = new File(BWImageImportPresenterTest.class.getResource("test.png").getPath());
-    
-    // spy on ColorImageImportPresenter to return test file instead of opening a FileChooser
-    BWImageImportPresenter spy = Mockito.spy(bwImageImportPresenter);
-    Mockito.doReturn(file).when(spy).importFile(Mockito.eq(true), Mockito.any(ArrayList.class));
-    ProcedureLayoutPresenter plp = Mockito.mock(ProcedureLayoutPresenter.class);
-    bwImageProcedurePlugin.initializeProcedure();
-    spy.setLayoutPresenter(plp);
-    
-    // verify if importing succeeded
-    Mockito.doNothing().when(plp).switchToChainPresenter(true);
-    Platform.runLater(() -> spy.handleEncodeImport());
-    Mockito.verify(plp, Mockito.times(1)).switchToChainPresenter(true);  
-  }
-
-  /**
    * Test method for {@link kodex.plugininterface.ImportPresenter
    * #setLayoutPresenter(kodex.presenter.ProcedureLayoutPresenter)}.
    * 

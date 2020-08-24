@@ -62,53 +62,6 @@ class ColorImageImportPresenterTest {
 
   /**
    * Test method for {@link kodex.standardplugins.colorimageprocedure.presenter
-   * .ColorImageImportPresenter#handleDecodeImport()}.
-   * @throws InvalidImportException if an error happens when calculating the chain
-   */
-  @Test
-  void testHandleDecodeImport() throws InvalidImportException {
-    // test file
-    File file = new File(ColorImageImportPresenterTest.class.getResource("test.txt").getPath());
-    
-    // spy on ColorImageImportPresenter to return test file instead of opening a FileChooser
-    ColorImageImportPresenter spy = Mockito.spy(colorImageImportPresenter);
-    Mockito.doReturn(file).when(spy).importFile(Mockito.eq(false), Mockito.any(ArrayList.class));
-    ProcedureLayoutPresenter plp = Mockito.mock(ProcedureLayoutPresenter.class);
-    colorImageProcedurePlugin.initializeProcedure();
-    spy.setLayoutPresenter(plp);
-
-    // verify if importing succeeded
-    Mockito.doNothing().when(plp).switchToChainPresenter(false);
-    spy.handleDecodeImport();
-    Mockito.verify(plp, Mockito.times(1)).switchToChainPresenter(false);    
-  }
-
-  /**
-   * Test method for {@link kodex.standardplugins.colorimageprocedure.presenter
-   * .ColorImageImportPresenter#handleEncodeImport()}.
-   * @throws InvalidImportException if an error happens when calculating the chain
-   */
-  @Test
-  void testHandleEncodeImport() throws InvalidImportException {
-    // test file
-    File file = new File(ColorImageImportPresenterTest.class.getResource("test.png").getPath());
-    
-    // spy on ColorImageImportPresenter to return test file instead of opening a FileChooser
-    ColorImageImportPresenter spy = Mockito.spy(colorImageImportPresenter);
-    Mockito.doReturn(file).when((ImportPresenter) spy).importFile(Mockito.eq(true),
-        Mockito.any(ArrayList.class));
-    ProcedureLayoutPresenter plp = Mockito.mock(ProcedureLayoutPresenter.class);
-    colorImageProcedurePlugin.initializeProcedure();
-    spy.setLayoutPresenter(plp);
-    
-    // verify if importing succeeded
-    Mockito.doNothing().when(plp).switchToChainPresenter(true);
-    spy.handleEncodeImport();
-    Mockito.verify(plp, Mockito.times(1)).switchToChainPresenter(true);  
-  }
-
-  /**
-   * Test method for {@link kodex.standardplugins.colorimageprocedure.presenter
    * .ColorImageImportPresenter#ColorImageImportPresenter(kodex.plugininterface.ProcedurePlugin)}.
    * 
    * @throws NoSuchFieldException  if a field with the specified name is not found
