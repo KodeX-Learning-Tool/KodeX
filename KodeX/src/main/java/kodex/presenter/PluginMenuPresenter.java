@@ -108,14 +108,14 @@ public class PluginMenuPresenter extends Presenter {
           AlertType.INFORMATION,
           I18N.get("alert.title.information"),
           I18N.get("alert.operation.invalid"),
-          I18N.get("No plugin selected."));
+          "No plugin selected.");
 
     } else if (defaultPlugins.contains(plugin.pluginNameProperty().get())) {
       PresenterManager.showAlertDialog(
           AlertType.INFORMATION,
           I18N.get("alert.title.information"),
           I18N.get("alert.operation.invalid"),
-          I18N.get("Default plugins can't be removed."));
+          "Default plugins can't be removed.");
 
     } else {
       Optional<ButtonType> result =
@@ -123,10 +123,9 @@ public class PluginMenuPresenter extends Presenter {
               AlertType.CONFIRMATION,
               I18N.get("alert.title.confirmation"),
               I18N.get("alert.delete.plugin"),
-              I18N.get(
-                  "Are you sure you want to delete "
-                      + plugin.pluginNameProperty().get()
-                      + ".jar? The plugin will be permanently deleted from the plugins folder."));
+              "Are you sure you want to delete "
+                  + plugin.pluginNameProperty().get()
+                  + ".jar? The plugin will be permanently deleted from the plugins folder.");
 
       if (result.isPresent() && result.get() == ButtonType.OK) {
         try {
