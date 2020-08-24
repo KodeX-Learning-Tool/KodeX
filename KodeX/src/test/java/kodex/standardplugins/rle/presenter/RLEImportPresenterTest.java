@@ -72,6 +72,7 @@ class RLEImportPresenterTest {
     RLEImportPresenter spy = Mockito.spy(rleImportPresenter);
     Mockito.doReturn(file).when(spy).importFile(Mockito.eq(false), Mockito.any(ArrayList.class));
     ProcedureLayoutPresenter plp = Mockito.mock(ProcedureLayoutPresenter.class);
+    textRLEProcedurePlugin.initializeProcedure();
     spy.setLayoutPresenter(plp);
 
     // verify if importing succeeded
@@ -94,6 +95,7 @@ class RLEImportPresenterTest {
     RLEImportPresenter spy = Mockito.spy(rleImportPresenter);
     Mockito.doReturn(file).when(spy).importFile(Mockito.eq(true), Mockito.any(ArrayList.class));
     ProcedureLayoutPresenter plp = Mockito.mock(ProcedureLayoutPresenter.class);
+    textRLEProcedurePlugin.initializeProcedure();
     spy.setLayoutPresenter(plp);
     
     // verify if importing succeeded

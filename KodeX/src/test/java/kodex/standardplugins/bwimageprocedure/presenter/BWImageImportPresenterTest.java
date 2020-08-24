@@ -11,6 +11,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
+
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -72,6 +74,7 @@ class BWImageImportPresenterTest {
     BWImageImportPresenter spy = Mockito.spy(bwImageImportPresenter);
     Mockito.doReturn(file).when(spy).importFile(Mockito.eq(false), Mockito.any(ArrayList.class));
     ProcedureLayoutPresenter plp = Mockito.mock(ProcedureLayoutPresenter.class);
+    bwImageProcedurePlugin.initializeProcedure();
     spy.setLayoutPresenter(plp);
 
     // verify if importing succeeded
@@ -94,11 +97,12 @@ class BWImageImportPresenterTest {
     BWImageImportPresenter spy = Mockito.spy(bwImageImportPresenter);
     Mockito.doReturn(file).when(spy).importFile(Mockito.eq(true), Mockito.any(ArrayList.class));
     ProcedureLayoutPresenter plp = Mockito.mock(ProcedureLayoutPresenter.class);
+    bwImageProcedurePlugin.initializeProcedure();
     spy.setLayoutPresenter(plp);
     
     // verify if importing succeeded
     Mockito.doNothing().when(plp).switchToChainPresenter(true);
-    spy.handleEncodeImport();
+    Platform.runLater(() -> spy.handleEncodeImport());
     Mockito.verify(plp, Mockito.times(1)).switchToChainPresenter(true);  
   }
 

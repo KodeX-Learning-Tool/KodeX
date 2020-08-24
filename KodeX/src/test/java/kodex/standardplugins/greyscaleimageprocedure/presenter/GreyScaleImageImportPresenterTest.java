@@ -11,6 +11,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
+
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -72,6 +74,7 @@ class GreyScaleImageImportPresenterTest {
     GreyScaleImageImportPresenter spy = Mockito.spy(greyScaleImageImportPresenter);
     Mockito.doReturn(file).when(spy).importFile(Mockito.eq(false), Mockito.any(ArrayList.class));
     ProcedureLayoutPresenter plp = Mockito.mock(ProcedureLayoutPresenter.class);
+    greyScaleImageProcedurePlugin.initializeProcedure();
     spy.setLayoutPresenter(plp);
 
     // verify if importing succeeded
@@ -94,6 +97,7 @@ class GreyScaleImageImportPresenterTest {
     GreyScaleImageImportPresenter spy = Mockito.spy(greyScaleImageImportPresenter);
     Mockito.doReturn(file).when(spy).importFile(Mockito.eq(true), Mockito.any(ArrayList.class));
     ProcedureLayoutPresenter plp = Mockito.mock(ProcedureLayoutPresenter.class);
+    Platform.runLater(() -> greyScaleImageProcedurePlugin.initializeProcedure());
     spy.setLayoutPresenter(plp);
     
     // verify if importing succeeded

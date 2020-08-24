@@ -11,10 +11,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
+
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.InvalidImportException;
 import kodex.presenter.ProcedureLayoutPresenter;
 import kodex.standardplugins.colorimageprocedure.ColorImageProcedurePlugin;
@@ -71,6 +74,7 @@ class ColorImageImportPresenterTest {
     ColorImageImportPresenter spy = Mockito.spy(colorImageImportPresenter);
     Mockito.doReturn(file).when(spy).importFile(Mockito.eq(false), Mockito.any(ArrayList.class));
     ProcedureLayoutPresenter plp = Mockito.mock(ProcedureLayoutPresenter.class);
+    colorImageProcedurePlugin.initializeProcedure();
     spy.setLayoutPresenter(plp);
 
     // verify if importing succeeded
@@ -91,8 +95,10 @@ class ColorImageImportPresenterTest {
     
     // spy on ColorImageImportPresenter to return test file instead of opening a FileChooser
     ColorImageImportPresenter spy = Mockito.spy(colorImageImportPresenter);
-    Mockito.doReturn(file).when(spy).importFile(Mockito.eq(true), Mockito.any(ArrayList.class));
+    Mockito.doReturn(file).when((ImportPresenter) spy).importFile(Mockito.eq(true),
+        Mockito.any(ArrayList.class));
     ProcedureLayoutPresenter plp = Mockito.mock(ProcedureLayoutPresenter.class);
+    colorImageProcedurePlugin.initializeProcedure();
     spy.setLayoutPresenter(plp);
     
     // verify if importing succeeded

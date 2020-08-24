@@ -71,6 +71,7 @@ class TextQRCodeImportPresenterTest {
     TextQRCodeImportPresenter spy = Mockito.spy(textQRCodeImportPresenter);
     Mockito.doReturn(file).when(spy).importFile(Mockito.eq(false), Mockito.any(ArrayList.class));
     ProcedureLayoutPresenter plp = Mockito.mock(ProcedureLayoutPresenter.class);
+    textQRCodeProcedurePlugin.initializeProcedure();
     spy.setLayoutPresenter(plp);
 
     // verify if importing succeeded
@@ -93,6 +94,7 @@ class TextQRCodeImportPresenterTest {
     TextQRCodeImportPresenter spy = Mockito.spy(textQRCodeImportPresenter);
     Mockito.doReturn(file).when(spy).importFile(Mockito.eq(true), Mockito.any(ArrayList.class));
     ProcedureLayoutPresenter plp = Mockito.mock(ProcedureLayoutPresenter.class);
+    textQRCodeProcedurePlugin.initializeProcedure();
     spy.setLayoutPresenter(plp);
     
     // verify if importing succeeded
