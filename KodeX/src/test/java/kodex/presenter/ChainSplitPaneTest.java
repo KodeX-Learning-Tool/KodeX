@@ -5,8 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.lang.reflect.Field;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.testfx.framework.junit5.ApplicationExtension;
+import org.testfx.framework.junit5.Start;
+
+import javafx.application.Platform;
+import javafx.stage.Stage;
 
 /**
  * Tests for the ChainSplitPane class.
@@ -14,12 +19,13 @@ import org.junit.jupiter.api.Test;
  * @author Leonhard Kraft
  *
  */
+@ExtendWith(ApplicationExtension.class)
 class ChainSplitPaneTest {
 
   private ChainSplitPane csp;
   
-  @BeforeEach
-  void setUp() {
+  @Start
+  void setUp(Stage stage) {
 
     this.csp = new ChainSplitPane();
   }

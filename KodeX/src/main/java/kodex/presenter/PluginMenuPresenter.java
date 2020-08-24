@@ -131,7 +131,6 @@ public class PluginMenuPresenter extends Presenter {
         try {
           pluginLoader.removePlugin(plugin);
         } catch (LoadingException e) {
-          e.printStackTrace();
           PresenterManager.showAlertDialog(e.getType(), e.getTitle(), e.getHeader(),
               e.getContent());
         }

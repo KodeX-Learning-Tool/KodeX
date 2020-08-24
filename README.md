@@ -1,6 +1,6 @@
 # KodeX
 
-> educational tool for encoding theorie at schools
+> educational tool for encoding theory at schools
 
 
 [![pipeline status](https://git.scc.kit.edu/pse-kodierungstheorie-tool/kodex/badges/master/pipeline.svg)](https://git.scc.kit.edu/pse-kodierungstheorie-tool/kodex/-/commits/master) [![coverage report](https://git.scc.kit.edu/pse-kodierungstheorie-tool/kodex/badges/master/coverage.svg)](https://git.scc.kit.edu/pse-kodierungstheorie-tool/kodex/-/commits/master)
