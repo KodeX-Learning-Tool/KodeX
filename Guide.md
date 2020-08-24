@@ -366,6 +366,10 @@ Wird lediglich die Rückgabe eines Strings benötigt, so erfolgt dies folgenderm
   
 
 ## Fertigstellung
+Bevor man das Plugin exportiert benötigt man noch einen src/main/resources/META-INF/services Ordner. Hier kommen Dateien rein, die dem ServiceLoader sagen, welche Interfaces und abstrakten Klassen die Klassen implementieren.
+Dafür nennt man die Dateien so wie den vollqualifizierten Namen des Interfaces oder der abstrakten Klasse (z.B. kodex.plugininterface.Plugin). Achtung: Es soll keine weitere Dateiendung hinzugefügt werden!
+Die Datei öffnet man dann mit einem Texteditor und trägt den vollqualifizierten Namen der implementierenden Klassen ein (z.B. kodex.standardplugins.colorimageprocedure.ColorImageProcedurePlugin).
+Da ProcedurePlugin von Plugin erbt, soll eine Implementation von ProcedurePlugin in beide Dateien eingetragen werden. Somit werden die ProcedurePlugins als Plugin und ProcedurePlugin geladen.
 
 Das neue Verfahren ist nun vollständig. Es sollte noch einmal auf Warnungen und Fehler in der IDE überprüft werden. 
 Nun muss das Plugin nur noch als .jar Datei exportiert werden. Dies kann, falls während der Entwicklung Maven (https://maven.apache.org) benutzt wurde, mittels `clean install -U` erfolgen oder direkt über die Exportieren-Funktion der IDE.
