@@ -274,7 +274,7 @@ public class PluginLoader {
       }
     }
     
-    if (pluginsDir.isDirectory()) {
+    if (!pluginsDir.isDirectory()) {
       
       PresenterManager.showAlertDialog(AlertType.WARNING, I18N.get("alert.title.error"),
           I18N.get("alert.load.failed"), "Check if the plugin folder exists.");
@@ -315,6 +315,9 @@ public class PluginLoader {
           throw new Error("Malformed URL");
         }
       }
+    } else {
+      //no plugins in folder
+      return;
     }
 
     URLClassLoader urlLoader = new URLClassLoader(urls);
