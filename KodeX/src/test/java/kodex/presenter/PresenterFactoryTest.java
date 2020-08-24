@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import javafx.application.Platform;
 import kodex.plugininterface.ImportPresenter;
 import kodex.plugininterface.ProcedurePlugin;
 
@@ -52,10 +53,10 @@ class PresenterFactoryTest {
   /** 
    * Test method for {@link kodex.presenter.PresenterFactory#createPluginMenuPresenter()}. 
    */
-  @Disabled("Issue with fx Thread")
   @Test
   void testCreatePluginMenuPresenter() {
-    assertTrue(pf.createPluginMenuPresenter() instanceof PluginMenuPresenter);
+    Platform
+        .runLater(() -> assertTrue(pf.createPluginMenuPresenter() instanceof PluginMenuPresenter));
   }
 
   /**

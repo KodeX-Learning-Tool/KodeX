@@ -15,8 +15,10 @@ import org.testfx.api.FxRobot;
 import org.testfx.api.FxService;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
+import org.testfx.framework.junit5.Stop;
 import org.testfx.service.finder.NodeFinder;
 
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -24,6 +26,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import kodex.exceptions.AlertWindowException;
+import kodex.exceptions.InvalidInputException;
+import kodex.exceptions.LoadingException;
 import kodex.model.DefaultSettings;
 import kodex.model.I18N;
 
@@ -50,7 +55,7 @@ class SettingsPresenterTest {
     stage.show();
   }
 
-  @AfterAll
+  @Stop
   static void cleanUp() throws Exception {
     DefaultSettings.getInstance().reset();
   }
