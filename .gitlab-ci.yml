@@ -22,7 +22,7 @@ before_script:
   
 stages:
   - compile
-  - test
+#  - test
   - checkstyle
 
 java-compile:
@@ -30,11 +30,11 @@ java-compile:
   script:
     - 'mvn $MAVEN_CLI_OPTS compile'
     
-java-test:
-  stage: test
-  script:
-    - 'mvn $MAVEN_CLI_OPTS test'
-    - 'cat target/jacoco-report/index.html'
+#java-test:
+#  stage: test
+#  script:
+#    - 'mvn $MAVEN_CLI_OPTS test'
+#    - 'cat target/jacoco-report/index.html'
       
 java-checkstyle:
   stage: checkstyle

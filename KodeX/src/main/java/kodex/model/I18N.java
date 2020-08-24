@@ -127,7 +127,11 @@ public class I18N {
     } catch (MissingResourceException e) {
       ResourceBundle defaultBundle = ResourceBundle.getBundle(LANGUAGE_PROPERTY_PATH 
           + LANGUAGE_FILE_NAME, new Locale("EN"));
-      return MessageFormat.format(defaultBundle.getString(key), args);
+      try {
+        return MessageFormat.format(defaultBundle.getString(key), args);
+      } catch (MissingResourceException ex) {
+        return "Text not found!";
+      }
     }
   }
 
