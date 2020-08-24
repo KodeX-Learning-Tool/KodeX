@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.kit.scc.git</groupId>
 	<artifactId>KodeX</artifactId>
-	<version>alpha</version>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
 	<properties>
@@ -158,6 +158,11 @@
 							--add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
 							--add-opens javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
 							--add-opens kodex.KodeX/kodex.plugininterface=ALL-UNNAMED
+							--add-opens kodex.KodeX/kodex.pluginutils.model.steps=ALL-UNNAMED
+							--add-opens kodex.KodeX/kodex.pluginutils.model.content=ALL-UNNAMED
+							--add-opens kodex.KodeX/kodex.pluginutils.presenter.header=ALL-UNNAMED
+							--add-opens kodex.KodeX/kodex.pluginutils.presenter.edit=ALL-UNNAMED
+							--add-opens kodex.KodeX/kodex.pluginutils.presenter.chainlink=ALL-UNNAMED
 							--add-opens kodex.KodeX/kodex.presenter=ALL-UNNAMED
 							--add-opens kodex.KodeX/kodex.standardplugins=ALL-UNNAMED
 							--add-opens kodex.KodeX/kodex.standardplugins.colorimageprocedure=ALL-UNNAMED
