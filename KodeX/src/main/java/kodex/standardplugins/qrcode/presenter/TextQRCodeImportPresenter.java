@@ -143,12 +143,20 @@ public class TextQRCodeImportPresenter extends ImportPresenter {
         throw new InvalidImportException(AlertType.ERROR, I18N.get("alert.title.error"),
             I18N.get("alert.import.invalid"), "File not valid");
       }
-      if (string != null && validateEncodeImport()) {
+      if (string == null) {
+        throw new InvalidImportException(AlertType.ERROR, I18N.get("alert.title.error"),
+            I18N.get("alert.import.invalid"), "File content not valid");
+      }
+      if (string.startsWith("HEADER\nCONTENT\n")) {
+        string = string.substring(15);
+      }
+      if (validateEncodeImport()) {
         procedureLayoutPresenter.switchToChainPresenter(true);
       } else {
         throw new InvalidImportException(AlertType.ERROR, I18N.get("alert.title.error"),
             I18N.get("alert.import.invalid"), "File content not valid");
       }
+        
     }
 
   }

@@ -85,7 +85,11 @@ public class RLEImportPresenter extends ImportPresenter {
       e.printStackTrace();
       return;
     }
-
+    
+    if (tupleString.startsWith("HEADER\nCONTENT\n")) {
+      tupleString = tupleString.substring(15);
+    }
+    
     if (validateDecodeImport()) {
       // TODO notify that we want to decode?
       procedureLayoutPresenter.switchToChainPresenter(false);
@@ -127,14 +131,15 @@ public class RLEImportPresenter extends ImportPresenter {
       e.printStackTrace();
       return;
     }
-
+    
+    if (letterString.startsWith("HEADER\nCONTENT\n")) {
+      letterString = letterString.substring(15);
+    }
+    
     if (validateEncodeImport()) {
-
       procedureLayoutPresenter.switchToChainPresenter(true);
     } else {
-      
       importAlert(file);
-      
       System.err.println("File content not valid.");
     }
   }
