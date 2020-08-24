@@ -140,47 +140,165 @@
 			<version>2.8.6</version>
 		</dependency>
 	</dependencies>
-
+    
+    <profiles>
+        <profile>
+            <id>windows</id>
+            <activation>
+	            <os>
+	                <family>Windows</family>
+	            </os>
+            </activation>
+            <build>
+		        <pluginManagement>
+		            <plugins>
+		                <plugin>
+		                    <groupId>org.apache.maven.plugins</groupId>
+		                    <artifactId>maven-surefire-plugin</artifactId>
+		                    <version>3.0.0-M5</version>
+		                    <configuration>
+		                        <argLine>
+		                            --add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
+		                            --add-opens javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
+		                            --add-opens kodex.KodeX/kodex.plugininterface=ALL-UNNAMED
+		                            --add-opens kodex.KodeX/kodex.pluginutils.model.steps=ALL-UNNAMED
+		                            --add-opens kodex.KodeX/kodex.pluginutils.model.content=ALL-UNNAMED
+		                            --add-opens kodex.KodeX/kodex.pluginutils.presenter.header=ALL-UNNAMED
+		                            --add-opens kodex.KodeX/kodex.pluginutils.presenter.edit=ALL-UNNAMED
+		                            --add-opens kodex.KodeX/kodex.pluginutils.presenter.chainlink=ALL-UNNAMED
+		                            --add-opens kodex.KodeX/kodex.presenter=ALL-UNNAMED
+		                            --add-opens kodex.KodeX/kodex.standardplugins=ALL-UNNAMED
+		                            --add-opens kodex.KodeX/kodex.standardplugins.colorimageprocedure=ALL-UNNAMED
+		                            --add-opens kodex.KodeX/kodex.standardplugins.colorimageprocedure.presenter=ALL-UNNAMED
+		                            --add-opens kodex.KodeX/kodex.standardplugins.rle=ALL-UNNAMED
+		                            --add-opens kodex.KodeX/kodex.standardplugins.rle.presenter=ALL-UNNAMED
+		                            --add-opens kodex.KodeX/kodex.standardplugins.rle.model.steps=ALL-UNNAMED
+		                            --add-opens kodex.KodeX/kodex.standardplugins.qrcode=ALL-UNNAMED
+		                            --add-opens kodex.KodeX/kodex.standardplugins.qrcode.presenter=ALL-UNNAMED
+		                            --add-opens kodex.KodeX/kodex.standardplugins.bwimageprocedure=ALL-UNNAMED
+		                            --add-opens kodex.KodeX/kodex.standardplugins.bwimageprocedure.presenter=ALL-UNNAMED
+		                            --add-opens kodex.KodeX/kodex.standardplugins.greyscaleimageprocedure=ALL-UNNAMED
+		                            --add-opens kodex.KodeX/kodex.standardplugins.greyscaleimageprocedure.presenter=ALL-UNNAMED
+		                        </argLine>
+		                        <useManifestOnlyJar>false</useManifestOnlyJar>
+		                        <useSystemClassLoader>true</useSystemClassLoader>
+		                        <classpathDependencyExcludes>
+		                            <!-- Exclude the libraries which are not for your OS during testing. They will still be packed into the fat jar. -->
+		                            <classpathDependencyExclude>org.openjfx:javafx-graphics:mac</classpathDependencyExclude>
+		                            <classpathDependencyExclude>org.openjfx:javafx-graphics:linux</classpathDependencyExclude>
+		                        </classpathDependencyExcludes>
+		                    </configuration>
+		                </plugin>
+		          </plugins>
+		      </pluginManagement>
+		  </build>
+        </profile>
+        <profile>
+            <id>linux</id>
+            <activation>
+                <os>
+                    <family>unix</family>
+                </os>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <version>3.0.0-M5</version>
+                            <configuration>
+                                <argLine>
+                                    --add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
+                                    --add-opens javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.plugininterface=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.pluginutils.model.steps=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.pluginutils.model.content=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.pluginutils.presenter.header=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.pluginutils.presenter.edit=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.pluginutils.presenter.chainlink=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.presenter=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.standardplugins=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.standardplugins.colorimageprocedure=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.standardplugins.colorimageprocedure.presenter=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.standardplugins.rle=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.standardplugins.rle.presenter=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.standardplugins.rle.model.steps=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.standardplugins.qrcode=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.standardplugins.qrcode.presenter=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.standardplugins.bwimageprocedure=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.standardplugins.bwimageprocedure.presenter=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.standardplugins.greyscaleimageprocedure=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.standardplugins.greyscaleimageprocedure.presenter=ALL-UNNAMED
+                                </argLine>
+                                <useManifestOnlyJar>false</useManifestOnlyJar>
+                                <useSystemClassLoader>true</useSystemClassLoader>
+                                <classpathDependencyExcludes>
+                                    <!-- Exclude the libraries which are not for your OS during testing. They will still be packed into the fat jar. -->
+                                    <classpathDependencyExclude>org.openjfx:javafx-graphics:mac</classpathDependencyExclude>
+                                    <classpathDependencyExclude>org.openjfx:javafx-graphics:win</classpathDependencyExclude>
+                                </classpathDependencyExcludes>
+                            </configuration>
+                        </plugin>
+                  </plugins>
+              </pluginManagement>
+          </build>
+        </profile>
+        <profile>
+            <id>mac</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                </os>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <version>3.0.0-M5</version>
+                            <configuration>
+                                <argLine>
+                                    --add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
+                                    --add-opens javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.plugininterface=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.pluginutils.model.steps=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.pluginutils.model.content=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.pluginutils.presenter.header=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.pluginutils.presenter.edit=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.pluginutils.presenter.chainlink=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.presenter=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.standardplugins=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.standardplugins.colorimageprocedure=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.standardplugins.colorimageprocedure.presenter=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.standardplugins.rle=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.standardplugins.rle.presenter=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.standardplugins.rle.model.steps=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.standardplugins.qrcode=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.standardplugins.qrcode.presenter=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.standardplugins.bwimageprocedure=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.standardplugins.bwimageprocedure.presenter=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.standardplugins.greyscaleimageprocedure=ALL-UNNAMED
+                                    --add-opens kodex.KodeX/kodex.standardplugins.greyscaleimageprocedure.presenter=ALL-UNNAMED
+                                </argLine>
+                                <useManifestOnlyJar>false</useManifestOnlyJar>
+                                <useSystemClassLoader>true</useSystemClassLoader>
+                                <classpathDependencyExcludes>
+                                    <classpathDependencyExclude>org.openjfx:javafx-graphics:win</classpathDependencyExclude>
+                                    <classpathDependencyExclude>org.openjfx:javafx-graphics:linux</classpathDependencyExclude>
+                                </classpathDependencyExcludes>
+                            </configuration>
+                        </plugin>
+                  </plugins>
+              </pluginManagement>
+          </build>
+        </profile>
+    </profiles>
+    
 	<build>
 		<pluginManagement>
 			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>3.0.0-M5</version>
-					<configuration>
-						<argLine>
-							--add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
-							--add-opens javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
-							--add-opens kodex.KodeX/kodex.plugininterface=ALL-UNNAMED
-							--add-opens kodex.KodeX/kodex.pluginutils.model.steps=ALL-UNNAMED
-							--add-opens kodex.KodeX/kodex.pluginutils.model.content=ALL-UNNAMED
-							--add-opens kodex.KodeX/kodex.pluginutils.presenter.header=ALL-UNNAMED
-							--add-opens kodex.KodeX/kodex.pluginutils.presenter.edit=ALL-UNNAMED
-							--add-opens kodex.KodeX/kodex.pluginutils.presenter.chainlink=ALL-UNNAMED
-							--add-opens kodex.KodeX/kodex.presenter=ALL-UNNAMED
-							--add-opens kodex.KodeX/kodex.standardplugins=ALL-UNNAMED
-							--add-opens kodex.KodeX/kodex.standardplugins.colorimageprocedure=ALL-UNNAMED
-							--add-opens kodex.KodeX/kodex.standardplugins.colorimageprocedure.presenter=ALL-UNNAMED
-                            --add-opens kodex.KodeX/kodex.standardplugins.rle=ALL-UNNAMED
-                            --add-opens kodex.KodeX/kodex.standardplugins.rle.presenter=ALL-UNNAMED
-                            --add-opens kodex.KodeX/kodex.standardplugins.rle.model.steps=ALL-UNNAMED
-                            --add-opens kodex.KodeX/kodex.standardplugins.qrcode=ALL-UNNAMED
-                            --add-opens kodex.KodeX/kodex.standardplugins.qrcode.presenter=ALL-UNNAMED
-                            --add-opens kodex.KodeX/kodex.standardplugins.bwimageprocedure=ALL-UNNAMED
-                            --add-opens kodex.KodeX/kodex.standardplugins.bwimageprocedure.presenter=ALL-UNNAMED
-                            --add-opens kodex.KodeX/kodex.standardplugins.greyscaleimageprocedure=ALL-UNNAMED
-                            --add-opens kodex.KodeX/kodex.standardplugins.greyscaleimageprocedure.presenter=ALL-UNNAMED
-						</argLine>
-						<useManifestOnlyJar>false</useManifestOnlyJar>
-						<useSystemClassLoader>true</useSystemClassLoader>
-						<classpathDependencyExcludes>
-						    <!-- Exclude the libraries which are not for your OS during testing. They will still be packed into the fat jar. -->
-				            <classpathDependencyExclude>org.openjfx:javafx-graphics:mac</classpathDependencyExclude>
-				            <classpathDependencyExclude>org.openjfx:javafx-graphics:linux</classpathDependencyExclude>
-				        </classpathDependencyExcludes>
-					</configuration>
-				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-checkstyle-plugin</artifactId>
