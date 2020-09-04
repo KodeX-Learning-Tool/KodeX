@@ -195,6 +195,12 @@ public abstract class ChainLinkPresenter implements IPresenter {
    */
   public void markNext(int id) {
     mark(id);
+    
+    // set marked element id for editing
+    if (this.chainLinkEditPresenter != null) {
+      this.chainLinkEditPresenter.setMarkID(id);
+    }
+    
     if (next != null) {
       next.markNext(id);
     }
@@ -208,6 +214,12 @@ public abstract class ChainLinkPresenter implements IPresenter {
    */
   public void markPrev(int id) {
     mark(id);
+    
+    // set marked element id for editing
+    if (this.chainLinkEditPresenter != null) {
+      this.chainLinkEditPresenter.setMarkID(id);
+    }
+    
     if (previous != null) {
       previous.markPrev(id);
     }
