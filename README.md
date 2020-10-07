@@ -2,8 +2,7 @@
 
 > educational tool for encoding theory at schools
 
-
-[![pipeline status](https://git.scc.kit.edu/pse-kodierungstheorie-tool/kodex/badges/master/pipeline.svg)](https://git.scc.kit.edu/pse-kodierungstheorie-tool/kodex/-/commits/master) [![coverage report](https://git.scc.kit.edu/pse-kodierungstheorie-tool/kodex/badges/master/coverage.svg)](https://git.scc.kit.edu/pse-kodierungstheorie-tool/kodex/-/commits/master)
+[![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
 
 KodeX is a result of a university project, where a team of students has to build an application for a given task.
 In our case, we created a tool that is supposed to help students and teachers to develop a deeper understanding about the theory behind data encoding.
