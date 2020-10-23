@@ -11,7 +11,7 @@ to be processed by machines.
 This is where this tool comes into play. It is supposed to help with the visualization of different encoding and decoding procedures to make the concepts behind them easier to grasp.
 Furthermore, KodeX allowes to play with diffrent stages inside such a process, by editing the processed data and observing the resulting changes.
 
-KodeX is part of the "Open-Source-Labor" at Karlsruhe Institut für Technologie (KIT).
+KodeX is part of the "Open-Source-Labor" at Karlsruher Institut für Technologie (KIT).
 
 
 ## Getting Started
